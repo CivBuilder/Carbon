@@ -45,23 +45,30 @@ def countfiles(dictfiles, lsttokens, repo):
                 shaUrl = 'https://api.github.com/repos/' + repo + '/commits/' + sha
                 shaDetails, ct = github_auth(shaUrl, lsttokens, ct)
                 commit = shaDetails["commit"]
-                
+                author = commit["author"]
+                name = author["name"]
+                date = author["date"]
+
                 filesjson = shaDetails['files']
                 for filenameObj in filesjson:
                     filename = filenameObj['filename']
-               
-                    if "/src/" in filename and ".java" in filename:
+                    if "/src/" in filename:
+                        if ".java" not in filename and ".js" not in filename: #NOTE you need to change these to whatever data you are trying to get
+                            continue
                         if filename not in dictfiles:
                             dictfiles[filename] = []
-                        dictfiles[filename].append(commit)
                         print(filename)
+
+                        dictfiles[filename].append(name)
+                        dictfiles[filename].append(date)
+                      
             ipage += 1
     except:
         print("Error receiving data")
         exit(0)
 # GitHub repo
-repo = 'scottyab/rootbeer'
-# repo = 'Skyscanner/backpack' # This repo is commit heavy. It takes long to finish executing
+#repo = 'scottyab/rootbeer'
+repo = 'Skyscanner/backpack' # This repo is commit heavy. It takes long to finish executing
 # repo = 'k9mail/k-9' # This repo is commit heavy. It takes long to finish executing
 # repo = 'mendhak/gpslogger'
 
@@ -70,7 +77,7 @@ repo = 'scottyab/rootbeer'
 # Remember to empty the list when going to commit to GitHub.
 # Otherwise they will all be reverted and you will have to re-create them
 # I would advise to create more than one token for repos with heavy commits
-lstTokens = ["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"]
+lstTokens = ["inserttoken"]
 
 dictfiles = dict()
 countfiles(dictfiles, lstTokens, repo)
@@ -83,7 +90,7 @@ fileOutput = 'data/file_' + file + '.csv'
 with open(fileOutput, "w", newline='') as outfile:
     writer = csv.writer(outfile)
     # Write the header row
-    writer.writerow(["Key", "Items"])
+    writer.writerow(["file", "Author, Time"])
     # Write the data rows
     for key, value in dictfiles.items():
         writer.writerow([key, value])
