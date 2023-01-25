@@ -53,7 +53,7 @@ def countfiles(dictfiles, lsttokens, repo):
                 for filenameObj in filesjson:
                     filename = filenameObj['filename']
                     if "/src/" in filename:
-                        if ".java" not in filename and ".js" not in filename: #NOTE you need to change these to whatever data you are trying to get
+                        if ".java" not in filename and ".js" not in filename: 
                             continue
                         if filename not in dictfiles:
                             dictfiles[filename] = []
@@ -67,7 +67,7 @@ def countfiles(dictfiles, lsttokens, repo):
         print("Error receiving data")
         exit(0)
 # GitHub repo
-repo = 'scottyab/rootbeer'
+repo = 'scottyab/rootbeer' => repo = "<new_repository>"
 #repo = 'Skyscanner/backpack' # This repo is commit heavy. It takes long to finish executing
 # repo = 'k9mail/k-9' # This repo is commit heavy. It takes long to finish executing
 # repo = 'mendhak/gpslogger'

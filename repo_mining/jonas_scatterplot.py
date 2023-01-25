@@ -98,11 +98,11 @@ for key in dictL:
         xVal = files[value[1]] #this is the value of the file assigned to a number
         yVal = calcDiff(value[0], dateDecoded[smallest])
         if notDoneYet:
-            plt.plot(xVal, yVal, marker="o", markersize=6, c=color, label=key)
+            plt.plot(xVal, yVal, marker="o", markersize=8, c=color, label=key)
             notDoneYet = False
             continue
 
-        plt.plot(xVal, yVal, marker="o", markersize=6, c=color)
+        plt.plot(xVal, yVal, marker="o", markersize=8, c=color)
 
 plt.legend(loc="upper right")
 plt.xlabel("File #")
