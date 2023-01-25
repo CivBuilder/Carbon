@@ -105,6 +105,8 @@ for key in dictL:
         plt.plot(xVal, yVal, marker="o", markersize=6, c=color)
 
 plt.legend(loc="upper right")
+plt.xlabel("File #")
+plt.ylabel("Month's since start")
 
 plt.show()
 
