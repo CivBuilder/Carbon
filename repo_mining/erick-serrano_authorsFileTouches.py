@@ -76,7 +76,7 @@ repo = 'scottyab/rootbeer'
 # repo = 'k9mail/k-9' # This repo is commit heavy. It takes long to finish executing
 # repo = 'mendhak/gpslogger'
 
-lstTokens = ["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"]
+lstTokens = [""]
 
 dictfiles = defaultdict(list)
 countfiles(dictfiles, lstTokens, repo)
