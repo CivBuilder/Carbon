@@ -1,0 +1,110 @@
+Filename,Author,Date
+app/src/main/java/com/scottyab/rootbeer/sample/CheckForRootWorker.kt,grubeli,2021-11-16T14:04:57Z
+app/src/main/java/com/scottyab/rootbeer/sample/CheckForRootWorker.kt,Scott Alexander-Bown,2021-05-24T07:46:20Z
+app/src/main/java/com/scottyab/rootbeer/sample/CheckForRootWorker.kt,Scott Alexander-Bown,2021-05-24T07:45:07Z
+app/src/main/java/com/scottyab/rootbeer/sample/CheckForRootWorker.kt,Scott Alexander-Bown,2021-05-21T14:40:38Z
+app/src/main/java/com/scottyab/rootbeer/sample/CheckForRootWorker.kt,Scott Alexander-Bown,2021-05-08T14:18:37Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeerNative.java,Matthew Rollings,2021-05-24T07:35:11Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeerNative.java,Scott Alexander-Bown,2021-05-08T14:18:37Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeerNative.java,Matthew Rollings,2019-03-14T12:24:58Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeerNative.java,Matthew Rollings,2017-03-29T11:18:37Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeerNative.java,Matthew Rollings,2015-06-30T14:36:54Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeerNative.java,Matthew Rollings,2015-06-30T14:14:02Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeerNative.java,Matthew Rollings,2015-06-26T15:57:05Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeerNative.java,Scott Alexander-Bown,2015-06-26T15:50:40Z
+rootbeerlib/src/main/cpp/toolChecker.cpp,Scott Alexander-Bown,2021-05-22T13:42:21Z
+app/src/main/java/com/scottyab/rootbeer/sample/MainActivity.kt,Scott Alexander-Bown,2021-05-08T14:18:37Z
+app/src/main/java/com/scottyab/rootbeer/sample/RootItemResult.kt,Scott Alexander-Bown,2021-05-08T14:18:37Z
+app/src/main/java/com/scottyab/rootbeer/sample/RootSampleApp.kt,Scott Alexander-Bown,2021-05-08T14:18:37Z
+app/src/main/java/com/scottyab/rootbeer/sample/extensions/ViewExtensions.kt,Scott Alexander-Bown,2021-05-08T14:18:37Z
+app/src/main/java/com/scottyab/rootbeer/sample/ui/ResultIconView.kt,Scott Alexander-Bown,2021-05-08T14:18:37Z
+app/src/main/java/com/scottyab/rootbeer/sample/ui/RootItemAdapter.kt,Scott Alexander-Bown,2021-05-08T14:18:37Z
+app/src/main/java/com/scottyab/rootbeer/sample/ui/RootedResultTextView.kt,Scott Alexander-Bown,2021-05-08T14:18:37Z
+app/src/main/java/com/scottyab/rootbeer/sample/ui/ScopedActivity.kt,Scott Alexander-Bown,2021-05-08T14:18:37Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/Const.java,Scott Alexander-Bown,2021-05-08T14:18:37Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/Const.java,Fi5t,2020-07-15T20:47:49Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/Const.java,mat,2020-01-30T13:09:02Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/Const.java,mat,2020-01-28T14:06:12Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/Const.java,Ivan Vlasov,2019-12-09T10:32:18Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/Const.java,Matthew Rollings,2019-03-14T12:24:58Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/Const.java,altvnv,2018-03-16T16:42:19Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/Const.java,altvnv,2018-03-16T12:02:21Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/Const.java,altvnv,2018-03-16T11:36:53Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/Const.java,Matthew Rollings,2017-03-24T13:30:47Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/Const.java,Mohammed Ezzat,2016-03-15T13:13:43Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/Const.java,Scott Alexander-Bown,2015-09-16T12:13:36Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/Const.java,Scott Alexander-Bown,2015-06-30T14:59:48Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/Const.java,Matthew Rollings,2015-06-30T13:40:46Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/Const.java,Scott Alexander-Bown,2015-06-29T13:06:59Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/Const.java,Scott Alexander-Bown,2015-06-26T15:50:40Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/util/Utils.java,Scott Alexander-Bown,2021-05-08T14:18:37Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/util/Utils.java,Matthew Rollings,2019-03-14T12:24:58Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/util/Utils.java,Mohammed Ezzat,2016-03-15T13:13:43Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/util/Utils.java,Scott Alexander-Bown,2015-06-30T14:14:08Z
+rootbeerlib/src/test/java/com/scottyab/rootbeer/RootBeerTest.java,Scott Alexander-Bown,2021-05-08T14:18:37Z
+rootbeerlib/src/test/java/com/scottyab/rootbeer/RootBeerTest.java,Matthew Rollings,2020-02-03T20:42:40Z
+rootbeerlib/src/test/java/com/scottyab/rootbeer/RootBeerTest.java,Daniel Kutik,2020-01-31T00:54:28Z
+rootbeerlib/src/test/java/com/scottyab/rootbeer/RootBeerTest.java,mat,2020-01-30T16:12:36Z
+rootbeerlib/src/test/java/com/scottyab/rootbeer/RootBeerTest.java,mat,2020-01-28T13:03:18Z
+rootbeerlib/src/test/java/com/scottyab/rootbeer/RootBeerTest.java,Daniel Kutik,2019-11-16T02:34:24Z
+rootbeerlib/src/test/java/com/scottyab/rootbeer/RootBeerTest.java,Matthew Rollings,2019-03-14T12:24:58Z
+rootbeerlib/src/test/java/com/scottyab/rootbeer/RootBeerTest.java,Matthew Rollings,2018-05-11T13:16:33Z
+rootbeerlib/src/test/java/com/scottyab/rootbeer/RootBeerTest.java,matthew,2017-10-31T18:57:32Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Slim Namouchi,2020-07-21T13:19:44Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Matthew Rollings,2020-07-21T13:10:44Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,mat,2020-02-07T09:43:09Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Matthew Rollings,2020-01-30T13:05:20Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,mat,2020-01-28T14:06:12Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,mat,2020-01-28T13:03:18Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,mat,2020-01-28T12:41:49Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Ivan Vlasov,2019-12-09T10:32:18Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Matthew Rollings,2019-03-14T12:24:58Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Matthew Rollings,2018-05-11T12:00:38Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Matthew Rollings,2018-05-11T11:04:28Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Matthew Rollings,2018-05-11T10:59:44Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,altvnv,2018-03-16T16:49:07Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,altvnv,2018-03-16T16:42:19Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,altvnv,2018-03-16T12:14:23Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Matthew Rollings,2017-09-29T08:23:05Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Frieder Bluemle,2017-08-19T16:20:33Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Ali Waseem,2017-08-11T15:34:54Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,BIOCATCH\Leon.Karabchevsky,2017-06-07T07:53:52Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,vyas,2017-05-10T19:44:29Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Matthew Rollings,2017-03-29T11:18:37Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Matthew Rollings,2017-03-24T16:11:58Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Matthew Rollings,2017-03-24T13:31:19Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Matthew Rollings,2017-03-13T22:05:11Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Matthew Rollings,2017-02-15T12:53:36Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,leocadiotine,2016-09-14T21:25:21Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Matthew Rollings,2016-04-18T16:36:03Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Mohammed Ezzat,2016-03-15T13:13:43Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Matthew Rollings,2015-12-22T10:17:02Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/RootBeer.java,Matthew Rollings,2015-12-22T10:11:09Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/util/QLog.java,mat,2020-02-07T09:43:09Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/util/QLog.java,Matthew Rollings,2018-05-11T11:04:52Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/util/QLog.java,matthew,2017-10-31T18:57:32Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/util/QLog.java,Frieder Bluemle,2017-08-19T16:20:33Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/util/QLog.java,Frieder Bluemle,2017-05-11T16:41:00Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/util/QLog.java,Matthew Rollings,2017-02-15T12:53:36Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/util/QLog.java,Mohammed Ezzat,2016-03-15T13:13:43Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/util/QLog.java,Scott Alexander-Bown,2015-06-26T18:48:49Z
+rootbeerlib/src/main/java/com/scottyab/rootbeer/util/QLog.java,Scott Alexander-Bown,2015-06-26T15:50:40Z
+rootbeerlib/src/androidTest/java/com/scottyab/rootbeer/ApplicationTest.java,Daniel Kutik,2019-11-16T02:45:47Z
+rootbeerlib/src/androidTest/java/com/scottyab/rootbeer/ApplicationTest.java,Daniel Kutik,2019-11-16T02:34:24Z
+rootbeerlib/src/androidTest/java/com/scottyab/rootbeer/ApplicationTest.java,Frieder Bluemle,2017-05-11T16:41:00Z
+rootbeerlib/src/androidTest/java/com/scottyab/rootbeer/ApplicationTest.java,Scott Alexander-Bown,2015-06-26T15:50:40Z
+rootbeerlib/src/main/jni/toolChecker.cpp,Scott Alexander-Bown,2021-05-22T13:42:21Z
+rootbeerlib/src/main/jni/toolChecker.cpp,Frieder Bluemle,2017-05-11T16:41:00Z
+rootbeerlib/src/main/jni/toolChecker.cpp,matthew,2017-03-13T22:55:31Z
+rootbeerlib/src/main/jni/toolChecker.cpp,matthew,2017-03-13T22:35:27Z
+rootbeerlib/jni/toolChecker.cpp,matthew,2017-03-13T22:35:27Z
+rootbeerlib/jni/toolChecker.cpp,aippisch,2016-09-16T14:04:45Z
+rootbeerlib/jni/toolChecker.cpp,Matthew Rollings,2015-06-30T14:36:54Z
+rootbeerlib/jni/toolChecker.cpp,Matthew Rollings,2015-06-30T14:14:02Z
+rootbeerlib/jni/toolChecker.cpp,Scott Alexander-Bown,2015-06-30T12:58:19Z
+rootbeerlib/jni/toolChecker.cpp,Matthew Rollings,2015-06-26T16:10:45Z
+rootbeerlib/jni/toolChecker.cpp,Scott Alexander-Bown,2015-06-26T15:50:40Z
+app/jni/toolChecker.cpp,Scott Alexander-Bown,2015-06-26T15:50:40Z
+app/jni/toolChecker.cpp,Matthew Rollings,2015-06-19T11:06:02Z
+app/jni/rootChecker.cpp,Matthew Rollings,2015-06-19T11:06:02Z
+app/jni/rootChecker.cpp,Matthew Rollings,2015-06-19T10:09:22Z
