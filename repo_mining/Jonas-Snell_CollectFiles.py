@@ -1,9 +1,7 @@
 import json
 import requests
 import csv
-from collections import defaultdict
-from datetime import datetime
-import pandas as pd
+
 import os
 
 if not os.path.exists("data"):
@@ -36,53 +34,63 @@ def countfiles(dictfiles, lsttokens, repo):
             spage = str(ipage)
             commitsUrl = 'https://api.github.com/repos/' + repo + '/commits?page=' + spage + '&per_page=100'
             jsonCommits, ct = github_auth(commitsUrl, lsttokens, ct)
+
             # break out of the while loop if there are no more commits in the pages
             if len(jsonCommits) == 0:
                 break
-            # iterate through the list of commits in  page
+            # iterate through the list of commits in  spage
             for shaObject in jsonCommits:
-                # We must ensure that all files we check are "source files."
-                # I will interpret source files as files with the following extensions:
-                # .java, .class, .dpj, .jar, .js,.jsp,.xrb
-                # I chose these extensions because we are investigating a
-                # java-based repository
-                valid_ext = {".java",".class",".dpj",".jar",".js",".jsp",".xrb"}
-                author = shaObject['commit']['author']['name']
-                date = shaObject['commit']['author']['date']
                 sha = shaObject['sha']
-
                 # For each commit, use the GitHub commit API to extract the files touched by the commit
                 shaUrl = 'https://api.github.com/repos/' + repo + '/commits/' + sha
                 shaDetails, ct = github_auth(shaUrl, lsttokens, ct)
+                commit = shaDetails["commit"]
+                author = commit["author"]
+                name = author["name"]
+                date = author["date"]
+
                 filesjson = shaDetails['files']
                 for filenameObj in filesjson:
                     filename = filenameObj['filename']
+                    if "/src/" in filename:
+                        if ".java" not in filename and ".js" not in filename: 
+                            continue
+                        if filename not in dictfiles:
+                            dictfiles[filename] = []
+                        print(filename)
 
-                    file_verif = filename.split(".")[-1]
-                    if ("." + file_verif not in valid_ext):
-                        print("File not a valid extension ." + file_verif)
-                        continue
-                    print("File is a valid extension: ")
-                    dictfiles[filename].append((author,date))
-
-                    print(filename)
+                        dictfiles[filename].append(name)
+                        dictfiles[filename].append(date)
+                      
             ipage += 1
     except:
         print("Error receiving data")
         exit(0)
 # GitHub repo
-repo = 'scottyab/rootbeer'
-# repo = 'Skyscanner/backpack' # This repo is commit heavy. It takes long to finish executing
+repo = 'scottyab/rootbeer' => repo = "<new_repository>"
+#repo = 'Skyscanner/backpack' # This repo is commit heavy. It takes long to finish executing
 # repo = 'k9mail/k-9' # This repo is commit heavy. It takes long to finish executing
 # repo = 'mendhak/gpslogger'
 
-lstTokens = [""]
 
-dictfiles = defaultdict(list)
+# put your tokens here
+# Remember to empty the list when going to commit to GitHub.
+# Otherwise they will all be reverted and you will have to re-create them
+# I would advise to create more than one token for repos with heavy commits
+lstTokens = ["inserttoken"]
+
+dictfiles = dict()
 countfiles(dictfiles, lstTokens, repo)
 print('Total number of files: ' + str(len(dictfiles)))
 
+file = repo.split('/')[1]
+# change this to the path of your file
+fileOutput = 'data/file_' + file + '.csv'
 
-df = pd.DataFrame.from_dict(dictfiles,orient='index')
-df = df.transpose()
-df.to_csv('data/file_rootbeer.csv')
+with open(fileOutput, "w", newline='') as outfile:
+    writer = csv.writer(outfile)
+    # Write the header row
+    writer.writerow(["file", "Author, Time"])
+    # Write the data rows
+    for key, value in dictfiles.items():
+        writer.writerow([key, value])
