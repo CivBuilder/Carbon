@@ -59,7 +59,6 @@ def countfiles(dictfiles, lsttokens, repo):
                             dictfiles[filename] = []
                             dictfiles[filename].extend(fileInfo)
                         else:
-                            print('not valid extension')
                             continue
             ipage += 1
     except:
