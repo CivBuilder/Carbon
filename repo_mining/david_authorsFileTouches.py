@@ -5,7 +5,7 @@ import csv
 import os
 script_dir = os.path.dirname(__file__)  # Script directory
 fileNames = os.path.join(script_dir, 'data/file_rootbeer.csv')
-lstTokens = ["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"]
+lstTokens = []
 repo = 'scottyab/rootbeer'
 
 
