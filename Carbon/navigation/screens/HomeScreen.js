@@ -12,7 +12,7 @@ export default function HomeScreen({navigation}) {
         >
             <Text
                 onPress={() =>
-                    alert('This is the "Home" screen.')
+                    alert('This is the "H" screen.')
                 }
                 style={{
                     fontSize: 26,
