@@ -36,7 +36,7 @@ export default function ForumScreen({navigation}) {
 
 
        <ScrollView>
-           <View style ={styles.row}>
+           <View style ={{flex: 3, flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 50 }}>
                <EducationMenu
                    key={"food"}
                    title = "Food"
@@ -51,7 +51,19 @@ export default function ForumScreen({navigation}) {
                />
                <EducationMenu
                    key={"recycling"}
-                   title = "recycling"
+                   title = "Recycling"
+                    type ={type}
+                    setType = {setType}
+               />
+               <EducationMenu
+                   key={"water"}
+                   title = "Water"
+                    type ={type}
+                    setType = {setType}
+               />
+               <EducationMenu
+                   key={"electricity"}
+                   title = "Electricity"
                     type ={type}
                     setType = {setType}
                />
@@ -59,3 +71,4 @@ export default function ForumScreen({navigation}) {
        </ScrollView>
     )
 }
+

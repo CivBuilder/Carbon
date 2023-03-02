@@ -4,7 +4,7 @@ import React from 'react'
 
 const EducationMenu = ({title,type,setType}) => {
     const test = {
-        backgroundColor: 'green'
+        backgroundColor: '#43b262'
     }
     const handlePress = () => {
         setType(title.toLowerCase())
