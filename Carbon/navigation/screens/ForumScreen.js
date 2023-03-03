@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { View, Text, ScrollView, StyleSheet, FlatList} from 'react-native';
+import { View, Text, ScrollView, StyleSheet, FlatList, Image} from 'react-native';
 import {useState, useEffect} from 'react';
 import EducationMenu from '../../components/EducationMenu';
+import { electricity, food, recycle, transportation, water } from '../../assets';
 
 const APIURL = "http://carbontest-env.eba-gpgdvm85.us-west-1.elasticbeanstalk.com/api"
 // Using my test AWS node server for now
@@ -50,35 +51,39 @@ export default function ForumScreen({navigation}) {
         <View>
             <View>
                 <ScrollView>
-                    <View style ={{flex: 3, flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 50, marginBottom: 75}}>
+                    <View style ={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 50, marginBottom: 75}}>
                         <EducationMenu
                             key={"food"}
                             title = "Food"
+                            imageSrc = {food}
                                 type ={type}
                                 setType = {setType}
                         />
                         <EducationMenu
                                 key={"transportation"}
                                 title = "Transportation"
+                                imageSrc = {transportation}
                                 type ={type}
                                 setType = {setType}
                         />
                         <EducationMenu
                             key={"recycling"}
                             title = "Recycling"
+                            imageSrc = {recycle}
                                 type ={type}
                                 setType = {setType}
                         />
                         <EducationMenu
                             key={"water"}
                             title = "Water"
+                            imageSrc = {water}
                                 type ={type}
                                 setType = {setType}
                         />
                         <EducationMenu
                             key={"electricity"}
                             title = "Electricity"
-
+                            imageSrc = {electricity}
                             type ={type}
                             setType = {setType}
                         />

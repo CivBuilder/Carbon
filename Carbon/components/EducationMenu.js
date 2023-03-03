@@ -1,8 +1,8 @@
-import {View, Text, TouchableOpacity} from 'react-native'
+import {View, Text, TouchableOpacity, Image} from 'react-native'
 import React from 'react'
 
 
-const EducationMenu = ({title,type,setType}) => {
+const EducationMenu = ({title,type,setType,imageSrc}) => {
     const test = {
         backgroundColor: '#43b262'
     }
@@ -10,12 +10,14 @@ const EducationMenu = ({title,type,setType}) => {
         setType(title.toLowerCase())
     }
    return(
-       <TouchableOpacity className = "items-center justify-center space-y-2" onPress={handlePress}>
-           <View >
+       <TouchableOpacity style =  {{flexDirection: 'column', alignItems:'center'}} onPress={handlePress}>
+           <View>
+                <Image style = {{resizeMode: 'contain', height: 100, width: 100}} source={imageSrc} />
+           </View>
                <Text style = {type === title.toLowerCase() ? test:"" }>
                    {title}
                </Text>
-           </View>
+   
        </TouchableOpacity>
 
    )
