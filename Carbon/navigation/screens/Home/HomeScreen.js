@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart} from "react-native-chart-kit";
 import { lineChartData, progressRingData } from './ChartData.js';
+import { Colors } from '../../../colors/Colors';
 
 // =====================
 //     Chart Styles
@@ -15,16 +16,16 @@ const chartStyle = {
     marginHorizontal: chartHorizontalMargin/2,
 };
 const chartConfigStyle = {
-    backgroundColor: "#51b885",
-    backgroundGradientFrom: "#74c69d",
-    backgroundGradientTo: "#8bd0ad",
+    backgroundColor: Colors.primary.MINT,
+    backgroundGradientFrom: Colors.primary.MINT,
+    backgroundGradientTo: Colors.primary.MINT,
     decimalPlaces: 2, // optional, defaults to 2dp
     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
     labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
     propsForDots: {
-        r: "5",             // circle size
-        strokeWidth: "2",   //circle border size
-        stroke: "#8bd0ad"   //circle border color
+        r: "5",                         // circle size
+        strokeWidth: "2",               //circle border size
+        stroke: Colors.primary.MINT     //circle border color
     }
 };
 
