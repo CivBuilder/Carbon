@@ -34,8 +34,8 @@ const chartConfigStyle = {
 // =====================
 const textStyle = {
     marginTop: 10,
-    marginLeft: chartHorizontalMargin / 2,
-    fontSize: 16,
+    marginLeft: chartHorizontalMargin / 4,
+    fontSize: 20,
     fontWeight: 'bold'
 };
 
@@ -46,6 +46,9 @@ const textStyle = {
 export default function HomeScreen({ navigation }) {
     return (
         <View>
+            <View>
+                <Text style={{...textStyle, fontSize: 25}}> Hello, Carbon User </Text>
+            </View>
             <View>
                 <Text style={textStyle}> Progress Review </Text>
                 <ScrollView
