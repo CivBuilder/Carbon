@@ -2,9 +2,9 @@ import * as React from 'react';
 import MainContainer from './navigation/screens/Main/MainContainer';
 
 
-// import { Amplify } from 'aws-amplify'
-// import awsconfig from './src/aws-exports'
-// Amplify.configure(awsconfig)
+import { Amplify } from 'aws-amplify'
+import awsconfig from './src/aws-exports'
+Amplify.configure(awsconfig)
 
 function App(){
   return (
@@ -14,4 +14,3 @@ function App(){
 
 export default App;
 
-export default App;
