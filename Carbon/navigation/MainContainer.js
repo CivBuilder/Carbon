@@ -3,6 +3,7 @@ import {View, Text} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Colors } from '../colors/Colors';
 
 //Screens
 import HomeScreen from './screens/Home/HomeScreen.js';
@@ -49,7 +50,7 @@ export default function MainContainer(){
                         // Change the size and color here
                         return <Ionicons name={iconName} size={size} color={color} />;
                     },
-                    tabBarActiveTintColor: '#51b885'
+                    tabBarActiveTintColor: Colors.primary.MINT
                 })}
             >
             {/* This is how it appears on the app. You can also change the order here */}
