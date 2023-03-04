@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
-import HomeScreen from './screens/HomeScreen';
+import HomeScreen from './screens/Home/HomeScreen.js';
 import ProgressScreen from './screens/ProgressScreen';
 // import SettingsScreen from './screens/SettingsScreen';
 import ForumScreen from './screens/ForumScreen';
@@ -49,7 +49,7 @@ export default function MainContainer(){
                         // Change the size and color here
                         return <Ionicons name={iconName} size={size} color={color} />;
                     },
-                    tabBarActiveTintColor: '#42b262'
+                    tabBarActiveTintColor: '#51b885'
                 })}
             >
             {/* This is how it appears on the app. You can also change the order here */}
