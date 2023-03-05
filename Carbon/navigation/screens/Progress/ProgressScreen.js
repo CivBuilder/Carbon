@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
-
+import DwmLog from './DwmLog';
 export default function ProgressScreen({navigation}) {
     return(
         <View
@@ -19,7 +19,7 @@ export default function ProgressScreen({navigation}) {
                     fontWeight: 'bold'
                 }}
             >
-                Progress Screen
+               <DwmLog></DwmLog>
             </Text>
         </View>
     )
