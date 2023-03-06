@@ -56,16 +56,16 @@ export const LineChartFootprint = () => {
 
     return(
         <LineChart
-        data={lineChartData}
-        width={chartWidth}
-        height={chartHeight}
-        //yAxisLabel=""
-        yAxisSuffix=" lb"
-        yAxisInterval={1}
-        chartConfig={styles.chartConfig}
-        style={styles.chart}
-        bezier
-    />
+            data={lineChartData}
+            width={chartWidth}
+            height={chartHeight}
+            //yAxisLabel=""
+            yAxisSuffix=" lb"
+            yAxisInterval={1}
+            chartConfig={styles.chartConfig}
+            style={styles.chart}
+            bezier
+        />
     );
 };
 
@@ -90,17 +90,17 @@ export const ProgressRingCategory = () => {
 };
 
 export const DailyLog = () => {
-    const barChartData = { 
+    const barChartData = {
         labels: ["Group A", "Group B", "Group C"],
         datasets:[
             {
-           data: [854, 393, 760]
+            data: [854, 393, 760]
             }
         ]
         };
     return (
-        <BarChart 
-        data ={barChartData} 
+        <BarChart
+        data ={barChartData}
         chartConfig={styles.chartConfig}
         style={styles.chart}
         width = {chartWidth}
@@ -109,7 +109,7 @@ export const DailyLog = () => {
         withHorizontalLabels = {false}
         yAxisLabel="$"
         fromZero = {true}
-      />
+    />
     )
 }
 const styles = StyleSheet.create({
