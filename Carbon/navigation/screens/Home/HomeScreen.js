@@ -27,7 +27,7 @@ const chartConfigStyle = {
     propsForDots: {
         r: "5",                         // circle size
         strokeWidth: "2",               //circle border size
-        stroke: Colors.primary.MINT     //circle border color
+        stroke: Colors.primary.MINT     //circle border colorn
     }
 };
 
