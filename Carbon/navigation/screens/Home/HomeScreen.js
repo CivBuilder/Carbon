@@ -6,6 +6,57 @@ import { Colors } from '../../../colors/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import { CarbonFootprint } from './ChartData';
 
+// =====================
+//     Chart Styles
+// =====================
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+const chartHorizontalMargin = 20;
+const chartWidth = windowWidth - chartHorizontalMargin;
+const chartHeight = 200;
+const chartStyle = {
+    borderRadius: 16,
+    marginHorizontal: chartHorizontalMargin/2,
+};
+const chartConfigStyle = {
+    backgroundColor: Colors.primary.MINT,
+    backgroundGradientFrom: Colors.primary.MINT,
+    backgroundGradientTo: Colors.primary.MINT,
+    decimalPlaces: 2, // optional, defaults to 2dp
+    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    propsForDots: {
+        r: "5",                         // circle size
+        strokeWidth: "2",               //circle border size
+        stroke: Colors.primary.MINT     //circle border colorn
+    }
+};
+
+// =====================
+//     Card Style
+// =====================
+
+const cardContainerStyle = {
+    width: windowWidth / 2.25,
+    height: windowHeight / 2.5,
+    marginHorizontal: 5,
+    borderRadius: 12,
+}
+
+// =====================
+//     Text Style
+// =====================
+const textStyle = {
+    marginTop: 10,
+    marginLeft: chartHorizontalMargin / 4,
+    fontSize: 20,
+    fontWeight: 'bold'
+};
+
+
+// =====================
+//     Home Screen
+// =====================
 export default function HomeScreen({ navigation }) {
     return (
         <SafeAreaView>
