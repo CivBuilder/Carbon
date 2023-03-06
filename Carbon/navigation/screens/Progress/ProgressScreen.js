@@ -6,7 +6,7 @@ import { LineChartFootprint, ProgressRingCategory } from '../Home/ChartData';
 // const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export default function ProgressScreen({navigation}) {
+export default function ProgressScreen() {
     return(
         <SafeAreaView style={{height: windowHeight}}>
             <ScrollView

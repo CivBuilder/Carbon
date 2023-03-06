@@ -11,8 +11,8 @@ const chartWidth = windowWidth - horizontalMargin;
 const chartHeight = 200;
 
 export const CarbonFootprint = () => {
-    const maxFootprint = 100000;
-    const userFootprint = 69420;
+    const maxFootprint = 100000; //TODO: Change hardcoded data
+    const userFootprint = 69420; //TODO: Change hardcoded data
     const percentFootprint = userFootprint / maxFootprint;
 
     return (
@@ -42,6 +42,7 @@ export const LineChartFootprint = () => {
     const lineChartData = {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
         datasets: [{
+            // TODO: Change hardcode data
             data: [
                 Math.random() * 100,
                 Math.random() * 100,
@@ -71,20 +72,20 @@ export const LineChartFootprint = () => {
 export const ProgressRingCategory = () => {
     const progressRingData = {
         labels: ["Transport", "Diet", "Home", "Stuff"],
-        data: [0.4, 0.6, 0.8, 0.5]
+        data: [0.4, 0.6, 0.8, 0.5] //TODO: Change hardcoded data
     };
 
     return(
         <ProgressChart
-        data={progressRingData}
-        width={chartWidth}
-        height={chartHeight}
-        strokeWidth={12}
-        radius={24}
-        chartConfig={styles.chartConfig}
-        hideLegend={false}
-        style={styles.chart}
-    />
+            data={progressRingData}
+            width={chartWidth}
+            height={chartHeight}
+            strokeWidth={12}
+            radius={24}
+            chartConfig={styles.chartConfig}
+            hideLegend={false}
+            style={styles.chart}
+        />
     );
 };
 
