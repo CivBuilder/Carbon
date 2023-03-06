@@ -4,7 +4,7 @@ import { Card } from 'react-native-elements';
 
 import { Colors } from '../../../colors/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
-import { CarbonFootprint } from './ChartData';
+import { CarbonFootprint, DailyLog } from './ChartData';
 
 // =====================
 //     Chart Styles
@@ -59,7 +59,7 @@ const textStyle = {
 // =====================
 export default function HomeScreen({ navigation }) {
     return (
-        <SafeAreaView style={{/*height: windowHeight*/}}>
+        <SafeAreaView style={{/*height:a windowHeight*/}}>
             <ScrollView
                 showsHorizontalScrollIndicator={false}
                 style={{flexGrow: 1}}
@@ -85,7 +85,7 @@ export default function HomeScreen({ navigation }) {
                 {/******* TODAY'S LOG *******/}
                 <View style={{height: windowHeight/4, backgroundColor: Colors.primary.MINT}}>
                     <Text style={styles.headerTitle}>Today's Log</Text>
-                    <View></View>
+                    <View><DailyLog/></View>
                 </View>
 
                 {/******* FOR YOU *******/}
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     //     marginTop: 10,
     //     marginLeft: horizontalMargin / 4,
     //     fontSize: 25,
-    //     fontWeight: 'bold'
+    //     fontWeight: 'bold'a
     // },
     headerTitle: {
         marginTop: 10,
