@@ -1,21 +1,79 @@
 import * as React from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, Image, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Colors } from '../../../colors/Colors';
-import { ScreenNames } from './ScreenNames';
+import { Ionicons } from '@expo/vector-icons';
 import { IconNames } from './IconNames';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-// Import screens
-import HomeScreen from '../Home/HomeScreen';
-import ProgressScreen from '../Progress/ProgressScreen';
-import ForumScreen from '../Forum/ForumScreen';
-import RankingScreen from '../Ranking/RankingScreen';
+import { ScreenNames } from './ScreenNames';
+import { Colors } from '../../../colors/Colors';
+import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen } from '../../screens';
 
-// Create the bottom navbar
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const screenOptions = ({ route }) => ({
+    tabBarIcon: ({ color, size }) => {
+        let iconName;
+
+        switch (route.name) {
+        case ScreenNames.HOME:
+            iconName = IconNames.HOME;
+            break;
+        case ScreenNames.PROGRESS:
+            iconName = IconNames.PROGRESS;
+            break;
+        case ScreenNames.FORUM:
+            iconName = IconNames.FORUM;
+            break;
+        case ScreenNames.RANKING:
+            iconName = IconNames.RANKING;
+            break;
+        default:
+            break;
+        }
+
+        return <Ionicons name={iconName} size={size} color={color} />;
+    },
+});
+
+const HomeStack = ({ navigation }) => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name={' '}
+                component={HomeScreen}
+                options={{
+                    headerShown: true,
+                    headerTitle: () => (
+                        <Image
+                            source={require('../../../assets/Carbon_Logo.png')}
+                            style={{
+                                //TODO: 1080x356 is the current dimension. Find a better way to scale this properly.
+                                width: 1080 / 12,
+                                height: 356 / 12,
+                            }}
+                        />
+                    ),
+                    headerTitleAlign: 'center',
+                    headerRight: () => (
+                        <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.SETTINGS)}>
+                            <Ionicons
+                                name={IconNames.SETTINGS}
+                                size={24}
+                                color={Colors.primary.RAISIN_BLACK}
+                                style={{ marginRight: 16 }}
+                            />
+                        </TouchableOpacity>
+                    ),
+                }}
+            />
+            <Stack.Screen name={ScreenNames.SETTINGS} component={SettingsScreen} />
+        </Stack.Navigator>
+    );
+};
 
 export default function MainContainer(){
     return(
@@ -23,43 +81,19 @@ export default function MainContainer(){
             <StatusBar barStyle={'dark-content'} backgroundColor="transparent" translucent={true} />
             <NavigationContainer>
                 <Tab.Navigator
-                    initialRouteName={ ScreenNames.HOME }
-                    screenOptions={({ route }) => ({
-                        headerShown: false,
-                        tabBarIcon: ({ focused, color, size }) => {
-                            let iconName;
-                            let rn = route.name;
-
-                            // Shows how the icons will appear
-                            // without '-outline' is highlighted meaning it's the current page
-                            // with '-outline' means it's not highlighted meaning it's not current page
-                            if(rn === ScreenNames.HOME){
-                                iconName = focused ? IconNames.HOME : IconNames.HOME_OUTLINE;
-                            } else if(rn === ScreenNames.PROGRESS){
-                                iconName = focused ? IconNames.PROGRESS : IconNames.PROGRESS_OUTLINE;
-                            } else if(rn === ScreenNames.FORUM){
-                                iconName = focused ? IconNames.FORUM : IconNames.FORUM_OUTLINE;
-                            // } else if(rn === ScreenNames.SETTINGS){
-                            //     iconName = focused ? 'settings' : 'settings-outline';
-                            } else if(rn === ScreenNames.RANKING){
-                                iconName = focused ? IconNames.RANKING : IconNames.RANKING_OUTLINE;
-                            }
-
-                            // Change the size and color here
-                            return <Ionicons name={iconName} size={size} color={color} />;
-                        },
-                        tabBarActiveTintColor: Colors.primary.MINT,
-                    })}
+                initialRouteName={ScreenNames.HOME}
+                screenOptions={{
+                    headerShown: false, // Hides the default header
+                    tabBarLabelStyle: { display: 'none' }, // hide label text
+                    tabBarActiveTintColor: Colors.primary.MINT,
+                }}
                 >
-                {/* This is how it appears on the app. You can also change the order here */}
-                <Tab.Screen name={ScreenNames.HOME} component={HomeScreen} />
-                <Tab.Screen name={ScreenNames.PROGRESS} component={ProgressScreen} />
-                <Tab.Screen name={ScreenNames.FORUM} component={ForumScreen} />
-                <Tab.Screen name={ScreenNames.RANKING} component={RankingScreen} />
-                {/* <Tab.Screen name={settingsName} component={SettingsScreen} /> */}
-
-                </Tab.Navigator>
+                <Tab.Screen name={ScreenNames.HOME} component={HomeStack} options={{ tabBarIcon: ({ color, size }) => (<Ionicons name={IconNames.HOME} size={size} color={color} />), }} />
+                <Tab.Screen name={ScreenNames.PROGRESS} component={ProgressScreen} options={screenOptions} />
+                <Tab.Screen name={ScreenNames.FORUM} component={ForumScreen} options={screenOptions} />
+                <Tab.Screen name={ScreenNames.RANKING} component={RankingScreen} options={screenOptions} />
+            </Tab.Navigator>
             </NavigationContainer>
         </SafeAreaView>
     );
-}
+};

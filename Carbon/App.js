@@ -1,4 +1,5 @@
 import * as React from 'react';
+import 'react-native-gesture-handler';
 import MainContainer from './navigation/screens/Main/MainContainer';
 
 
