@@ -3,4 +3,5 @@ export const ScreenNames = {
     PROGRESS: 'Progress',
     FORUM: 'Forum',
     RANKING: 'Ranking',
+    SETTINGS: 'Settings',
 };

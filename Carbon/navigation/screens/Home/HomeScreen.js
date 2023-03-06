@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView } from 'react-native';
-import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart} from "react-native-chart-kit";
+import { View, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Card } from 'react-native-elements';
-import { lineChartData, progressRingData } from './ChartData.js';
+
 import { Colors } from '../../../colors/Colors';
+import { ScreenNames } from '../Main/ScreenNames';
+import { CarbonFootprint } from './ChartData';
 
 // =====================
 //     Chart Styles
@@ -58,81 +59,113 @@ const textStyle = {
 // =====================
 export default function HomeScreen({ navigation }) {
     return (
-        <SafeAreaView style={{flex: 1, backgroundColor: 'transparent'}}>
+        <SafeAreaView style={{/*height: windowHeight*/}}>
             <ScrollView
                 showsHorizontalScrollIndicator={false}
                 style={{flexGrow: 1}}
             >
+                {/******* CARBON FOOTPRINT SUMMARY *******/}
                 <View>
-                    <Text style={{...textStyle, fontSize: 25}}> Hello, Carbon User </Text>
+                    <View styles={styles.headerContainer}>
+                        <View>
+                            <Text style={styles.headerTitle}>This Month's Footprint</Text>
+                        </View>
+                        <View>
+                            <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.PROGRESS)}>
+                                {/* TODO: Move this to the right side of the header */}
+                                <Text style={styles.link}>See More</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View>
+                        <CarbonFootprint />
+                    </View>
                 </View>
-                <View>
-                    <Text style={textStyle}> Progress Review </Text>
+
+                {/******* TODAY'S LOG *******/}
+                <View style={{height: windowHeight/4, backgroundColor: Colors.primary.MINT}}>
+                    <Text style={styles.headerTitle}>Today's Log</Text>
+                    <View></View>
+                </View>
+
+                {/******* FOR YOU *******/}
+                <View  /*style={{backgroundColor: Colors.secondary.NON_PHOTO_BLUE}}*/>
+                    <Text style={styles.headerTitle}>For You</Text>
+                    {/* TODO: Add dim gradient when there's cards outside of view on both left and right sides */}
                     <ScrollView
                         horizontal
                         pagingEnabled
                         snapToInterval={windowWidth}
                         decelerationRate={0.8}
-                        contentContainerStyle={{marginVertical: 10}}
+                        contentContainerStyle={styles.cardScrollViewContentContainer}
                         showsHorizontalScrollIndicator={false}
                     >
-                        <LineChart
-                            data={lineChartData}
-                            width={chartWidth}
-                            height={chartHeight}
-                            //yAxisLabel=""
-                            yAxisSuffix=" lb"
-                            yAxisInterval={1}
-                            chartConfig={chartConfigStyle}
-                            style={chartStyle}
-                            bezier
-                        />
-                        <ProgressChart
-                            data={progressRingData}
-                            width={chartWidth}
-                            height={chartHeight}
-                            strokeWidth={12}
-                            radius={24}
-                            chartConfig={chartConfigStyle}
-                            hideLegend={false}
-                            style={chartStyle}
-                        />
-                    </ScrollView>
-                </View>
-                <View>
-                    <Text style={textStyle}> What's New </Text>
-                    <ScrollView
-                        horizontal
-                        pagingEnabled
-                        snapToInterval={windowWidth}
-                        decelerationRate={0.8}
-                        contentContainerStyle={{marginBottom: 10, marginHorizontal: 5}}
-                        showsHorizontalScrollIndicator={false}
-                    >
-                        <Card containerStyle={cardContainerStyle}>
-                            <Card.Title>Card Title</Card.Title>
-                            <Card.Divider/>
+                        <Card containerStyle={styles.cardContainer}>
+                            <Card.Title>Card Title 1</Card.Title>
                             <Text style={{marginBottom: 10}}>
                                 The idea with React Native Elements is more about component structure than actual design.
                             </Text>
                         </Card>
-                        <Card containerStyle={cardContainerStyle}>
-                            <Card.Title>Card Title</Card.Title>
-                            <Card.Divider/>
+                        <Card containerStyle={styles.cardContainer}>
+                            <Card.Title>Card Title 2</Card.Title>
                             <Text style={{marginBottom: 10}}>
                                 The idea with React Native Elements is more about component structure than actual design.
                             </Text>
                         </Card>
-                        <Card containerStyle={cardContainerStyle}>
-                            <Card.Title>Card Title</Card.Title>
-                            <Card.Divider/>
+                        <Card containerStyle={styles.cardContainer}>
+                            <Card.Title>Card Title 3</Card.Title>
                             <Text style={{marginBottom: 10}}>
                                 The idea with React Native Elements is more about component structure than actual design.
                             </Text>
                         </Card>
                     </ScrollView>
+                </View>
+
+                {/******* RANKINGS *******/}
+                <View style={{height: windowHeight/4, backgroundColor: Colors.primary.MINT}}>
+                    <Text style={styles.headerTitle}>Rankings</Text>
+                    <View></View>
                 </View>
             </ScrollView>
         </SafeAreaView>
     );
 };
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+const horizontalMargin = 20;
+
+const styles = StyleSheet.create({
+    // title: {
+    //     marginTop: 10,
+    //     marginLeft: horizontalMargin / 4,
+    //     fontSize: 25,
+    //     fontWeight: 'bold'
+    // },
+    headerTitle: {
+        marginTop: 10,
+        marginLeft: horizontalMargin / 2,
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    cardContainer: {
+        width: windowWidth / 2.25,
+        height: windowHeight / 2.5,
+        borderRadius: 12,
+        marginHorizontal: horizontalMargin/2,
+        marginBottom: 20,
+    },
+    cardScrollViewContentContainer: {
+        marginBottom: 10,
+    },
+    headerContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    link: {
+        color: Colors.primary.MINT,
+        fontSize: 14,
+        textDecorationLine: 'underline',
+    }
+});
