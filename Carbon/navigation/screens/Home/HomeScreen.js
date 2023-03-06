@@ -131,8 +131,7 @@ export default function HomeScreen({ navigation }) {
     );
 };
 
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
+
 const horizontalMargin = 20;
 
 const styles = StyleSheet.create({
