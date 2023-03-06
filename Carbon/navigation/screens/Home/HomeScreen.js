@@ -4,7 +4,7 @@ import { Card } from 'react-native-elements';
 
 import { Colors } from '../../../colors/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
-import { CarbonFootprint } from './ChartData';
+import { CarbonFootprint, DailyLog } from './ChartData';
 
 // =====================
 //     Home Screen

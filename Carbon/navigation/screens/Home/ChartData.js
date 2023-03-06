@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart} from "react-native-chart-kit";
+import { ScreenWidth } from 'react-native-elements/dist/helpers';
 import { ProgressCircle } from 'react-native-svg-charts';
-
 import { Colors } from '../../../colors/Colors';
 
 const windowWidth = Dimensions.get("window").width;
@@ -89,6 +89,29 @@ export const ProgressRingCategory = () => {
     );
 };
 
+export const DailyLog = () => {
+    const barChartData = { 
+        labels: ["Group A", "Group B", "Group C"],
+        datasets:[
+            {
+           data: [854, 393, 760]
+            }
+        ]
+        };
+    return (
+        <BarChart 
+        data ={barChartData} 
+        chartConfig={styles.chartConfig}
+        style={styles.chart}
+        width = {chartWidth}
+        height = {chartHeight-100}
+        withVerticalLabels ={true}
+        withHorizontalLabels = {false}
+        yAxisLabel="$"
+        fromZero = {true}
+      />
+    )
+}
 const styles = StyleSheet.create({
     chart: {
         borderRadius: 16,
