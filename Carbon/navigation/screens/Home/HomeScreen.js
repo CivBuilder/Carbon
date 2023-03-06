@@ -30,7 +30,7 @@ export default function HomeScreen({ navigation }) {
                             </View>
                         </View>
                         <View>
-                            <CarbonFootprint />
+                            <Text>TODO: Add carbon footprint chart here</Text>
                         </View>
                     </View>
                 </View>
