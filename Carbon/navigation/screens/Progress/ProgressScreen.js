@@ -13,12 +13,12 @@ export default function ProgressScreen({navigation}) {
                 showsHorizontalScrollIndicator={false}
                 style={{flexGrow: 1}}
             >
-                <View style={{marginVertical: 10,}}>
-                    <Text>By Time</Text>
+                <View>
+                    <Text style={{...styles.headerTitle, margin: 10}}>By Time</Text>
                     <LineChartFootprint/>
                 </View>
                 <View>
-                    <Text>By Category</Text>
+                    <Text style={{...styles.headerTitle, margin: 10}}>By Category</Text>
                     <ProgressRingCategory/>
                 </View>
             </ScrollView>
@@ -27,5 +27,9 @@ export default function ProgressScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
-
+    headerTitle: {
+        marginTop: 10,
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
 });

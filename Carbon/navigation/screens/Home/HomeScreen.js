@@ -59,39 +59,51 @@ const textStyle = {
 // =====================
 export default function HomeScreen({ navigation }) {
     return (
-        <SafeAreaView style={{/*height: windowHeight*/}}>
+        <SafeAreaView>
             <ScrollView
                 showsHorizontalScrollIndicator={false}
                 style={{flexGrow: 1}}
             >
                 {/******* CARBON FOOTPRINT SUMMARY *******/}
                 <View>
-                    <View styles={styles.headerContainer}>
-                        <View>
-                            <Text style={styles.headerTitle}>This Month's Footprint</Text>
-                        </View>
-                        <View>
-                            <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.PROGRESS)}>
-                                {/* TODO: Move this to the right side of the header */}
+                    <View style={styles.marginContainer}>
+                        <View style={styles.headerContainer}>
+                            <View>
+                                <Text style={styles.headerTitle}>This Month's Footprint</Text>
+                            </View>
+                            {/* TODO: Center the link with the header title */}
+                            <View style={{ flexDirection: 'row' }}>
+                                <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.PROGRESS)}>
                                 <Text style={styles.link}>See More</Text>
-                            </TouchableOpacity>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
-                    <View>
-                        <CarbonFootprint />
+                        <View>
+                            <CarbonFootprint />
+                        </View>
                     </View>
                 </View>
 
                 {/******* TODAY'S LOG *******/}
-                <View style={{height: windowHeight/4, backgroundColor: Colors.primary.MINT}}>
-                    <Text style={styles.headerTitle}>Today's Log</Text>
-                    <View></View>
+                <View style={{height: windowHeight/4, /*backgroundColor: Colors.primary.MINT*/}}>
+                    <View style={styles.marginContainer}>
+                        <View style={styles.headerContainer}>
+                            <Text style={styles.headerTitle}>Today's Log</Text>
+                        </View>
+                        <View>
+                            <Text>TODO: Add Today's Daily Log</Text>
+                            <Text>TODO: Add a + button</Text>
+                        </View>
+                    </View>
                 </View>
 
                 {/******* FOR YOU *******/}
-                <View  /*style={{backgroundColor: Colors.secondary.NON_PHOTO_BLUE}}*/>
-                    <Text style={styles.headerTitle}>For You</Text>
+                <View>
+                    <View style={{...styles.headerContainer, horizontalMargin: horizontalMargin / 2}}>
+                        <Text style={{...styles.headerTitle, marginLeft: horizontalMargin / 2}}>For You</Text>
+                    </View>
                     {/* TODO: Add dim gradient when there's cards outside of view on both left and right sides */}
+                    {/* TODO: Add pagination dots*/}
                     <ScrollView
                         horizontal
                         pagingEnabled
@@ -100,31 +112,46 @@ export default function HomeScreen({ navigation }) {
                         contentContainerStyle={styles.cardScrollViewContentContainer}
                         showsHorizontalScrollIndicator={false}
                     >
-                        <Card containerStyle={styles.cardContainer}>
-                            <Card.Title>Card Title 1</Card.Title>
-                            <Text style={{marginBottom: 10}}>
-                                The idea with React Native Elements is more about component structure than actual design.
-                            </Text>
-                        </Card>
-                        <Card containerStyle={styles.cardContainer}>
-                            <Card.Title>Card Title 2</Card.Title>
-                            <Text style={{marginBottom: 10}}>
-                                The idea with React Native Elements is more about component structure than actual design.
-                            </Text>
-                        </Card>
-                        <Card containerStyle={styles.cardContainer}>
-                            <Card.Title>Card Title 3</Card.Title>
-                            <Text style={{marginBottom: 10}}>
-                                The idea with React Native Elements is more about component structure than actual design.
-                            </Text>
-                        </Card>
+                            <Card containerStyle={styles.cardContainer}>
+                                <Card.Title>Card Title 1</Card.Title>
+                                <Text style={{marginBottom: 10}}>
+                                    The idea with React Native Elements is more about component structure than actual design.
+                                </Text>
+                            </Card>
+                            <Card containerStyle={styles.cardContainer}>
+                                <Card.Title>Card Title 2</Card.Title>
+                                <Text style={{marginBottom: 10}}>
+                                    The idea with React Native Elements is more about component structure than actual design.
+                                </Text>
+                            </Card>
+                            <Card containerStyle={styles.cardContainer}>
+                                <Card.Title>Card Title 3</Card.Title>
+                                <Text style={{marginBottom: 10}}>
+                                    The idea with React Native Elements is more about component structure than actual design.
+                                </Text>
+                            </Card>
+                            <Card containerStyle={styles.cardContainer}>
+                                <Card.Title>Card Title 4</Card.Title>
+                                <Text style={{marginBottom: 10}}>
+                                    The idea with React Native Elements is more about component structure than actual design.
+                                </Text>
+                            </Card>
+                            <Card containerStyle={styles.cardContainer}>
+                                <Card.Title>Card Title 5</Card.Title>
+                                <Text style={{marginBottom: 10}}>
+                                    The idea with React Native Elements is more about component structure than actual design.
+                                </Text>
+                            </Card>
                     </ScrollView>
                 </View>
 
                 {/******* RANKINGS *******/}
-                <View style={{height: windowHeight/4, backgroundColor: Colors.primary.MINT}}>
-                    <Text style={styles.headerTitle}>Rankings</Text>
-                    <View></View>
+                <View style={{height: windowHeight/4, /*backgroundColor: Colors.primary.MINT*/}}>
+                    <View style={styles.marginContainer}>
+                        <View style={styles.headerContainer}>
+                            <Text style={styles.headerTitle}>Rankings</Text>
+                        </View>
+                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -135,15 +162,9 @@ export default function HomeScreen({ navigation }) {
 const horizontalMargin = 20;
 
 const styles = StyleSheet.create({
-    // title: {
-    //     marginTop: 10,
-    //     marginLeft: horizontalMargin / 4,
-    //     fontSize: 25,
-    //     fontWeight: 'bold'
-    // },
     headerTitle: {
         marginTop: 10,
-        marginLeft: horizontalMargin / 2,
+        // marginLeft: horizontalMargin / 2,
         fontSize: 20,
         fontWeight: 'bold'
     },
@@ -157,14 +178,16 @@ const styles = StyleSheet.create({
     cardScrollViewContentContainer: {
         marginBottom: 10,
     },
+    marginContainer: {
+        marginHorizontal: horizontalMargin / 2
+    },
     headerContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: 'flex-end',
     },
     link: {
         color: Colors.primary.MINT,
         fontSize: 14,
-        textDecorationLine: 'underline',
     }
 });

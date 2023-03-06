@@ -9,7 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ScreenNames } from './ScreenNames';
 import { Colors } from '../../../colors/Colors';
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen } from '../../screens';
+import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, AddProgress } from '../../screens';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -39,6 +39,7 @@ const screenOptions = ({ route }) => ({
     },
 });
 
+/******* CUSTOM HEADERS *******/
 const HomeStack = ({ navigation }) => {
     return (
         <Stack.Navigator>
@@ -75,6 +76,32 @@ const HomeStack = ({ navigation }) => {
     );
 };
 
+const ProgressStack = ({ navigation }) => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name={' '}
+                component={ProgressScreen}
+                options={{
+                    headerShown: true,
+                    headerTitleAlign: 'center',
+                    headerRight: () => (
+                        <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.ADD_PROGRESS)}>
+                            <Ionicons
+                                name={IconNames.ADD}
+                                size={24}
+                                color={Colors.primary.MINT}
+                                style={{ marginRight: 16 }}
+                            />
+                        </TouchableOpacity>
+                    ),
+                }}
+            />
+            <Stack.Screen name={ScreenNames.ADD_PROGRESS} component={AddProgress} />
+        </Stack.Navigator>
+    );
+};
+
 export default function MainContainer(){
     return(
         <SafeAreaView style={{ flex: 1 }}>
@@ -88,10 +115,30 @@ export default function MainContainer(){
                     tabBarActiveTintColor: Colors.primary.MINT,
                 }}
                 >
-                <Tab.Screen name={ScreenNames.HOME} component={HomeStack} options={{ tabBarIcon: ({ color, size }) => (<Ionicons name={IconNames.HOME} size={size} color={color} />), }} />
-                <Tab.Screen name={ScreenNames.PROGRESS} component={ProgressScreen} options={screenOptions} />
-                <Tab.Screen name={ScreenNames.FORUM} component={ForumScreen} options={screenOptions} />
-                <Tab.Screen name={ScreenNames.RANKING} component={RankingScreen} options={screenOptions} />
+                <Tab.Screen
+                    name={ScreenNames.HOME}
+                    component={HomeStack}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <Ionicons name={IconNames.HOME} size={size} color={color} />
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name={ScreenNames.PROGRESS}
+                    component={ProgressStack}
+                    options={screenOptions}
+                />
+                <Tab.Screen
+                    name={ScreenNames.FORUM}
+                    component={ForumScreen}
+                    options={screenOptions}
+                />
+                <Tab.Screen
+                    name={ScreenNames.RANKING}
+                    component={RankingScreen}
+                    options={screenOptions}
+                />
             </Tab.Navigator>
             </NavigationContainer>
         </SafeAreaView>

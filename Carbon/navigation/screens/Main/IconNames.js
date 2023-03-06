@@ -9,4 +9,6 @@ export const IconNames = {
     SETTINGS_OUTLINE: 'settings-outline',
     RANKING: 'trophy',
     RANKING_OUTLINE: 'trophy-outline',
+    ADD: 'add-circle',
+    ADD_OUTLINE: 'add-circle-outline',
 };
