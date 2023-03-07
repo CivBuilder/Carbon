@@ -5,10 +5,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var sequelize = require('./utils/Database.js');
 const ForumContent = require('./models/ForumContent.js');
+const user = require('./models/user.js');                 //NOTE : do we prefer to rename this? I see how forumContent is set to match the DB Table name but there is a route in routes/users.js
+const user_emissions = require('./models/user_emissions');//Same note as Above - Angel 
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/users');            //May remove users routes and models once this clarified if not for the user table on MySQL
 var forumRouter = require('./routes/forumContent');
+var userRouter = require('./routes/user');
+var user_emissionsRouter = require('./routes/user_emissions')
 
 var app = express();
 
@@ -25,6 +29,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/forumcontent', forumRouter);
+app.use('/api/user', userRouter);
+app.use('/api/user_emissions', user_emissionsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
