@@ -30,15 +30,16 @@ export default function HomeScreen({ navigation }) {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <View>
-                            <Text>TODO: Add carbon footprint chart here</Text>
+                        <View
+                        // style={{ backgroundColor: `${Colors.secondary.NYANZA}88`, borderRadius: 16, }}
+                        >
+                            <CarbonFootprint/>
                         </View>
                     </View>
                 </View>
 
-                {/******* TODAY'S LOG *******/}
-                <Log></Log> 
-                {/*Refactored the log into its own file */}
+                {/******* LOG *******/}
+                <Log></Log>
                 {/******* FOR YOU *******/}
                 <View>
                     <View style={{...styles.headerContainer, horizontalMargin: horizontalMargin / 2}}>

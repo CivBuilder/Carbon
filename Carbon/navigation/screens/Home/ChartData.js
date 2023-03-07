@@ -1,11 +1,56 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart} from "react-native-chart-kit";
+import { VictoryPie, VictoryLabel } from 'victory-native';
+import { Svg } from 'react-native-svg';
 import { Colors } from '../../../colors/Colors';
+
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const horizontalMargin = 20;
 const chartWidth = windowWidth - horizontalMargin;
 const chartHeight = 200;
+
+export const CarbonFootprint = () => {
+    const userFootprint = 69420
+    const maxFootprint = 100000
+    const data = [
+        {x: 'total', y: maxFootprint - userFootprint},
+        {x: 'user', y: userFootprint},
+    ]
+    const pieColors = [
+        Colors.secondary.NON_PHOTO_BLUE,
+        Colors.primary.MINT,
+    ];
+
+    return (
+        <View style={{marginTop: -30, marginBottom: 20, }}>
+            <Svg width={chartWidth} height={chartHeight}>
+                <VictoryPie
+                    data={data}
+                    labels={[]}
+                    colorScale={pieColors}
+                    startAngle={90}
+                    endAngle={-90}
+                    innerRadius={110}
+                />
+                <VictoryLabel
+                    textAnchor="middle"
+                    style={{ fontSize: 40, fontWeight: 'bold' }}
+                    x={200}
+                    y={155}
+                    text={`${userFootprint}`}
+                />
+                <VictoryLabel
+                    textAnchor="middle"
+                    style={{ fontSize: 20 }}
+                    x={200}
+                    y={185}
+                    text={`kg CO2e`}
+                />
+            </Svg>
+        </View>
+    );
+};
 
 export const LineChartFootprint = () => {
     const lineChartData = {
@@ -38,23 +83,93 @@ export const LineChartFootprint = () => {
     );
 };
 
-export const ProgressRingCategory = () => {
-    const progressRingData = {
-        labels: ["Transport", "Diet", "Home", "Stuff"],
-        data: [0.4, 0.6, 0.8, 0.5] //TODO: Change hardcoded data
+// Ticket C4-19
+export const CategoryChart = () => {
+    //TODO: Change hardcoded values to link with back end
+    const data = [
+        {
+            name: 'Transport',
+            carbonFootprint: 4000,
+            color: '#C70039',
+            legendFontColor: Colors.primary.MINT_CREAM,
+            legendFontSize: 12,
+        },
+        {
+            name: 'Diet',
+            carbonFootprint: 6000,
+            color: '#FF5733',
+            legendFontColor: Colors.primary.MINT_CREAM,
+            legendFontSize: 12,
+        },
+        {
+            name: 'Home',
+            carbonFootprint: 8000,
+            color: '#FFC300',
+            legendFontColor: Colors.primary.MINT_CREAM,
+            legendFontSize: 12,
+        },
+        {
+            name: 'Stuff',
+            carbonFootprint: 5000,
+            color: '#DAF7A6',
+            legendFontColor: Colors.primary.MINT_CREAM,
+            legendFontSize: 12,
+        },
+    ];
+
+    const chartConfig = {
+        backgroundColor: Colors.primary.MINT,
+        backgroundGradientFrom: Colors.primary.MINT,
+        backgroundGradientTo: Colors.primary.MINT,
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
     };
 
-    return(
-        <ProgressChart
-            data={progressRingData}
+    return (
+        <PieChart
+            data={data}
             width={chartWidth}
             height={chartHeight}
-            strokeWidth={12}
-            radius={24}
-            chartConfig={styles.chartConfig}
-            hideLegend={false}
-            style={styles.chart}
+            chartConfig={chartConfig}
+            accessor={'carbonFootprint'}
+            paddingLeft={'30'}
+            absolute
+            renderLegend={() => null}
+            renderLabels={({ category, percentage, index }) => (
+                <Text key={index} style={{ color: 'white', position: 'absolute', textAlign: 'center' }}>
+                    {category} {'\n'} ({percentage.toFixed(0)}%)
+                </Text>
+            )}
         />
+    );
+};
+
+export const CatgegoryChartv2 = () => {
+    const data = [
+        { x: 'Transport', y: 4000 },
+        { x: 'Diet', y: 6000 },
+        { x: 'Home', y: 8000 },
+        { x: 'Stuff', y: 5000 },
+    ];
+
+    const pieColors = ['#C70039', '#FF5733', '#FFC300', '#DAF7A6'];
+
+    return (
+        <View>
+            <Svg width={chartWidth} height={chartHeight}>
+                <VictoryPie
+                    data={data}
+                    colorScale={pieColors}
+                    labels={({ datum }) => `${datum.x}\n${datum.y}`}
+                    labelRadius={85}
+                    padAngle={2}
+                    innerRadius={60}
+                    style={{
+                        labels: { fill: 'white', fontSize: 14, fontWeight: 'bold' },
+                    }}
+                />
+            </Svg>
+        </View>
     );
 };
 
@@ -103,11 +218,9 @@ const styles = StyleSheet.create({
         },
     chart: {
         borderRadius: 16,
-        
         marginHorizontal: horizontalMargin/2,
     },
     chartConfig: {
-
         backgroundColor: Colors.primary.MINT,
         backgroundGradientFrom: Colors.primary.MINT,
         backgroundGradientTo: Colors.primary.MINT,

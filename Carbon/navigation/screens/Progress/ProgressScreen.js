@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text } from 'react-native';
+import { Colors } from '../../../colors/Colors';
+import { LineChartFootprint, CategoryChart, CatgegoryChartv2 } from '../Home/ChartData';
 
-import { LineChartFootprint, ProgressRingCategory } from '../Home/ChartData';
-
-// const windowWidth = Dimensions.get("window").width;
+const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
+const horizontalMargin = 20;
 
 export default function ProgressScreen() {
     return(
@@ -13,13 +14,23 @@ export default function ProgressScreen() {
                 showsHorizontalScrollIndicator={false}
                 style={{flexGrow: 1}}
             >
+                {/* Chart #1 */}
                 <View>
                     <Text style={{...styles.headerTitle, margin: 10}}>By Time</Text>
                     <LineChartFootprint/>
                 </View>
+
+                {/* Chart #2 */}
                 <View>
-                    <Text style={{...styles.headerTitle, margin: 10}}>By Category</Text>
-                    <ProgressRingCategory/>
+                    <View style={styles.marginContainer}>
+                        <Text style={{...styles.headerTitle, margin: 10}}>By Category</Text>
+                        <View style={{backgroundColor: Colors.primary.MINT, borderRadius: 16}}>
+                            <CategoryChart/>
+                        </View>
+                        <View style={{height: windowHeight}}>
+                            <CatgegoryChartv2/>
+                        </View>
+                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -31,5 +42,8 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontSize: 20,
         fontWeight: 'bold'
+    },
+    marginContainer: {
+        marginHorizontal: horizontalMargin / 2
     },
 });
