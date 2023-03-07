@@ -3,15 +3,15 @@ import { DailyLog } from "./ChartData";
 import React, { useState } from 'react';
 import { Button } from "react-native-elements";
 import { Colors } from '../../../colors/Colors';
-
+import { GetData } from "./GetData";
 export default function Log() {
     const whichLog = ["Today's", "Yesterday's", "Weekly", "Monthly"];
     const windowWidth = Dimensions.get("window").width;
     const windowHeight = Dimensions.get("window").height;
     const horizontalMargin = 20;
-    twoDarray = [[1000, 1000, 100, 1000, 100, 1000],[555, 545, 100, 555, 100,1000]];
+    const twoDarray =  GetData();
     const [number, setNumber] = useState(0);
-    const [data, setArray] = useState([1000, 1000, 100, 1000, 100,1000]);
+    const [data, setArray] = useState(twoDarray[0]);
     const handleChangeRight = () => {
         if (number < 3) {
             setNumber(number + 1);
