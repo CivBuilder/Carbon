@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react';
 import EducationMenu from '../../components/EducationMenu';
 import { electricity, food, recycle, transportation, water } from '../../assets';
 
-const APIURL = "http://carbontest-env.eba-gpgdvm85.us-west-1.elasticbeanstalk.com/api"
+const APIURL = "http://carbonserver-env.eba-pmpdtmpe.us-east-1.elasticbeanstalk.com/api"
 // Using my test AWS node server for now
 export default function ForumScreen({navigation}) {
     const [forumData, setForumData] = useState([]);
