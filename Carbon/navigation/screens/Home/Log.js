@@ -1,5 +1,4 @@
-import { View, Dimensions, Text, TouchableOpacity } from "react-native";
-import { styles } from "./HomeScreen";
+import { View, Dimensions, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { DailyLog } from "./ChartData";
 import React, { useState } from 'react';
 import { Button } from "react-native-elements";
@@ -10,15 +9,34 @@ export default function Log() {
     const windowWidth = Dimensions.get("window").width;
     const windowHeight = Dimensions.get("window").height;
     const horizontalMargin = 20;
+    twoDarray = [[1000, 1000, 100, 1000, 100, 1000],[555, 545, 100, 555, 100,1000]];
     const [number, setNumber] = useState(0);
+    const [data, setArray] = useState([1000, 1000, 100, 1000, 100,1000]);
     const handleChangeRight = () => {
         if (number < 3) {
             setNumber(number + 1);
         }
+        changeArrayRight();
     };
     const handleChangeLeft = () => {
         if (number > 0) {
             setNumber(number - 1);
+        
+        }
+        changeArrayLeft();
+    };
+
+    const changeArrayLeft = () =>
+    {
+        if (number > 0)
+        {
+            setArray(twoDarray[number-1]);
+        }
+    };
+    const changeArrayRight = () =>
+    {
+        if (number < 3) {
+            setArray(twoDarray[number+1]);
         }
     };
     return (
@@ -31,7 +49,7 @@ export default function Log() {
 
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15,/*backgroundColor: Colors.primary.MINT*/ }}>
-                    <DailyLog></DailyLog>
+                    <DailyLog dataArray = {data}></DailyLog>
                     <View style={{ justifyContent: 'center', flexDirection: 'row', marginTop: 15, marginLeft: 10 }}>
                         <TouchableOpacity
                             style={{
@@ -66,3 +84,36 @@ export default function Log() {
         </View>
     )
 }
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+const horizontalMargin = 20;
+const styles = StyleSheet.create({
+    headerTitle: {
+        marginTop: 10,
+        // marginLeft: horizontalMargin / 2,
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    cardContainer: {
+        width: windowWidth / 2.25,
+        height: windowHeight / 2.5,
+        borderRadius: 12,
+        marginHorizontal: horizontalMargin/2,
+        marginBottom: 20,
+    },
+    cardScrollViewContentContainer: {
+        marginBottom: 10,
+    },
+    marginContainer: {
+        marginHorizontal: horizontalMargin / 2
+    },
+    headerContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+    },
+    link: {
+        color: Colors.primary.MINT,
+        fontSize: 14,
+    }
+});

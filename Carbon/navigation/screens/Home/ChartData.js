@@ -1,7 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart} from "react-native-chart-kit";
 import { Colors } from '../../../colors/Colors';
-
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const horizontalMargin = 20;
@@ -59,12 +58,14 @@ export const ProgressRingCategory = () => {
     );
 };
 
-export function DailyLog ({value}) {
+export function DailyLog ({dataArray}) {
+
+   
     const barChartData = {
         labels: ['Transportation', 'Diet', 'Lifestyle', 'Home', 'Overall', ''],
         datasets:[
             {
-            data: [854, 393, 760, 700, 939, 1000],
+            data: dataArray,
             colors: [
                 (opacity = 1) =>  Colors.primary.MINT,
                 (opacity = 1) =>  Colors.primary.MINT,

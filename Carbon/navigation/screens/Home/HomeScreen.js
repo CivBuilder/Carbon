@@ -104,7 +104,7 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const horizontalMargin = 20;
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     headerTitle: {
         marginTop: 10,
         // marginLeft: horizontalMargin / 2,
