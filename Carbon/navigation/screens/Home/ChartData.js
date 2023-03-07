@@ -59,41 +59,89 @@ export const ProgressRingCategory = () => {
     );
 };
 
-export const DailyLog = () => {
+export function DailyLog ({value}) {
     const barChartData = {
-        labels: ["Group A", "Group B", "Group C"],
+        labels: ['Transportation', 'Diet', 'Lifestyle', 'Home', 'Overall', ''],
         datasets:[
             {
-            data: [854, 393, 760]
+            data: [854, 393, 760, 700, 939, 1000],
+            colors: [
+                (opacity = 1) =>  Colors.primary.MINT,
+                (opacity = 1) =>  Colors.primary.MINT,
+                (opacity = 1) =>  Colors.primary.MINT,
+                (opacity = 1) =>  Colors.primary.MINT,
+                (opacity = 1) =>  Colors.primary.MINT,
+                (opacity = 0) => `#FFFFFF`,
+            ]
             }
         ]
         };
     return (
         <BarChart
         data ={barChartData}
-        chartConfig={styles.chartConfig}
-        style={styles.chart}
+        chartConfig={styleBar.chartConfig}
+        withCustomBarColorFromData={true}
+        flatColor={true}
+
+        style={styleBar.chart}
         width = {chartWidth}
-        height = {chartHeight-100}
+        height = {windowHeight/3}
         withVerticalLabels ={true}
-        withHorizontalLabels = {false}
-        yAxisLabel="$"
+        withHorizontalLabels = {true}
         fromZero = {true}
+        showBarTops = {false}
     />
     )
 }
 const styles = StyleSheet.create({
+    container: {
+        marginLeft: 100,
+        flex: 1,
+        justifyContent: 'center', padding: 100,
+        paddingTop: 30, backgroundColor: '#ecf0f1',
+        },
     chart: {
         borderRadius: 16,
+        
         marginHorizontal: horizontalMargin/2,
     },
     chartConfig: {
+
         backgroundColor: Colors.primary.MINT,
         backgroundGradientFrom: Colors.primary.MINT,
         backgroundGradientTo: Colors.primary.MINT,
         decimalPlaces: 2, // optional, defaults to 2dp
         color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
         labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        propsForDots: {
+            r: "5",                         // circle size
+            strokeWidth: "2",               // circle border size
+            stroke: Colors.primary.MINT     // circle border color
+        }
+    },
+});
+
+const styleBar = StyleSheet.create({
+    container: {
+        marginLeft: 100,
+        flex: 1,
+        justifyContent: 'center', padding: 100,
+        paddingTop: 30, backgroundColor: '#ecf0f1',
+        },
+    chart: {
+        borderRadius: 16,
+        
+        marginHorizontal: horizontalMargin/2,
+    },
+    chartConfig: {
+
+        backgroundColor: '#FFFFFF',
+        backgroundGradientFrom: '#FFFFFF',
+        backgroundGradientTo: '#FFFFFF',
+        decimalPlaces: 2, // optional, defaults to 2dp
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, //transparent
+        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    
         propsForDots: {
             r: "5",                         // circle size
             strokeWidth: "2",               // circle border size

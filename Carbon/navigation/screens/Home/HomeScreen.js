@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
+import { BarChart } from 'react-native-chart-kit';
 import { Card } from 'react-native-elements';
-
+import Log from './Log';
 import { Colors } from '../../../colors/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import { CarbonFootprint, DailyLog } from './ChartData';
@@ -36,18 +37,8 @@ export default function HomeScreen({ navigation }) {
                 </View>
 
                 {/******* TODAY'S LOG *******/}
-                <View style={{height: windowHeight/4, /*backgroundColor: Colors.primary.MINT*/}}>
-                    <View style={styles.marginContainer}>
-                        <View style={styles.headerContainer}>
-                            <Text style={styles.headerTitle}>Today's Log</Text>
-                        </View>
-                        <View>
-                            <Text>TODO: Add Today's Daily Log</Text>
-                            <Text>TODO: Add a + button</Text>
-                        </View>
-                    </View>
-                </View>
-
+                <Log></Log> 
+                {/*Refactored the log into its own file */}
                 {/******* FOR YOU *******/}
                 <View>
                     <View style={{...styles.headerContainer, horizontalMargin: horizontalMargin / 2}}>
@@ -113,7 +104,7 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const horizontalMargin = 20;
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     headerTitle: {
         marginTop: 10,
         // marginLeft: horizontalMargin / 2,
