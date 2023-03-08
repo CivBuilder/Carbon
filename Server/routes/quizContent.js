@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var ForumContent = require('../models/ForumContent.js');
+var QuizContent = require('../models/QuizContent.js');
 
 // Get all
 router.get('/', async function(req, res, next) {
-  const content = await ForumContent.findAll();
+  const content = await QuizContent.findAll();
   res.status(200).json({
     content
   });
@@ -16,9 +16,9 @@ router.get('/', async function(req, res, next) {
 
 // GET forum content by id.
 router.get('/:id', async function(req, res, next) {
-  const content = await ForumContent.findOne({
+  const content = await QuizContent.findOne({
     where: {
-      title : req.params.id
+      id_forumcontent : req.params.id
     }
   });
   if (!content) {
