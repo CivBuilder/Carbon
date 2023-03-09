@@ -11,6 +11,7 @@ import ProgressScreen from './screens/ProgressScreen';
 import ForumScreen from './screens/ForumScreen';
 import RankingScreen from './screens/RankingScreen';
 import QuizScreen from './screens/QuizScreen';
+import BrowserScreen from './screens/BrowserScreen';
 
 // Screen Names (this shows up at the bottom navbar)
 const homeName = 'Home';
@@ -56,9 +57,10 @@ export default function MainContainer(){
             {/* This is how it appears on the app. You can also change the order here */}
             <Tab.Screen name={homeName} component={HomeScreen} />
             <Tab.Screen name={progressName} component={ProgressScreen} />
-            <Tab.Screen name={forumName} component={QuizScreen} /> 
+            {/* <Tab.Screen name={forumName} component={QuizScreen} />  */}
+            {/* <Tab.Screen name={forumName} component={BrowserScreen} />  */}
             {/* FOR TESTING PURPOSES JUST COMMENT/UNCOMMENT QUIZSCREEN/FORUMSCREEN UNDER FORUM TAB */}
-            {/* <Tab.Screen name={forumName} component={ForumScreen} />  */}
+            <Tab.Screen name={forumName} component={ForumScreen} /> 
             <Tab.Screen name={rankingName} component={RankingScreen} />
             {/* <Tab.Screen name={settingsName} component={SettingsScreen} /> */}
 
