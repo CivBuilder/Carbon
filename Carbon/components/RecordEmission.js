@@ -1,8 +1,8 @@
 import { StyleSheet, Text, TextInput, View, Pressable, Modal } from 'react-native'
 import {React, useState} from 'react'
-import SaveEmissions from './SaveEmissions';
+import EmissionModal from './EmissionModal';
 
-const CategoryPlusButton = () => {
+const RecordEmission = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [foodVisible, setFoodVisible] = useState(false);
   const [transportationVisible, setTransportationVisible] = useState(false);
@@ -57,21 +57,21 @@ const CategoryPlusButton = () => {
         </View>
         </Modal>
 
-      <SaveEmissions visible={foodVisible}
+      <EmissionModal visible={foodVisible}
                      onRequestClose={() => {
                       setFoodVisible(!foodVisible)
                     }}  
                     title={"How much meat did you consume today?"}
                     saveData={(log) => saveFoodLog(log)}
                     />
-        <SaveEmissions visible={transportationVisible}
+      <EmissionModal visible={transportationVisible}
                      onRequestClose={() => {
                       setTransportationVisible(!transportationVisible)
                     }}  
                     title={"How many miles did you drive today?"}
                     saveData={(log) => saveTransportationLog(log)}
                     />
-        <SaveEmissions visible={recyclingVisible}
+      <EmissionModal visible={recyclingVisible}
                      onRequestClose={() => {
                       setRecyclingVisible(!recyclingVisible)
                     }}  
@@ -87,7 +87,7 @@ const CategoryPlusButton = () => {
   )
 }
 
-export default CategoryPlusButton
+export default RecordEmission
 
 const styles = StyleSheet.create({
     centeredView: {
