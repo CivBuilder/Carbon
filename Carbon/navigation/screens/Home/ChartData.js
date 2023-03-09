@@ -11,7 +11,7 @@ const chartWidth = windowWidth - horizontalMargin;
 const chartHeight = 200;
 
 export const CarbonFootprint = () => {
-    const userFootprint = 69420
+    const userFootprint = 42069
     const maxFootprint = 100000
     const data = [
         {x: 'total', y: maxFootprint - userFootprint},
@@ -23,28 +23,34 @@ export const CarbonFootprint = () => {
     ];
 
     return (
-        <View style={{marginTop: -30, marginBottom: 20, }}>
-            <Svg width={chartWidth} height={chartHeight}>
+        <View>
+            <Svg height={chartHeight} width={chartWidth}>
                 <VictoryPie
                     data={data}
                     labels={[]}
                     colorScale={pieColors}
                     startAngle={90}
                     endAngle={-90}
-                    innerRadius={110}
+                    innerRadius={120}
+                    padding={{
+                        top: -40,
+                        bottom: 0,
+                        left: 30,
+                        right: 30 + 20, //There is a 20px offset between left and right
+                    }}
                 />
                 <VictoryLabel
                     textAnchor="middle"
                     style={{ fontSize: 40, fontWeight: 'bold' }}
-                    x={200}
-                    y={155}
+                    x={chartWidth/2}
+                    y={135}
                     text={`${userFootprint}`}
                 />
                 <VictoryLabel
                     textAnchor="middle"
                     style={{ fontSize: 20 }}
-                    x={200}
-                    y={185}
+                    x={chartWidth/2}
+                    y={165}
                     text={`kg CO2e`}
                 />
             </Svg>
@@ -175,7 +181,7 @@ export const CatgegoryChartv2 = () => {
 
 export function DailyLog ({dataArray}) {
 
-   
+
     const barChartData = {
         labels: ['Transportation', 'Diet', 'Lifestyle', 'Home', 'Overall', ''],
         datasets:[
@@ -210,12 +216,6 @@ export function DailyLog ({dataArray}) {
     )
 }
 const styles = StyleSheet.create({
-    container: {
-        marginLeft: 100,
-        flex: 1,
-        justifyContent: 'center', padding: 100,
-        paddingTop: 30, backgroundColor: '#ecf0f1',
-        },
     chart: {
         borderRadius: 16,
         marginHorizontal: horizontalMargin/2,
@@ -244,7 +244,6 @@ const styleBar = StyleSheet.create({
         },
     chart: {
         borderRadius: 16,
-        
         marginHorizontal: horizontalMargin/2,
     },
     chartConfig: {
@@ -255,7 +254,7 @@ const styleBar = StyleSheet.create({
         decimalPlaces: 2, // optional, defaults to 2dp
         color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, //transparent
         labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-    
+
         propsForDots: {
             r: "5",                         // circle size
             strokeWidth: "2",               // circle border size
