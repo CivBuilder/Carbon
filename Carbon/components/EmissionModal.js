@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { StyleSheet, Modal, Text, View, Pressable, TextInput } from 'react-native';
 
-const SaveEmissions = ({visible, onRequestClose, title, saveData}) => {
+const EmissionModal = ({visible, onRequestClose, title, saveData}) => {
   const [log, setLog] = useState('');  
   return (
         <Modal
@@ -10,7 +10,10 @@ const SaveEmissions = ({visible, onRequestClose, title, saveData}) => {
           transparent={true}
           backdropOpacity={0}
           visible={visible}
-          onRequestClose={onRequestClose}
+          onRequestClose={() => {
+            setLog('');
+            onRequestClose();
+          }}
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -21,7 +24,10 @@ const SaveEmissions = ({visible, onRequestClose, title, saveData}) => {
               </Pressable>
               <Pressable
                 style={[styles.button]}
-                onPress={onRequestClose}
+                onPress={() => {
+                  setLog('');
+                  onRequestClose();
+                }}
               >
                 <Text style={styles.text}>Close</Text>
               </Pressable>
@@ -31,7 +37,7 @@ const SaveEmissions = ({visible, onRequestClose, title, saveData}) => {
       );
     };
 
-export default SaveEmissions;
+export default EmissionModal;
 
 const styles = StyleSheet.create({
     centeredView: {
