@@ -8,6 +8,9 @@ const ForumContent = require('./models/ForumContent.js');
 const user = require('./models/user.js');                 //NOTE : do we prefer to rename this? I see how forumContent is set to match the DB Table name but there is a route in routes/users.js
 const user_emissions = require('./models/user_emissions');//Same note as Above - Angel 
 
+//~~~ASSOCIATIONS BETWEEN FOREIGN KEYS~~~~//
+user.hasMany(user_emissions);
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');            //May remove users routes and models once this clarified if not for the user table on MySQL
 var forumRouter = require('./routes/forumContent');

@@ -8,10 +8,15 @@ const user_emissions = sequelize.define('forumcontent' , {
         primaryKey : true, 
         allowNull : false, 
         autoIncrement : true,
+        unique : true, 
     }, 
     user_id : { 
         type : DataTypes.INTEGER.UNSIGNED,
         allowNull : false, 
+        references : {
+            model : 'user',
+            key : 'id'
+        }
     },
 
     date : {
