@@ -16,6 +16,6 @@ const styles = StyleSheet.create({
       textDecorationLine: 'underline',
       fontWeight: 'bold',
     },
-  })
+})
 
 export default LoginNavButton
