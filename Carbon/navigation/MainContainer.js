@@ -10,7 +10,6 @@ import ProgressScreen from './screens/ProgressScreen';
 // import SettingsScreen from './screens/SettingsScreen';
 import ForumScreen from './screens/ForumScreen';
 import RankingScreen from './screens/RankingScreen';
-
 // Screen Names (this shows up at the bottom navbar)
 const homeName = 'Home';
 const progressName = 'Progress';
@@ -23,7 +22,6 @@ const Tab = createBottomTabNavigator();
 
 export default function MainContainer(){
     return(
-        <NavigationContainer>
             <Tab.Navigator
                 initialRouteName={homeName}
                 screenOptions={({ route }) => ({
@@ -60,6 +58,5 @@ export default function MainContainer(){
             {/* <Tab.Screen name={settingsName} component={SettingsScreen} /> */}
 
             </Tab.Navigator>
-        </NavigationContainer>
     );
 }
