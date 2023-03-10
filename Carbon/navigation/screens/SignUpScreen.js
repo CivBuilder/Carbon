@@ -43,7 +43,9 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
-    content: {},
+    content: {
+      width: 300,
+    },
     loginTextWrapper: {
       alignItems: 'center',
     },
