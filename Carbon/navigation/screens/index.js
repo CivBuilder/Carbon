@@ -4,3 +4,4 @@ export {default as ForumScreen} from './Forum/ForumScreen';
 export {default as RankingScreen} from './Ranking/RankingScreen';
 export {default as SettingsScreen} from './Settings/SettingsScreen';
 export {default as AddProgress} from './Progress/AddProgress';
+export {default as AddGoal} from './Progress/AddGoal';

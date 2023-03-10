@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text } from 'react-native';
+import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Colors } from '../../../colors/Colors';
 import { LineChartFootprint, CategoryChart, CatgegoryChartv2 } from '../Home/ChartData';
+import { ScreenNames } from '../Main/ScreenNames';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const margin = 10;
 
-export default function ProgressScreen() {
+export default function ProgressScreen({navigation}) {
     return(
         <SafeAreaView style={{height: windowHeight}}>
             <ScrollView
@@ -26,6 +27,13 @@ export default function ProgressScreen() {
                     <View style={{backgroundColor: Colors.primary.MINT_CREAM, borderRadius: 16}}>
                         <CatgegoryChartv2/>
                     </View>
+                </View>
+                <View>
+                    <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.ADD_GOAL)} style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                        <View style={{backgroundColor: Colors.primary.MINT, height: 40, width: 80, alignItems: 'center', justifyContent: 'center'}}>
+                            <Text style={{textAlign: 'center'}}>Add Goal</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </SafeAreaView>

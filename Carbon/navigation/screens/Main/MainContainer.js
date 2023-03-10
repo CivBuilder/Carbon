@@ -9,7 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ScreenNames } from './ScreenNames';
 import { Colors } from '../../../colors/Colors';
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, AddProgress } from '../../screens';
+import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, AddProgress, AddGoal } from '../../screens';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -98,6 +98,7 @@ const ProgressStack = ({ navigation }) => {
                 }}
             />
             <Stack.Screen name={ScreenNames.ADD_PROGRESS} component={AddProgress} />
+            <Stack.Screen name={ScreenNames.ADD_GOAL} component={AddGoal} />
         </Stack.Navigator>
     );
 };
