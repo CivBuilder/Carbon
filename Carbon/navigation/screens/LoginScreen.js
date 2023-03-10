@@ -11,7 +11,8 @@ const LoginScreen = () => {
         <Image source={{ uri: 'https://i.ibb.co/s9Kfh8p/carbon-logo.png'}} style={{width: 200, height: 100}}/>
       </View>
       <KeyboardAvoidingView behavior= 'height' style={styles.content}>
-        {/* Email and Password inputs go here */}
+        <EmailInput />
+        <PasswordInput text="Password"/>
       </KeyboardAvoidingView>
       <Pressable>
         {/* Forgot Password button goes here */}
