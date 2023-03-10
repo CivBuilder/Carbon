@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TextInput, View, Pressable, Modal, KeyboardAvoidingView } from 'react-native'
 import {React, useState} from 'react'
 import EmissionModal from './EmissionModal';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const RecordEmission = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -24,9 +25,10 @@ const RecordEmission = () => {
   return (
     <KeyboardAvoidingView >
         <Modal style={styles.modal}
-        animationType="slide"
+        animationType="fade"
         transparent={true}
-        backdropOpacity={0}
+        presentationStyle={'overFullScreen'}
+        backdropOpacity={50}
         visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
@@ -34,32 +36,30 @@ const RecordEmission = () => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
 
-            <Text style={styles.modalText}>Select the category to log</Text>
             <Pressable onPress={() => {
                 setModalVisible(!modalVisible)
                 setFoodVisible(true)}
             }>
-              <Text style={styles.text}>Food</Text>
+              <Icon name="cutlery" size={40} color="#201B1B" style={styles.icon} />
             </Pressable>
 
             <Pressable onPress={() => {
                 setModalVisible(!modalVisible)
                 setTransportationVisible(true)
             }}>
-              <Text style={styles.text}>Transportation</Text>
+              <Icon name="car" size={40} color="#201B1B" style={styles.icon} />
             </Pressable>
 
             <Pressable onPress={() => {
                 setModalVisible(!modalVisible)
                 setRecyclingVisible(true)}
             }>
-              <Text style={styles.text}>Recycling</Text>
+              <Icon name="recycle" size={40} color="#201B1B" style={styles.icon} />
             </Pressable>
 
             <Pressable
-              style={[styles.button]}
               onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.text}>close</Text>
+              <Icon name="close" size={40} color="#201B1B" style={styles.icon} />
             </Pressable>
 
           </View>
@@ -109,26 +109,21 @@ const styles = StyleSheet.create({
         marginTop: 22,
         justifyContent: 'flex-end',
         marginBottom: 48 ,
+        backgroundColor: '#D8F3DC',
       },
 
-    modalView: {
-        width: "100%",
-        height: "33%",
-        borderTopStartRadius: 12,
-        borderTopEndRadius: 12,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: '#465966',
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
+      modalView: {
+        backgroundColor: '#D8F3DC',
+        
       },
-    modal: {
-      backgroundColor: '#465966',
-    },  
-    text: {
-      textAlign: 'center',
-    },
+      modal: {
+        backgroundColor: '#D8F3DC',
+      },
+      modalText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 20,
+      },
     button: {
         borderRadius: 4,
         borderWidth: 2,
@@ -143,4 +138,9 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         textAlign: 'center',
       },
+      icon: {
+        marginHorizontal: 20,
+        padding: 20,
+      },
+    
 })

@@ -19,7 +19,9 @@ const EmissionModal = ({visible, onRequestClose, title, saveData}) => {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>{title}</Text>
-              <TextInput onChangeText={text => setLog(text)} />
+              <View style={styles.textInput}>
+                <TextInput  onChangeText={text => setLog(text)} />
+              </View>
               <Pressable style={[styles.button]} onPress={() => {
                 saveData(log)
                 onRequestClose();
@@ -60,16 +62,21 @@ const styles = StyleSheet.create({
         borderTopEndRadius: 12,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: '#465966',
+        backgroundColor: '#B2E4EE',
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-      },
-    modal: {
-      backgroundColor: '#465966',
-    },  
+    },
+    
     text: {
       textAlign: 'center',
+    },
+    textInput: {
+      borderRadius: 4,
+      borderWidth: 2,
+      elevation: 2,
+
+      borderColor: '#201B1B',
     },
     button: {
         borderRadius: 4,
