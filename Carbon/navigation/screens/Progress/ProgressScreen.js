@@ -10,12 +10,14 @@ const margin = 10;
 
 export default function ProgressScreen() {
     return(
-        <SafeAreaView style={{height: windowHeight}}>
+        <SafeAreaView>
             <ScrollView
                 showsHorizontalScrollIndicator={false}
                 style={{flexGrow: 1}}
             >
-            <RecordEmission />
+                <RecordEmission />
+
+
                 {/* Chart #1 */}
                 <View style={styles.container}>
                     <Text style={styles.headerTitle}>By Time</Text>
