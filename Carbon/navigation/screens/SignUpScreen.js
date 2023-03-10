@@ -23,7 +23,7 @@ const SignUpScreen = () => {
         <PasswordInput text="Password"/>
         <PasswordInput text="Confirm Password"/>
       </KeyboardAvoidingView>
-      <SignUpButton text="Sign Up"/>
+      <SignUpButton />
       <View style={styles.loginTextWrapper}>
         <Text style={styles.loginText}>Already have an account?</Text>
         <LoginNavButton />
