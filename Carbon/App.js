@@ -15,7 +15,7 @@ function App(){
     <Stack.Navigator initialRouteName="Questionnaire">
         <Stack.Screen name ="Questionnaire"
         component ={QuestionnaireContainer} />
-        <Stack.Screen name = "Home"
+        <Stack.Screen name = "Main"
         component = {MainContainer}/>
     </Stack.Navigator>
     </NavigationContainer>
