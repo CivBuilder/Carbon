@@ -5,7 +5,7 @@ import { RadioButton } from 'react-native-paper';
 //import { response } from '../../../Server/app';
 
 //eventually will be changed to server url
-const APIURL = "http://localhost:3000/api/quizcontent"
+const APIURL = "http://localhost:3000/api/quiz/0"
 
 const QuizScreen = () => {
     //used for fetching data 

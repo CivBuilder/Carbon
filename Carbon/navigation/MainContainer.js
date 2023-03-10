@@ -60,7 +60,7 @@ export default function MainContainer(){
             {/* <Tab.Screen name={forumName} component={QuizScreen} />  */}
             {/* <Tab.Screen name={forumName} component={BrowserScreen} />  */}
             {/* FOR TESTING PURPOSES JUST COMMENT/UNCOMMENT QUIZSCREEN/FORUMSCREEN UNDER FORUM TAB */}
-            <Tab.Screen name={forumName} component={ForumScreen} /> 
+            {/* <Tab.Screen name={forumName} component={ForumScreen} /> */} 
             <Tab.Screen name={rankingName} component={RankingScreen} />
             {/* <Tab.Screen name={settingsName} component={SettingsScreen} /> */}
 
