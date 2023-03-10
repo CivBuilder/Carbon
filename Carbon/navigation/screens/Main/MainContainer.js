@@ -39,7 +39,7 @@ const screenOptions = ({ route }) => ({
     },
 });
 
-/******* CUSTOM HEADERS *******/
+/******* Stack navigators for screens *******/
 const HomeStack = ({ navigation }) => {
     return (
         <Stack.Navigator>
@@ -71,6 +71,8 @@ const HomeStack = ({ navigation }) => {
                     ),
                 }}
             />
+            {/* Add Screens here */}
+            {/* Don't forget to add the screen/function in index.js and ScreenNames.js */}
             <Stack.Screen name={ScreenNames.SETTINGS} component={SettingsScreen} />
         </Stack.Navigator>
     );
@@ -97,11 +99,39 @@ const ProgressStack = ({ navigation }) => {
                     ),
                 }}
             />
+            {/* Add Screens here */}
+            {/* Don't forget to add the screen/function in index.js and ScreenNames.js */}
             <Stack.Screen name={ScreenNames.ADD_PROGRESS} component={AddProgress} />
             <Stack.Screen name={ScreenNames.ADD_GOAL} component={AddGoal} />
         </Stack.Navigator>
     );
 };
+
+const ForumStack = ({navigation}) => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name={' '}
+                component={ForumScreen}
+            />
+            {/* Add Screens here */}
+            {/* Don't forget to add the screen/function in index.js and ScreenNames.js */}
+        </Stack.Navigator>
+    );
+};
+
+const RankingStack = ({navigation}) => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name={' '}
+                component={RankingScreen}
+            />
+            {/* Add Screens here */}
+            {/* Don't forget to add the screen/function in index.js and ScreenNames.js */}
+        </Stack.Navigator>
+    );
+}
 
 export default function MainContainer(){
     return(
@@ -132,12 +162,12 @@ export default function MainContainer(){
                 />
                 <Tab.Screen
                     name={ScreenNames.FORUM}
-                    component={ForumScreen}
+                    component={ForumStack}
                     options={screenOptions}
                 />
                 <Tab.Screen
                     name={ScreenNames.RANKING}
-                    component={RankingScreen}
+                    component={RankingStack}
                     options={screenOptions}
                 />
             </Tab.Navigator>
