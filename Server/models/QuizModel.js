@@ -3,14 +3,14 @@ const Sequelize = require("sequelize")
 const sequelize = require('../utils/Database.js');
 
 const QuizModel = sequelize.define('quizmodel', {
-    quizname : {
-        type: Sequelize.STRING,
-        allowNull:false,
-    },
-    id : {
+    quizid : {
         type: Sequelize.INTEGER,
         allowNull:false,
         primaryKey:true,
+    },   
+    quizname : {
+        type: Sequelize.STRING,
+        allowNull:false,
     },
 },{
     freezeTableName: true,

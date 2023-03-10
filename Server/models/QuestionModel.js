@@ -6,11 +6,16 @@ const QuestionModel = sequelize.define('questionmodel', {
     quesid : {
         type: Sequelize.INTEGER,
         allowNull:false,
+        primaryKey:true,
+    },
+    quizid : {
+        type: Sequelize.INTEGER,
+        allowNull:false,
+
     },
     question : {
         type: Sequelize.STRING,
         allowNull:false,
-        primaryKey:true,
     },
 },{
     freezeTableName: true,

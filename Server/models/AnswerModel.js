@@ -6,16 +6,19 @@ const AnswerModel = sequelize.define('answermodel', {
     ansid : {
         type: Sequelize.INTEGER,
         allowNull:false,
+        primaryKey:true,
+    },
+    quesid : {
+        type: Sequelize.INTEGER,
+        allowNull:false,
     },
     answer : {
         type: Sequelize.STRING,
         allowNull:false,
-        primaryKey:true,
     },
     iscorrect : {
         type: Sequelize.BOOLEAN,
         allowNull:false,
-        primaryKey:true,
     },
 },{
     freezeTableName: true,
