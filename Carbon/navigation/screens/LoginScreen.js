@@ -4,6 +4,7 @@ import { KeyboardAvoidingView } from 'react-native-web'
 import EmailInput from '../../components/EmailInput'
 import PasswordInput from '../../components/PasswordInput'
 import ForgotPasswordNavButton from '../../components/ForgotPasswordNavButton'
+import LoginButton from '../../components/LoginButton'
 
 const LoginScreen = () => {
   return (
@@ -20,7 +21,7 @@ const LoginScreen = () => {
           <ForgotPasswordNavButton />
         </View>
       </View>
-      {/* Login button goes here */}
+      <LoginButton />
       {/* Sign up nav goes here */}
     </View>
   )
