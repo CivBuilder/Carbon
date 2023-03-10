@@ -5,7 +5,7 @@ import { RadioButton } from 'react-native-paper';
 //import { response } from '../../../Server/app';
 
 //eventually will be changed to server url
-const APIURL = "http://localhost:3000/api/quiz/0"
+const APIURL = "http://localhost:3000/api/quiz/1"
 
 const QuizScreen = () => {
     //used for fetching data 
@@ -13,12 +13,13 @@ const QuizScreen = () => {
     const[data, setData] = useState([]);
     const[question, setQuestion] = useState([]);
 
+
     //gets all content from quizcontent
     const fetchData = async() => {
         console.log("Fetching data for quizcontent");
         const response = await fetch(APIURL)
-        const data = await response.json();
-        setData(data.content);
+        const responsedata = await response.json();
+        setData(responsedata.quiz);
         setLoading(false);
     };
 
@@ -46,6 +47,7 @@ const QuizScreen = () => {
 
     //building out quiz with fake data, this data will be pulled from api eventually, should look/be named the same as data below
 
+    /*
     const quiz = [
     {"quizname" : "quiz1", "id": "1", "questions": [
         {"quesid":"1", "question":"1. Is this the first question?", 
@@ -75,6 +77,7 @@ const QuizScreen = () => {
     ]
     },
 ];
+    */
     //sets score and current question to 0 
     const [score, setScore] = useState(0);
     const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -82,11 +85,11 @@ const QuizScreen = () => {
 
     //HELPER FUNCTIONS
     const answerClicked = (isCorrect) => {
-        if(isCorrect == "true"){
+        if(isCorrect){
             setScore(score+1);
         }
         
-        if(currentQuestion + 1 < quiz[0].questions.length){
+        if(currentQuestion + 1 < data.questions.length){
             setCurrentQuestion(currentQuestion + 1);
         }
         else{
@@ -97,29 +100,36 @@ const QuizScreen = () => {
     //BEGINNING OF DISPLAY
     return(
         <View>
-            <Text>{quiz[0].quizname}</Text>
-
-            {quizCompleted ? (
-                <View>
-                <Text>Quiz Done</Text>
-                <Text>Final Score: {score}/{quiz[0].questions.length}</Text>
-                </View>
+            {isLoading ? (
+            <View>
+                <Text>Loading</Text>
+            </View>
             ) : (
-                <View>
-                <Text>Current Score: {score}</Text>
-                <Text>Question {currentQuestion + 1} out of {quiz[0].questions.length}</Text>
-                <Text>{quiz[0].questions[currentQuestion].question}</Text>
-                {quiz[0].questions[currentQuestion].answers.map((answer) => (
-                    <TouchableOpacity 
-                    onPress={() => answerClicked(answer.iscorrect)}>
-                        <Text>{answer.answer}</Text>
-                    </TouchableOpacity>
-                ))
-                }
-                </View>
+            <View>
+                <Text>{data.quizname}</Text>
+
+                {quizCompleted ? (
+                    <View>
+                    <Text>Quiz Done</Text>
+                    <Text>Final Score: {score}/{data.questions.length}</Text>
+                    </View>
+                ) : (
+                    <View>
+                    <Text>Current Score: {score}</Text>
+                    <Text>Question {currentQuestion + 1} out of {data.questions.length}</Text>
+                    <Text>{data.questions[currentQuestion].question}</Text>
+                    {data.questions[currentQuestion].answers.map((answer) => (
+                        <TouchableOpacity 
+                        onPress={() => answerClicked(answer.iscorrect)}>
+                            <Text>{answer.answer}</Text>
+                        </TouchableOpacity>
+                    ))
+                    }
+                    </View>
+                )}
+            </View>
             )}
         </View>
-       
     )
     
 }

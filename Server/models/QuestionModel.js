@@ -11,7 +11,6 @@ const QuestionModel = sequelize.define('questionmodel', {
     quizid : {
         type: Sequelize.INTEGER,
         allowNull:false,
-
     },
     question : {
         type: Sequelize.STRING,
