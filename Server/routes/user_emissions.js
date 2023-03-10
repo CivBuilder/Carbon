@@ -5,14 +5,14 @@ var users = require('../models/users')
 const {SustainabilityMap, SUSTAINABILITY_POSITIVE_SCORE} = require('../utils/SustainabilityScore')
 
 
-async function UpdateScore(id) {
+async function UpdateScore(ID) {
 
     //get total_emissions, the only valid one is today. and the next earliest one
     //the next earliest one comes into play when a goal is set
     let emission_entries = await user_emissions.findAll({
         limit : 2, 
         where : { 
-            user_id : id,
+            user_id : ID
         },
         order : [['date', 'DESC' ]]
     })
@@ -20,7 +20,7 @@ async function UpdateScore(id) {
     //get the user entry in the user table
     let user = await users.findOne({
         where : {
-            user_id : id
+            id : ID
         }
     });
 
@@ -33,7 +33,7 @@ async function UpdateScore(id) {
 
     //shorthand
     let sus_score = user.sustainability_score;
-    let global_score = user.global_score;
+    let globalScore = user.globalScore;
     let goal = user.goal;
     let goal_bonus = 0;
 
@@ -65,15 +65,14 @@ async function UpdateScore(id) {
 
     //Todo : Make function logarithmic after reaching level 50/30 - Will ask team which one would be preferred 
     
-}
-
-async function getRank() { 
-    if
-}
-
-async function getSustainabilityScore() { 
+    //put back in table 
+    await user.update({global_score : globalScore}, 
+        { where : { id : ID}}
+    );
 
 }
+
+
 
 // module.exports = { UpdateLevel, getLevel, getSustainabilityScore }
 
