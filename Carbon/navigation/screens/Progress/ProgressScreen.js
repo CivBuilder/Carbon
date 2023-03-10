@@ -5,7 +5,7 @@ import { LineChartFootprint, CategoryChart, CatgegoryChartv2 } from '../Home/Cha
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
-const horizontalMargin = 20;
+const margin = 10;
 
 export default function ProgressScreen() {
     return(
@@ -15,21 +15,16 @@ export default function ProgressScreen() {
                 style={{flexGrow: 1}}
             >
                 {/* Chart #1 */}
-                <View>
-                    <Text style={{...styles.headerTitle, margin: 10}}>By Time</Text>
+                <View style={styles.container}>
+                    <Text style={styles.headerTitle}>By Time</Text>
                     <LineChartFootprint/>
                 </View>
 
                 {/* Chart #2 */}
-                <View>
-                    <View style={styles.marginContainer}>
-                        <Text style={{...styles.headerTitle, margin: 10}}>By Category</Text>
-                        <View style={{backgroundColor: Colors.primary.MINT, borderRadius: 16}}>
-                            <CategoryChart/>
-                        </View>
-                        <View style={{height: windowHeight}}>
-                            <CatgegoryChartv2/>
-                        </View>
+                <View style={styles.container}>
+                    <Text style={styles.headerTitle}>By Category</Text>
+                    <View style={{backgroundColor: Colors.primary.MINT_CREAM, borderRadius: 16}}>
+                        <CatgegoryChartv2/>
                     </View>
                 </View>
             </ScrollView>
@@ -39,11 +34,12 @@ export default function ProgressScreen() {
 
 const styles = StyleSheet.create({
     headerTitle: {
-        marginTop: 10,
         fontSize: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginBottom: margin,
     },
-    marginContainer: {
-        marginHorizontal: horizontalMargin / 2
+    container: {
+        margin: margin,
+        // backgroundColor: "lightblue",
     },
 });

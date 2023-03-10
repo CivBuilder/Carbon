@@ -6,9 +6,9 @@ import { Colors } from '../../../colors/Colors';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
-const horizontalMargin = 20;
-const chartWidth = windowWidth - horizontalMargin;
-const chartHeight = 200;
+const margin = 10;
+const chartWidth = windowWidth - (margin * 2);
+const chartHeight = 210;
 
 export const CarbonFootprint = () => {
     const userFootprint = 42069
@@ -158,20 +158,47 @@ export const CatgegoryChartv2 = () => {
         { x: 'Stuff', y: 5000 },
     ];
 
-    const pieColors = ['#C70039', '#FF5733', '#FFC300', '#DAF7A6'];
+    const sortedData = data.sort((a, b) => a.y - b.y); // sort data in ascending order
+
+    const getLabelPercent = (datum) => {
+        const percent = (
+          (datum.y / data.reduce((acc, curr) => acc + curr.y, 0)) * 100
+        ).toFixed(1);
+        return `${Math.round(percent)}%`;
+    };
+
+    const pieColors = [ Colors.secondary.DARK_MINT, '#FFC300', '#FF5733', '#C70039' ];
+
+    const pieRadius = windowWidth / 3
+    const innerRadius = pieRadius * 0.52
+    const labelRadius = innerRadius + ((pieRadius - innerRadius) / 2)
 
     return (
-        <View>
-            <Svg width={chartWidth} height={chartHeight}>
+        <View style={{marginHorizontal: -10}}>
+            <Svg height={(pieRadius * 2) + (margin * 2)}>
                 <VictoryPie
-                    data={data}
+                    data={sortedData}
                     colorScale={pieColors}
-                    labels={({ datum }) => `${datum.x}\n${datum.y}`}
-                    labelRadius={85}
-                    padAngle={2}
-                    innerRadius={60}
+                    labels={({ datum }) => getLabelPercent(datum)}
+                    labelRadius={labelRadius}  // Distance of the labels from the pie center
+                    padAngle={2}                        // The gap between each slice
+                    radius={pieRadius}
+                    innerRadius={innerRadius}   // Size of the hole in the center
+                    cornerRadius={6}
                     style={{
-                        labels: { fill: 'white', fontSize: 14, fontWeight: 'bold' },
+                        labels: {
+                            fill: Colors.primary.MINT_CREAM,
+                            fontSize: 14,
+                            fontWeight: 'bold',
+                            textAnchor: 'middle',
+                            verticalAnchor: 'middle',
+                        },
+                    }}
+                    padding={{
+                        top: -110,
+                        // bottom: 10,
+                        // left: 10,
+                        // right: 10,
                     }}
                 />
             </Svg>
@@ -218,7 +245,6 @@ export function DailyLog ({dataArray}) {
 const styles = StyleSheet.create({
     chart: {
         borderRadius: 16,
-        marginHorizontal: horizontalMargin/2,
     },
     chartConfig: {
         backgroundColor: Colors.primary.MINT,
@@ -244,7 +270,7 @@ const styleBar = StyleSheet.create({
         },
     chart: {
         borderRadius: 16,
-        marginHorizontal: horizontalMargin/2,
+        marginHorizontal: margin/2,
     },
     chartConfig: {
 
