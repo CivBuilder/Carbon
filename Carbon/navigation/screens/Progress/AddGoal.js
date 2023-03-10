@@ -1,23 +1,21 @@
-import * as React from 'react';
-import { View, Text } from 'react-native';
+import React from 'react';
+import { Dimensions, View, Text, SafeAreaView, ScrollView } from 'react-native';
 
-export default function AddGoal({navigation}) {
-    return(
-        <View
-            style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}
-        >
-            <Text
-                style={{
-                    fontSize: 26,
-                    fontWeight: 'bold'
-                }}
+import GoalSetter from './GoalSetter';
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+const margin = 10;
+
+export default function AddGoal({ navigation }) {
+    return (
+        <SafeAreaView style={{ height: windowHeight }}>
+            <ScrollView
+                showsHorizontalScrollIndicator={false}
+                style={{ flexGrow: 1 }}
             >
-                Add Goal Screen
-            </Text>
-        </View>
+                <GoalSetter navigation={navigation} />
+            </ScrollView>
+        </SafeAreaView>
     )
 }
