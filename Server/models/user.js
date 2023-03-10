@@ -31,11 +31,18 @@ const user = sequelize.define('user', {
     goal : {
         type : DataTypes.DECIMAL(3,0).UNSIGNED,
         allowNull : true,
+        defaultValue : null
     },
     last_login : {
         type : DataTypes.DATE,
         allowNull : true,       //Should only be true when the user is first created
+        defaultValue : null 
     },
+    global_score : {
+        type : DataTypes.INTEGER.UNSIGNED,
+        allowNull : false, 
+        defaultValue: 0 
+    }
 }, {
     tableName : "user",
     freezeTableName : true,
