@@ -3,18 +3,20 @@ import React from 'react'
 import Button from '../../components/Button'
 import { TextInput } from 'react-native-paper'
 import { KeyboardAvoidingView } from 'react-native-web'
+import EmailInput from '../../components/EmailInput'
+import PasswordInput from '../../components/PasswordInput'
 
 
 const SignUpScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.logo} >
-        {/* <Image source={require('/home/janeen/carbon/Carbon/Carbon/assets/carbon-logo.png')}/> */}
+        <Image source={{ uri: 'https://i.ibb.co/s9Kfh8p/carbon-logo.png'}} style={{width: 317, height: 192}}/>
       </View>
       <KeyboardAvoidingView behavior= 'height' style={styles.content}>
-        <TextInput style={styles.input} placeholder={'Email'}/>
-        <TextInput style={styles.input} placeholder={'Password'}/>
-        <TextInput style={styles.input} placeholder={'Confirm Password'}/>
+        <EmailInput />
+        <PasswordInput text="Password"/>
+        <PasswordInput text="Confirm Password"/>
       </KeyboardAvoidingView>
       <Button text="Sign Up"/>
     </View>
@@ -22,8 +24,16 @@ const SignUpScreen = () => {
 }
 
 const styles = StyleSheet.create({
-    container: {},
-    logo: {},
+    container: {
+      flex: 1,
+      // flexDirection: 'column',
+      backgroundColor: '#F7FCF8',
+      alignItems: 'center',
+    },
+    logo: {
+      width: 317,
+      height: 192,
+    },
     content: {},
 })
 
