@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet, Pressable, Image} from 'react-native'
+import { View, Text, StyleSheet, Image} from 'react-native'
 import React from 'react'
 import { KeyboardAvoidingView } from 'react-native-web'
 import EmailInput from '../../components/EmailInput'
 import PasswordInput from '../../components/PasswordInput'
 import ForgotPasswordNavButton from '../../components/ForgotPasswordNavButton'
 import LoginButton from '../../components/LoginButton'
+import SignUpNavButton from '../../components/SignUpNavButton'
 
 const LoginScreen = () => {
   return (
@@ -22,7 +23,10 @@ const LoginScreen = () => {
         </View>
       </View>
       <LoginButton />
-      {/* Sign up nav goes here */}
+      <View style={styles.signUpTextWrapper}>
+        <Text style={styles.signUpText}>Don't have an account?</Text>
+        <SignUpNavButton />
+      </View>
     </View>
   )
 }
@@ -43,6 +47,13 @@ const styles = StyleSheet.create({
     },
     forgotPassWrapper: {
       alignSelf: 'flex-end',
+    },
+    signUpTextWrapper: {
+      alignItems: 'center',
+    },
+    signUpText: {
+      color: '#74C69D',
+      fontFamily: 'sans-serif',
     },
 })
 
