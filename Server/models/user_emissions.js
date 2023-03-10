@@ -31,7 +31,7 @@ const user_emissions = sequelize.define('forumcontent' , {
         type : DataTypes.FLOAT, 
         allowNull : false, 
     },
-    recycling_emissions : {
+    lifestyle_emissions : {
         type : DataTypes.FLOAT, 
         allowNull : false, 
     },
@@ -39,6 +39,10 @@ const user_emissions = sequelize.define('forumcontent' , {
         type : DataTypes.FLOAT, 
         allowNull : false, 
     },
+    home_emissions : {
+        type : DataTypes.FLOAT,
+        allowNull : false, 
+    }
 
 },{
 
