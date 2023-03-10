@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { StyleSheet, Modal, Text, View, Pressable, TextInput } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const EmissionModal = ({visible, onRequestClose, title, saveData}) => {
   const [log, setLog] = useState('');  
@@ -22,20 +23,22 @@ const EmissionModal = ({visible, onRequestClose, title, saveData}) => {
               <View style={styles.textInput}>
                 <TextInput  onChangeText={text => setLog(text)} />
               </View>
-              <Pressable style={[styles.button]} onPress={() => {
+              <Pressable onPress={() => {
                 saveData(log)
                 onRequestClose();
               }}>
-                <Text style={styles.text}>Save</Text>
-              </Pressable>
-              <Pressable
-                style={[styles.button]}
-                onPress={() => {
+            <Icon name="save" size={40} color="#201B1B" style={styles.icon} />
+
+            </Pressable>
+
+            <Pressable
+                  onPress={() => {
                   setLog('');
                   onRequestClose();
                 }}
-              >
-                <Text style={styles.text}>Close</Text>
+            >
+            <Icon name="close" size={40} color="#201B1B" style={styles.icon} />
+
               </Pressable>
             </View>
           </View>
@@ -92,4 +95,8 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         textAlign: 'center',
       },
+      icon: {
+        paddingBottom: 10,
+        paddingTop: 5
+      }
 })
