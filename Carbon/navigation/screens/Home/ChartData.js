@@ -210,7 +210,7 @@ export function DailyLog ({dataArray}) {
 
 
     const barChartData = {
-        labels: ['Transportation', 'Diet', 'Lifestyle', 'Home', 'Overall', ''],
+        labels: ['Transportation', 'Diet', 'Lifestyle', 'Home', 'Overall'],
         datasets:[
             {
             data: dataArray,
@@ -220,7 +220,6 @@ export function DailyLog ({dataArray}) {
                 (opacity = 1) =>  Colors.primary.MINT,
                 (opacity = 1) =>  Colors.primary.MINT,
                 (opacity = 1) =>  Colors.primary.MINT,
-                (opacity = 0) => `#FFFFFF`,
             ]
             }
         ]
@@ -231,14 +230,12 @@ export function DailyLog ({dataArray}) {
         chartConfig={styleBar.chartConfig}
         withCustomBarColorFromData={true}
         flatColor={true}
-
         style={styleBar.chart}
         width = {chartWidth}
         height = {windowHeight/3}
         withVerticalLabels ={true}
         withHorizontalLabels = {true}
         fromZero = {true}
-        showBarTops = {false}
     />
     )
 }
