@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Button } from "react-native-elements";
 import { Colors } from '../../../colors/Colors';
 import { GetData } from "./GetData";
+
 export default function Log() {
     const whichLog = ["Today's", "Yesterday's", "Weekly", "Monthly"];
     const windowWidth = Dimensions.get("window").width;
@@ -46,6 +47,7 @@ export default function Log() {
                 <View style={styles.headerContainer}>
 
                     <Text style={styles.headerTitle}>{whichLog[number]} Log</Text>
+                    <Text>Units: lb CO2e</Text>
 
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15,/*backgroundColor: Colors.primary.MINT*/ }}>
