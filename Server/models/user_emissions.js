@@ -18,7 +18,6 @@ const user_emissions = sequelize.define('user_emissions' , {
             key : 'id'
         }
     },
-
     date : {
         type : DataTypes.DATE,
         allowNull : false, 
@@ -48,7 +47,7 @@ const user_emissions = sequelize.define('user_emissions' , {
 
     tableName : 'user_emissions',
     freezeTableName : true, 
-    timeStamps : false,
+    timestamps : false,
 });
 
 module.exports = user_emissions;

@@ -9,7 +9,7 @@ const user = require('./models/user.js');                 //NOTE : do we prefer 
 const user_emissions = require('./models/user_emissions');//Same note as Above - Angel 
 
 // //~~~ASSOCIATIONS BETWEEN FOREIGN KEYS~~~~//
-user.hasMany(user_emissions);
+// user.hasMany(user_emissions);
 
 var indexRouter = require('./routes/index');
 var forumRouter = require('./routes/forumContent');
@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api/forumcontent', forumRouter);
 app.use('/api/user', userRouter);
-// app.use('/api/user_emissions', user_emissionsRouter);
+app.use('/api/user_emissions', user_emissionsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
