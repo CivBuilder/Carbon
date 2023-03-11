@@ -11,17 +11,17 @@ const user = sequelize.define('user', {
         autoIncrement : true,
     }, 
     username : { 
-        type : DataTypes.STRING,
+        type : DataTypes.STRING(45),
         allowNull : false, 
         unique : true
     }, 
     email : {
-        type : DataTypes.STRING,
+        type : DataTypes.STRING(45),
         allowNull : false,
         unique : true
     },
     password : {
-        type : DataTypes.STRING,
+        type : DataTypes.STRING(45),
         allowNull : false
     },
     sustainability_score : {
@@ -46,6 +46,7 @@ const user = sequelize.define('user', {
 }, {
     tableName : "user",
     freezeTableName : true,
+    timestamps : false,
 })
 
 

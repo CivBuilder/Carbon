@@ -1,7 +1,7 @@
 const { DataTypes, Sequelize } = require("sequelize");
 const sequelize = require('../utils/Database.js');
 
-const user_emissions = sequelize.define('forumcontent' , { 
+const user_emissions = sequelize.define('user_emissions' , { 
     //Columns
     id : {
         type : DataTypes.INTEGER,
@@ -48,6 +48,7 @@ const user_emissions = sequelize.define('forumcontent' , {
 
     tableName : 'user_emissions',
     freezeTableName : true, 
+    timeStamps : false,
 });
 
 module.exports = user_emissions;
