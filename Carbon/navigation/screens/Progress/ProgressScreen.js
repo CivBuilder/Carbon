@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text } from 'react-native';
 import { Colors } from '../../../colors/Colors';
-import { LineChartFootprint, CategoryChart, CatgegoryChartv2 } from '../Home/ChartData';
+import { LineChartFootprint, CategoryChart, CatgegoryChartv2, BestWorstCategories } from '../Home/ChartData';
 import RecordEmission from './RecordEmission';
 
 const windowWidth = Dimensions.get("window").width;
@@ -29,6 +29,14 @@ export default function ProgressScreen() {
                     <Text style={styles.headerTitle}>By Category</Text>
                     <View style={{backgroundColor: Colors.primary.MINT_CREAM, borderRadius: 16}}>
                         <CatgegoryChartv2/>
+                    </View>
+                </View>
+
+                {/* Chart #3 */}
+                <View style={styles.container}>
+                    <Text style={styles.headerTitle}>Key Factors</Text>
+                    <View style={{backgroundColor: Colors.primary.MINT_CREAM, borderRadius: 16}}>
+                        <BestWorstCategories/>
                     </View>
                 </View>
             </ScrollView>

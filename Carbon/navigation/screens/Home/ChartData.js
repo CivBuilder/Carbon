@@ -3,6 +3,7 @@ import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, Stacke
 import { VictoryPie, VictoryLabel } from 'victory-native';
 import { Svg } from 'react-native-svg';
 import { Colors } from '../../../colors/Colors';
+import { Ionicons } from '@expo/vector-icons';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -258,6 +259,34 @@ const styles = StyleSheet.create({
     },
 });
 
+// Jira Ticket C4-20
+export const BestWorstCategories = () => {
+  // Change hard-coded values to real data from backend.
+  const data = [
+    { category: 'Transportation', emission: 4000 },
+    { category: 'Diet', emission: 6000 },
+    { category: 'Home', emission: 5000 },
+    { category: 'Lifestyle', emission: 8000 },
+  ];
+
+  // Temporary value to determine if a category has too much emission and needs focusing (for the user).
+  function categorize(emission) {
+    return (emission >= 5000) ? (<Ionicons name={'alert-circle'} size={16} color={'#FF6961'} style={{width: 20}} />) : (<Text style={{width: 20}}></Text>);
+  }
+
+  return (
+    <View style={styleBar.keyFactors}>
+      {data.map(entry => (
+        <View key={entry.category} style={styleBar.category}>
+          {categorize(entry.emission)}
+          <Text style={{flex: 1, marginLeft: 5}}>{entry.category}</Text>
+          <Text>{entry.emission}</Text>
+        </View>
+      ))}
+    </View>
+  );
+};
+
 const styleBar = StyleSheet.create({
     container: {
         marginLeft: 100,
@@ -283,5 +312,20 @@ const styleBar = StyleSheet.create({
             strokeWidth: "2",               // circle border size
             stroke: Colors.primary.MINT     // circle border color
         }
+    },
+    keyFactors: {
+      flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginHorizontal: margin,
+      marginVertical: margin-5
+    },
+    category: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      flexWrap: 'nowrap',
+      marginVertical: 5
     },
 });
