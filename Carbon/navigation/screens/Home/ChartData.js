@@ -1,6 +1,7 @@
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart} from "react-native-chart-kit";
-import { VictoryPie, VictoryLabel } from 'victory-native';
+import { VictoryPie, VictoryLabel, VictoryTooltip } from 'victory-native';
 import { Svg } from 'react-native-svg';
 import { Colors } from '../../../colors/Colors';
 import { Ionicons } from '@expo/vector-icons';
@@ -171,7 +172,7 @@ export const CatgegoryChartv2 = () => {
     const pieColors = [ Colors.secondary.DARK_MINT, '#FFC300', '#FF5733', '#C70039' ];
 
     const pieRadius = windowWidth / 3
-    const innerRadius = pieRadius * 0.52
+    const innerRadius = pieRadius * 0.6
     const labelRadius = innerRadius + ((pieRadius - innerRadius) / 2)
 
     return (
@@ -201,6 +202,16 @@ export const CatgegoryChartv2 = () => {
                         // left: 10,
                         // right: 10,
                     }}
+                    events={[{
+
+                    }]}
+                />
+                <VictoryLabel
+                    textAnchor="middle"
+                    style={{ fontSize: 32}}
+                    x={pieRadius * 1.5}
+                    y={pieRadius + margin}
+                    text={`Hello`}
                 />
             </Svg>
         </View>
@@ -240,6 +251,7 @@ export function DailyLog ({dataArray}) {
     />
     )
 }
+
 const styles = StyleSheet.create({
     chart: {
         borderRadius: 16,
