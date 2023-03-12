@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text } from 'react-native';
 import { Colors } from '../../../colors/Colors';
-import { LineChartFootprint, CategoryChart, CatgegoryChartv2, BestWorstCategories } from '../Home/ChartData';
+import { LineChartFootprint, CatgegoryChartv2, BestWorstCategories } from '../Home/ChartData';
 import RecordEmission from './RecordEmission';
 
 const windowWidth = Dimensions.get("window").width;
@@ -20,22 +20,30 @@ export default function ProgressScreen() {
 
                 {/* Chart #1 */}
                 <View style={styles.container}>
-                    <Text style={styles.headerTitle}>By Time</Text>
-                    <LineChartFootprint/>
+                    <View style={styles.header}>
+                        <Text style={styles.title}>By Time</Text>
+                    </View>
+                    <View style={styles.chart}>
+                        <LineChartFootprint/>
+                    </View>
                 </View>
 
                 {/* Chart #2 */}
                 <View style={styles.container}>
-                    <Text style={styles.headerTitle}>By Category</Text>
-                    <View style={{backgroundColor: Colors.primary.MINT_CREAM, borderRadius: 16}}>
+                    <View style={styles.header}>
+                        <Text style={styles.title}>By Category</Text>
+                    </View>
+                    <View style={styles.chart}>
                         <CatgegoryChartv2/>
                     </View>
                 </View>
 
                 {/* Chart #3 */}
                 <View style={styles.container}>
-                    <Text style={styles.headerTitle}>Key Factors</Text>
-                    <View style={{backgroundColor: Colors.primary.MINT_CREAM, borderRadius: 16}}>
+                    <View style={styles.header}>
+                        <Text style={styles.title}>Key Factors</Text>
+                    </View>
+                    <View style={styles.chart}>
                         <BestWorstCategories/>
                     </View>
                 </View>
@@ -45,13 +53,33 @@ export default function ProgressScreen() {
 }
 
 const styles = StyleSheet.create({
-    headerTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: margin,
-    },
     container: {
         margin: margin,
-        // backgroundColor: "lightblue",
+        backgroundColor: "white",
+        borderRadius: 16,
+        ...Platform.select({
+            ios: {
+                shadowColor: Colors.primary.RAISIN_BLACK,
+                shadowOffset: {width: 5, height: 5},
+                shadowOpacity: 0.125,
+                shadowRadius: 2.5,
+            },
+            android: {
+                elevation: 5,
+            },
+        }),
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        margin: margin,
+    },
+    title: {
+        fontSize: 16,
+        fontWeight: 'bold'
+    },
+    chart: {
+        margin: margin,
     },
 });

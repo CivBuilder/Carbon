@@ -39,7 +39,11 @@ export default function HomeScreen({ navigation }) {
                 </View>
 
                 {/******* LOG *******/}
-                <Log></Log>
+                <View>
+                    <View style={styles.container}>
+                        <Log/>
+                    </View>
+                </View>
                 {/******* FOR YOU *******/}
                 <View>
                     <View style={styles.header}>
@@ -111,19 +115,43 @@ const margin = 10;
 const styles = StyleSheet.create({
     container: {
         margin: margin,
+        backgroundColor: "white",
+        borderRadius: 16,
+        ...Platform.select({
+            ios: {
+                shadowColor: Colors.primary.RAISIN_BLACK,
+                shadowOffset: {width: 5, height: 5},
+                shadowOpacity: 0.125,
+                shadowRadius: 2.5,
+            },
+            android: {
+                elevation: 5,
+            },
+        }),
     },
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
-        marginBottom: margin,
+        margin: margin,
     },
     title: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: 'bold'
     },
     cardContainer: {
-
+        ...Platform.select({
+            ios: {
+                shadowColor: Colors.primary.RAISIN_BLACK,
+                shadowOffset: {width: 5, height: 5},
+                shadowOpacity: 0.125,
+                shadowRadius: 2.5,
+            },
+            android: {
+                elevation: 5,
+            },
+        }),
+        marginBottom: 10,
     },
     card: {
         width: (windowWidth/2) - (margin*2) + 2.5,
@@ -133,6 +161,6 @@ const styles = StyleSheet.create({
     },
     link: {
         color: Colors.primary.MINT,
-        fontSize: 14,
+        fontSize: 12,
     }
 });

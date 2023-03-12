@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart} from "react-native-chart-kit";
-import { VictoryPie, VictoryLabel, VictoryTooltip } from 'victory-native';
-import { Svg } from 'react-native-svg';
+import { VictoryChart, VictoryLine, VictoryScatter, VictoryArea, VictoryPie, VictoryLabel, VictoryTooltip, VictoryAnimation } from 'victory-native';
+import { Svg, LinearGradient, Defs, Stop} from 'react-native-svg';
 import { Colors } from '../../../colors/Colors';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -13,22 +13,28 @@ const chartWidth = windowWidth - (margin * 2);
 const chartHeight = 210;
 
 export const CarbonFootprint = () => {
-    const userFootprint = 42069
-    const maxFootprint = 100000
-    const data = [
-        {x: 'total', y: maxFootprint - userFootprint},
-        {x: 'user', y: userFootprint},
-    ]
+    const userFootprint = Math.round(Math.random() * 100000);
+    const maxFootprint = 100000;
+
+    const startData=[{x: 'total', y: maxFootprint}, {x:'user', y: 0}]
+    const endData=[{x: 'total', y: maxFootprint - userFootprint}, {x:'user', y: userFootprint}]
+
     const pieColors = [
-        Colors.secondary.NON_PHOTO_BLUE,
+        "lightgray",
         Colors.primary.MINT,
     ];
+
+    const [graphicData, setGraphicData] = useState(startData);
+
+    useEffect(() => {
+        setGraphicData(endData);
+    }, []);
 
     return (
         <View>
             <Svg height={chartHeight} width={chartWidth}>
                 <VictoryPie
-                    data={data}
+                    data={endData}
                     labels={[]}
                     colorScale={pieColors}
                     startAngle={90}
@@ -40,13 +46,17 @@ export const CarbonFootprint = () => {
                         left: 30,
                         right: 30 + 20, //There is a 20px offset between left and right
                     }}
+                    animate={{
+                        duration: 2000,
+                        easing: 'exp'
+                    }}
                 />
                 <VictoryLabel
                     textAnchor="middle"
                     style={{ fontSize: 40, fontWeight: 'bold' }}
                     x={chartWidth/2}
                     y={135}
-                    text={`${userFootprint}`}
+                    text={`${endData[1].y}`}
                 />
                 <VictoryLabel
                     textAnchor="middle"
@@ -85,9 +95,53 @@ export const LineChartFootprint = () => {
             yAxisSuffix=" lb"
             yAxisInterval={1}
             chartConfig={styles.chartConfig}
-            style={styles.chart}
+            style={{...styles.chart, marginRight: 20}}
             bezier
         />
+    );
+};
+
+export const LineChartFootprintv2 = () => {
+    const data = [
+        { x: "Jan", y: Math.random() * 10000 },
+        { x: "Feb", y: Math.random() * 10000 },
+        { x: "Mar", y: Math.random() * 10000 },
+        { x: "Apr", y: Math.random() * 10000 },
+        { x: "May", y: Math.random() * 10000 },
+        { x: "Jun", y: Math.random() * 10000 },
+    ];
+
+    return(
+        <VictoryChart
+            width={chartWidth}
+            height={chartHeight}
+            style={{backgroundColor: Colors.primary.MINT}}
+        >
+            {/* <VictoryLine
+                data={data}
+                interpolation="basis"
+            /> */}
+            {/* <VictoryScatter
+                data={data}
+                size={5} // adjust the size of the dots as needed
+                style={{
+                    data: {
+                        fill: "white",
+                        stroke: Colors.primary.MINT,
+                        strokeWidth: 2
+                    },
+                    // add other dot styles as needed
+                }}
+                interpolation="basis"
+            /> */}
+            <VictoryArea
+                data={data}
+                interpolation="basis"
+                style={{
+                    opacity: 0.7
+                }}
+            />
+        </VictoryChart>
     );
 };
 
@@ -154,14 +208,15 @@ export const CategoryChart = () => {
 
 export const CatgegoryChartv2 = () => {
     const data = [
-        { x: 'Transport', y: 4000 },
-        { x: 'Diet', y: 6000 },
-        { x: 'Home', y: 8000 },
-        { x: 'Stuff', y: 5000 },
+        { x: 'Transport', y: Math.random() * 10000 },
+        { x: 'Diet', y: Math.random() * 10000 },
+        { x: 'Home', y: Math.random() * 10000 },
+        { x: 'Stuff', y: Math.random() * 10000 },
     ];
 
     const sortedData = data.sort((a, b) => a.y - b.y); // sort data in ascending order
 
+    // Converts each data.y to percentage to display inside the pie chart
     const getLabelPercent = (datum) => {
         const percent = (
           (datum.y / data.reduce((acc, curr) => acc + curr.y, 0)) * 100
@@ -187,6 +242,8 @@ export const CatgegoryChartv2 = () => {
                     radius={pieRadius}
                     innerRadius={innerRadius}   // Size of the hole in the center
                     cornerRadius={6}
+                    endAngle={360}
+                    sliceEndAngle={({ datum }) => (360 * (datum.y / data.reduce((acc, curr) => acc + curr.y, 0)))}
                     style={{
                         labels: {
                             fill: Colors.primary.MINT_CREAM,
@@ -197,14 +254,33 @@ export const CatgegoryChartv2 = () => {
                         },
                     }}
                     padding={{
-                        top: -110,
-                        // bottom: 10,
-                        // left: 10,
-                        // right: 10,
+                        top: -110, // bottom: 10, // left: 10,= // right: 10,
                     }}
-                    events={[{
-
-                    }]}
+                    events={[
+                        {
+                            target: "data",
+                            eventHandlers: {
+                                onPress: () => {
+                                    console.log("Slice clicked")
+                                    return [{
+                                        target: "labels",
+                                        mutation: (props) => {
+                                            const label = props.text;
+                                            return label ? null : { text: props.datum.x }; // toggle label
+                                        }
+                                    }];
+                                }
+                            }
+                        },
+                        {
+                            target: "labels",
+                            eventHandlers: {
+                                onPress: () => {
+                                console.log("Label clicked");
+                                },
+                            },
+                        },
+                    ]}
                 />
                 <VictoryLabel
                     textAnchor="middle"
