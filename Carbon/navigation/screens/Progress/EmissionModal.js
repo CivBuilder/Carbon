@@ -78,11 +78,14 @@ const styles = StyleSheet.create({
       textAlign: 'center',
     },
     textInput: {
-      borderRadius: 4,
+      width: 100,
+      height: 30,
+      fontSize: 12,
+      borderRadius: 8,
       borderWidth: 2,
       elevation: 2,
-
       borderColor: '#201B1B',
+      backgroundColor: 'white',
     },
     button: {
         borderRadius: 4,

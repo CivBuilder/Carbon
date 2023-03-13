@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
 
       modalView: {
         backgroundColor: '#D8F3DC',
-        
+        alignItems: 'center',
       },
       modal: {
         backgroundColor: '#D8F3DC',
@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
       icon: {
         marginHorizontal: 20,
         padding: 20,
+
       },
     
 })
