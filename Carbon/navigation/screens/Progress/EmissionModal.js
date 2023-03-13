@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import { StyleSheet, Modal, Text, View, Pressable, TextInput } from 'react-native';
+import { StyleSheet, Modal, Text, View, Pressable, TextInput, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const EmissionModal = ({visible, onRequestClose, title, saveData}) => {
   const [log, setLog] = useState('');  
-  
+  const showToast = () => {
+    ToastAndroid.show("Emission saved successfully", ToastAndroid.SHORT);
+  }
   return (
         <Modal
           style={styles.modal}
@@ -25,6 +27,7 @@ const EmissionModal = ({visible, onRequestClose, title, saveData}) => {
               </View>
               <Pressable onPress={() => {
                 saveData(log)
+                showToast();
                 onRequestClose();
               }}>
             <Icon name="save" size={40} color="#201B1B" style={styles.icon} />
