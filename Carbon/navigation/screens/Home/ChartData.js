@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart} from "react-native-chart-kit";
-import { VictoryChart, VictoryLine, VictoryScatter, VictoryArea, VictoryPie, VictoryLabel, VictoryTooltip, VictoryAnimation } from 'victory-native';
-import { Svg, LinearGradient, Defs, Stop} from 'react-native-svg';
+import { VictoryChart, VictoryLine, VictoryScatter, VictoryArea, VictoryPie, VictoryLabel, VictoryAnimation } from 'victory-native';
+import { Svg } from 'react-native-svg';
 import { Colors } from '../../../colors/Colors';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -25,10 +25,16 @@ export const CarbonFootprint = () => {
     ];
 
     const [graphicData, setGraphicData] = useState(startData);
+    const [labelValue, setLabelValue] = useState(0);
 
     useEffect(() => {
         setGraphicData(endData);
     }, []);
+
+    const updateLabelValue = (newValue) => {
+        const easing = (t) => Math.pow(2, 10 * (5 - 1)) + 1;
+        setLabelValue(easing(newValue));
+    };
 
     return (
         <View>
@@ -51,13 +57,22 @@ export const CarbonFootprint = () => {
                         easing: 'exp'
                     }}
                 />
-                <VictoryLabel
-                    textAnchor="middle"
-                    style={{ fontSize: 40, fontWeight: 'bold' }}
-                    x={chartWidth/2}
-                    y={135}
-                    text={`${endData[1].y}`}
-                />
+                <VictoryAnimation
+                    data={{ value: endData[1].y }}
+                    duration={2000}
+                    easing="exp"
+                    onEnd={() => updateLabelValue(endData[1].y)}
+                >
+                    {(animatedData) => (
+                        <VictoryLabel
+                        textAnchor="middle"
+                        style={{ fontSize: 40, fontWeight: 'bold' }}
+                        x={chartWidth / 2}
+                        y={135}
+                        text={`${Math.round(animatedData.value)}`}
+                        />
+                    )}
+                </VictoryAnimation>
                 <VictoryLabel
                     textAnchor="middle"
                     style={{ fontSize: 20 }}
