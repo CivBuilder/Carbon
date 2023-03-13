@@ -241,9 +241,9 @@ export const CatgegoryChartv2 = () => {
 
     const pieColors = [ Colors.secondary.DARK_MINT, '#FFC300', '#FF5733', '#C70039' ];
 
-    const pieRadius = windowWidth / 3
-    const innerRadius = pieRadius * 0.6
-    const labelRadius = innerRadius + ((pieRadius - innerRadius) / 2)
+    const pieRadius = windowWidth / 3;
+    const innerRadius = pieRadius * 0.6;
+    const labelRadius = innerRadius + ((pieRadius - innerRadius) / 2);
 
     return (
         <View style={{marginHorizontal: -10}}>
@@ -252,13 +252,11 @@ export const CatgegoryChartv2 = () => {
                     data={sortedData}
                     colorScale={pieColors}
                     labels={({ datum }) => getLabelPercent(datum)}
-                    labelRadius={labelRadius}  // Distance of the labels from the pie center
-                    padAngle={2}                        // The gap between each slice
+                    labelRadius={labelRadius}   // Distance of the labels from the pie center\
+                    padAngle={2}                // The gap between each slice
                     radius={pieRadius}
                     innerRadius={innerRadius}   // Size of the hole in the center
                     cornerRadius={6}
-                    endAngle={360}
-                    sliceEndAngle={({ datum }) => (360 * (datum.y / data.reduce((acc, curr) => acc + curr.y, 0)))}
                     style={{
                         labels: {
                             fill: Colors.primary.MINT_CREAM,
@@ -271,31 +269,6 @@ export const CatgegoryChartv2 = () => {
                     padding={{
                         top: -110, // bottom: 10, // left: 10,= // right: 10,
                     }}
-                    events={[
-                        {
-                            target: "data",
-                            eventHandlers: {
-                                onPress: () => {
-                                    console.log("Slice clicked")
-                                    return [{
-                                        target: "labels",
-                                        mutation: (props) => {
-                                            const label = props.text;
-                                            return label ? null : { text: props.datum.x }; // toggle label
-                                        }
-                                    }];
-                                }
-                            }
-                        },
-                        {
-                            target: "labels",
-                            eventHandlers: {
-                                onPress: () => {
-                                console.log("Label clicked");
-                                },
-                            },
-                        },
-                    ]}
                 />
                 <VictoryLabel
                     textAnchor="middle"
