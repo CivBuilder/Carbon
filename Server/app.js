@@ -6,10 +6,10 @@ var logger = require('morgan');
 var sequelize = require('./utils/Database.js');
 const ForumContent = require('./models/ForumContent.js');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var forumRouter = require('./routes/forumContent');
-var quizRouter = require('./routes/quiz');
+var indexRouter = require('./api/index');
+var usersRouter = require('./api/users');
+var forumRouter = require('./api/forumContent');
+var quizRouter = require('./api/quiz');
 
 var app = express();
 
