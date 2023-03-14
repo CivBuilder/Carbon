@@ -6,10 +6,11 @@ var logger = require('morgan');
 var sequelize = require('./utils/Database.js');
 const ForumContent = require('./models/ForumContent.js');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var forumRouter = require('./routes/forumContent');
-var quizRouter = require('./routes/quiz');
+var indexRouter = require('./api/index');
+var usersRouter = require('./api/users');
+var forumRouter = require('./api/forumContent');
+var quizRouter = require('./api/quiz');
+var goalRouter = require('./api/goal');
 
 var app = express();
 
@@ -27,6 +28,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/forumcontent', forumRouter);
 app.use('/api/quiz', quizRouter);
+app.use('/api/goal', goalRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
