@@ -17,11 +17,9 @@ router.get('/:id', async function(req, res, next) {
     });
     if(!user_entry) {
         console.log("Sending error code 404. No match found");
-        return res.status(404).send('404 : user with ${ID} not found');
+        return res.status(404).send(`404 : user with ${req.params.id} not found`);
     }
-    res.status(200).json({
-        user_entry  
-    });
+    res.status(200).json(user_entry);
 });
 
 /* GET User Rank */
@@ -36,11 +34,9 @@ router.get('/rank/:id', async function(req, res, next) {
     });
     if(!rank) {
         console.log("Sending error code 404. No match found");
-        return res.status(404).send('404 : user with ${ID} not found');
+        return res.status(404).send(`404 : user with ${req.params.id} not found`);
     }
-    res.status(200).json({
-        rank
-    })
+    res.status(200).json(rank)
 })
 
 module.exports = router;
