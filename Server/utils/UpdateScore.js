@@ -1,4 +1,4 @@
-const {SustainabilityMap, SUSTAINABILITY_POSITIVE_SCORE} = require('../utils/SustainabilityScore')  //I don't know why i have to back out the dir and go back in? AQ 
+const {SustainabilityMap, SUSTAINABILITY_POSITIVE_SCORE} = require('./SustainabilityScore')  //I don't know why i have to back out the dir and go back in? AQ 
 var user_emissions_table = require('../models/user_emissions.js')
 var user_table = require('../models/user.js')
 
