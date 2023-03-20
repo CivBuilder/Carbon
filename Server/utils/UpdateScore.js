@@ -3,6 +3,9 @@ var user_emissions_table = require('../models/user_emissions.js')
 var user_table = require('../models/user.js')
 
 
+//Prevent overflow in MySQL DB 
+const MAX_SCORE = 100_000_000
+
 async function UpdateScore(ID) {
     
     //get total_emissions, the only valid one is today. and the next earliest one
@@ -81,6 +84,8 @@ async function UpdateScore(ID) {
     
     //put back in table 
     console.log(globalScore)
+
+    if(globalScore > MAX_SCORE) globalScore = MAX_SCORE; //prevent overflow in the DB, Cut a little short but just 
 
     await user_table.update(
         {global_score : globalScore}, 
