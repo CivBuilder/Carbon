@@ -83,7 +83,7 @@ router.put('/questionnaire/:id', async function(req, res, next) {
     //check to make sure the range for all values are between 0 and 100.
     sustainability_score_input = 0;
     for(const n of Object.values(req.body)) { 
-        if(n < 0 || n > 100) res.status(400).send(`400 : bad request. Percentage is not in a valid range.`);
+        if(n < 0 || n > 100) return res.status(400).send(`400 : bad request. Percentage of ${n}% is not in a valid range.`);
         sustainability_score_input += n;
     }
 
@@ -133,7 +133,7 @@ router.post('/quiz/:id', async function(req, res, next) {
         { where : { id : req.params.id}}
     );
 
-    res.sendStatus(200);
+    return res.sendStatus(200);
 
 })
 
