@@ -17,10 +17,16 @@ const QuizScreen = () => {
     //gets all content from quizcontent
     const fetchData = async() => {
         console.log("Fetching data for quizcontent");
+        try{
         const response = await fetch(APIURL)
         const responsedata = await response.json();
         setData(responsedata.quiz);
         setLoading(false);
+
+        }
+        catch(error) {
+            console.error("An error occured when connecting to the api, ensure you turned on the server and updated the APIURL accordingly if hosting localy - Avery. The following is the official error message: " + error)
+        }
     };
 
     useEffect(() => {
