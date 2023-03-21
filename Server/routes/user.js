@@ -90,7 +90,6 @@ router.put('/questionnaire/:id', async function(req, res, next) {
     sustainability_score_input *= 0.02; //all the scores have a weight of 20%. This is the same effect as applying them individually
     sustainability_score_input = Math.floor(sustainability_score_input);
 
-    console.log(sustainability_score_input) //for debug, clear when done
 
     await user_table.update(
         {sustainability_score : sustainability_score_input},
