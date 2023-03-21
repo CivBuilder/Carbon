@@ -12,11 +12,16 @@ export default function ForumScreen({navigation}) {
 
     // For now we fetch all of it, have to make an endpoint that allows fetching by category
     const fetchData = async() => {
-        console.log("Fetching data for forumcontent");
-        const response = await fetch(APIURL + "/forumcontent");
-        const data = await response.json();
-        setForumData(data.content);
-        setLoading(false);
+        try {
+            console.log("Fetching data for forumcontent");
+            const response = await fetch(APIURL + "/forumcontent");
+            const data = await response.json();
+            setForumData(data.content);
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+
     };
 
     const renderContent = ({item}) => {
