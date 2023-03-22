@@ -22,14 +22,16 @@ router.get('/:id', async function(req, res, next) {
     res.status(200).json(user_entry);
 });
 
-/* GET User Rank */
+/* GET User Rank, also their sustainability score is included */
+// This is mainly to be used 
 router.get('/rank/:id', async function(req, res, next) {
     const rank = await user_table.findOne({
         where : {
             id : req.params.id
         },
         attributes : [
-            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.global_score > user.global_score) + 1'), 'ranking']
+            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.global_score > user.global_score) + 1'), 'ranking'],
+            'sustainability_score'
         ]
     });
     if(!rank) {
@@ -38,6 +40,47 @@ router.get('/rank/:id', async function(req, res, next) {
     }
     res.status(200).json(rank)
 })
+
+
+
+/* Get Leaderboard - 10 above and 10 below */
+router.get('/leaderboard/:page', async function(req, res, next) {
+    //get 50 users based on the page of entries we're retrieving from the DB
+    const PAGE_SIZE = 50;
+    const OFFSET = req.params.page*PAGE_SIZE;
+
+    //Error checking if the page is out of bounds
+    if(req.params.page < 0 || req.params.page > 100_000){
+        return res.status(400).send("Bad Request : Page out of bounds");
+    } 
+
+    //get the leaderboard for this page.
+    const leaderboard = await user_table.findAll({
+        order : [['global_score', 'DESC'], ['id', 'ASC']],
+        OFFSET,
+        attributes : [
+            'username',
+            'global_score',
+            'sustainability_score'
+        ],
+        limit : PAGE_SIZE
+    });
+
+    //match the ranks, users with the same score get the same rank.
+    let prevScore = null;
+    let prevRank = null;
+    leaderboard.forEach((user, i) => {
+        if(user.global_score !== prevScore){ 
+            user.rank = OFFSET + i + 1; 
+            prevRank = user.rank;
+        }     
+        else user.rank = prevRank;
+        prevScore = user.global_score;
+    });
+    res.status(200).send(leaderboard);
+})
+
+
 
 
 /* 
@@ -89,6 +132,7 @@ router.put('/questionnaire/:id', async function(req, res, next) {
 
     sustainability_score_input *= 0.02; //all the scores have a weight of 20%. This is the same effect as applying them individually
     sustainability_score_input = Math.floor(sustainability_score_input);
+
 
 
     await user_table.update(
