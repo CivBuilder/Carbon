@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { DailyLog } from "./ChartData";
+import { DailyLog } from "../../../components/ChartData";
 import React, { useState } from 'react';
 import { Colors } from '../../../colors/Colors';
 import  GetData  from "./GetData";
