@@ -10,7 +10,8 @@ import { Colors } from '../../../colors/Colors';
 import { IconNames } from './IconNames';
 
 import { ScreenNames } from './ScreenNames';
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, AddProgress } from '../../screens';
+import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, AddProgress, BrowserScreen} from '../../screens';
+//import BrowserScreen from '../Browser/BrowserScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -104,7 +105,8 @@ const ForumStack = ({ navigation }) => {
         <Stack.Navigator>
             <Stack.Screen
                 name={' '}
-                component={ForumScreen}
+                //component={ForumScreen}
+                component = {BrowserScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
                 }}
