@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { VictoryPie } from 'victory-native';
+import { VictoryPie, VictoryLabel } from 'victory-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { faDollarSign } from 'react-native-vector-icons/FontAwesome';
 import { Colors } from '../colors/Colors';
 
 const windowWidth = Dimensions.get("window").width;
@@ -92,14 +94,13 @@ export const CatgegoryChart = () => {
                     alignItems: 'center',
                     position: 'absolute',
                 }}>
-                {/* Shows the current month */}
                 <View style={{ paddingBottom: 10 }}>
                     <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: 'bold', textDecorationLine: 'underline' }}>{currentMonth}</Text>
                 </View>
 
                 {selectedSlice == null && ( // A slice has not yet selected
-                    <View style={{ }}>
-                        <Text style={{ textAlign: 'center' }}></Text>
+                    <View style={{ paddingBottom: 1}}>
+                        <Text style={{ textAlign: 'center' }}> </Text>
                     </View>
                 )}
                 {selectedSlice !== null && ( // A slice has been selected
