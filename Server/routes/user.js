@@ -69,15 +69,17 @@ router.get('/leaderboard/:page', async function(req, res, next) {
     //match the ranks, users with the same score get the same rank.
     let prevScore = null;
     let prevRank = null;
-    leaderboard.forEach((user, i) => {
+    leaderboard.forEach((user, i, leaderboard) => {
         if(user.global_score !== prevScore){ 
-            user.rank = OFFSET + i + 1; 
+            user.dataValues.rank = OFFSET + i + 1; 
             prevRank = user.rank;
         }     
-        else user.rank = prevRank;
+        else user.dataValues.rank = prevRank;
+        console.log(user.rank)
+        console.log(leaderboard[i])
         prevScore = user.global_score;
     });
-    res.status(200).send(leaderboard);
+    res.status(200).json(leaderboard);
 })
 
 
