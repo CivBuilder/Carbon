@@ -6,6 +6,8 @@ var logger = require('morgan');
 var sequelize = require('./utils/Database.js');
 const ForumContent = require('./models/ForumContent.js');
 
+var tableEmissionsRouter = require('./api/userEmission');
+
 var indexRouter = require('./api/index');
 var usersRouter = require('./api/users');
 var forumRouter = require('./api/forumContent');
@@ -28,6 +30,7 @@ app.use('/users', usersRouter);
 app.use('/api/forumcontent', forumRouter);
 app.use('/api/quiz', quizRouter);
 
+app.use('/test', tableEmissionsRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

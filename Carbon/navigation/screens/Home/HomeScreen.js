@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
-
+import Log from './Log';
 export default function HomeScreen({navigation}) {
     return(
         <View
@@ -19,8 +19,9 @@ export default function HomeScreen({navigation}) {
                     fontWeight: 'bold'
                 }}
             >
-                Home Screen
             </Text>
+            <Log></Log>
+             {/*Please put this where it belongs once home is finished :) */}
         </View>
     )
 }
