@@ -11,6 +11,7 @@ import { IconNames } from './IconNames';
 
 import { ScreenNames } from './ScreenNames';
 import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, AddProgress } from '../../screens';
+import QuizScreen from '../Forum/QuizScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -105,6 +106,13 @@ const ForumStack = ({ navigation }) => {
             <Stack.Screen
                 name={' '}
                 component={ForumScreen}
+                options={{
+                    headerShown: false, // Set to false for now until we need to implement headers for this screen
+                }}
+            />
+            <Stack.Screen
+                name={'Quiz'}
+                component={QuizScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
                 }}

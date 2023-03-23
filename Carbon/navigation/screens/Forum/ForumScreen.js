@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { View, Text, ScrollView, StyleSheet, FlatList, Image} from 'react-native';
+import { View, Text, ScrollView, StyleSheet, FlatList, Image, Button} from 'react-native';
 import {useState, useEffect} from 'react';
-import EducationMenu from '../../components/EducationMenu';
-import { electricity, food, recycle, transportation, water } from '../../assets';
+import EducationMenu from '../../../components/EducationMenu';
+import { electricity, food, recycle, transportation, water } from '../../../assets';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ScreenNames } from '../Main/ScreenNames/';
 
 const APIURL = "http://carbonserver-env.eba-pmpdtmpe.us-east-1.elasticbeanstalk.com/api"
 // Using my test AWS node server for now
@@ -30,13 +32,22 @@ export default function ForumScreen({navigation}) {
                 style = {{
                     borderRadius: 10,
                     backgroundColor: '#74C69D',
-                    paddingHorizontal : 14,
-                    paddingVertical: 90,
                     margin: 5,
-                    width : '45%'
+                    width : '45%',
+                    height: 180
                 }}
             >
-                <Text style= {{textAlign : 'center'}}>{item.type}</Text>
+                <TouchableOpacity style={{ 
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '100%'
+                    }}
+                    onPress={() => navigation.navigate(ScreenNames.QUIZSCREEN, { id: item.id_forumcontent})}
+                >
+                    <Text>
+                        {item.type}
+                    </Text>
+                </TouchableOpacity>
             </View>
         )
     }

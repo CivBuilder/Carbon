@@ -5,9 +5,9 @@ import { RadioButton } from 'react-native-paper';
 //import { response } from '../../../Server/app';
 
 //eventually will be changed to server url
-const APIURL = "http://localhost:3000/api/quiz/1"
+const APIURL = "change me"
 
-const QuizScreen = () => {
+export default function QuizScreen({route}) {
     //used for fetching data 
     const[isLoading, setLoading] = useState(true);
     const[data, setData] = useState([]);
@@ -18,11 +18,11 @@ const QuizScreen = () => {
     const fetchData = async() => {
         console.log("Fetching data for quizcontent");
         try{
-        const response = await fetch(APIURL)
-        const responsedata = await response.json();
-        setData(responsedata.quiz);
-        setLoading(false);
-
+            console.log(route.params.id);
+            const response = await fetch(APIURL + route.params.id)
+            const responsedata = await response.json();
+            setData(responsedata.quiz);
+            setLoading(false);
         }
         catch(error) {
             console.error("An error occured when connecting to the api, ensure you turned on the server and updated the APIURL accordingly if hosting localy - Avery. The following is the official error message: " + error)
@@ -140,4 +140,3 @@ const QuizScreen = () => {
     
 }
     
-    export default QuizScreen;
