@@ -8,7 +8,7 @@ var AnswerModel = require('../models/AnswerModel.js');
 
 // POST
 
-// GET forum content by id.
+// GET 
 router.get('/:id', async function(req, res, next) {
 
   // Find quiz given id
