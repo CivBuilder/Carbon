@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import {ScrollView, StyleSheet, Text, View, RefreshControl, TouchableOpacity} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+const ICON_SIZE = 75;
 
 
+// const API_Entry_URL = "http://192.168.0.232:3000/api/user/rank/"
  const API_Entry_URL = "http://localhost:3000/api/user/rank/"
 
 const KEY = "1" //to remove when we get authentication. this is to debug our get requests
-
 
 
 export default function RankingScreen({navigation}){
@@ -104,12 +106,22 @@ export default function RankingScreen({navigation}){
             <RefreshControl refreshing={inRefresh} onRefresh={handleRefresh} />
           }
           >
-            <Text
-              onPress={() => fetchUserRank()}
+            <View
+              style = {{
+                padding : 50,
+                flex : 1,
+                justifyContent : 'center',
+                alignItems : 'center',
+              }}
             >
-              {errorMessage}{"\n"}
-              Swipe Down the Refresh Page
-            </Text>
+              <Ionicons name="sad-outline" size = {ICON_SIZE}></Ionicons>
+              <Text
+                onPress={() => fetchUserRank()}
+              >
+                {errorMessage}{"\n"}
+                Swipe Down the Refresh Page
+              </Text>
+            </View>
 
           </ScrollView>
         )}
@@ -118,10 +130,33 @@ export default function RankingScreen({navigation}){
 }
 
 
+
+
+//Colors before file restructuring
+const Colors = {
+  primary : {
+    MINT : "#74C69D",
+    RAISIN_BLACK : "#201B1B",
+    MINT_CREAM : "#F7FCF8",
+  },
+  secondary : {
+    CELADON : "#B1E7B9",
+    NON_PHOTO_BLUE : "#B2E4EE",
+    ALMOND : "#F7DFC5",
+    LIGHT_MINT : "#8BD0AD", 
+    DARK_MINT : "#51B885",
+    NYANZA : "#D8F3DC",
+  }
+}
+
+
+
 const styles = StyleSheet.create({
   LeaderBoardHighlights : {
-    backgroundColor: '#B8F3DC',
+    backgroundColor: Colors.secondary.LIGHT_MINT,
     borderRadius: 10,
+    borderBottomEndRadius : 50,
+    borderBottomStartRadius : 50,
     padding: 10,
   },
 
@@ -129,9 +164,10 @@ const styles = StyleSheet.create({
   buttonContainer: {
     overflow : 'hidden',
     flexDirection: 'row',
-    borderRadius: 5,
-    borderColor : '#000000',
-    backgroundColor : '#51B885',
+    borderRadius: 30,
+    borderColor : Colors.primary.RAISIN_BLACK,
+    borderWidth : 2,
+    backgroundColor : Colors.secondary.ALMOND,
     width : 'auto',
     justifyContent : 'center',
     alignItems : 'center'
@@ -139,9 +175,8 @@ const styles = StyleSheet.create({
   button: {
     flex : 1,
     backgroundColor: '#FFFFFF',
-    borderColor : '#201B1B',
-    padding: 5,
-    marginHorizontal: 0,
+    padding: 3,
+    marginHorizontal: 1,
   },
   buttonText: {
     color: '#000000',
