@@ -57,7 +57,7 @@ router.get('/leaderboard/:page', async function(req, res, next) {
     //get the leaderboard for this page.
     const leaderboard = await user_table.findAll({
         order : [['global_score', 'DESC'], ['id', 'ASC']],
-        OFFSET,
+        offset : OFFSET,
         attributes : [
             'username',
             'global_score',
@@ -66,7 +66,9 @@ router.get('/leaderboard/:page', async function(req, res, next) {
         limit : PAGE_SIZE
     });
 
-    //match the ranks, users with the same score get the same rank.
+    //Nothing in this page, return 'No Content' 
+    if(leaderboard.length == 0) return res.status(204).json([])
+
     let prevScore = null;
     let prevRank = null;
     leaderboard.forEach((user, i, leaderboard) => {
@@ -75,8 +77,6 @@ router.get('/leaderboard/:page', async function(req, res, next) {
             prevRank = user.rank;
         }     
         else user.dataValues.rank = prevRank;
-        console.log(user.rank)
-        console.log(leaderboard[i])
         prevScore = user.global_score;
     });
     res.status(200).json(leaderboard);
