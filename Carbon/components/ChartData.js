@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { VictoryPie, VictoryLabel } from 'victory-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { faDollarSign } from 'react-native-vector-icons/FontAwesome';
+import { VictoryPie } from 'victory-native';
 import { Colors } from '../colors/Colors';
 
 const windowWidth = Dimensions.get("window").width;
@@ -27,17 +25,18 @@ const data = [
 
 // Ticket C4-19
 export const CatgegoryChart = () => {
+    const total = data.reduce((acc, datum) => acc + datum.y, 0); //Gets the overall value of all categories
+
+    //Components for the pie chart
     const pieRadius = (windowWidth - (margin * 2)) * 0.4;
     const innerRadius = pieRadius * 0.65;
     const labelRadius = ((pieRadius + innerRadius) / 2);
 
-    const total = data.reduce((acc, datum) => acc + datum.y, 0);
-
-    // Converts each values into percentage
-    const getLabelPercent = (datum) => {
+    // Renders the label for each section of the pie chart
+    const getLabel = (datum) => {
         const percent = Math.round((datum.y / total) * 100);
         if (percent > 4) {
-            return `${Math.round((datum.y / total) * 100)}%`;
+            return `${datum.x}\n${Math.round((datum.y / total) * 100)}%`;
         }
         return null;
     };
@@ -54,7 +53,7 @@ export const CatgegoryChart = () => {
     const getSelectedLabel = () => {
         if (selectedSlice !== null) {
             const selectedDatum = data[selectedSlice];
-            return `${selectedDatum.x}: ${selectedDatum.y}`;
+            return `${selectedDatum.x}\n${selectedDatum.y} lbs CO2`;
         }
         return null;
     };
@@ -69,7 +68,7 @@ export const CatgegoryChart = () => {
                 innerRadius={innerRadius}
                 cornerRadius={6}
                 labelRadius={labelRadius}
-                labels={({ datum }) => getLabelPercent(datum)}
+                labels={({ datum }) => getLabel(datum)}
                 style={{
                     labels: {
                         fill: "white",
@@ -94,13 +93,13 @@ export const CatgegoryChart = () => {
                     alignItems: 'center',
                     position: 'absolute',
                 }}>
-                <View style={{ paddingBottom: 10 }}>
+                <View style={{ paddingBottom: 5 }}>
                     <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: 'bold', textDecorationLine: 'underline' }}>{currentMonth}</Text>
                 </View>
 
                 {selectedSlice == null && ( // A slice has not yet selected
-                    <View style={{ paddingBottom: 1}}>
-                        <Text style={{ textAlign: 'center' }}> </Text>
+                    <View style={{ }}>
+                        <Text style={{ textAlign: 'center' }}>Click a section to learn more</Text>
                     </View>
                 )}
                 {selectedSlice !== null && ( // A slice has been selected

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text } from 'react-native';
 import { Colors } from '../../../colors/Colors';
-import { CatgegoryChart } from '../../../components/Chart';
+import { CatgegoryChart } from '../../../components/ChartData';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
