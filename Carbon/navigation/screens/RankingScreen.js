@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import {ScrollView, StyleSheet, Text, View, RefreshControl} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, RefreshControl, TouchableOpacity} from 'react-native';
 
-const API_Entry_URL = "http://192.168.0.232:3000/api/user/rank/"
-//  const API_Entry_URL = "http://localhost:3000/api/user/rank/"
+
+ const API_Entry_URL = "http://localhost:3000/api/user/rank/"
 
 const KEY = "1" //to remove when we get authentication. this is to debug our get requests
 
@@ -51,10 +51,51 @@ export default function RankingScreen({navigation}){
     return (
       <View>
         {rank && 
-          <Text>
-            Your Rank is: {rank}{"\n"}
-            Your Sustainability Score is {sustainability_score}
-          </Text> 
+          <View>
+            <View style = {styles.LeaderBoardHighlights}>
+              
+                <View style = {styles.buttonContainer}> 
+                  <TouchableOpacity style={styles.button}>
+                    <Text style={styles.buttonText}>Your Score</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.button}>
+                    <Text style={styles.buttonText}>Top Scorers</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.button}>
+                    <Text style={styles.buttonText}>Social</Text>
+                  </TouchableOpacity>
+                </View>
+
+
+              <Text
+                style = {{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textAlign : 'center',
+                  fontSize : 18,
+                  fontWeight : 'bold'
+                }}
+                >
+                Your Rank is: {rank}{"\n"}
+                Your Sustainability Score is {sustainability_score}
+              </Text>
+            </View>
+
+            <View>
+              <Text>
+                hello lol
+              </Text>
+            </View>
+          </View>
+
+          
+          // <View>
+          //   <Text>
+          //     Your Rank is: {rank}{"\n"}
+          //     Your Sustainability Score is {sustainability_score}
+          //   </Text>
+          // </View>
+
         }
         
         {errorMessage && (
@@ -75,3 +116,35 @@ export default function RankingScreen({navigation}){
       </View>
     );
 }
+
+
+const styles = StyleSheet.create({
+  LeaderBoardHighlights : {
+    backgroundColor: '#B8F3DC',
+    borderRadius: 10,
+    padding: 10,
+  },
+
+
+  buttonContainer: {
+    overflow : 'hidden',
+    flexDirection: 'row',
+    borderRadius: 5,
+    borderColor : '#000000',
+    backgroundColor : '#51B885',
+    width : 'auto',
+    justifyContent : 'center',
+    alignItems : 'center'
+  },
+  button: {
+    flex : 1,
+    backgroundColor: '#FFFFFF',
+    borderColor : '#201B1B',
+    padding: 5,
+    marginHorizontal: 0,
+  },
+  buttonText: {
+    color: '#000000',
+    textAlign: 'center',
+  },
+});
