@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
+import RecordEmission from './RecordEmission';
 
 export default function ProgressScreen({navigation}) {
     return(
@@ -21,6 +22,7 @@ export default function ProgressScreen({navigation}) {
             >
                 Progress Screen
             </Text>
+            <RecordEmission />
         </View>
     )
 }
