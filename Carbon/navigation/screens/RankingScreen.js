@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import {ActivityIndicator, ScrollView, StyleSheet, Text, View, RefreshControl, TouchableOpacity, FlatList} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 const ICON_SIZE = 75;
-const PAGE_SIZE = 50;
+const PAGE_SIZE = 15;
 const STATES = {
   
 }
@@ -14,10 +14,11 @@ const STATES = {
  const API_Entry_LEADERBOARD_URL = "http://localhost:3000/api/user/leaderboard/"
 
 
-const KEY = "1" //to remove when we get authentication. this is to debug our get requests
+const KEY = "8" //to remove when we get authentication. this is to debug our get requests
 
 
 export default function RankingScreen({navigation}){
+
     //State Savers
     const [rank, setRank] = useState(null);
     const [sustainability_score, setSustainabilityScore] = useState(null);
@@ -28,13 +29,16 @@ export default function RankingScreen({navigation}){
     //Lists and indexes for fetching lists from the database
     let global_table_page_counter = 0; 
     const [global_table, setGlobalTable] = useState([])
-    let players_like_you_page_counter = -1; 
-    const [players_like_you_table, setPlayersLikeYouTable] = useState([]); //Empty array of entries 
+    const [like_you_table, setPlayersLikeYouTable] = useState([]); //Empty array of entries 
+    const [like_you_range, setLikeYouRange] = useState(null); //[0] = earliest page, [1] = last page
+    const [initial_page_loaded, setLikeYouFirstPageFlag] = useState(false);
+
 
 
     /*For when Users see their local  */
     const fetchUserRank = async () => {
       setLoading(true);
+
       console.log(`Fetching from ${API_Entry_RANK_URL+KEY}`);
       try { 
         const response = await fetch(API_Entry_RANK_URL+KEY);
@@ -42,14 +46,21 @@ export default function RankingScreen({navigation}){
           const response_content = await response.json(); 
           setRank(response_content.ranking);
           setSustainabilityScore(response_content.sustainability_score);
-          setErrorMessage(null);
-          players_like_you_page_counter = rank/PAGE_SIZE;
+          setErrorMessage(null);          
+          setLikeYouRange([Math.floor(response_content.ranking/PAGE_SIZE), Math.floor(response_content.ranking/PAGE_SIZE)]);
+          setLikeYouFirstPageFlag(true);
+
+          console.log("Rank" + response_content.ranking);
+          console.log("Starting Page : " + response_content.ranking/PAGE_SIZE)
+
           console.log(`Fetch from ${API_Entry_RANK_URL+KEY} was a success!`);
+
         }
         else if (response.status === 404) {
           setRank(null);
           setSustainabilityScore(null);
-          setErrorMessage(`Error: ${response_content.status} : ${response_content.statusText}`);
+          setErrorMessage(`Error: ${response.status} : ${response
+            .statusText}`);
           console.log(`Fetch from ${API_Entry_RANK_URL+KEY} Failed, 404: bad ID`);
         }
       } catch(err) {
@@ -58,6 +69,7 @@ export default function RankingScreen({navigation}){
         setErrorMessage(`Error: ${err.message}`);
         console.log(`Fetch from ${API_Entry_RANK_URL+KEY} Failed: ${err.message}`);
       }
+
       setLoading(false);
     }
     
@@ -91,27 +103,41 @@ export default function RankingScreen({navigation}){
 
 
     const fetchAndUpdatePlayersLikeYouTable = async (ExtendUpwards) =>{
+      if(like_you_range === null) return;
       //Change based on if user extends to top of list or bottom
-      ExtendUpwards ? players_like_you_page_counter-- : players_like_you_page_counter++; 
-      if(players_like_you_page_counter < 0){
+      console.log(like_you_range);
+      let currentPageToLoad = ExtendUpwards ? like_you_range[0] : like_you_range[1];
+
+      if(currentPageToLoad < 0 && ExtendUpwards===true){
         alert("No More Users to load - We're at the top!")
         return; 
       }
-      console.log(`Fetching Players Like You Table from ${API_Entry_LEADERBOARD_URL+players_like_you_page_counter.toString()}`);
-      setLoading(true);
+
+      console.log("Fetching Players Like you Table with URL "+API_Entry_LEADERBOARD_URL+currentPageToLoad);
+      //This conflicts with React Natives built in refresh icon and it kills me 
+      if(ExtendUpwards === false) setLoading(true);
 
       //Get and handle the response from server
       try{
-       const response = await fetch(API_Entry_LEADERBOARD_URL+players_like_you_page_counter.toString());
-       
+       const response = await fetch(API_Entry_LEADERBOARD_URL+currentPageToLoad.toString());
+       console.log(response.status);
        //Handle the same if there was a successful server request - 204 has no content so just alert the user
        if(response.status === 200) {
+        //Change index of next page to load
+        if(like_you_range[0] === like_you_range[1]){
+          console.log("Pooploop");
+          setLikeYouRange([like_you_range[0]-1, like_you_range[1]+1])
+        }
+        else{
+          ExtendUpwards? setLikeYouRange([like_you_range[0]-1, like_you_range[1]]) : setLikeYouRange([like_you_range[0], like_you_range[1]+1]);  
+        }
+        
+        //Merge arrays
         const response_content = await response.json();
         if(ExtendUpwards)
-          setPlayersLikeYouTable(response_content.concat(players_like_you_table));
+          setPlayersLikeYouTable(response_content.concat(like_you_table));
         else 
-          setPlayersLikeYouTable(players_like_you_table.concat(response_content));
-        
+          setPlayersLikeYouTable(like_you_table.concat(response_content));
         setErrorMessage(null);
        }
        if(response.status === 204) {
@@ -119,12 +145,10 @@ export default function RankingScreen({navigation}){
         alert("No More Further Users.")
        } 
       }catch(err) {
-        global_table_page_counter--;
         setErrorMessage(`Error: ${err.message}`);
       }
 
-      console.log(players_like_you_table);
-      console.log(players_like_you_page_counter);
+
 
       setLoading(false);
     }
@@ -136,7 +160,8 @@ export default function RankingScreen({navigation}){
       switch(buttonID){
         case 1 :
           setPressedButton(1);
-          if(players_like_you_table.length === 0) fetchAndUpdatePlayersLikeYouTable(false);  
+          console.log(like_you_table.length)
+          if(like_you_table.length === 0) fetchAndUpdatePlayersLikeYouTable(false);  
           break;
         case 2  :
           setPressedButton(2);
@@ -149,27 +174,28 @@ export default function RankingScreen({navigation}){
       }
     }
 
+
     /*On an error Screen(Not an alert) Users can swipe down to refresh, this just ensure it will return their last screen */
-    const handleRefresh = () => {
-      fetchUserRank().then();
-      if(!errorMessage) HandlePressedButton(buttonPressed);
+    const handleRefresh = async () => {
+      if(!rank){ 
+        fetchUserRank();
+      }
+      else HandlePressedButton(buttonPressed);
     };
 
+
+
     //Default fetch as this tab starts on the Local Score Tab
-    useEffect( () => {handleRefresh()}, []);
+    useEffect( () => {handleRefresh()}, []);   
+    useEffect( () => {fetchAndUpdateGlobalTable(false)}, [initial_page_loaded]);
+    
 
-
-    const renderItem = ({ item }) => (
-      <Text>
-        {item.rank} -  {item.username} - {item.global_score}
-      </Text>
-    );
 
     return (
-      <View>
+      <View backgroundColor = {Colors.secondary.NYANZA} style = {{ flexGrow : 1, flex : 1}}>
 
         {!errorMessage && 
-          <View>
+          <View style = {{flex : 1}}>
             <View style = {styles.CategoryHighlights}>
               
                 <View style = {styles.buttonContainer}> 
@@ -224,18 +250,22 @@ export default function RankingScreen({navigation}){
             </View>
 
             {/*Display the Ranks in a list view in a lower container*/}
-            <View>
+            <View style = {{backgroundColor : Colors.secondary.NYANZA, flex : 1}}>
 
               {/* {console.log(players_like_you_table)} */}
-              <FlatList 
-                data={players_like_you_table}
-                renderItem = {renderItem}
-                // onRefresh = {() => {fetchAndUpdatePlayersLikeYouTable(true)}}
-                // refreshing={loading}
-                onEndReached={() => {fetchAndUpdatePlayersLikeYouTable(false); console.log("Refreshing end of page")}}
-                onEndReachedThreshold={0.95}
-              ></FlatList>
-
+              {buttonPressed === 1 &&
+                <FlatList 
+                  data={like_you_table}
+                  renderItem = {renderListEntry}
+                  onRefresh = {() => {fetchAndUpdatePlayersLikeYouTable(true)}}
+                  refreshing={false}
+                  onEndReached={() => {fetchAndUpdatePlayersLikeYouTable(false)}}
+                  onEndReachedThreshold={0}
+                  style = {{
+                    flex : 1
+                  }}
+                ></FlatList>
+              }
             </View>
 
           </View>
@@ -243,22 +273,32 @@ export default function RankingScreen({navigation}){
         
 
         {/* Loading Screen At the bottom below the menu and the list */}
-        {loading &&
-          <ActivityIndicator size="large" color={Colors.primary.RAISIN_BLACK}/>
+        {loading && 
+          <ActivityIndicator size="large" color={Colors.primary.RAISIN_BLACK} style={{
+            position: 'absolute',
+            zIndex: 999,
+            left: 0,
+            top: 0,
+            width: '100%',
+            height: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+            }}/>
         }
 
         {errorMessage && (
-          <ScrollView
+          <ScrollView 
           refreshControl={
             <RefreshControl refreshing={loading} onRefresh={handleRefresh} />
           }
           >
             <View
               style = {{
-                padding : 50,
+                padding : 75,
                 flex : 1,
-                justifyContent : 'center',
+                justifyContent : 'space-between',
                 alignItems : 'center',
+                color : Colors.secondary.NYANZA,
               }}
             >
               <Ionicons name="sad-outline" size = {ICON_SIZE}></Ionicons>
@@ -277,6 +317,16 @@ export default function RankingScreen({navigation}){
     );
 }
 
+function renderListEntry({ item }) {  
+  return(
+    <View style = {styles.ListEntryContainer}>
+    {/* // <View> */}
+    <Text>
+        {item.rank} -  {item.username} - {item.global_score}
+    </Text>
+    </View>
+  );
+};
 
 
 
@@ -322,11 +372,16 @@ const styles = StyleSheet.create({
   },
 
   CategoryHighlights : {
-    backgroundColor: Colors.secondary.LIGHT_MINT,
+    backgroundColor: Colors.secondary.NON_PHOTO_BLUE,
     borderRadius: 10,
-    borderBottomEndRadius : 50,
-    borderBottomStartRadius : 50,
-    padding: 10,
+    borderBottomEndRadius : 10,
+    borderBottomStartRadius : 10,
+    // borderTopEndRadius : 50,
+    // borderTopStartRadius : 50,
+    padding: 15,
+    overflow : 'hidden',
+    borderColor : Colors.primary.RAISIN_BLACK,
+    borderWidth : 0,
   },
 
   UserListing : {
@@ -341,18 +396,20 @@ const styles = StyleSheet.create({
     overflow : 'hidden',
     flexDirection: 'row',
     borderRadius: 30,
-    borderColor : Colors.primary.RAISIN_BLACK,
-    borderWidth : 2,
-    backgroundColor : Colors.secondary.RAISIN_BLACK,
+    borderColor : "#219df4",
+    borderWidth : 3,
+    backgroundColor : "#219df4",
     width : 'auto',
     justifyContent : 'center',
     alignItems : 'center'
+    
   },
   button: {
     flex : 1,
     backgroundColor: '#FFFFFF',
-    padding: 3,
-    marginHorizontal: 1,
+    padding: 2,
+    marginHorizontal: 6,
+    borderRadius: 25,
   },
   pressedButton : {
     backgroundColor : Colors.secondary.ALMOND,
@@ -361,4 +418,16 @@ const styles = StyleSheet.create({
     color: '#000000',
     textAlign: 'center',
   },
+
+
+  ListEntryContainer : {
+    backgroundColor : "#e4f6f8",
+    width : 'auto',
+    borderWidth : 1,
+    borderColor : Colors.secondary.ALMOND,
+    borderRadius : 15,
+    padding : 8,
+    marginHorizontal: 15,
+    marginVertical : 8
+  }
 });

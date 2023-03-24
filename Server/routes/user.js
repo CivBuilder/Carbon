@@ -46,7 +46,7 @@ router.get('/rank/:id', async function(req, res, next) {
 /* Get Leaderboard - 10 above and 10 below */
 router.get('/leaderboard/:page', async function(req, res, next) {
     //get 50 users based on the page of entries we're retrieving from the DB
-    const PAGE_SIZE = 50;
+    const PAGE_SIZE = 15;
     const OFFSET = req.params.page*PAGE_SIZE;
 
     //Error checking if the page is out of bounds
