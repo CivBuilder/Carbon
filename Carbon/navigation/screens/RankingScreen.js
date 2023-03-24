@@ -9,7 +9,6 @@ const STATES = {
 }
 
 
-
  const API_Entry_RANK_URL = "http://localhost:3000/api/user/rank/"
  const API_Entry_LEADERBOARD_URL = "http://localhost:3000/api/user/leaderboard/"
 
@@ -76,7 +75,7 @@ export default function RankingScreen({navigation}){
 
     /* Get the next page from the global table*/ 
     const fetchAndUpdateGlobalTable = async () => {
-      console.log(`Fetching Local Table from ${API_Entry_LEADERBOARD_URL+global_table_page_counter.toString()}`);
+      // console.log(`Fetching Local Table from ${API_Entry_LEADERBOARD_URL+global_table_page_counter.toString()}`);
       setLoading(true);
       try{
         const response = await fetch(API_Entry_LEADERBOARD_URL+global_table_page_counter.toString());
@@ -103,6 +102,7 @@ export default function RankingScreen({navigation}){
 
 
     const fetchAndUpdatePlayersLikeYouTable = async (ExtendUpwards) =>{
+      console.log(like_you_range);
       if(like_you_range === null) return;
       //Change based on if user extends to top of list or bottom
       console.log(like_you_range);
@@ -125,7 +125,6 @@ export default function RankingScreen({navigation}){
        if(response.status === 200) {
         //Change index of next page to load
         if(like_you_range[0] === like_you_range[1]){
-          console.log("Pooploop");
           setLikeYouRange([like_you_range[0]-1, like_you_range[1]+1])
         }
         else{
@@ -187,7 +186,7 @@ export default function RankingScreen({navigation}){
 
     //Default fetch as this tab starts on the Local Score Tab
     useEffect( () => {handleRefresh()}, []);   
-    useEffect( () => {fetchAndUpdateGlobalTable(false)}, [initial_page_loaded]);
+    useEffect( () => {fetchAndUpdatePlayersLikeYouTable(false)}, [initial_page_loaded]);
     
 
 
