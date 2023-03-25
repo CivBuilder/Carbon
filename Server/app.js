@@ -5,16 +5,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var sequelize = require('./utils/Database.js');
 const ForumContent = require('./models/ForumContent.js');
-const user = require('./models/user.js');                 //NOTE : do we prefer to rename this? I see how forumContent is set to match the DB Table name but there is a route in routes/users.js
-const user_emissions = require('./models/user_emissions');//Same note as Above - Angel 
+const user = require('./models/UserModel.js');                 
+const user_emissions = require('./models/UserEmissions.js');
 
-// //~~~ASSOCIATIONS BETWEEN FOREIGN KEYS~~~~//
-// user.hasMany(user_emissions);
-
-var indexRouter = require('./routes/index');
-var forumRouter = require('./routes/forumContent');
-var userRouter = require('./routes/user');
-var user_emissionsRouter = require('./routes/user_emissions')
+var indexRouter = require('./api/index');
+var forumRouter = require('./api/forumContent');
+var quizRouter = require('./api/quiz');
+var userRouter = require('./api/user');
+var user_emissionsRouter = require('./api/userEmissions');
 
 var app = express();
 
@@ -30,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/forumcontent', forumRouter);
+app.use('/api/quiz', quizRouter);
 app.use('/api/user', userRouter);
 app.use('/api/user_emissions', user_emissionsRouter);
 
