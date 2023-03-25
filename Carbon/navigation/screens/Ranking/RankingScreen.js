@@ -7,10 +7,9 @@ const ICON_SIZE = 75;
 const PAGE_SIZE = 15;
 
 //Constants - These are to be removed and placed entirely when we build a user session
-const API_Entry_RANK_URL = "http://192.168.0.232:3000/api/user/rank/"
-const API_Entry_LEADERBOARD_URL = "http://192.168.0.232:3000/api/user/leaderboard/"
-// const API_Entry_RANK_URL = "http://localhost:3000/api/user/rank/"
-// const API_Entry_LEADERBOARD_URL = "http://localhost:3000/api/user/leaderboard/"
+
+const API_Entry_RANK_URL = "http://localhost:3000/api/user/rank/"
+const API_Entry_LEADERBOARD_URL = "http://localhost:3000/api/user/leaderboard/"
 
 //For Testing - We must get these when establishing a user session. This data is in the database for testing
 const KEY = "8";
