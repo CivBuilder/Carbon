@@ -1,4 +1,5 @@
-const {SustainabilityMap, SUSTAINABILITY_POSITIVE_SCORE} = require('./SustainabilityScore')  //I don't know why i have to back out the dir and go back in? AQ 
+//Angel Quintanilla
+const {SustainabilityMap, SUSTAINABILITY_POSITIVE_SCORE} = require('./SustainabilityScore')  
 var user_emissions_table = require('../models/UserEmissions.js')
 var user_table = require('../models/UserModel.js')
 
@@ -25,6 +26,9 @@ async function UpdateScore(ID) {
         }
     });
 
+    //Return if we have no entries ~ Shouldn't happen as we await for an async entry
+    if(emission_entries.length === 0) return;
+
 
     //get their projected score from the sustainability map 
     //if they are above a sustability of 7 we'll decrement by one
@@ -38,7 +42,6 @@ async function UpdateScore(ID) {
 
     //shorthand
     let globalScore = user.global_score;
-    console.log(globalScore)
     let goal = user.goal;
     let goal_bonus = 0;
 
@@ -67,12 +70,6 @@ async function UpdateScore(ID) {
 
 
     if(emission_entries[0].total_emissions <= projected_emissions) {
-        console.log(globalScore)
-        console.log("login_bonus: " + login_bonus);
-        console.log("goal_bonus: " + goal_bonus);
-        console.log("increase: " + 500*(1+login_bonus+goal_bonus));
-        console.log("login_bonus: " + login_bonus);
-
         globalScore += 500*(1+login_bonus+goal_bonus);
     }
     else {
@@ -82,9 +79,8 @@ async function UpdateScore(ID) {
 
     //Todo : Make function logarithmic after reaching level 50/30 - Will ask team which one would be preferred 
     
-    //put back in table 
-    console.log(globalScore)
 
+    //Put in table
     if(globalScore > MAX_SCORE) globalScore = MAX_SCORE; //prevent overflow in the DB, Cut a little short but just 
 
     await user_table.update(

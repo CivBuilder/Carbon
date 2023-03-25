@@ -91,7 +91,7 @@ Put User Questionnaire Results
     {
         transport_score   : int (these are percentages from 0 - 100)
         lifestyle_score   : int
-        food_score  `     : int 
+        food_score        : int 
         home_score        : int
         awareness_score   : int
     }
@@ -121,7 +121,8 @@ router.put('/questionnaire/:id', async function(req, res, next) {
         typeof req.body.awareness_score != "number" 
     ) 
     { 
-        return res.status(400).send(`400 : bad request. Body does not contain a defined percentage for the score of the quiz.`);
+        return res.status(400).send(`400 : bad request. Body does not contain a defined percentage for one of the required entries.`+
+                                    "Required Entries : transport_scorem lifestyle_score, food_score,home_score, awareness_score,");
     }
 
 

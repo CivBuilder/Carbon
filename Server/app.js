@@ -30,7 +30,7 @@ app.use('/', indexRouter);
 app.use('/api/forumcontent', forumRouter);
 app.use('/api/quiz', quizRouter);
 app.use('/api/user', userRouter);
-app.use('/api/user_emissions', user_emissionsRouter);
+app.use('/api/userEmissions', user_emissionsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
