@@ -68,8 +68,8 @@ async function UpdateScore(ID) {
     //TODO : Bring up adding a streak of logins into the user db table  
     let login_bonus = 0.10;
 
-
-    if(emission_entries[0].total_emissions <= projected_emissions) {
+    //Check if youre track for your yearly carbon emissions
+    if(emission_entries[0].total_emissions*365 <= projected_emissions) {
         globalScore += 500*(1+login_bonus+goal_bonus);
     }
     else {

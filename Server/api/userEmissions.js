@@ -22,7 +22,7 @@ router.get('/:id', async function(req, res, next) {
             user_id : req.params.id
         }
     });
-    if(!user_entry) {
+    if(!user_entry || user_entry.length === 0) {
         console.log("Sending error code 404. No match found");
         return res.status(404).send(`404 : user with ${req.params.id} not found`);
     }
