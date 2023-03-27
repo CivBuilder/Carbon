@@ -7,11 +7,16 @@ const UserEmissions = sequelize.define('UserEmissions', {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
+    unique : true,
     field: 'id' // specify the actual column name in the table
   },
   user_id: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.INTEGER.UNSIGNED,
     allowNull: false,
+    references : {
+      model : 'user',
+      key : 'id'
+    },
     field: 'user_id' // specify the actual column name in the table
   },
   date: {
@@ -34,6 +39,10 @@ const UserEmissions = sequelize.define('UserEmissions', {
     allowNull: false,
     field: 'lifestyle_emissions' // specify the actual column name in the table
   },
+  food_emissions : {
+    type : Sequelize.FLOAT, 
+    allowNull : false, 
+  },
   home_emissions: {
     type: Sequelize.FLOAT,
     allowNull: false,
@@ -41,8 +50,8 @@ const UserEmissions = sequelize.define('UserEmissions', {
   }
 }, {
   tableName: 'user_emissions',
-  timestamps: false
-  
+  timestamps: false,
+  freezeTableName : true, 
 });
 
 module.exports = UserEmissions;

@@ -5,13 +5,15 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var sequelize = require('./utils/Database.js');
 const ForumContent = require('./models/ForumContent.js');
-
-var tableEmissionsRouter = require('./api/userEmission');
+const user = require('./models/UserModel.js');                 
+const user_emissions = require('./models/UserEmissions.js');
 
 var indexRouter = require('./api/index');
 var usersRouter = require('./api/users');
 var forumRouter = require('./api/forumContent');
 var quizRouter = require('./api/quiz');
+var userRouter = require('./api/user');
+var user_emissionsRouter = require('./api/userEmissions');
 
 var app = express();
 
@@ -26,11 +28,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/api/forumcontent', forumRouter);
 app.use('/api/quiz', quizRouter);
+app.use('/api/user', userRouter);
+app.use('/api/userEmissions', user_emissionsRouter);
 
-app.use('/test', tableEmissionsRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
