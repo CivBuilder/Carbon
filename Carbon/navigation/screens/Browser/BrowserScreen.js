@@ -21,7 +21,7 @@ export default class BrowserScreen extends Component {
         return(
             <View style = {{flex:1}}>
                 <WebView source = {{ 
-                    uri: 'https://chat.openai.com/chat'
+                    uri: 'https://johnxu21.github.io/teaching/CS472-Spring2023/'
                     //uri: this.props.navigation.state.parms.url this will be used later with other links
                 }}
                 style={{flex:1}}
