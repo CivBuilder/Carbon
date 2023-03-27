@@ -11,7 +11,6 @@ import { IconNames } from './IconNames';
 
 import { ScreenNames } from './ScreenNames';
 import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, AddProgress, BrowserScreen} from '../../screens';
-//import BrowserScreen from '../Browser/BrowserScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
