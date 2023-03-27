@@ -1,0 +1,92 @@
+
+import { BarChart} from "react-native-chart-kit";
+import {StyleSheet, Dimensions } from 'react-native';
+import { Colors } from '../colors/Colors';
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+const margin = 10;
+const chartWidth = windowWidth - (margin * 2);
+const chartHeight = 210;
+//Data for later
+/*
+    The daily log function, this takens in a data array and maps it into a bar chart based on its values
+ */
+export function DailyLog ({dataArray}) {
+
+    //Our data for bar styling the bar chart
+    const barChartData = {
+        labels: ['Transportation', 'Diet', 'Lifestyle', 'Home', 'Overall'],
+        datasets:[
+            {
+            data: dataArray,
+            colors: [
+                (opacity = 1) =>  Colors.primary.MINT,
+                (opacity = 1) =>  Colors.primary.MINT,
+                (opacity = 1) =>  Colors.primary.MINT, //all colors will be MINt
+                (opacity = 1) =>  Colors.primary.MINT,
+                (opacity = 1) =>  Colors.primary.MINT,
+            ]
+            }
+        ]
+        };
+        //Return the bar chart with appropriate styling.
+    return (
+        <BarChart
+        data ={barChartData}
+        chartConfig={styleBar.chartConfig}
+        withCustomBarColorFromData={true}
+        flatColor={true}
+        style={styleBar.chart}
+        width = {chartWidth}
+        height = {windowHeight/3}
+        withVerticalLabels ={true}
+        withHorizontalLabels = {true}
+        fromZero = {true}
+    />
+    )
+}
+
+//Style bar which was created by Miguel
+const styleBar = StyleSheet.create({
+    container: {
+        marginLeft: 100,
+        flex: 1,
+        justifyContent: 'center', padding: 100,
+        paddingTop: 30, backgroundColor: '#ecf0f1',
+        },
+    chart: {
+        borderRadius: 16,
+        marginHorizontal: margin/2,
+    },
+    chartConfig: {
+
+        backgroundColor: '#FFFFFF',
+        backgroundGradientFrom: '#FFFFFF',
+        backgroundGradientTo: '#FFFFFF',
+        decimalPlaces: 2, // optional, defaults to 2dp
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, //transparent
+        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+
+        propsForDots: {
+            r: "5",                         // circle size
+            strokeWidth: "2",               // circle border size
+            stroke: Colors.primary.MINT     // circle border color
+        }
+    },
+    keyFactors: {
+      flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginHorizontal: margin,
+      marginVertical: margin-5
+    },
+    category: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      flexWrap: 'nowrap',
+      marginVertical: 5
+    },
+});

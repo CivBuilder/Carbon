@@ -6,4 +6,6 @@ export const ScreenNames = {
     SETTINGS: 'Settings',
     ADD_PROGRESS: 'AddProgress',
     BROWSER: 'Browser'
+    QUIZ: 'Quiz'
+
 };
