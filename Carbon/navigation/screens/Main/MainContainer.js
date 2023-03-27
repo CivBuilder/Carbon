@@ -114,7 +114,8 @@ const ForumStack = ({ navigation }) => {
                 name={'Quiz'}
                 component={QuizScreen}
                 options={{
-                    headerShown: false, // Set to false for now until we need to implement headers for this screen
+                   // headerShown: false, // Set to false for now until we need to implement headers for this screen
+                   headerShown: true,
                 }}
             />
             {/* Add stack screens down here */}

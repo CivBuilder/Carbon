@@ -5,7 +5,7 @@ import { RadioButton } from 'react-native-paper';
 //import { response } from '../../../Server/app';
 
 //eventually will be changed to server url
-const APIURL = "change me"
+const APIURL = "http://localhost:3000/api/quiz/"
 
 export default function QuizScreen({route}) {
     //used for fetching data 
@@ -105,6 +105,7 @@ export default function QuizScreen({route}) {
 
     //BEGINNING OF DISPLAY
     return(
+        <SafeAreaView>
         <View>
             {isLoading ? (
             <View>
@@ -136,6 +137,7 @@ export default function QuizScreen({route}) {
             </View>
             )}
         </View>
+        </SafeAreaView>
     )
     
 }
