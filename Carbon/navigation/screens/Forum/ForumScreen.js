@@ -42,7 +42,7 @@ export default function ForumScreen({navigation}) {
                     justifyContent: 'center',
                     height: '100%'
                     }}
-                    onPress={() => navigation.navigate(ScreenNames.QUIZSCREEN, { id: item.id_forumcontent})}
+                    onPress={() => navigation.navigate(ScreenNames.QUIZ, { id: item.id_forumcontent})}
                 >
                     <Text>
                         {item.type}

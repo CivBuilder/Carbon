@@ -5,5 +5,5 @@ export const ScreenNames = {
     RANKING: 'Ranking',
     SETTINGS: 'Settings',
     ADD_PROGRESS: 'AddProgress',
-    QUIZSCREEN: 'Quiz',
+    QUIZ: 'Quiz'
 };
