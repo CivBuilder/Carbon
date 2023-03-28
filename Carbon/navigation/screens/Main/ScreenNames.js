@@ -4,6 +4,8 @@ export const ScreenNames = {
     FORUM: 'Forum',
     RANKING: 'Ranking',
     SETTINGS: 'Settings',
-    // ADD_PROGRESS: 'AddProgress',
-    QUIZ: 'Quiz'
+    ADD_PROGRESS: 'AddProgress',
+    BROWSER: 'Browser',
+    QUIZ: 'Quiz',
+
 };

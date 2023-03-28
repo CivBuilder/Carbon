@@ -1,9 +1,9 @@
-import * as React from 'react';
 import { View, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView, TouchableOpacity, Platform } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { Card } from 'react-native-elements';
 import { Colors } from '../../../colors/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
+import Log from './Log';
 
 // =====================
 //     Home Screen
@@ -32,6 +32,10 @@ export default function HomeScreen({ navigation }) {
                             <Text>TODO: Carbon Footprint</Text>
                         </View>
                     </View>
+                </View>
+                <View>
+                    <Log></Log>
+                 {/*Please put this where it belongs once home is finished :) */}
                 </View>
 
                 {/******* RANKINGS *******/}

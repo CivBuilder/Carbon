@@ -11,8 +11,17 @@
   },
   "jest": {
     "preset": "jest-expo",
+    "setupFilesAfterEnv": ["@testing-library/jest-native/extend-expect"],
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/coverage/**",
+      "!**/node_modules/**",
+      "!**/babel.config.js",
+      "!**/jest.setup.js"
     ]
   },
   "dependencies": {
@@ -41,11 +50,15 @@
     "react-native-svg": "13.4.0",
     "react-native-swiper": "^1.6.0",
     "react-native-vector-icons": "^9.2.0",
+    "react-native-webview": "^11.26.1",
     "typescript": "^4.9.5",
     "victory-native": "^36.6.8"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "@testing-library/jest-native": "^5.4.2",
+    "@testing-library/react-native": "^12.0.1",
+    "react-test-renderer": "^18.1.0"
   },
   "private": true
 }
