@@ -73,7 +73,7 @@ const ProgressStack = ({ navigation }) => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name={' '}
+                name={'Your Progress'}
                 component={ProgressScreen}
                 options={{
                     headerShown: true,
