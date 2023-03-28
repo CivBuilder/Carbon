@@ -106,18 +106,27 @@ const ForumStack = ({ navigation }) => {
         <Stack.Navigator>
             <Stack.Screen
                 name={' '}
-                //component={ForumScreen}
-
-                component = {BrowserScreen}
-
-                //component={QuizScreen}
-
+                component={ForumScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
                 }}
             />
-            {/* Add stack screens down here */}
-            {/* <Stack.Screen name={"NAME_OF_SCREEN"} component={"THE_SCREEN_FUNCTION_IMPORTED"} /> */}
+            <Stack.Screen
+                name={'Quiz'}
+                component={QuizScreen}
+                options={{
+                   // headerShown: false, // Set to false for now until we need to implement headers for this screen
+                   headerShown: true,
+                }}
+            />
+            <Stack.Screen
+                name={'Browser'}
+                component={BrowserScreen}
+                options={{
+                   // headerShown: false, // Set to false for now until we need to implement headers for this screen
+                   headerShown: true,
+                }}
+            />
         </Stack.Navigator>
     );
 };

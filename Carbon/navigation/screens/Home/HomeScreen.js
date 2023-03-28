@@ -14,6 +14,7 @@ export default function HomeScreen({ navigation }) {
             <ScrollView
                 showsHorizontalScrollIndicator={false}
                 style={{flexGrow: 1}}
+
             >
                 {/******* CARBON FOOTPRINT SUMMARY *******/}
                 <View>
