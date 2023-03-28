@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ActivityIndicator, Alert, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {useState, useEffect} from 'react';
+import { Colors } from '../../../colors/Colors';
 import { RadioButton } from 'react-native-paper';
 
 //eventually will be changed to server url
@@ -38,11 +39,11 @@ const QuizScreen = () => {
     const [quizCompleted, setQuizCompleted] = useState(false);
 
     //HELPER FUNCTIONS
-    const answerClicked = (isCorrect) => {
-        if(isCorrect){
+    const answerClicked = (answer) => {
+        if(answer.iscorrect){
             setScore(score+1);
         }
-        
+        console.log(answer.iscorrect)
         if(currentQuestion + 1 < data.questions.length){
             setCurrentQuestion(currentQuestion + 1);
         }
@@ -51,43 +52,107 @@ const QuizScreen = () => {
         }
     }
 
+    const redoQuiz = () => {
+        setQuizCompleted(false)
+        setCurrentQuestion(0)
+        setScore(0)
+    }
+
+    //RENDER FUNCTIONS
+    const renderQuestion = () => {
+        return (
+            <View style={{
+                marginVertical: 40
+            }}>
+                {/* Question Counter */}
+                <View style={{
+                    flexDirection: 'row',
+                    alignItems: 'flex-end'
+                }}>
+                    <Text style={{ fontSize: 20, opacity: 0.6, marginRight: 2}}>{currentQuestion + 1}</Text>
+                    <Text style={{ fontSize: 18, opacity: 0.6}}>/ {data.questions.length}</Text>
+                </View>
+
+                {/* Question */}
+                <Text style={{
+                    color: Colors.black,
+                    fontSize: 30
+                }}>{data.questions[currentQuestion].question}</Text>
+            </View>
+        )
+    }
+
+    const renderAnswers = () => {
+        return(
+            <View>
+                {data.questions[currentQuestion].answers.map((answer) => (
+                           <TouchableOpacity
+                            key={answer}
+                            style = {{
+                               borderWidth: 3, borderColor: Colors.black,
+                               backgroundColor: Colors.black, 
+                               height: 60, borderRadius: 20, 
+                               flexDirection: 'row', 
+                               alignItems: 'center', justifyContent: 'space-between',
+                               paddingHorizontal: 20, 
+                               marginVertical: 10 
+                            }}
+                            onPress={() => answerClicked(answer)}>
+                               <Text style = {{fontSize: 20, color: Colors.black}}>{answer.answer}</Text>
+                           </TouchableOpacity>
+                       ))
+                }
+            </View>
+        )
+    }
+
     //BEGINNING OF DISPLAY
     return(
-        <SafeAreaView>
-            <View>
+        <SafeAreaView style = {{ flex: 1}}>
                 {isLoading ? (
                 <View>
                     <Text>Loading</Text>
                 </View>
-                ) : (
-                <View>
-                    <Text>{data.quizname}</Text>
 
-                    {quizCompleted ? (
-                        <View>
-                        <Text>Quiz Done</Text>
-                        <Text>Final Score: {score}/{data.questions.length}</Text>
-                        </View>
-                    ) : (
-                        <View>
+                ) : (
+                    <SafeAreaView>
+                         {quizCompleted ? (
+                       <View>
+                       <Text>Quiz Done</Text>
+                       <Text>Final Score: {score}/{data.questions.length}</Text>
+                       <TouchableOpacity onPress={() => redoQuiz()}>
+                           <Text>Redo Quiz</Text>
+                       </TouchableOpacity>
+                       </View>
+                   ) : (
+                        <View style={{
+                            
+                            paddingVertical: 40,
+                            paddingHorizontal: 16,
+                            position:'relative'
+                        }}>
                         <Text>Current Score: {score}</Text>
-                        <Text>Question {currentQuestion + 1} out of {data.questions.length}</Text>
-                        <Text>{data.questions[currentQuestion].question}</Text>
-                        {data.questions[currentQuestion].answers.map((answer) => (
-                            <TouchableOpacity 
-                            onPress={() => answerClicked(answer.iscorrect)}>
-                                <Text>{answer.answer}</Text>
-                            </TouchableOpacity>
-                        ))
-                        }
+
+                            {/* ProgressBar */}
+                            
+            
+                            {/* Question */}
+                            {renderQuestion()}
+            
+                            {/* Answers */}
+                            {renderAnswers()}
+            
+                            {/* Next Button */}
                         </View>
-                    )}
-                </View>
+                   )}
+                    </SafeAreaView>
                 )}
-            </View>
+                
         </SafeAreaView>
     )
-    
 }
-    
+
+    const styles = StyleSheet.create({
+
+    })
     export default QuizScreen;
