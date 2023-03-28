@@ -13,7 +13,7 @@ export default function HomeScreen({ navigation }) {
         <SafeAreaView>
             <ScrollView
                 showsHorizontalScrollIndicator={false}
-                style={{flexGrow: 1}}
+                style={{ flexGrow: 1 }}
 
             >
                 {/******* CARBON FOOTPRINT SUMMARY *******/}
@@ -29,16 +29,18 @@ export default function HomeScreen({ navigation }) {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <View style={{backgroundColor: "white", borderRadius: 16, height: windowHeight/4, padding: 10}}>
+                        <View style={{ backgroundColor: "white", borderRadius: 16, height: windowHeight / 4, padding: 10 }}>
                             {/* Add Carbon Footprint chart here */}
                         </View>
                     </View>
                 </View>
-                <View>
-                    <Log></Log>
-                 {/*Please put this where it belongs once home is finished :) */}
-                </View>
+                <View style={styles.container}>
+                        <View style={{ backgroundColor: "white",  borderRadius: 16, height: windowHeight / 2, padding: 10 }}>
 
+                            <Log></Log>
+
+                            {/*Please put this where it belongs once home is finished :) */}
+                    </View></View>
                 {/******* RANKINGS *******/}
                 <View>
                     <View style={styles.container}>
@@ -52,7 +54,7 @@ export default function HomeScreen({ navigation }) {
                                 </TouchableOpacity>
                             </View> */}
                         </View>
-                        <View style={{backgroundColor: "white", borderRadius: 16, height: windowHeight/4, padding: 10}}>
+                        <View style={{ backgroundColor: "white", borderRadius: 16, height: windowHeight / 4, padding: 10 }}>
                             {/* Add Ranking chart here */}
                         </View>
                     </View>
@@ -71,7 +73,7 @@ export default function HomeScreen({ navigation }) {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <View style={{height: 400}}>
+                        <View style={{ height: 400 }}>
                             <Swiper
                                 horizontal={true}
                                 showsPagination={true}
@@ -86,12 +88,12 @@ export default function HomeScreen({ navigation }) {
                                 // Autoplay: OFF
                                 autplay={false}
                                 loop={false}
-                                >
+                            >
                                 <View>
                                     <Card containerStyle={styles.card}>
                                         <Card.Title>Card Title 1</Card.Title>
                                         <Text style={{ marginBottom: 10 }}>
-                                        The idea with React Native Elements is more about component structure than actual design.
+                                            The idea with React Native Elements is more about component structure than actual design.
                                         </Text>
                                     </Card>
                                 </View>
@@ -99,7 +101,7 @@ export default function HomeScreen({ navigation }) {
                                     <Card containerStyle={styles.card}>
                                         <Card.Title>Card Title 2</Card.Title>
                                         <Text style={{ marginBottom: 10 }}>
-                                        The idea with React Native Elements is more about component structure than actual design.
+                                            The idea with React Native Elements is more about component structure than actual design.
                                         </Text>
                                     </Card>
                                 </View>
@@ -107,7 +109,7 @@ export default function HomeScreen({ navigation }) {
                                     <Card containerStyle={styles.card}>
                                         <Card.Title>Card Title 3</Card.Title>
                                         <Text style={{ marginBottom: 10 }}>
-                                        The idea with React Native Elements is more about component structure than actual design.
+                                            The idea with React Native Elements is more about component structure than actual design.
                                         </Text>
                                     </Card>
                                 </View>
@@ -132,7 +134,7 @@ const styles = StyleSheet.create({
         ...Platform.select({
             ios: {
                 shadowColor: Colors.primary.RAISIN_BLACK,
-                shadowOffset: {width: 5, height: 5},
+                shadowOffset: { width: 5, height: 5 },
                 shadowOpacity: 0.125,
                 shadowRadius: 2.5,
             },
