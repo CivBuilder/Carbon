@@ -29,7 +29,7 @@ export default function HomeScreen({ navigation }) {
                             </View>
                         </View>
                         <View style={{backgroundColor: "white", borderRadius: 16, height: windowHeight/4, padding: 10}}>
-                            <Text>TODO: Carbon Footprint</Text>
+                            {/* Add Carbon Footprint chart here */}
                         </View>
                     </View>
                 </View>
@@ -52,7 +52,7 @@ export default function HomeScreen({ navigation }) {
                             </View> */}
                         </View>
                         <View style={{backgroundColor: "white", borderRadius: 16, height: windowHeight/4, padding: 10}}>
-                            <Text>TODO: Add Ranking UI</Text>
+                            {/* Add Ranking chart here */}
                         </View>
                     </View>
                 </View>
