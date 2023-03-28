@@ -12,16 +12,15 @@ const RecordEmission = () => {
   
   //TODO: Sanitize and save input to database
   
-  const saveFoodLog = (log) => {
-    console.log('saving food ' + log);
-  }
-  const saveTransportationLog = (log) => {
-    console.log('saving transportation ' + log);
-  }
-
-  const saveRecyclingLog = (log) => {
-    console.log('saving recycling ' + log);
-  }
+  // const saveFoodLog = (log) => {
+  //   console.log('saving food ' + log);
+  // }
+  // const saveTransportationLog = (log) => {
+  //   console.log('saving transportation ' + log);
+  // }
+  // const saveRecyclingLog = (log) => {
+  //   console.log('saving recycling ' + log);
+  // }
   return (
     <KeyboardAvoidingView >
         <Modal style={styles.modal}
@@ -32,7 +31,9 @@ const RecordEmission = () => {
         visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
-        }}>
+        }}
+        testID="button-modal"
+        >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
 
@@ -40,26 +41,26 @@ const RecordEmission = () => {
                 setModalVisible(!modalVisible)
                 setFoodVisible(true)}
             }>
-              <Icon name="cutlery" size={40} color="#201B1B" style={styles.icon} />
+              <Icon name="cutlery" size={40} color="#201B1B" style={styles.icon} testID="cutlery-icon"/>
             </Pressable>
 
             <Pressable onPress={() => {
                 setModalVisible(!modalVisible)
                 setTransportationVisible(true)
             }}>
-              <Icon name="car" size={40} color="#201B1B" style={styles.icon} />
+              <Icon name="car" size={40} color="#201B1B" style={styles.icon} testID="car-icon" />
             </Pressable>
 
             <Pressable onPress={() => {
                 setModalVisible(!modalVisible)
                 setRecyclingVisible(true)}
             }>
-              <Icon name="recycle" size={40} color="#201B1B" style={styles.icon} />
+              <Icon name="recycle" size={40} color="#201B1B" style={styles.icon} testID="recycle-icon" />
             </Pressable>
 
             <Pressable
               onPress={() => setModalVisible(!modalVisible)}>
-              <Icon name="close" size={40} color="#201B1B" style={styles.icon} />
+              <Icon name="close" size={40} color="#201B1B" style={styles.icon} testID="close-icon" />
             </Pressable>
 
           </View>
@@ -67,12 +68,13 @@ const RecordEmission = () => {
         </Modal>
 
       <EmissionModal visible={foodVisible}
-                     onRequestClose={(log) => {
+                     onRequestClose={() => {
                       setFoodVisible(!foodVisible)
                       setModalVisible(!modalVisible)
                     }}  
                     title={"How much meat did you consume today?"}
-                    saveData={(log) => saveFoodLog(log)}
+                    // saveData={(log) => saveFoodLog(log)}
+                    testID="food-modal"
                     />
       <EmissionModal visible={transportationVisible}
                      onRequestClose={() => {
@@ -80,7 +82,8 @@ const RecordEmission = () => {
                       setModalVisible(!modalVisible)
                     }}  
                     title={"How many miles did you drive today?"}
-                    saveData={(log) => saveTransportationLog(log)}
+                    // saveData={(log) => saveTransportationLog(log)}
+                    testID="transportation-modal"
                     />
       <EmissionModal visible={recyclingVisible}
                      onRequestClose={() => {
@@ -88,7 +91,8 @@ const RecordEmission = () => {
                       setModalVisible(!modalVisible)
                     }}  
                     title={"How much did you recycle today?"}
-                    saveData={(log) => saveRecyclingLog(log)}
+                    // saveData={(log) => saveRecyclingLog(log)}
+                    testID="recycle-modal"
                     />
 
         <Pressable style={styles.button} onPress={() => setModalVisible(true)}>
