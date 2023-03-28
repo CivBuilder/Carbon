@@ -303,7 +303,7 @@ export default function RankingScreen({navigation}){
         {/* Displays Sad Screen Prompting Refresh on any server Error */}
         {errorMessage && 
           //Make sure we refresh on the same page as last time
-          <serverErrorScreen
+          <serverErrorScreen testID = "error_screen"
             onRefresh = {async () => {
               if(!rank) fetchUserRank();
               else HandlePressedButton(buttonPressed);
