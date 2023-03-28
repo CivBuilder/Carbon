@@ -8,12 +8,13 @@ describe('ForumScreen', () => {
             resolve({
             ok: true,
             json: () => {
-                return { ranking: 5, sustainability_score: 80 };
+                return { "content" : [] };
             },
             status : 200,
             });
         });
     });
+
     it('Renders the forum screen',async () => {
       render(<ForumScreen></ForumScreen>);
       await waitFor(() =>{expect(null).toBeNull()});
