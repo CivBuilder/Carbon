@@ -1,0 +1,1 @@
+import { RankingScreen } from "../../../../navigation/screens/Ranking/RankingScreen";

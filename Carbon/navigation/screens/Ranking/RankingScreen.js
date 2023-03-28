@@ -1,18 +1,21 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import {ActivityIndicator, ScrollView, StyleSheet, Text, View, RefreshControl, TouchableOpacity, FlatList} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import serverErrorScreen from '../../../components/ServerErrorScreen';
+import LoadingIndicator from "../../../components/LoadingIndicator";
 
-const ICON_SIZE = 75;
 const PAGE_SIZE = 15;
 
 //Constants - These are to be removed and placed entirely when we build a user session
 
-const API_Entry_RANK_URL = "http://localhost:3000/api/user/rank/"
-const API_Entry_LEADERBOARD_URL = "http://localhost:3000/api/user/leaderboard/"
+const API_Entry_RANK_URL = "http://192.168.0.232:3000/api/user/rank/"
+const API_Entry_LEADERBOARD_URL = "http://192.168.0.232:3000/api/user/leaderboard/"
+
+// const API_Entry_RANK_URL = "http://localhost:3000/api/user/rank/"
+// const API_Entry_LEADERBOARD_URL = "http://localhost:3000/api/user/leaderboard/"
 
 //For Testing - We must get these when establishing a user session. This data is in the database for testing
-const KEY = "8";
+const KEY = "-1";
 const USERNAME = "sellen7";
 
 export default function RankingScreen({navigation}){
@@ -314,37 +317,18 @@ export default function RankingScreen({navigation}){
         
 
         {/* Loading Screen*/}
-        {loading && 
-          <ActivityIndicator size="large" color={Colors.primary.RAISIN_BLACK} style={styles.LoadingIndicator}/>
-        }
+        {LoadingIndicator(loading)}
+
 
         {/* Displays Sad Screen Prompting Refresh on any server Error */}
-        {errorMessage && (
-          <ScrollView 
-          refreshControl={
-            <RefreshControl refreshing={false} onRefresh={handleRefresh} />
+        {errorMessage && 
+          serverErrorScreen(
+            async () =>{
+              if(!rank) fetchUserRank();
+              else HandlePressedButton(buttonPressed);
           }
-          >
-            <View
-              style = {{
-                padding : 75,
-                flex : 1,
-                justifyContent : 'space-between',
-                alignItems : 'center',
-                color : Colors.secondary.NYANZA,
-              }}
-            >
-              <Ionicons name="sad-outline" size = {ICON_SIZE}></Ionicons>
-              <Text
-                onPress={() => fetchUserRank()}
-              >
-                {errorMessage}{"\n"}
-                Swipe Down the Refresh Page
-              </Text>
-            </View>
-
-          </ScrollView>
-        )}
+          , errorMessage)
+        }
 
       </View>
     );
@@ -458,18 +442,6 @@ const styles = StyleSheet.create({
     color : "#219df4",
     textAlign : 'center',
   },
-
-  LoadingIndicator : {
-    position: 'absolute',
-    zIndex: 999,
-    left: 0,
-    top: 0,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
   ListEntryContainer : {
     backgroundColor : "#e4f6f8",
     width : 'auto',
