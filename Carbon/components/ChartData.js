@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { BarChart } from 'react-native-chart-kit';
 import { VictoryPie } from 'victory-native';
 import { Colors } from '../colors/Colors';
 
