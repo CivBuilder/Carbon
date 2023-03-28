@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import {ActivityIndicator, ScrollView, StyleSheet, Text, View, RefreshControl, TouchableOpacity, FlatList} from 'react-native';
 import serverErrorScreen from '../../../components/ServerErrorScreen';
 import LoadingIndicator from "../../../components/LoadingIndicator";
-
+import {Colors} from "../../../colors/Colors";
+import ListPlayers from './ListPlayers';
 const PAGE_SIZE = 15;
 
 //Constants - These are to be removed and placed entirely when we build a user session
@@ -15,7 +16,7 @@ const API_Entry_LEADERBOARD_URL = "http://192.168.0.232:3000/api/user/leaderboar
 // const API_Entry_LEADERBOARD_URL = "http://localhost:3000/api/user/leaderboard/"
 
 //For Testing - We must get these when establishing a user session. This data is in the database for testing
-const KEY = "-1";
+const KEY = "8";
 const USERNAME = "sellen7";
 
 export default function RankingScreen({navigation}){
@@ -130,8 +131,8 @@ export default function RankingScreen({navigation}){
         alert("No More Users to load - We're at the top!")
         return; 
       }
+
       console.log("Fetching Players Like you Table with URL "+API_Entry_LEADERBOARD_URL+currentPageToLoad);
-      
       //This is so we don't conflict with React Native's built-in loading icon
       if(ExtendUpwards === false) setLoading(true);
 
@@ -198,17 +199,9 @@ export default function RankingScreen({navigation}){
     }
 
 
-    /*On an error Screen(Not an alert) Users can swipe down to refresh, this just ensure it will return their last screen */
-    const handleRefresh = async () => {
-      //If we don't have the rank yet we make sure that the rank is fetched first
-      if(!rank){ 
-        fetchUserRank();
-      }
-      else HandlePressedButton(buttonPressed);
-    };
 
     //Default fetch as this tab starts on the Local Score Tab
-    useEffect( () => {handleRefresh()}, []);   
+    useEffect( () => {fetchUserRank()}, []);   
     useEffect( () => {fetchAndUpdatePlayersLikeYouTable(false)}, [initial_page_loaded]);
     
 
@@ -278,33 +271,20 @@ export default function RankingScreen({navigation}){
             <View style = {{backgroundColor : Colors.secondary.NYANZA, flex : 1}}>
 
               {/*Like You Table Display*/}
-              {buttonPressed === 1 &&
-                <FlatList 
-                  data={like_you_table}
-                  renderItem = {renderListEntry}
-                  onRefresh = {() => {fetchAndUpdatePlayersLikeYouTable(true)}}
-                  refreshing={false}
-                  onEndReached={() => {fetchAndUpdatePlayersLikeYouTable(false)}}
-                  onEndReachedThreshold={0}
-                  style = {{
-                    flex : 1
-                  }}
-                ></FlatList>
-              }
+              {buttonPressed === 1 && 
+              <ListPlayers
+                table = {like_you_table}
+                onRefresh ={() =>{fetchAndUpdatePlayersLikeYouTable(true)}}
+                onEndReached = {() => {fetchAndUpdatePlayersLikeYouTable(false)}}
+              />}
 
               {/*Global Table Display*/}
               {buttonPressed === 2 &&
-                <FlatList 
-                    data={global_table}
-                    renderItem = {renderListEntry}
-                    onRefresh = {() => {fetchAndUpdateGlobalTable()}}
-                    refreshing={false}  
-                    onEndReached={() => {fetchAndUpdateGlobalTable()}}
-                    onEndReachedThreshold={0}
-                    style = {{
-                      flex : 1
-                    }}
-                  ></FlatList>
+                <ListPlayers
+                table = {like_you_table}
+                onRefresh = {null}
+                onEndReached = {() => {fetchAndUpdateGlobalTable()}}
+              />
               }
 
               {/*Social Table Display*/}
@@ -317,11 +297,12 @@ export default function RankingScreen({navigation}){
         
 
         {/* Loading Screen*/}
-        {LoadingIndicator(loading)}
+        <LoadingIndicator loading = {loading}/>
 
 
         {/* Displays Sad Screen Prompting Refresh on any server Error */}
         {errorMessage && 
+          //Make sure we refresh on the same page as last time
           serverErrorScreen(
             async () =>{
               if(!rank) fetchUserRank();
@@ -334,42 +315,6 @@ export default function RankingScreen({navigation}){
     );
 }
 
-
-
-
-/* Display for List Entries */
-function renderListEntry({ item }) {
-  //Check if this is the client - if so highlight the entry
-  let ClientEntry = false;  
-  if(item.username === USERNAME) ClientEntry = true;
-  return(
-    <View style = {[styles.ListEntryContainer, ClientEntry && {backgroundColor : "#FFD700"}]}>
-    {/* // <View> */}
-    <Text>
-        {item.rank} -  {item.username} - {item.global_score}
-    </Text>
-    </View>
-  );
-};
-
-
-
-//Colors before file restructuring
-const Colors = {
-  primary : {
-    MINT : "#74C69D",
-    RAISIN_BLACK : "#201B1B",
-    MINT_CREAM : "#F7FCF8",
-  },
-  secondary : {
-    CELADON : "#B1E7B9",
-    NON_PHOTO_BLUE : "#B2E4EE",
-    ALMOND : "#F7DFC5",
-    LIGHT_MINT : "#8BD0AD", 
-    DARK_MINT : "#51B885",
-    NYANZA : "#D8F3DC",
-  }
-}
 
 
 
@@ -403,14 +348,6 @@ const styles = StyleSheet.create({
     borderWidth : 0,
   },
 
-  UserListing : {
-    backgroundColor : Colors.secondary.ALMOND,
-    width : 'auto',
-    borderRadius : 35, 
-    borderWidth : 2, 
-    padding : 15, 
-  },
-
   buttonContainer: {
     overflow : 'hidden',
     flexDirection: 'row',
@@ -442,14 +379,5 @@ const styles = StyleSheet.create({
     color : "#219df4",
     textAlign : 'center',
   },
-  ListEntryContainer : {
-    backgroundColor : "#e4f6f8",
-    width : 'auto',
-    borderWidth : 1,
-    borderColor : Colors.secondary.DARK_MINT,
-    borderRadius : 15,
-    padding : 8,
-    marginHorizontal: 15,
-    marginVertical : 8
-  }
+
 });

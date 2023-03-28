@@ -17,7 +17,10 @@ export default function serverErrorScreen({onRefresh, errorMessage}){
     return (
         <ScrollView 
         refreshControl={
-          <RefreshControl refreshing={false} onRefresh={onRefresh} />
+          <RefreshControl 
+          refreshing={false} 
+          onRefresh={onRefresh} 
+          testID="refresh-control" />
         }
         >
           <View
@@ -29,7 +32,12 @@ export default function serverErrorScreen({onRefresh, errorMessage}){
               color : Colors.secondary.NYANZA
             }}
           >
-            <Ionicons name="sad-outline" size = {75}></Ionicons>
+            <Ionicons 
+              name="sad-outline" 
+              size = {75}
+              testID="sad-face-icon"
+            ></Ionicons>
+            
             <Text
               onPress={() => fetchUserRank()}
             >

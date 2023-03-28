@@ -8,9 +8,9 @@ import {Colors} from '../colors/Colors'
  * @param loading - a state variable to determine if loading or not
  * @returns a null element or a loading screen indicator that will overlay over all existing elements
  */
-export default function LoadingIndicator(loading) {
+export default function LoadingIndicator({loading}) {
     if(loading)
-    return (<ActivityIndicator size="large" color={Colors.primary.RAISIN_BLACK} style={LoadingIndicatorStyle}/>)
+    return (<ActivityIndicator size="large" color={Colors.primary.RAISIN_BLACK} style={LoadingIndicatorStyle} testID="loading-indicator"/>)
     else return(null);
 }
 
