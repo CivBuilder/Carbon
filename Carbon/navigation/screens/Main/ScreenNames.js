@@ -5,7 +5,7 @@ export const ScreenNames = {
     RANKING: 'Ranking',
     SETTINGS: 'Settings',
     ADD_PROGRESS: 'AddProgress',
-    BROWSER: 'Browser'
+    BROWSER: 'Browser',
     QUIZ: 'Quiz'
 
 };
