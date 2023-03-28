@@ -4,9 +4,9 @@ import {useState, useEffect} from 'react';
 import { RadioButton } from 'react-native-paper';
 
 //eventually will be changed to server url
-const APIURL = "http://localhost:3000/api/quiz/1"
+const APIURL = "http://localhost:3000/api/quiz/"
 
-const QuizScreen = () => {
+const QuizScreen = ({route}) => {
     //used for fetching data 
     const[isLoading, setLoading] = useState(true);
     const[data, setData] = useState([]);
@@ -17,7 +17,7 @@ const QuizScreen = () => {
     const fetchData = async() => {
         console.log("Fetching data for quizcontent");
         try{
-        const response = await fetch(APIURL)
+        const response = await fetch(APIURL + route.params.id)
         const responsedata = await response.json();
         setData(responsedata.quiz);
         setLoading(false);
