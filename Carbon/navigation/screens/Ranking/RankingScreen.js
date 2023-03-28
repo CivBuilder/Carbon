@@ -207,7 +207,7 @@ export default function RankingScreen({navigation}){
 
 
     return (
-      <View backgroundColor = {Colors.secondary.NYANZA} style = {{ flexGrow : 1, flex : 1}}>
+      <View backgroundColor = {Colors.secondary.NYANZA} style = {{ flexGrow : 1, flex : 1}} testID = "rankingComponent">
 
         {!errorMessage && 
           <View style = {{flex : 1}}>
@@ -303,13 +303,13 @@ export default function RankingScreen({navigation}){
         {/* Displays Sad Screen Prompting Refresh on any server Error */}
         {errorMessage && 
           //Make sure we refresh on the same page as last time
-          serverErrorScreen(
-            async () =>{
+          <serverErrorScreen
+            onRefresh = {async () => {
               if(!rank) fetchUserRank();
               else HandlePressedButton(buttonPressed);
-          }
-          , errorMessage)
-        }
+            }}
+            errorMessage = {errorMessage}
+          />}
 
       </View>
     );

@@ -18,12 +18,13 @@ export default function serverErrorScreen({onRefresh, errorMessage}){
         <ScrollView 
         refreshControl={
           <RefreshControl 
+          testID='refresh-control'
           refreshing={false} 
           onRefresh={onRefresh} 
-          testID="refresh-control" />
+          />
         }
         >
-          <View
+          <View 
             style = {{
               padding : 75,
               flex : 1,
@@ -32,15 +33,8 @@ export default function serverErrorScreen({onRefresh, errorMessage}){
               color : Colors.secondary.NYANZA
             }}
           >
-            <Ionicons 
-              name="sad-outline" 
-              size = {75}
-              testID="sad-face-icon"
-            ></Ionicons>
-            
-            <Text
-              onPress={() => fetchUserRank()}
-            >
+            <Ionicons name="sad-outline" size = {75} testID = "sad-icon"></Ionicons>
+            <Text testID='Sad-Icon-Error-Text'>
               {errorMessage}{"\n"}
               Error Getting Data - Swipe Down to Refresh Page
             </Text>

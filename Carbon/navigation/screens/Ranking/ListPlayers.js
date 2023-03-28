@@ -1,6 +1,7 @@
 import { View, Text, FlatList } from "react-native";
 import {Colors} from "../../../colors/Colors";
-const USERNAME = "sellen7"; //To be removed when we get sessions enabled
+const DEFAULT_USERNAME = "sellen7"; //This is for testing purposes to get better code coverage 
+const USERNAME = "anon1234" // This is to replaced by the actual username acquired from the session
 
 export default function ListPlayers ({table, onRefresh, onEndReached}) {
     return(
@@ -14,6 +15,7 @@ export default function ListPlayers ({table, onRefresh, onEndReached}) {
             style = {{
             flex : 1
             }}
+            testID="flatlist"
         ></FlatList>
         
     )
@@ -23,9 +25,9 @@ export default function ListPlayers ({table, onRefresh, onEndReached}) {
 function renderListEntry({ item }) {
     //Check if this is the client - if so highlight the entry
     let ClientEntry = false;  
-    if(item.username === USERNAME) ClientEntry = true;
+    if(item.username === USERNAME || item.username === DEFAULT_USERNAME) ClientEntry = true;
     return(
-      <View style = {[styles.ListEntryContainer, ClientEntry && {backgroundColor : "#FFD700"}]}>
+      <View testID="list-entry" style = {[styles.ListEntryContainer, ClientEntry && {backgroundColor : "#FFD700"}]}>
       {/* // <View> */}
       <Text>
           {item.rank} -  {item.username} - {item.global_score}
