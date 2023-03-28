@@ -1,7 +1,7 @@
 
 import { BarChart} from "react-native-chart-kit";
 import {StyleSheet, Dimensions } from 'react-native';
-import { Colors } from '../colors/Colors';
+import { Colors } from '../../assets/styling/Colors';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;

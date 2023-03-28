@@ -1,5 +1,5 @@
 import {render} from '@testing-library/react-native';
-import {DailyLog} from '../../components/ChartData.js';
+import {DailyLog} from '../ChartData';
 
 describe('DailyLog', () => {
     it('renders a bar chart', () => {

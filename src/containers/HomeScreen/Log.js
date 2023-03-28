@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { DailyLog } from "../../../components/ChartData";
+import { DailyLog } from "./ChartData";
 import React, { useState } from 'react';
-import { Colors } from '../../../colors/Colors';
+import { Colors } from '../../assets/styling/Colors';
 import  GetData  from "./GetData";
 const twoDarray = [[100, 200, 300, 400, 500],[500, 545, 100, 555, 100],[100, 200, 300, 400, 500],[800, 200, 750, 600, 500]]; //Temp array for data
 //GetData() //calls the get data function

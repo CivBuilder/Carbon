@@ -6,11 +6,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Colors } from '../../../colors/Colors';
+import { Colors } from '../../assets/styling/Colors';
 import { IconNames } from './IconNames';
 
 import { ScreenNames } from './ScreenNames';
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress } from '../../screens';
+import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress } from '../../containers';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -41,7 +41,7 @@ const HomeStack = ({ navigation }) => {
                     headerTitleAlign: 'center',
                     headerTitle: () => (
                         <Image
-                            source={require('../../../assets/Carbon_Logo.png')}
+                            source={require('../../assets/images/Carbon_Logo.png')}
                             style={{
                                 //TODO: 1080x356 is the current dimension. Find a better way to scale this properly.
                                 width: 1080 / 12,
