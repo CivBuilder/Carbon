@@ -11,7 +11,9 @@
   },
   "jest": {
     "preset": "jest-expo",
-    "setupFilesAfterEnv": ["@testing-library/jest-native/extend-expect"],
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-native/extend-expect"
+    ],
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
     ],
@@ -36,9 +38,9 @@
     "expo": "~47.0.12",
     "expo-linear-gradient": "~12.0.1",
     "expo-status-bar": "~1.4.2",
-    "radio-buttons-react-native": "^1.0.4",
     "jest": "^26.6.3",
     "jest-expo": "^48.0.2",
+    "radio-buttons-react-native": "^1.0.4",
     "react": "18.1.0",
     "react-chartjs-2": "^5.2.0",
     "react-native": "0.70.5",

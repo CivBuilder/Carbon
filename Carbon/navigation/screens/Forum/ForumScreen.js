@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react';
 import EducationMenu from '../../../components/EducationMenu';
 import { electricity, food, recycle, transportation, water } from '../../../assets';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { ScreenNames } from '../Main/ScreenNames/';
+import { ScreenNames } from '../Main/ScreenNames.js';
 
 const APIURL = "http://carbonserver-env.eba-pmpdtmpe.us-east-1.elasticbeanstalk.com/api"
 // Using my test AWS node server for now

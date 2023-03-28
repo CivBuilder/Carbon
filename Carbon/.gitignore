@@ -34,3 +34,7 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+
+#testing
+coverage/
+#testing
