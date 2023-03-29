@@ -13,6 +13,7 @@ var usersRouter = require('./api/users');
 var forumRouter = require('./api/forumContent');
 var quizRouter = require('./api/quiz');
 var userRouter = require('./api/user');
+var goalRouter = require('.api/goal')
 var user_emissionsRouter = require('./api/userEmissions');
 
 var app = express();
@@ -32,6 +33,7 @@ app.use('/api/forumcontent', forumRouter);
 app.use('/api/quiz', quizRouter);
 app.use('/api/user', userRouter);
 app.use('/api/userEmissions', user_emissionsRouter);
+app.use('/api/goal', goalRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
