@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text } from 'react-native';
 import { Colors } from '../../../colors/Colors';
-import { CatgegoryChart } from '../../../components/ChartData';
+import { CatgegoryChart, KeyFactors } from '../../../components/ChartData';
 import RecordEmission from './RecordEmission';
 import { TouchableOpacity } from 'react-native';
 import { ScreenNames } from '../Main/ScreenNames';
@@ -35,6 +35,13 @@ export default function ProgressScreen({ navigation }) {
                             <Text style={styles.buttonText}>Set Goal</Text>
                         </View>
                     </TouchableOpacity>
+                <View style={styles.container}>
+                    <View style={styles.header}>
+                        <Text style={styles.title}>Key Factors</Text>
+                    </View>
+                    <View style={styles.chart}>
+                        <KeyFactors/>
+                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>
