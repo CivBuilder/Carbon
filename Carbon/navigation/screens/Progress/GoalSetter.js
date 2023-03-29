@@ -33,7 +33,7 @@ export default function GoalSetter({ navigation }) {
       <View style={styles.sliderContainer}>
         <View style={styles.sliderTextContainer}>
           <Text style={styles.sliderText}>This month, I will lower my emissions by:</Text>
-          <Text style={styles.sliderPercentage}>{goal}%</Text>
+          <Text style={styles.sliderPercentage} testID="sliderPercentage">{goal}%</Text>
         </View>
         {/* Change to not deprecated slider */}
         <Slider
@@ -44,11 +44,12 @@ export default function GoalSetter({ navigation }) {
           maximumTrackTintColor="#000000"
           step={1}
           onValueChange={handleValueChange}
+          testID="slider"
         />
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={() => { saveGoalToDatabase(); navigation.navigate(ScreenNames.PROGRESS); }}>
-          <View style={styles.button}>
+          <View style={styles.button} testID="set-goal-button">
             <Text style={styles.buttonText}>Set Goal</Text>
           </View>
         </TouchableOpacity>
