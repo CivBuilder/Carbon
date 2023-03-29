@@ -11,7 +11,7 @@ import { IconNames } from './IconNames';
 
 import { ScreenNames } from './ScreenNames';
 
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen } from '../../screens';
+import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen } from '../../screens';
 
 
 const Stack = createStackNavigator();
@@ -95,7 +95,7 @@ const ProgressStack = ({ navigation }) => {
                     ),
                 }}
             />
-            {/* <Stack.Screen name={ScreenNames.ADD_PROGRESS} component={AddProgress} /> */}
+            {<Stack.Screen name={ScreenNames.ADD_GOAL} component={GoalScreen} />}
         </Stack.Navigator>
     );
 };
