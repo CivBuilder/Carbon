@@ -182,6 +182,7 @@ export default function RankingScreen({navigation}){
     /* These are here so that the table isn't constantly updated everytime the tab is switched*/
     /* When the Ends of the Lists are met, the direct calls to the update functions are called*/
     const HandlePressedButton = (buttonID) => {
+      console.log("googoogaga");
       switch(buttonID){
         case 1 :
           setPressedButton(1);
@@ -219,12 +220,14 @@ export default function RankingScreen({navigation}){
                 <View style = {styles.buttonContainer}> 
                   <TouchableOpacity style={[styles.button, buttonPressed === 1 && styles.pressedButton]}
                       onPress={() => {HandlePressedButton(1)}}
+                      testID = "likeYouButton"
                   >
                     <Text style={[styles.buttonText, buttonPressed === 1 && styles.pressedButtonText]}>Players Like You</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity style={[styles.button, buttonPressed === 2 && styles.pressedButton]}
                     onPress={() => {HandlePressedButton(2)}}
+                    testID = "globalButton"
                   >
                     <Text style={[styles.buttonText, buttonPressed === 2 && styles.pressedButtonText ]}>Top Scorers</Text>
                   </TouchableOpacity>
@@ -232,6 +235,7 @@ export default function RankingScreen({navigation}){
 
                   <TouchableOpacity style={[styles.button, buttonPressed === 3 && styles.pressedButton]}
                     onPress={() => {HandlePressedButton(3)}}
+                    testID = "socialButton"
                   >
                     <Text style={[styles.buttonText, buttonPressed === 3 && styles.pressedButtonText ]}>Social</Text>
                   </TouchableOpacity>
