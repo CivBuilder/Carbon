@@ -1,0 +1,8 @@
+// Make our lives easier, bless intellisense - Angel
+{
+    "typeAcquisition": {
+        "include" : [
+            "jest"
+        ]
+    }
+}
