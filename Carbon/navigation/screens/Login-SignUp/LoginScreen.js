@@ -10,12 +10,12 @@ const LoginScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.logo} >
-        <Image source={{ uri: 'https://i.ibb.co/s9Kfh8p/carbon-logo.png'}} style={{width: 200, height: 100}}/>
+        <Image source={{ uri: 'https://i.ibb.co/s9Kfh8p/carbon-logo.png'}} style={{width: 200, height: 100}} testID="logo" />
       </View>
       <View style={styles.content}>
         <KeyboardAvoidingView behavior= 'height'>
-          <EmailInput />
-          <PasswordInput text="Password"/>
+          <EmailInput testID="emailInput"/>
+          <PasswordInput text="Password" testID="passwordInput" />
         </KeyboardAvoidingView>
         <View style={styles.forgotPassWrapper}>
           <ForgotPasswordNavButton />

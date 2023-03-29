@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, TextInput } from 'react-native'
 import React from 'react'
 
-const EmailInput = () => {
+const EmailInput = ({testID}) => {
   return (
     <View>
-      <TextInput style={styles.input} placeholder={'Email'} placeholderTextColor="#AFAFAF" />
+      <TextInput style={styles.input} placeholder={'Email'} placeholderTextColor="#AFAFAF" testID={testID}/>
     </View>
   )
 }

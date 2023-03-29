@@ -1,10 +1,10 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native'
 import React from 'react'
 
-const ForgotPasswordNavButton = () => {
+const ForgotPasswordNavButton = ({onPress}) => {
   return (
     <View>
-      <Pressable>
+      <Pressable onPress={onPress}>
         <Text style={styles.forgotPasswordNavButton}>Forgot Password?</Text>
       </Pressable>
     </View>

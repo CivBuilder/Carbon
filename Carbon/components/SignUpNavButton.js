@@ -1,10 +1,10 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native'
 import React from 'react'
 
-const SignUpNavButton = () => {
+const SignUpNavButton = ({onPress}) => {
   return (
     <View>
-      <Pressable>
+      <Pressable onPress={onPress} testID="signUpNavButton">
         <Text style={styles.signUpNavButton}>Sign Up</Text>
       </Pressable>
     </View>
