@@ -33,6 +33,18 @@ function Start ({navigation}){
 }
 
 function Diet({navigation}) {
+    const maxPoints = 10.0;
+    const [isDisabled,setIsDisabled] = useState(false);
+    const [pointPercent,setPointPercent] = useState(0);
+    const [buttonIndex, setButtonIndex] = useState(-1);
+    const changeIndex=(index)=>{
+        setButtonIndex(previousState=>index);
+    }
+    const disableButton=(points)=> {
+            setIsDisabled(previousState=>true);
+            setPointPercent(previousState=>points/maxPoints);
+    }
+
     return (
             <>
             <View
@@ -43,6 +55,44 @@ function Diet({navigation}) {
                 }}
             >
             <Text>What is your diet?</Text>
+            <View style={{
+                width:"100%",
+            }}
+            >
+            <Button
+                title="No Restrictions"
+                onPress={()=>{
+                disableButton(3);
+                setButtonIndex(0);
+                }}
+                color={buttonIndex==0 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+            />
+            <Button
+                title ="Pescatarian"
+                onPress={()=>{
+                disableButton(4);
+                setButtonIndex(1);
+                }}
+                color={buttonIndex==1 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+            />
+            <Button
+                title="Vegetarian"
+                onPress={()=>{
+                disableButton(6);
+                setButtonIndex(2);
+                }}
+                color={buttonIndex==2 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+            />
+            <Button
+                title ="Vegan/Plant-Based"
+                onPress={()=>{
+                disableButton(10);
+                setButtonIndex(3);
+                }}
+                color={buttonIndex==3 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+            />
+            <Text>{pointPercent}</Text>
+            </View>
             </View>
             <View style={{
                 justifyContent:'center',
@@ -62,8 +112,9 @@ function Diet({navigation}) {
             title="Next Question"
             color={Colors.primary.MINT}
             onPress={() =>
-                navigation.navigate('q2')
+                navigation.navigate('q2',{dietScore:pointPercent})
             }
+            disabled ={isDisabled ? false: true}
             />
             </View>
             </View>
@@ -72,7 +123,7 @@ function Diet({navigation}) {
 }
 
 function HouseholdPower({navigation,route}) {
-
+    const dietScore = route.params?.dietScore;
     return (
             <>
             <View
@@ -83,6 +134,8 @@ function HouseholdPower({navigation,route}) {
                 }}
             >
             <Text>How is your household powered?(Check All the Apply)</Text>
+            <Text>{dietScore}</Text>
+
             </View>
             <View style={{
                 justifyContent:'center',
@@ -112,7 +165,6 @@ function HouseholdPower({navigation,route}) {
 }
 
 function Bills({navigation,route}) {
-
     return (
     <>
     <View
@@ -158,9 +210,6 @@ function Bills({navigation,route}) {
 }
 
 function ModeOfTransport({navigation, route}) {
-    const dietScore = route.params?.dietScore;
-    const homePowerScore = route.params?.homePowerScore;
-    const annualPower = route.params?.annualPower;
     return (
             <>
             <View
@@ -250,7 +299,6 @@ function VehicleType({navigation,route}) {
         )
 }
 function Mileage({navigation,route}) {
-
     return (
     <>
     <View
