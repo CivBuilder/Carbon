@@ -124,6 +124,47 @@ function Diet({navigation}) {
 
 function HouseholdPower({navigation,route}) {
     const dietScore = route.params?.dietScore;
+    const maxPoints = 10.0;
+
+    const [isDisabled,setIsDisabled] = useState(false);
+    const [pointPercent,setPointPercent] = useState(0);
+
+    const [buttonOn0, setButtonOn0] = useState(false);
+    const [buttonOn1, setButtonOn1] =  useState(false);
+    const [buttonOn2, setButtonOn2] = useState(false);
+    const [buttonOn3, setButtonOn3] = useState(false);
+
+    const calculatePoints=() =>{
+        let numerator = buttonOn0*1 + buttonOn1*2 + buttonOn2*3 + buttonOn3*10;
+        let denominator = (buttonOn0+buttonOn1+buttonOn2+buttonOn3)*maxPoints;
+        setPointPercent(previousState=>numerator/denominator);
+    }
+    //Ensure that points is synchronous
+    useEffect(()=>{
+        calculatePoints();
+    });
+
+    const toggleButton = (index) => {
+        const flip = false;
+        //Toggle specific button depending on input
+        switch(index){
+            case 0:
+                setButtonOn0(!buttonOn0);
+                break;
+            case 1:
+                setButtonOn1(!buttonOn1);
+                break;
+            case 2:
+                setButtonOn2(!buttonOn2);
+                break;
+            case 3:
+                setButtonOn3(!buttonOn3);
+                break;
+            default:
+                break;
+        }
+    }
+
     return (
             <>
             <View
@@ -134,8 +175,41 @@ function HouseholdPower({navigation,route}) {
                 }}
             >
             <Text>How is your household powered?(Check All the Apply)</Text>
+            <View style={{
+                width:"100%",
+            }}
+            >
+            <Button
+                title="Coal"
+                onPress={()=>{
+                    toggleButton(0);
+                }}
+                color={buttonOn0 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+            />
+            <Button
+                title ="Petroleum"
+                onPress={()=>{
+                    toggleButton(1);
+                }}
+                color={buttonOn1 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+            />
+            <Button
+                title="Natural Gas"
+                onPress={()=>{
+                    toggleButton(2);
+                }}
+                color={buttonOn2 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+            />
+            <Button
+                title ="Renewable Energy (Solar, Wind, etc...)"
+                onPress={()=>{
+                    toggleButton(3);
+                }}
+                color={buttonOn3 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+            />
+            <Text>{pointPercent}</Text>
             <Text>{dietScore}</Text>
-
+            </View>
             </View>
             <View style={{
                 justifyContent:'center',
@@ -155,8 +229,11 @@ function HouseholdPower({navigation,route}) {
             title="Next Question"
             color={Colors.primary.MINT}
             onPress={() =>
-                navigation.navigate('q3')
+                navigation.navigate('q3',{dietScore:dietScore,
+                powerSourceScore:pointPercent,
+                })
             }
+            disabled ={(buttonOn0||buttonOn1||buttonOn2||buttonOn3) ? false: true}
             />
             </View>
             </View>
@@ -165,6 +242,12 @@ function HouseholdPower({navigation,route}) {
 }
 
 function Bills({navigation,route}) {
+    const dietScore = route.params?.dietScore;
+    const powerScore = route.params?.powerSourceScore;
+
+    const [bill,setBill] = useState(0);
+    const [rate,setRate] = useState(0);
+
     return (
     <>
     <View
@@ -181,6 +264,30 @@ function Bills({navigation,route}) {
         your average electricity bill over the past year along with
         your electricity rates.
         </Text>
+        <View>
+        <Text> Bills (In Dollars) </Text>
+        <TextInput
+        placeholder="Ex: 99.99"
+        style={{
+        backgroundColor:Colors.secondary.NYANZA,
+        }}
+        keyboardType="decimal-pad"
+        onChangeText={text=>setBill(text)}
+        />
+
+        <Text> Rates (In Dollars /kWh) </Text>
+        <TextInput
+        placeholder="Ex: .98"
+        keyboardType="decimal-pad"
+        style={{
+        backgroundColor:Colors.secondary.NYANZA,
+        }}
+        onChangeText={text=>
+        setRate(text)}
+        />
+        <Text>{rate}</Text>
+        <Text>{bill}</Text>
+        </View>
         </View>
         <View style={{
         justifyContent:'center',
@@ -200,7 +307,11 @@ function Bills({navigation,route}) {
         title="Next Question"
         color={Colors.primary.MINT}
         onPress={() =>
-        navigation.navigate('q4')
+        navigation.navigate('q4',{
+        dietScore: dietScore,
+        homePowerScore:powerScore,
+        annualPower:bill/rate,
+        })
         }
         />
         </View>
@@ -210,6 +321,9 @@ function Bills({navigation,route}) {
 }
 
 function ModeOfTransport({navigation, route}) {
+    const dietScore = route.params?.dietScore;
+    const homePowerScore = route.params?.homePowerScore;
+    const annualPower = route.params?.annualPower;
     return (
             <>
             <View
@@ -231,14 +345,22 @@ function ModeOfTransport({navigation, route}) {
             <Button
                 title="Yes"
                 onPress={()=>{
-                    navigation.navigate("q4a");
+                    navigation.navigate("q4a",{
+                    dietScore:dietScore,
+                    homePowerScore:homePowerScore,
+                    annualPower:annualPower,
+                    });
                 }}
                 color={Colors.secondary.LIGHT_MINT}
             />
             <Button
                 title ="No"
                 onPress={()=>{
-                    navigation.navigate("q4c");
+                    navigation.navigate("q4c",{
+                    dietScore:dietScore,
+                    homePowerScore:homePowerScore,
+                    annualPower:annualPower,
+                    });
                 }}
                 color={Colors.secondary.LIGHT_MINT}
             />
@@ -260,6 +382,22 @@ function ModeOfTransport({navigation, route}) {
 }
 
 function VehicleType({navigation,route}) {
+    const dietScore = route.params?.dietScore;
+    const homePowerScore = route.params?.homePowerScore;
+    const annualPower = route.params?.annualPower;
+
+    const maxPoints = 10.0;
+    const [isDisabled,setIsDisabled] = useState(false);
+    const [pointPercent,setPointPercent] = useState(0);
+    const [buttonIndex, setButtonIndex] = useState(-1);
+
+    const changeIndex=(index)=>{
+        setButtonIndex(previousState=>index);
+    }
+    const disableButton=(points)=> {
+            setIsDisabled(previousState=>true);
+            setPointPercent(previousState=>points/maxPoints);
+    }
 
     return (
             <>
@@ -271,6 +409,36 @@ function VehicleType({navigation,route}) {
                 }}
             >
             <Text>What type of vehicle do you own?</Text>
+            <View style={{
+                width:"100%",
+            }}
+            >
+            <Button
+                title="Gas-Based"
+                onPress={()=>{
+                disableButton(3);
+                setButtonIndex(0);
+                }}
+                color={buttonIndex==0 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+            />
+            <Button
+                title ="Diesel-Based"
+                onPress={()=>{
+                disableButton(4);
+                setButtonIndex(1);
+                }}
+                color={buttonIndex==1 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+            />
+            <Button
+                title="Electric"
+                onPress={()=>{
+                disableButton(8);
+                setButtonIndex(2);
+                }}
+                color={buttonIndex==2 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+            />
+            <Text>{pointPercent}</Text>
+            </View>
             </View>
             <View style={{
                 justifyContent:'center',
@@ -290,8 +458,14 @@ function VehicleType({navigation,route}) {
             title="Next Question"
             color={Colors.primary.MINT}
             onPress={() =>
-                navigation.navigate('q4b')
+                navigation.navigate('q4b',{
+                    transportScore:pointPercent,
+                    dietScore:dietScore,
+                    homePowerScore:homePowerScore,
+                    annualPower:annualPower,
+                    })
             }
+            disabled ={isDisabled ? false: true}
             />
             </View>
             </View>
@@ -299,6 +473,13 @@ function VehicleType({navigation,route}) {
         )
 }
 function Mileage({navigation,route}) {
+    const dietScore = route.params?.dietScore;
+    const homePowerScore = route.params?.homePowerScore;
+    const annualPower = route.params?.annualPower;
+    const transportScore= route.params?.transportScore;
+
+    const [miles,setMiles] = useState(0);
+
     return (
     <>
     <View
@@ -312,6 +493,18 @@ function Mileage({navigation,route}) {
         <Text>
         (Optional) What is the mileage on your vehicle?
         </Text>
+        <Text>{miles}</Text>
+        <View>
+        <Text> Miles </Text>
+        <TextInput
+        placeholder="Ex: 208309"
+        style={{
+        backgroundColor:Colors.secondary.NYANZA,
+        }}
+        keyboardType="decimal-pad"
+        onChangeText={text=>setMiles(text)}
+        />
+        </View>
         </View>
             <View style={{
                 justifyContent:'center',
@@ -331,7 +524,13 @@ function Mileage({navigation,route}) {
             title="Next Question"
             color={Colors.primary.MINT}
             onPress={() =>
-                navigation.navigate('finished')
+                navigation.navigate('finished',{
+                    transportScore:transportScore,
+                    dietScore:dietScore,
+                    homePowerScore:homePowerScore,
+                    annualPower:annualPower,
+                    miles:miles,
+                    })
             }
             />
             </View>
@@ -340,6 +539,42 @@ function Mileage({navigation,route}) {
         )
 }
 function PublicTransportType({navigation,route}) {
+    const dietScore = route.params?.dietScore;
+    const homePowerScore = route.params?.homePowerScore;
+    const annualPower = route.params?.annualPower;
+
+    const maxPoints = 10.0;
+
+    const [isDisabled,setIsDisabled] = useState(false);
+    const [pointPercent,setPointPercent] = useState(0);
+
+    const [buttonOn0, setButtonOn0] = useState(false);
+    const [buttonOn1, setButtonOn1] =  useState(false);
+
+    const calculatePoints=() =>{
+        let numerator = buttonOn0*6 + buttonOn1*10;
+        let denominator = (buttonOn0+buttonOn1)*maxPoints;
+        setPointPercent(previousState=>numerator/denominator);
+    }
+    //Ensure that points is synchronous
+    useEffect(()=>{
+        calculatePoints();
+    });
+
+    const toggleButton = (index) => {
+        const flip = false;
+        //Toggle specific button depending on input
+        switch(index){
+            case 0:
+                setButtonOn0(!buttonOn0);
+                break;
+            case 1:
+                setButtonOn1(!buttonOn1);
+                break;
+            default:
+                break;
+        }
+    }
 
     return (
             <>
@@ -351,6 +586,26 @@ function PublicTransportType({navigation,route}) {
                 }}
             >
             <Text>What form of transportation do you use?(Check All the Apply)</Text>
+            <View style={{
+                width:"100%",
+            }}
+            >
+            <Button
+                title="Public Transportation (Bus,Metro,etc...)"
+                onPress={()=>{
+                    toggleButton(0);
+                }}
+                color={buttonOn0 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+            />
+            <Button
+                title ="Other (Bicycle,walking,etc...)"
+                onPress={()=>{
+                    toggleButton(1);
+                }}
+                color={buttonOn1 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+            />
+            <Text>{pointPercent}</Text>
+            </View>
             </View>
             <View style={{
                 justifyContent:'center',
@@ -370,8 +625,14 @@ function PublicTransportType({navigation,route}) {
             title="Next Question"
             color={Colors.primary.MINT}
             onPress={() =>
-                navigation.navigate('finished')
+                navigation.navigate('finished',{
+                    dietScore:dietScore,
+                    homePowerScore:homePowerScore,
+                    annualPower:annualPower,
+                    transportScore:pointPercent,
+                    })
             }
+            disabled ={(buttonOn0||buttonOn1) ? false: true}
             />
             </View>
             </View>
