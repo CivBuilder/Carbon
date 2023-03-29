@@ -13,7 +13,7 @@ var usersRouter = require('./api/users');
 var forumRouter = require('./api/forumContent');
 var quizRouter = require('./api/quiz');
 var userRouter = require('./api/user');
-var goalRouter = require('.api/goal')
+var goalRouter = require('./api/goal')
 var user_emissionsRouter = require('./api/userEmissions');
 
 var app = express();
