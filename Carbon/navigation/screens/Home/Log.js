@@ -1,25 +1,44 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { DailyLog } from "../../../components/ChartData";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Colors } from '../../../colors/Colors';
-import  GetData  from "./GetData";
-const twoDarray = [[100, 200, 300, 400, 500],[500, 545, 100, 555, 100],[100, 200, 300, 400, 500],[800, 200, 750, 600, 500]]; //Temp array for data
-//GetData() //calls the get data function
-
+import GetData from "./GetData";
 /*
     Log function, it can get todays, yesterdays, weekly or monthly data
     It's purpose is to display to the user their relevant data in an easy to see way and let them track their progress
     Currently nothing is passed in or returned except the component itself
 */
+
+
+
 export default function Log() {
     const whichLog = ["Today's", "Yesterday's", "Weekly", "Monthly"]; //String list for displaying
-
     const [number, setNumber] = useState(0);  //A state hook to set which area we are time frame we look at. 
-                                              //0 = "Today", 1= "Yesterday's" etc etc.
-    const [data, setArray] = useState(twoDarray[0]); //This will set the array corresponding with the time frame like above. Both default to "today"
-    
+    //0 = "Today", 1= "Yesterday's" etc etc.
+    const [twoDdata, loadArr] = useState(null);
+    const [data, setArray] = useState(null);
+    //Get our data from getData This will effectively 
+    useEffect(() => {
+        //Wait for get Data
+        async function callGetData() {
+            try {
+                const retData = await GetData(); //put the data here and set the array
+                loadArr(retData); //Sets the 2d array to be in twoDdata
+                setArray(retData[0]); //as well as setting the specific look at to be index 0
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        callGetData(); //Call the getdata through callGetData
+    }, []);
+    if (!data) {
+        return (
+            <Text style={{ fontSize: 40 }}>LOADING......</Text> //ESSENTIALLY if it isnt loaded we return null
+        )
+    }
     //function to handle the change to the right (aka today -> yesterday)
-    const handleChangeRight = () => { 
+    const handleChangeRight = () => {
         if (number < 3) {
             setNumber(number + 1);
         }
@@ -33,41 +52,42 @@ export default function Log() {
         }
         changeArrayLeft();
     };
-    
+
     //change array functions update the displayed data as according
-    const changeArrayLeft = () =>
-    {
-        if (number > 0)
-        {
-            setArray(twoDarray[number-1]);
+    const changeArrayLeft = () => {
+        if (number > 0) {
+            setArray(twoDdata[number - 1]);
         }
     };
-    const changeArrayRight = () =>
-    {
+    const changeArrayRight = () => {
         if (number < 3) {
-            setArray(twoDarray[number+1]);
+            setArray(twoDdata[number + 1]);
         }
     };
     //our rendering
     return (
         <View>
-            <View style={styles.header}> 
+            <View style={styles.header}>
 
-                <Text style={styles.title}>{whichLog[number]} Log</Text> 
+                <Text style={styles.title}>{whichLog[number]} Log</Text>
                 {/* Will display the log as well as some text next to it*/}
-                
-                <Text>Units: lb CO2e</Text> 
+
+                <Text>Units: lb's CO2e</Text>
                 {/* Displays our units used */}
 
             </View>
             {/*Align things */}
 
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15,/*backgroundColor: Colors.primary.MINT*/ }}>
-                 {/* Implements the log itself from ChartData.js */}
-                <DailyLog dataArray = {data}></DailyLog> 
-                     
+                {/* Implements the log itself from ChartData.js */}
+                {data.every((num) => num === 0) ? (
+                    <Text style={{ fontSize: 32 }} >ERROR, not enough data for {whichLog[number]} log.
+                    Please click left or right.</Text>
+                ) :(
+                    <DailyLog dataArray={data}></DailyLog>
+                )}
                 {/*Additional formatting for the button */}
-                <View style={{ justifyContent: 'center', flexDirection: 'row',}}>
+                <View style={{ justifyContent: 'center', flexDirection: 'row', }}>
                     <TouchableOpacity
                         style={{
                             backgroundColor: Colors.primary.MINT,
@@ -77,10 +97,10 @@ export default function Log() {
                             alignItems: 'center',
                             margin: margin,
                         }}
-                        onPress={handleChangeLeft}  
+                        onPress={handleChangeLeft}
                     >{/* handle left*/}
-                    {/* More formatting*/}
-                        <Text style={{ color: 'white', fontSize: 26 }}>{' <-'}</Text> 
+                        {/* More formatting*/}
+                        <Text style={{ color: 'white', fontSize: 26 }}>{' <-'}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={{
@@ -91,9 +111,9 @@ export default function Log() {
                             alignItems: 'center',
                             margin: margin,
                         }}
-                        onPress={handleChangeRight} 
+                        onPress={handleChangeRight}
                     >{/* Handle right*/}
-                     {/* more button formatting*/}
+                        {/* more button formatting*/}
                         <Text style={{ justifyContent: 'center', color: 'white', fontSize: 26 }}>{' ->'}</Text>
                     </TouchableOpacity>
                 </View>
@@ -102,7 +122,7 @@ export default function Log() {
     )
 }
 
-const margin = 10; 
+const margin = 10;
 //Style sheet for formating
 const styles = StyleSheet.create({
     title: {
