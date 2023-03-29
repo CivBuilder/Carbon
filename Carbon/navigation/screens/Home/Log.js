@@ -97,12 +97,15 @@ export default function Log() {
                             alignItems: 'center',
                             margin: margin,
                         }}
+                        testID = "left-click"
+
                         onPress={handleChangeLeft}
                     >{/* handle left*/}
                         {/* More formatting*/}
                         <Text style={{ color: 'white', fontSize: 26 }}>{' <-'}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
+                    testID="right-click"
                         style={{
                             backgroundColor: Colors.primary.MINT,
                             borderRadius: 5,
