@@ -1,28 +1,64 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text } from 'react-native';
+import { Colors } from '../../../colors/Colors';
+import { CatgegoryChart } from '../../../components/ChartData';
 import RecordEmission from './RecordEmission';
 
-export default function ProgressScreen({navigation}) {
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+const margin = 10;
+
+export default function ProgressScreen() {
     return(
-        <View
-            style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}
-        >
-            <Text
-                onPress={() =>
-                    navigation.navigate('Home')
-                }
-                style={{
-                    fontSize: 26,
-                    fontWeight: 'bold'
-                }}
+        <SafeAreaView>
+            <ScrollView
+                showsHorizontalScrollIndicator={false}
+                style={{flexGrow: 1}}
             >
-                Progress Screen
-            </Text>
-            <RecordEmission />
-        </View>
+                <View>
+                    <RecordEmission />
+                </View>
+                <View style={styles.container}>
+                    <View style={styles.header}>
+                        <Text style={styles.title}>Category Breakdown</Text>
+                    </View>
+                    <View style={styles.chart}>
+                        <CatgegoryChart/>
+                    </View>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        margin: margin,
+        backgroundColor: "white",
+        borderRadius: 16,
+        ...Platform.select({
+            ios: {
+                shadowColor: Colors.primary.RAISIN_BLACK,
+                shadowOffset: {width: 5, height: 5},
+                shadowOpacity: 0.125,
+                shadowRadius: 2.5,
+            },
+            android: {
+                elevation: 5,
+            },
+        }),
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        margin: margin,
+    },
+    title: {
+        fontSize: 16,
+        fontWeight: 'bold'
+    },
+    chart: {
+        margin: margin,
+    },
+});
