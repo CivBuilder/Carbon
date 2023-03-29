@@ -167,7 +167,7 @@ export const KeyFactors = () => {
 
     if (value == 0) return null;
     return (
-      <View style={[styleBar.category, {alignContent: 'flex-end', flex: 1}]}>
+      <View style={[styleBar.category, {marginVertical: 0, alignContent: 'flex-end', flex: 1}]}>
         { value > 0 && (
           <>{bad_change}{diff}</>
         )}
