@@ -98,7 +98,7 @@ describe('RankingScreen', () => {
                 json: () => {
                     return { ranking: 5, sustainability_score: 80 };
                 },
-                status : 204,
+                status : 200,
                 });
             });
         });

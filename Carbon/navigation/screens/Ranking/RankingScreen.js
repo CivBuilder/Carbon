@@ -182,7 +182,6 @@ export default function RankingScreen({navigation}){
     /* These are here so that the table isn't constantly updated everytime the tab is switched*/
     /* When the Ends of the Lists are met, the direct calls to the update functions are called*/
     const HandlePressedButton = (buttonID) => {
-      console.log("googoogaga");
       switch(buttonID){
         case 1 :
           setPressedButton(1);
