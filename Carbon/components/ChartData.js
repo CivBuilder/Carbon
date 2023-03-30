@@ -26,7 +26,18 @@ const data = [
 ];
 
 // Ticket C4-19
-export const CatgegoryChart = () => {
+//Helper functions
+
+// Renders the label for each section of the pie chart
+export const getLabel = (datum, total) => {
+    const percent = Math.round((datum.y / total) * 100);
+    if (percent > 4) {
+        return `${datum.x}\n${Math.round((datum.y / total) * 100)}%`;
+    }
+    return null;
+};
+
+export const CategoryChart = () => {
     const total = data.reduce((acc, datum) => acc + datum.y, 0); //Gets the overall value of all categories
 
     //Components for the pie chart
@@ -34,21 +45,11 @@ export const CatgegoryChart = () => {
     const innerRadius = pieRadius * 0.65;
     const labelRadius = ((pieRadius + innerRadius) / 2);
 
-    // Renders the label for each section of the pie chart
-    const getLabel = (datum) => {
-        const percent = Math.round((datum.y / total) * 100);
-        if (percent > 4) {
-            return `${datum.x}\n${Math.round((datum.y / total) * 100)}%`;
-        }
-        return null;
-    };
-
     const [selectedSlice, setSelectedSlice] = useState(null);
 
     const handlePress = (event, props) => {
         const selectedDatum = data[props.index];
         setSelectedSlice(props.index);
-        // console.log(`Selected slice: ${selectedDatum.x} (${selectedDatum.y})`);
     };
 
     // Shows the value of the selected section in the middle of the pie chart
@@ -70,7 +71,7 @@ export const CatgegoryChart = () => {
                 innerRadius={innerRadius}
                 cornerRadius={6}
                 labelRadius={labelRadius}
-                labels={({ datum }) => getLabel(datum)}
+                labels={({ datum }) => getLabel(datum, total)}
                 style={{
                     labels: {
                         fill: "white",
@@ -167,7 +168,7 @@ export const KeyFactors = () => {
 
     if (value == 0) return null;
     return (
-      <View style={[styleBar.category, {marginVertical: 0, alignContent: 'flex-end', flex: 1}]}>
+      <View style={[styleBar.category, {alignContent: 'flex-end', flex: 1}]}>
         { value > 0 && (
           <>{bad_change}{diff}</>
         )}
