@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import {ActivityIndicator, ScrollView, StyleSheet, Text, View, RefreshControl, TouchableOpacity, FlatList} from 'react-native';
-import serverErrorScreen from '../../../components/ServerErrorScreen';
+import ServerErrorScreen from '../../../components/ServerErrorScreen';
 import LoadingIndicator from "../../../components/LoadingIndicator";
 import {Colors} from "../../../colors/Colors";
 import ListPlayers from './ListPlayers';
@@ -307,7 +307,7 @@ export default function RankingScreen({navigation}){
         {/* Displays Sad Screen Prompting Refresh on any server Error */}
         {errorMessage && 
           //Make sure we refresh on the same page as last time
-          <serverErrorScreen testID = "error_screen"
+          <ServerErrorScreen testID = "error_screen"
             onRefresh = {async () => {
               if(!rank) fetchUserRank();
               else HandlePressedButton(buttonPressed);
