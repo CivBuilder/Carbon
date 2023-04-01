@@ -1,4 +1,4 @@
-import { API_URL } from "../Api";
+import { API_URL } from "../../../config/Api";
 /*
     This is a function that will get the data from the server and return it
     The data is not being returned yet.

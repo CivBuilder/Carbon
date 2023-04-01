@@ -5,7 +5,7 @@ import ServerErrorScreen from '../../../components/ServerErrorScreen';
 import LoadingIndicator from "../../../components/LoadingIndicator";
 import {Colors} from "../../../colors/Colors";
 import ListPlayers from './ListPlayers';
-import { API_URL } from '../Api';
+import { API_URL } from '../../../config/Api';
 const PAGE_SIZE = 15;
 
 //Constants - These are to be removed and placed entirely when we build a user session
