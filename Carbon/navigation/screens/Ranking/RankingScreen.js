@@ -1,16 +1,17 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import {ActivityIndicator, ScrollView, StyleSheet, Text, View, RefreshControl, TouchableOpacity, FlatList} from 'react-native';
-import serverErrorScreen from '../../../components/ServerErrorScreen';
+import ServerErrorScreen from '../../../components/ServerErrorScreen';
 import LoadingIndicator from "../../../components/LoadingIndicator";
 import {Colors} from "../../../colors/Colors";
 import ListPlayers from './ListPlayers';
+import { API_URL } from '../../../config/Api';
 const PAGE_SIZE = 15;
 
 //Constants - These are to be removed and placed entirely when we build a user session
 
-const API_Entry_RANK_URL = "http://192.168.0.232:3000/api/user/rank/"
-const API_Entry_LEADERBOARD_URL = "http://192.168.0.232:3000/api/user/leaderboard/"
+const API_Entry_RANK_URL = API_URL + "user/rank/";
+const API_Entry_LEADERBOARD_URL = API_URL + "user/leaderboard/";
 
 // const API_Entry_RANK_URL = "http://localhost:3000/api/user/rank/"
 // const API_Entry_LEADERBOARD_URL = "http://localhost:3000/api/user/leaderboard/"
@@ -306,7 +307,7 @@ export default function RankingScreen({navigation}){
         {/* Displays Sad Screen Prompting Refresh on any server Error */}
         {errorMessage && 
           //Make sure we refresh on the same page as last time
-          <serverErrorScreen testID = "error_screen"
+          <ServerErrorScreen testID = "error_screen"
             onRefresh = {async () => {
               if(!rank) fetchUserRank();
               else HandlePressedButton(buttonPressed);
