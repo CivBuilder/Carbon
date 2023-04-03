@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Colors } from '../../../colors/Colors';
 import { IconNames } from './IconNames';
+import { PopUpMenu } from '../../../components/PopUpMenu';
 
 import { ScreenNames } from './ScreenNames';
 
@@ -79,19 +80,7 @@ const ProgressStack = ({ navigation }) => {
                     headerShown: true,
                     headerTitleAlign: 'center',
                     headerRight: () => (
-                        <TouchableOpacity
-                            onPress={() =>
-                                console.log("Add button pressed. Did you connect the screen properly?")
-                                /*navigation.navigate(ScreenNames.ADD_PROGRESS)*/
-                            }
-                        >
-                            <Ionicons
-                                name={IconNames.ADD}
-                                size={28}
-                                color={Colors.primary.MINT}
-                                style={{ marginRight: 16 }}
-                            />
-                        </TouchableOpacity>
+                        <PopUpMenu/>
                     ),
                 }}
             />
