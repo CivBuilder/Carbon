@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, TouchableOpacity, Modal, SafeAreaView, Text } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, TouchableOpacity, Modal, SafeAreaView, Text, Animated, Easing } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { IconNames } from '../navigation/screens/Main/IconNames';
@@ -9,6 +9,8 @@ import { styles } from './Styles';
 export const PopUpMenu = ({navigation}) => {
     // Sets the visibility of the pop-up menu when the plus button is pressed
     const [visible, setVisibility] = useState(false);
+
+    const scale = useRef(new Animated.Value(0)).current;
 
     // Lists out the options user can do within this pop-up menu
     const options = [
@@ -24,12 +26,20 @@ export const PopUpMenu = ({navigation}) => {
         },
     ];
 
+    function resizeBox(to) {
+        to === 1 && setVisibility(true);
+        Animated.timing(scale,{
+            toValue:to,
+            useNativeDriver: true,
+            duration: 150,
+            easing: Easing.linear,
+        }).start(() => to === 0 && setVisibility(false));
+    };
+
     return (
         <View>
             <TouchableOpacity
-                onPress={() =>
-                    setVisibility(true)
-                }
+                onPress={() => resizeBox(1)}
             >
                 <Ionicons
                     name={IconNames.ADD}
@@ -42,9 +52,15 @@ export const PopUpMenu = ({navigation}) => {
             <Modal transparent visible={visible}>
                 <SafeAreaView
                     style={{ flex:1 }}
-                    onTouchStart={() => setVisibility(false) }
+                    onTouchStart={() => resizeBox(0) }
                 >
-                    <View style={styles.popup_modal}>
+                    <Animated.View
+                        style={[
+                            styles.popup_modal,
+                            { opacity: scale.interpolate({inputRange:[0,1], outputRange:[0,1]})},
+                            { transform: [{ scale }] },
+                        ]}
+                    >
                         {options.map((op, i) => (
                             <TouchableOpacity
                                 style={[styles.options, {borderBottomWidth: i === options.length - 1 ? 0 : 1}]}
@@ -59,7 +75,7 @@ export const PopUpMenu = ({navigation}) => {
                                 />
                             </TouchableOpacity>
                         ))}
-                    </View>
+                    </Animated.View>
                 </SafeAreaView>
             </Modal>
         </View>
