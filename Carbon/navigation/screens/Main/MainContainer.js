@@ -1,18 +1,15 @@
 import * as React from 'react';
-import { StatusBar, Image, TouchableOpacity } from 'react-native';
+import { StatusBar, Image, TouchableOpacity, SafeAreaView, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Colors } from '../../../colors/Colors';
 import { IconNames } from './IconNames';
 import { PopUpMenu } from '../../../components/PopUpMenu';
-
 import { ScreenNames } from './ScreenNames';
-
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen } from '../../screens';
+import * as Screens from '../../screens';
 
 
 const Stack = createStackNavigator();
@@ -38,9 +35,12 @@ const HomeStack = ({ navigation }) => {
         <Stack.Navigator>
             <Stack.Screen
                 name={' '}
-                component={HomeScreen}
+                component={Screens.HomeScreen}
                 options={{
                     headerShown: true,
+                    headerStyle: {
+                        height: Platform.OS === 'ios' ? 48 : 72,
+                    },
                     headerTitleAlign: 'center',
                     headerTitle: () => (
                         <Image
@@ -64,7 +64,7 @@ const HomeStack = ({ navigation }) => {
                     ),
                 }}
             />
-            <Stack.Screen name={ScreenNames.SETTINGS} component={SettingsScreen} />
+            <Stack.Screen name={ScreenNames.SETTINGS} component={Screens.SettingsScreen} />
         </Stack.Navigator>
     );
 };
@@ -75,16 +75,20 @@ const ProgressStack = ({ navigation }) => {
         <Stack.Navigator>
             <Stack.Screen
                 name={'Your Progress'}
-                component={ProgressScreen}
+                component={Screens.ProgressScreen}
                 options={{
                     headerShown: true,
+                    headerStyle: {
+                        height: Platform.OS === 'ios' ? 48 : 72,
+                    },
                     headerTitleAlign: 'center',
                     headerRight: () => (
-                        <PopUpMenu/>
+                        <PopUpMenu navigation={navigation} />
                     ),
                 }}
             />
-            {<Stack.Screen name={ScreenNames.ADD_GOAL} component={GoalScreen} />}
+            {<Stack.Screen name={ScreenNames.ADD_GOAL} component={Screens.GoalScreen} />}
+            {/* TODO: Add Records Emissions screen here */}
         </Stack.Navigator>
     );
 };
@@ -95,25 +99,25 @@ const ForumStack = ({ navigation }) => {
         <Stack.Navigator>
             <Stack.Screen
                 name={' '}
-                component={ForumScreen}
+                component={Screens.ForumScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
                 }}
             />
             <Stack.Screen
                 name={'Quiz'}
-                component={QuizScreen}
+                component={Screens.QuizScreen}
                 options={{
-                   // headerShown: false, // Set to false for now until we need to implement headers for this screen
-                   headerShown: true,
+                    // headerShown: false, // Set to false for now until we need to implement headers for this screen
+                    headerShown: true,
                 }}
             />
             <Stack.Screen
                 name={'Browser'}
-                component={BrowserScreen}
+                component={Screens.BrowserScreen}
                 options={{
-                   // headerShown: false, // Set to false for now until we need to implement headers for this screen
-                   headerShown: true,
+                    // headerShown: false, // Set to false for now until we need to implement headers for this screen
+                    headerShown: true,
                 }}
             />
         </Stack.Navigator>
@@ -126,7 +130,7 @@ const RankingStack = ({ navigation }) => {
         <Stack.Navigator>
             <Stack.Screen
                 name={' '}
-                component={RankingScreen}
+                component={Screens.RankingScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
                 }}

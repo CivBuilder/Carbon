@@ -37,6 +37,7 @@ export default function HomeScreen({ navigation }) {
                         <Log/>
                     </View>
                 </View> */}
+
                 {/******* RANKINGS *******/}
                 <View>
                     <View style={styles.header}>
@@ -63,7 +64,7 @@ export default function HomeScreen({ navigation }) {
                         </TouchableOpacity>
                     </View>
                     {/* <View style={styles.container}> */}
-                        <View style={{ height: 400 }}>
+                        <View style={{ height: 350 }}>
                             <Swiper
                                 horizontal={true}
                                 showsPagination={true}

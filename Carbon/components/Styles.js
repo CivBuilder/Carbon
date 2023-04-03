@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet, Platform } from 'react-native';
 import { Colors } from '../colors/Colors';
 
 export const windowWidth = Dimensions.get("window").width;
@@ -6,9 +6,19 @@ export const windowHeight = Dimensions.get("window").height;
 export const margin = 12;
 
 export const styles = StyleSheet.create({
-    /*
+    /*********************
         SCREEN STYLING
-    */
+    **********************/
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        margin: margin,
+    },
+    title: {
+        fontSize: 16,
+        fontWeight: 'bold'
+    },
     container: {
         marginHorizontal: margin,
         backgroundColor: "white",
@@ -25,16 +35,6 @@ export const styles = StyleSheet.create({
         //     },
         // }),
     },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-        margin: margin,
-    },
-    title: {
-        fontSize: 16,
-        fontWeight: 'bold'
-    },
     card: {
         height: 300,
         borderRadius: 16,
@@ -44,16 +44,16 @@ export const styles = StyleSheet.create({
         fontSize: 12,
     },
 
-    /*
+    /*********************
         CHART STYLING
-    */
+    **********************/
     chart: {
         margin: margin,
     },
 
-    /*
+    /**************************
         POP-UP MENU STYLING
-    */
+    ***************************/
     popup_modal: {
         borderRadius: 8,
         borderWidth: 1,
@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
         backgroundColor: "white",
         paddingHorizontal: 16,
         position: 'absolute',
-        top: 42,
+        top: Platform.OS === 'ios' ? 60 : 36,
         right: 24,
     },
     popup_title: {
@@ -73,5 +73,12 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 8,
         borderBottomColor: '#ccc',
-    }
+    },
+    backdrop: { //NOTE: Keep the backdrop style in. Removing it causes the modal to not disappear when clicking outside
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+    },
 });
