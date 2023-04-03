@@ -204,7 +204,6 @@ router.post(
             'login',
             async (err, user, info) => {
                 try {
-                    console.log('authenticating');
                     if (err || !user) {
                         const error = new Error('An error occurred.');
                         return next(error);

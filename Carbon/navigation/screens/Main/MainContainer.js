@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useEffect} from 'react';
 import { StatusBar, Image, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -11,8 +11,7 @@ import { IconNames } from './IconNames';
 
 import { ScreenNames } from './ScreenNames';
 
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen } from '../../screens';
-
+import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen, LoginScreen } from '../../screens';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -149,49 +148,58 @@ const RankingStack = ({ navigation }) => {
 };
 
 export default function MainContainer(){
+    const [isSignedIn, setIsSignedIn] = useState(false);
+
     return(
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar barStyle={'dark-content'} backgroundColor="transparent" translucent={true}/>
-            <NavigationContainer>
-                <Tab.Navigator //Sets the default screen for the bottom nav bar (in this case, Home Screen)
-                initialRouteName={ScreenNames.HOME}
-                screenOptions={{
-                    headerShown: false, // Hides the default header
-                    tabBarLabelStyle: { display: 'none' }, // Hides label text
-                    tabBarActiveTintColor: Colors.primary.MINT,
-                    tabBarHideOnKeyboard: true,
-                }}
-                >
-                    <Tab.Screen
-                        name={ScreenNames.HOME}
-                        component={HomeStack}
-                        options={{
-                            tabBarIcon: ({ color, size }) => (
-                                <Ionicons name={IconNames.HOME} size={size} color={color} />
-                            ),
-                        }}
-                    />
-                    <Tab.Screen
-                        name={ScreenNames.PROGRESS}
-                        component={ProgressStack}
-                        options={screenOptions}
-                    />
-                    <Tab.Screen
-                        name={ScreenNames.FORUM}
-                        component={ForumStack}
-                        options={screenOptions}
-                    />
-                    <Tab.Screen
-                        name={ScreenNames.RANKING}
-                        component={RankingStack}
-                        options={screenOptions}
-                    />
-                </Tab.Navigator>
+                <NavigationContainer>
+        {isSignedIn ? (
+                <>
+                    <Tab.Navigator //Sets the default screen for the bottom nav bar (in this case, Home Screen)
+                    initialRouteName={ScreenNames.HOME}
+                    screenOptions={{
+                        headerShown: false, // Hides the default header
+                        tabBarLabelStyle: { display: 'none' }, // Hides label text
+                        tabBarActiveTintColor: Colors.primary.MINT,
+                        tabBarHideOnKeyboard: true,
+                    }}
+                    >
+                        <Tab.Screen
+                            name={ScreenNames.HOME}
+                            component={HomeStack}
+                            options={{
+                                tabBarIcon: ({ color, size }) => (
+                                    <Ionicons name={IconNames.HOME} size={size} color={color} />
+                                ),
+                            }}
+                        />
+                        <Tab.Screen
+                            name={ScreenNames.PROGRESS}
+                            component={ProgressStack}
+                            options={screenOptions}
+                        />
+                        <Tab.Screen
+                            name={ScreenNames.FORUM}
+                            component={ForumStack}
+                            options={screenOptions}
+                        />
+                        <Tab.Screen
+                            name={ScreenNames.RANKING}
+                            component={RankingStack}
+                            options={screenOptions}
+                        />
+                    </Tab.Navigator>
+                </>
+        ) : (
+           <LoginScreen onLogin={setIsSignedIn}/>
+        )}
             </NavigationContainer>
         </SafeAreaView>
     );
 };
 
+    
 const screenOptions = ({ route }) => ({
     tabBarIcon: ({ color, size }) => {
         let iconName;

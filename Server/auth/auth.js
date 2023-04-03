@@ -9,7 +9,7 @@ passport.use(
     new JWTstrategy(
         {
             secretOrKey: 'TOP_SECRET',
-            jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token')
+            jwtFromRequest: ExtractJWT.fromHeader('secret_token')
         },
         async (token, done) => {
             try {
@@ -30,6 +30,7 @@ passport.use(
         },
         async (email, password, done) => {
             try {
+                log(email + ' ' + password);
                 const user = await User.create({
                     username: email, 
                     email: email,
@@ -62,7 +63,6 @@ passport.use(
                 }
                 
                 const validate = await bcrypt.compare(password, user.password);
-                console.log(validate);
                 if (!validate) {
                     console.log("Bad pw");
                     return done(null, false, { message: 'Wrong Password' });
