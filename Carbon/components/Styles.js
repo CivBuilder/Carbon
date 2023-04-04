@@ -4,6 +4,7 @@ import { Colors } from '../colors/Colors';
 export const windowWidth = Dimensions.get("window").width;
 export const windowHeight = Dimensions.get("window").height;
 export const margin = 12;
+export const marginHorizontal = 18;
 
 export const styles = StyleSheet.create({
     /*********************
@@ -13,14 +14,19 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
-        margin: margin,
+        marginHorizontal: marginHorizontal,
+        marginVertical: margin,
     },
     title: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold'
     },
+    link: {
+        color: Colors.primary.MINT,
+        fontSize: 14,
+    },
     container: {
-        marginHorizontal: margin,
+        marginHorizontal: marginHorizontal,
         backgroundColor: "white",
         borderRadius: 16,
         // ...Platform.select({
@@ -36,12 +42,13 @@ export const styles = StyleSheet.create({
         // }),
     },
     card: {
+        width: windowWidth - (marginHorizontal * 2),
         height: 300,
         borderRadius: 16,
     },
-    link: {
-        color: Colors.primary.MINT,
-        fontSize: 12,
+    margins: {
+        marginHorizontal: marginHorizontal,
+        marginVertical: margin,
     },
 
     /*********************
