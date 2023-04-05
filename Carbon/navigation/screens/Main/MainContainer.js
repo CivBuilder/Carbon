@@ -12,7 +12,7 @@ import { IconNames } from './IconNames';
 import { ScreenNames } from './ScreenNames';
 
 import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen } from '../../screens';
-import { getIsSignedIn, setRenderCallback } from '../../../util/LoginManager';
+import { getToken, setRenderCallback } from '../../../util/LoginManager';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -177,6 +177,14 @@ export default function MainContainer(){
 
     // In order to rerender the maincontainer on signin, we gotta callback and update the state
     setRenderCallback(setIsSignedIn);
+
+    useEffect(() => {
+        async function checkSignin() {
+            setIsSignedIn(await getToken());
+        }
+
+        checkSignin();
+    }, []);
 
     return(
         <SafeAreaView style={{ flex: 1 }}>
