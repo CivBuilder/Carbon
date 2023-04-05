@@ -7,16 +7,16 @@ import LoginButton from '../../../components/LoginButton'
 import SignUpNavButton from '../../../components/SignUpNavButton'
 import { useState } from 'react'
 import { TextInput, Button } from 'react-native';
-import { getIsSignedIn, login } from '../../../util/LoginManager'
+import { login } from '../../../util/LoginManager'
 import { ScreenNames } from '../Main/ScreenNames'
 
-const LoginScreen = ({onLogin}) => {
+const LoginScreen = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  
 
   async function handleLogin() {
     await login(username, password);
-    onLogin(await getIsSignedIn());
   }
 
   return (
@@ -36,7 +36,7 @@ const LoginScreen = ({onLogin}) => {
       <LoginButton onPress={() => {handleLogin()}}/>
       <View style={styles.signUpTextWrapper}>
         <Text style={styles.signUpText}>Don't have an account?</Text>
-        <SignUpNavButton />
+        <SignUpNavButton onPress={() => {navigation.navigate(ScreenNames.SIGNUP);}}/>
       </View>
     </View>
   )

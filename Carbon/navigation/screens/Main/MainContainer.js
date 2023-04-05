@@ -11,7 +11,8 @@ import { IconNames } from './IconNames';
 
 import { ScreenNames } from './ScreenNames';
 
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen, LoginScreen } from '../../screens';
+import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen } from '../../screens';
+import { getIsSignedIn, setRenderCallback } from '../../../util/LoginManager';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -147,8 +148,35 @@ const RankingStack = ({ navigation }) => {
     );
 };
 
+
+// Login screen stack navigation & header
+const LoginStack = ({ navigation}) => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name={' '}
+                component={LoginScreen}
+                options={{
+                    headerShown: false, // Set to false for now until we need to implement headers for this screen
+                    
+                }}
+            />
+            <Stack.Screen
+                name={ScreenNames.SIGNUP}
+                component={SignUpScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
+        </Stack.Navigator>
+    );
+};
+
 export default function MainContainer(){
     const [isSignedIn, setIsSignedIn] = useState(false);
+
+    // In order to rerender the maincontainer on signin, we gotta callback and update the state
+    setRenderCallback(setIsSignedIn);
 
     return(
         <SafeAreaView style={{ flex: 1 }}>
@@ -192,7 +220,7 @@ export default function MainContainer(){
                     </Tab.Navigator>
                 </>
         ) : (
-           <LoginScreen onLogin={setIsSignedIn}/>
+            <LoginStack></LoginStack>
         )}
             </NavigationContainer>
         </SafeAreaView>

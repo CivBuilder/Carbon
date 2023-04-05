@@ -11,7 +11,6 @@ export default function SettingsScreen({navigation}) {
                 justifyContent: 'center'
             }}
         >
-            <Button title='logout' onPress={() => {logout()}}/>
             <Text
                 onPress={() =>
                     navigation.navigate('Home')
@@ -23,6 +22,7 @@ export default function SettingsScreen({navigation}) {
             >
                 Settings Screen
             </Text>
+            <Button title='logout' onPress={() => {logout()}}/>
         </View>
     )
 }

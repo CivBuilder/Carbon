@@ -7,4 +7,5 @@ export {default as BrowserScreen} from './Browser/BrowserScreen';
 export {default as QuizScreen} from './Quiz/QuizScreen';
 export {default as GoalScreen} from './Progress/AddGoal';
 export {default as LoginScreen} from './Login-SignUp/LoginScreen';
+export {default as SignUpScreen} from './Login-SignUp/SignUpScreen';
 // export {default as AddProgress} from './Progress/AddProgress';

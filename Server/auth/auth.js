@@ -30,7 +30,6 @@ passport.use(
         },
         async (email, password, done) => {
             try {
-                log(email + ' ' + password);
                 const user = await User.create({
                     username: email, 
                     email: email,
@@ -64,7 +63,7 @@ passport.use(
                 
                 const validate = await bcrypt.compare(password, user.password);
                 if (!validate) {
-                    console.log("Bad pw");
+                    console.log("Bad password");
                     return done(null, false, { message: 'Wrong Password' });
                 }
 
