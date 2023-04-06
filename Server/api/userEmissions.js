@@ -1,8 +1,15 @@
 
 var express = require('express');
 const { INTEGER } = require('sequelize');
+const { Op } = require("sequelize"); // This is used for the router that grabs user_id's data based on the current month
 var router = express.Router(); //the router
 var UserEmissions = require('../models/UserEmissions.js'); //requires what we need
+var user_table = require('../models/UserModel.js');
+
+/*********************
+          GET
+**********************/
+
 router.get('/', async function (req, res, next) {
 
   const date = new Date(); //get date
@@ -17,7 +24,11 @@ router.get('/', async function (req, res, next) {
   // retArr = [[100, 200, 300, 400, 500], [500, 545, 100, 555, 100], [100, 200, 300, 400, 500], [800, 200, 750, 600, 500]]; //Temp array for data
   weekCount = 0;
   monthCount = 0;
-  retArr = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]; //Ret array
+  retArr = [[0, 0, 0, 0, 0], // TODAY
+            [0, 0, 0, 0, 0], // YESTERDAY
+            [0, 0, 0, 0, 0], // 7 DAYS (1 WEEK)
+            [0, 0, 0, 0, 0]  // 31 DAYS (1 MONTH)
+  ]; //Ret array
   for (const obj of content) {
     const value = obj.date;
     //grabbing all the necessary values for comapring dates
@@ -110,7 +121,7 @@ router.get('/', async function (req, res, next) {
 
 /* Finds all Entries where a user posted a submission*/
 router.get('/:id', async function (req, res, next) {
-  const user_entry = await user_emissions_table.findAll({
+  const user_entry = await UserEmissions.findAll({
     where: {
       user_id: req.params.id
     }
@@ -121,6 +132,60 @@ router.get('/:id', async function (req, res, next) {
   }
   res.status(200).json(user_entry);
 });
+
+
+/*
+  This router gets a user's emissions for a given month.
+
+  @param month: The non-case sensitive name of the month in full (e.g. January, march, APRIL).
+  @param user_id: The ID of the user as an integer (e.g. 1, 5, 323).
+
+  @returns: All data in JSON format.
+
+  Example: GET http://{link to the AWS}/api/userEmissions/April/323
+*/
+router.get('/:month/:user_id', async function (req, res) {
+  // Grab the user_id and month from the URL parameters
+  const userId = req.params.user_id;
+  const month = req.params.month;
+
+  // Check if the user exists
+  const user = await user_table.findByPk(userId);
+  if (!user) {
+      return res.status(400).send(`user_id ${userId} not found.`);
+  }
+
+  // Convert month name to a number
+  const monthNum = new Date(Date.parse(`1 ${month} 2000`)).getMonth() + 1;
+
+  // Check if month is valid
+  if (isNaN(monthNum)) {
+      return res.status(404).send(`Invalid month: ${month}`);
+  }
+
+  // Construct a date range that covers the entire month
+  const year = new Date().getFullYear();
+  const startOfMonth = new Date(`${year}-${monthNum}-01`);
+  const endOfMonth = new Date(`${year}-${monthNum}-31`);
+
+  // Find data based on user_id and given month
+  const records = await UserEmissions.findAll({
+      where: {
+      user_id: userId,
+      date: {
+          [Op.gte]: startOfMonth,
+          [Op.lte]: endOfMonth
+      }
+      }
+  });
+
+  // Return the records as a JSON response
+  res.status(200).json(records);
+});
+
+/**********************
+          POST
+***********************/
 
 /* Post the Entry into the user table - Section is left blank for Data Entry to input whichever algorithm marks their recordkeeping
    Subsequent Function Call to UpdateScore is dependant on there being at least one entry from the post request, hence it being at the end 
