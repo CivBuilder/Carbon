@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Slider } from 'react-native';
 import { Colors } from '../../../colors/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
-import { API_URL } from '../Api';
+import { API_URL } from '../../../config/Api';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;

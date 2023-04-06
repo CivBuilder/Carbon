@@ -5,7 +5,7 @@ import EducationMenu from '../../../components/EducationMenu';
 import { electricity, food, recycle, transportation, water } from '../../../assets';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ScreenNames } from '../Main/ScreenNames.js';
-import { API_URL } from '../Api';
+import { API_URL } from '../../../config/Api';
 
 // Using my test AWS node server for now
 export default function ForumScreen({navigation}) {

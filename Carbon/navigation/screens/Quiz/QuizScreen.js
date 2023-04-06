@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ActivityIndicator, Alert, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {useState, useEffect} from 'react';
 import { RadioButton } from 'react-native-paper';
-import { API_URL } from '../Api';
+import { API_URL } from '../../../config/Api';
 
 
 const QuizScreen = ({route}) => {
