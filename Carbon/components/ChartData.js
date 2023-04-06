@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
 import { VictoryPie } from 'victory-native';
 import { Colors } from '../colors/Colors';
 import { Ionicons } from '@expo/vector-icons';
+import { FetchMonthEmissions } from './FetchMonthEmissions';
+import { ScreenNames } from '../navigation/screens/Main/ScreenNames';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -18,15 +20,55 @@ const monthNames = [
 const today = new Date();
 const currentMonth = monthNames[today.getMonth()];
 
-const data = [
+const dummyData = [
     { x: "Transport", y: Math.round(Math.random() * 10000) },
-    { x: "Diet", y: Math.round(Math.random() * 10000) },
+    { x: "Lifestyle", y: Math.round(Math.random() * 10000) },
     { x: "Home", y: Math.round(Math.random() * 10000) },
-    { x: "Stuff", y: Math.round(Math.random() * 10000) },
+    { x: "Diet", y: Math.round(Math.random() * 10000) },
 ];
 
 // Ticket C4-19
 //Helper functions
+
+/*  Gets the data from FetchMonthEmissions API using the current month
+    and current user's user_id.
+*/
+export async function getData() {
+    try {
+        //Grabs
+        const fetched_data = await FetchMonthEmissions(currentMonth, 27); // TODO: Change hard coded user_id
+        // console.log(fetched_data);
+        const parsed_JSON = JSON.parse(fetched_data);
+
+        // Add up each individual data based on categories
+        let transportTotal = 0;
+        let lifestyleTotal = 0;
+        let homeTotal = 0;
+        let dietTotal = 0;
+
+        parsed_JSON.forEach((data) => {
+            transportTotal += data.transport_emissions;
+            lifestyleTotal += data.lifestyle_emissions;
+            homeTotal += data.home_emissions;
+            dietTotal += data.diet_emissions;
+        });
+
+        // Return with all the fetched data added up within their respective categories
+        const emissionsData = [
+            { x: "Transport", y: transportTotal },
+            { x: "Lifestyle", y: lifestyleTotal },
+            { x: "Home", y: homeTotal },
+            { x: "Diet", y: dietTotal },
+        ];
+        // console.log(emissionsData);
+
+        return emissionsData;
+    }
+    catch (error) {
+        console.error(`getData: ${error}`);
+        return null;
+    }
+}
 
 // Renders the label for each section of the pie chart
 export const getLabel = (datum, total) => {
@@ -37,15 +79,30 @@ export const getLabel = (datum, total) => {
     return null;
 };
 
-export const CategoryChart = () => {
-    const total = data.reduce((acc, datum) => acc + datum.y, 0); //Gets the overall value of all categories
-
+export const CategoryChart = ({navigation}) => {
     //Components for the pie chart
     const pieRadius = (windowWidth - (margin * 2)) * 0.4;
     const innerRadius = pieRadius * 0.65;
     const labelRadius = ((pieRadius + innerRadius) / 2);
 
+    const [data, setData] = useState([]);
+    const [total, setTotal] = useState(0);
     const [selectedSlice, setSelectedSlice] = useState(null);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const newData = await getData();
+                setData(newData);
+                setTotal(newData.reduce((acc, datum) => acc + datum.y, 0));
+            } catch (error) {
+                console.error(`CategoryChart (useEffect): ${error}`);
+                setData([]);
+                setTotal(0);
+            }
+        }
+        fetchData();
+    }, []);
 
     const handlePress = (event, props) => {
         const selectedDatum = data[props.index];
@@ -61,58 +118,74 @@ export const CategoryChart = () => {
         return null;
     };
 
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginVertical: -40 }}>
-            <VictoryPie
-                data={data}
-                colorScale={["#5D5FEF", "#FF8C00", "#3CB371", "#FF69B4"]}
-                padAngle={2}
-                radius={pieRadius}
-                innerRadius={innerRadius}
-                cornerRadius={6}
-                labelRadius={labelRadius}
-                labels={({ datum }) => getLabel(datum, total)}
-                style={{
-                    labels: {
-                        fill: "white",
-                        fontSize: 12,
-                        fontWeight: "bold",
-                        textAnchor: "middle",
-                        verticalAnchor: "middle",
-                    },
-                }}
-                events={[{
-                    target: 'data',
-                    eventHandlers: {
-                        onPressIn: handlePress,
-                    },
-                },]}
-                animate={{ duration: 500, ease: "exp" }}
-                selected={[selectedSlice]}
-            />
-            <View
-                style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    position: 'absolute',
-                }}>
-                <View style={{ paddingBottom: 5 }}>
-                    <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: 'bold', textDecorationLine: 'underline' }}>{currentMonth}</Text>
-                </View>
+    if(!data || data.length === 0){
+        return (
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ fontSize: 18 }}>You have no data for this month.</Text>
 
-                {selectedSlice == null && ( // A slice has not yet selected
-                    <View style={{ }}>
-                        <Text style={{ textAlign: 'center' }}>Click a section to learn more</Text>
+                {/* TODO: Switch the navigation to RecordEmission */}
+                <TouchableOpacity  onPress={() => navigation.navigate(ScreenNames.ADD_GOAL)}>
+                    <View
+                        style={{backgroundColor: Colors.primary.MINT, padding: 10, marginTop: 12, borderRadius: 12}}
+                    >
+                        <Text style={{color: Colors.primary.MINT_CREAM, fontWeight: "bold", fontSize: 14}}>Add Emissions</Text>
                     </View>
-                )}
-                {selectedSlice !== null && ( // A slice has been selected
-                    <View style={{ }}>
-                        <Text style={{ textAlign: 'center', fontSize: 16 }}>{getSelectedLabel()}</Text>
-                    </View>
-                )}
+                </TouchableOpacity>
             </View>
-        </View>
-    );
+        );
+    } else {
+        return (
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginVertical: -40 }}>
+                <VictoryPie
+                    data={data}
+                    colorScale={["#5D5FEF", "#FF8C00", "#3CB371", "#FF69B4"]}
+                    padAngle={2}
+                    radius={pieRadius}
+                    innerRadius={innerRadius}
+                    cornerRadius={6}
+                    labelRadius={labelRadius}
+                    labels={({ datum }) => getLabel(datum, total)}
+                    style={{
+                        labels: {
+                            fill: "white",
+                            fontSize: 12,
+                            fontWeight: "bold",
+                            textAnchor: "middle",
+                            verticalAnchor: "middle",
+                        },
+                    }}
+                    events={[{
+                        target: 'data',
+                        eventHandlers: {
+                            onPressIn: handlePress,
+                        },
+                    },]}
+                    animate={{ duration: 500, ease: "exp" }}
+                    selected={[selectedSlice]}
+                />
+                <View
+                    style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        position: 'absolute',
+                    }}>
+                    <View style={{ paddingBottom: 5 }}>
+                        <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: 'bold', textDecorationLine: 'underline' }}>{currentMonth}</Text>
+                    </View>
+                    {selectedSlice == null && ( // A slice has not yet selected
+                        <View style={{ }}>
+                            <Text style={{ textAlign: 'center' }}>Click a section to learn more</Text>
+                        </View>
+                    )}
+                    {selectedSlice !== null && ( // A slice has been selected
+                        <View style={{ }}>
+                            <Text style={{ textAlign: 'center', fontSize: 16 }}>{getSelectedLabel()}</Text>
+                        </View>
+                    )}
+                </View>
+            </View>
+        );
+    }
 };
 
 //Data for later
@@ -181,7 +254,7 @@ export const KeyFactors = () => {
 
   return (
     <View style={styleBar.keyFactors}>
-      {data.map(entry => (
+      {dummyData.map(entry => (
         <View key={entry.x} style={styleBar.category}>
           <Text style={{flex: 3}}>{entry.x}</Text>
           <Text style={{flex: 2}}>{entry.y}</Text>
