@@ -5,8 +5,8 @@ import EducationMenu from '../../../components/EducationMenu';
 import { electricity, food, recycle, transportation, water } from '../../../assets';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ScreenNames } from '../Main/ScreenNames.js';
+import { API_URL } from '../../../config/Api';
 
-const APIURL = "http://carbonserver-env.eba-pmpdtmpe.us-east-1.elasticbeanstalk.com/api"
 // Using my test AWS node server for now
 export default function ForumScreen({navigation}) {
     const [forumData, setForumData] = useState([]);
@@ -16,7 +16,7 @@ export default function ForumScreen({navigation}) {
     const fetchData = async() => {
         try {
             console.log("Fetching data for forumcontent");
-            const response = await fetch(APIURL + "/forumcontent");
+            const response = await fetch(API_URL + "forumcontent");
             const data = await response.json();
             setForumData(data.content);
             setLoading(false);
