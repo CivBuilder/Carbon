@@ -4,12 +4,7 @@ import { BarChart } from 'react-native-chart-kit';
 import { VictoryPie } from 'victory-native';
 import { Colors } from '../colors/Colors';
 import { Ionicons } from '@expo/vector-icons';
-
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
-const margin = 10;
-const chartWidth = windowWidth - (margin * 2);
-const chartHeight = 210;
+import { styles, windowWidth, margin } from './Styles';
 
 const monthNames = [
     "January", "February", "March", "April", "May", "June", "July",
@@ -117,7 +112,7 @@ export const CatgegoryChart = () => {
 //Data for later
 /*
     The daily log function, this takens in a data array and maps it into a bar chart based on its values
- */
+*/
 export function DailyLog ({dataArray}) {
 
     //Our data for bar styling the bar chart
@@ -140,10 +135,10 @@ export function DailyLog ({dataArray}) {
     return (
         <BarChart
         data ={barChartData}
-        chartConfig={styleBar.chartConfig}
+        chartConfig={style.logChartConfig}
         withCustomBarColorFromData={true}
         flatColor={true}
-        style={styleBar.chart}
+        style={styles.barChart}
         width = {chartWidth}
         height = {windowHeight/3}
         withVerticalLabels ={true}
@@ -167,7 +162,7 @@ export const KeyFactors = () => {
 
     if (value == 0) return null;
     return (
-      <View style={[styleBar.category, {marginVertical: 0, alignContent: 'flex-end', flex: 1}]}>
+      <View style={[styles.keyFactorCategory, {marginVertical: 0, alignContent: 'flex-end', flex: 1}]}>
         { value > 0 && (
           <>{bad_change}{diff}</>
         )}
@@ -179,9 +174,9 @@ export const KeyFactors = () => {
   };
 
   return (
-    <View style={styleBar.keyFactors}>
+    <View style={styles.keyFactors}>
       {data.map(entry => (
-        <View key={entry.x} style={styleBar.category}>
+        <View key={entry.x} style={styles.keyFactorCategory}>
           <Text style={{flex: 3}}>{entry.x}</Text>
           <Text style={{flex: 2}}>{entry.y}</Text>
           {difference(entry.y, temp_data)}
@@ -190,66 +185,3 @@ export const KeyFactors = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-    chart: {
-        borderRadius: 16,
-    },
-    chartConfig: {
-        backgroundColor: Colors.primary.MINT,
-        backgroundGradientFrom: Colors.primary.MINT,
-        backgroundGradientTo: Colors.primary.MINT,
-        decimalPlaces: 2, // optional, defaults to 2dp
-        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-        propsForDots: {
-            r: "5",                         // circle size
-            strokeWidth: "2",               // circle border size
-            stroke: Colors.primary.MINT     // circle border color
-        }
-    },
-});
-
-//Style bar which was created by Miguel
-const styleBar = StyleSheet.create({
-    container: {
-        marginLeft: 100,
-        flex: 1,
-        justifyContent: 'center', padding: 100,
-        paddingTop: 30, backgroundColor: '#ecf0f1',
-        },
-    chart: {
-        borderRadius: 16,
-        marginHorizontal: margin/2,
-    },
-    chartConfig: {
-
-        backgroundColor: '#FFFFFF',
-        backgroundGradientFrom: '#FFFFFF',
-        backgroundGradientTo: '#FFFFFF',
-        decimalPlaces: 2, // optional, defaults to 2dp
-        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, //transparent
-        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-
-        propsForDots: {
-            r: "5",                         // circle size
-            strokeWidth: "2",               // circle border size
-            stroke: Colors.primary.MINT     // circle border color
-        }
-    },
-    keyFactors: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginHorizontal: margin,
-        marginVertical: margin-5
-    },
-    category: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexWrap: 'nowrap',
-        marginVertical: 5
-    },
-});

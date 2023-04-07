@@ -57,7 +57,39 @@ export const styles = StyleSheet.create({
     chart: {
         margin: margin,
     },
+    logChartConfig: {
+        backgroundColor: '#FFFFFF',
+        backgroundGradientFrom: '#FFFFFF',
+        backgroundGradientTo: '#FFFFFF',
+        decimalPlaces: 2, // optional, defaults to 2dp
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, //transparent
+        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
 
+        propsForDots: {
+            r: "5",                         // circle size
+            strokeWidth: "2",               // circle border size
+            stroke: Colors.primary.MINT     // circle border color
+        }
+    },
+    barChart: {
+        borderRadius: 16,
+        marginHorizontal: margin/2,
+    },
+    keyFactorCategory: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexWrap: 'nowrap',
+        marginVertical: 5
+    },
+    keyFactors: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginHorizontal: margin,
+        marginVertical: margin-5
+    },
     /**************************
         POP-UP MENU STYLING
     ***************************/
