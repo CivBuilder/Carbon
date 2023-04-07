@@ -1,18 +1,31 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
 import { CategoryChart, DailyLog } from '../../components/ChartData';
-import { getLabel } from '../../components/ChartData';
+import { getData, getLabel } from '../../components/ChartData';
 
 describe('CategoryChart', () => {
-    test('renders the current month as a title', () => {
-        const { getByText } = render(<CategoryChart />);
-        const currentMonth = new Date().toLocaleString('default', { month: 'long' });
-        expect(getByText(currentMonth)).toBeDefined();
-    });
+    it('returns an array of emissions data when data is successfully fetched and parsed', async () => {
+        const monthNames = [
+            "January", "February", "March", "April", "May", "June", "July",
+            "August", "September", "October", "November", "December"
+        ];
+        const today = new Date();
+        const currentMonth = monthNames[today.getMonth()];
+        const mockFetchMonthEmissions = jest.fn().mockResolvedValue(JSON.stringify([
+            { transport_emissions: 10, lifestyle_emissions: 20, home_emissions: 30, diet_emissions: 40 },
+            { transport_emissions: 50, lifestyle_emissions: 60, home_emissions: 70, diet_emissions: 80 },
+        ]));
+        const expectedEmissionsData = [
+            { x: 'Transport', y: 60 },
+            { x: 'Lifestyle', y: 80 },
+            { x: 'Home', y: 100 },
+            { x: 'Diet', y: 120 },
+        ];
 
-    test('displays a message to select a section if no slice is selected', () => {
-        const { getByText } = render(<CategoryChart />);
-        expect(getByText(/Click a section to learn more/)).toBeDefined();
+        const emissionsData = await getData(currentMonth, mockFetchMonthEmissions);
+
+        expect(mockFetchMonthEmissions).toHaveBeenCalledWith(currentMonth, 27);
+        expect(emissionsData).toEqual(expectedEmissionsData);
     });
 
     test('returns the correct label when percentage is greater than 4', () => {

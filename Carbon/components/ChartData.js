@@ -33,7 +33,7 @@ const dummyData = [
 /*  Gets the data from FetchMonthEmissions API using the current month
     and current user's user_id.
 */
-export async function getData() {
+export async function getData(currentMonth, FetchMonthEmissions) {
     try {
         //Grabs
         const fetched_data = await FetchMonthEmissions(currentMonth, 27); // TODO: Change hard coded user_id
@@ -92,7 +92,7 @@ export const CategoryChart = ({navigation}) => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const newData = await getData();
+                const newData = await getData(currentMonth);
                 setData(newData);
                 setTotal(newData.reduce((acc, datum) => acc + datum.y, 0));
             } catch (error) {
