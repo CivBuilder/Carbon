@@ -134,16 +134,14 @@ router.get('/:id', async function (req, res, next) {
 });
 
 
-/*
-  This router gets a user's emissions for a given month.
+/**
+  Retrieves a user's emissions for a given month.
 
-  @param month: The non-case sensitive name of the month in full (e.g. January, march, APRIL).
-  @param user_id: The ID of the user as an integer (e.g. 1, 5, 323).
-
-  @returns: All data in JSON format.
-
-  Example: GET http://{link to the AWS}/api/userEmissions/April/323
-*/
+  @param {string} month - The non-case sensitive name of the month in full (e.g. January, march, APRIL).
+  @param {number} user_id - The ID of the user as an integer (e.g. 1, 5, 323).
+  @returns {Object} - All data in JSON format.
+  @example GET http://{link to the AWS}/api/userEmissions/April/323
+**/
 router.get('/:month/:user_id', async function (req, res) {
   // Grab the user_id and month from the URL parameters
   const userId = req.params.user_id;
@@ -179,8 +177,13 @@ router.get('/:month/:user_id', async function (req, res) {
       }
   });
 
+  // Send a 204 No Content response if records is empty
+  if (records.length === 0) {
+    return res.status(204).send();
+  }
+
   // Return the records as a JSON response
-  res.status(200).json(records);
+  return res.status(200).json(records);
 });
 
 /**********************

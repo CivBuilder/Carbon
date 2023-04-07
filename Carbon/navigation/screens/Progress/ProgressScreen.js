@@ -24,7 +24,7 @@ export default function ProgressScreen({ navigation }) {
                     <View style={styles.header}>
                         <Text style={styles.title}>Category Breakdown</Text>
                     </View>
-                    <View style={styles.chart}>
+                    <View style={{...styles.chart, height:320, alignContent:'center', alignItems: 'center', justifyContent: 'center'}}>
                         <CategoryChart navigation={navigation} />
                     </View>
                 </View>
