@@ -1,19 +1,46 @@
 import React from 'react';
-import {fireEvent, render} from '@testing-library/react-native';
+import { fireEvent, render, waitFor, act } from '@testing-library/react-native';
 import Log from '../../../../navigation/screens/Home/Log';
+const testData = [[100, 200, 300, 400, 500], [500, 545, 100, 555, 100], [100, 200, 300, 400, 500], [800, 200, 750, 600, 500]];
+global.fetch = jest.fn(() => {
+  return new Promise(resolve => {
+    resolve({
+      ok: true,
+      json: () => {
+        return testData;
+      },
+      status: 200,
+    });
+  });
+});
+test('Log', async () => {
 
-describe('Log', () => {
-  it('renders the loading text when the data has not loaded yet', () => {
+  act('renders the loading text when the data has not loaded yet', async () => {
+
+
     const { getByText } = render(<Log />);
     expect(getByText('LOADING......')).toBeTruthy();
-
   });
 
-  it('Tests if not loaded', () => {
-    const {log}  = render(<Log />);
+  act('Tests if not loaded', async () => {
+
+    const { log } = render(<Log />);
     expect(log).not.toBeNull();
+});
+act('Checking if default is set to what it should be', async () => {
+  const { getByText } = render(<Log />);
+  expect(getByText("Today's Log")).toBeTruthy();
+});
+  // it('Checking if left button is rendered', async ()=> {
+  //   const {getByText} = render(<Log />);
+  //   await waitFor(() => expect(getByText(" <-")).toBeTruthy());
 
-  });
+  // });
+  // it('Checking if right button is rendered', async ()=> {
+  //   const {getByText} = render(<Log />);
+  //   await waitFor(() => expect(getByText(" ->")).toBeTruthy());
+
+  // });
 });
 
   // it('Checks left click button.', () => {
@@ -37,4 +64,3 @@ describe('Log', () => {
   //   fireEvent.press(getByText('->'));
   //   expect(getByText('ERROR, not enough data for Weekly log.\n                    Please click left or right.')).toBeTruthy();
   // });
-  

@@ -1,4 +1,4 @@
-import { View, Text, PressableOpacity, StyleSheet, Pressable } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Pressable } from "react-native";
 import { DailyLog } from "../../../components/ChartData";
 import React, { useState, useEffect } from 'react';
 import { Colors } from '../../../colors/Colors';
@@ -88,7 +88,7 @@ export default function Log() {
                 )}
                 {/*Additional formatting for the button */}
                 <View style={{ justifyContent: 'center', flexDirection: 'row', }}>
-                    <PressableOpacity
+                    <TouchableOpacity
                         style={{
                             backgroundColor: Colors.primary.MINT,
                             borderRadius: 5,
@@ -103,8 +103,8 @@ export default function Log() {
                     >{/* handle left*/}
                         {/* More formatting*/}
                         <Text style={{ color: 'white', fontSize: 26 }}>{' <-'}</Text>
-                    </PressableOpacity>
-                    <PressableOpacity
+                    </TouchableOpacity>
+                    <TouchableOpacity
                     testID="right-click"
                         style={{
                             backgroundColor: Colors.primary.MINT,
@@ -118,7 +118,7 @@ export default function Log() {
                     >{/* Handle right*/}
                         {/* more button formatting*/}
                         <Text style={{ justifyContent: 'center', color: 'white', fontSize: 26 }}>{' ->'}</Text>
-                    </PressableOpacity>
+                    </TouchableOpacity>
                 </View>
             </View>
         </View>
