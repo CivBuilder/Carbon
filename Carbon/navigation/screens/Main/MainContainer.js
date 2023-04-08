@@ -105,10 +105,11 @@ const ForumStack = ({ navigation }) => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name={' '}
+                name={'Education'}
                 component={ForumScreen}
                 options={{
-                    headerShown: false, // Set to false for now until we need to implement headers for this screen
+                    headerShown: true,
+                    headerTitleAlign: 'center',
                 }}
             />
             <Stack.Screen
