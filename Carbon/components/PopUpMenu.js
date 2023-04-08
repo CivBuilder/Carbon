@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, Modal, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
 import { IconNames } from '../navigation/screens/Main/IconNames';
 import { ScreenNames } from '../navigation/screens/Main/ScreenNames';
 import { Colors } from '../colors/Colors';
@@ -20,8 +19,7 @@ export const PopUpMenu = ({navigation}) => {
             title: 'Record Emissions',
             icon: 'checkmark-circle-outline',
             action: () => {
-                console.log("Record Emissions button is clicked"); // TODO: Connect to the Record Emissions page
-                // TODO: Add the records emissions page in ProgressStack in MainContainer.js
+                navigation.navigate(ScreenNames.RECORD_EMISSION) 
                 setVisibility(false)
             }
         },

@@ -8,4 +8,5 @@ export const ScreenNames = {
     ADD_GOAL: 'AddGoal',
     BROWSER: 'Browser',
     QUIZ: 'Quiz',
+    RECORD_EMISSION: 'Track Your Daily Emissions',
 };

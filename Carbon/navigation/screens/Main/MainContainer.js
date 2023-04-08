@@ -88,7 +88,7 @@ const ProgressStack = ({ navigation }) => {
                 }}
             />
             {<Stack.Screen name={ScreenNames.ADD_GOAL} component={Screens.GoalScreen} />}
-            {/* TODO: Add Records Emissions screen here */}
+            {<Stack.Screen name={ScreenNames.RECORD_EMISSION} component={Screens.EmissionScreen} />}
         </Stack.Navigator>
     );
 };

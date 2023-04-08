@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { View, SafeAreaView, ScrollView, Text } from 'react-native';
 import { CatgegoryChart, KeyFactors } from '../../../components/ChartData';
-import RecordEmission from './RecordEmission';
 import { ScreenNames } from '../Main/ScreenNames';
 import { styles } from '../../../components/Styles';
 
@@ -12,9 +11,7 @@ export default function ProgressScreen({ navigation }) {
                 showsHorizontalScrollIndicator={false}
                 style={{ flexGrow: 1 }}
             >
-                {/* <View>
-                    <RecordEmission />
-                </View> */}
+                
                 <View style={styles.header}>
                     <Text style={styles.title}>Category Breakdown</Text>
                 </View>

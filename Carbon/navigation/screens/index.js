@@ -6,4 +6,5 @@ export {default as SettingsScreen} from './Settings/SettingsScreen';
 export {default as BrowserScreen} from './Browser/BrowserScreen';
 export {default as QuizScreen} from './Quiz/QuizScreen';
 export {default as GoalScreen} from './Progress/AddGoal';
+export {default as EmissionScreen} from './Progress/RecordEmission'
 // export {default as AddProgress} from './Progress/AddProgress';
