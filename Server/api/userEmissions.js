@@ -63,6 +63,21 @@ router.get('/', async function (req, res, next) {
       retArr[1][2] = lifestyle;
       retArr[1][3] = home;
       retArr[1][4] = total;
+      
+      weekCount += 1;
+      retArr[2][0] += transport;
+      retArr[2][1] += diet;
+      retArr[2][2] += lifestyle;
+      retArr[2][3] += home;
+      retArr[2][4] += total;
+      //add to the montly array and increment the count for that
+      monthCount += 1;
+      retArr[3][0] += transport;
+      retArr[3][1] += diet;
+      retArr[3][2] += lifestyle;
+      retArr[3][3] += home;
+      retArr[3][4] += total;
+      //   console.log(retArr);//for debugging
     }
     else if (difference_in_days <= 7) {
       weekCount += 1;
