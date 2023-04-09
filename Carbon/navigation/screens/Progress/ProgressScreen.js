@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, SafeAreaView, ScrollView, Text } from 'react-native';
-import { CatgegoryChart, KeyFactors } from '../../../components/ChartData';
+import { CategoryChart, KeyFactors } from '../../../components/ChartData';
 import RecordEmission from './RecordEmission';
 import { ScreenNames } from '../Main/ScreenNames';
 import { styles } from '../../../components/Styles';
@@ -19,8 +19,11 @@ export default function ProgressScreen({ navigation }) {
                     <Text style={styles.title}>Category Breakdown</Text>
                 </View>
                 <View style={styles.container}>
-                    <View style={styles.chart}>
-                        <CatgegoryChart />
+                    <View style={styles.header}>
+                        <Text style={styles.title}>Category Breakdown</Text>
+                    </View>
+                    <View style={{...styles.chart, height:320, alignContent:'center', alignItems: 'center', justifyContent: 'center'}}>
+                        <CategoryChart navigation={navigation} />
                     </View>
                 </View>
                 <View>
