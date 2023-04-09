@@ -39,9 +39,9 @@ const HomeStack = ({ navigation }) => {
                 component={HomeScreen}
                 options={{
                     headerShown: true,
-                    // headerStyle: {
-                    //     height: Platform.OS === 'ios' ? 48 : 60,
-                    // },
+                    headerStyle: {
+                        height: Platform.OS === 'ios' ? 48 : 72,
+                    },
                     headerTitleAlign: 'center',
                     headerTitle: () => (
                         <Image
@@ -79,9 +79,9 @@ const ProgressStack = ({ navigation }) => {
                 component={ProgressScreen}
                 options={{
                     headerShown: true,
-                    // headerStyle: {
-                    //     height: Platform.OS === 'ios' ? 48 : 60,
-                    // },
+                    headerStyle: {
+                        height: Platform.OS === 'ios' ? 48 : 72,
+                    },
                     headerTitleAlign: 'center',
                     headerRight: () => (
                         <PopUpMenu navigation={navigation}/>

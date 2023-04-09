@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Modal, Text, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Modal, Text, StyleSheet, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { IconNames } from '../navigation/screens/Main/IconNames';
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         position: 'absolute',
         right: 24,
+        top: Platform.OS === 'ios' ? 69 : 43, // TODO: Use `useHeaderHeight()` hook to get the height of the header
     },
     popup_title: {
         paddingRight: 16,
