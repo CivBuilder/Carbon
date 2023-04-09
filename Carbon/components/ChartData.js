@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
 import { VictoryPie } from 'victory-native';
 import { Colors } from '../colors/Colors';
@@ -8,12 +8,6 @@ import { FetchMonthEmissions } from './FetchMonthEmissions';
 import { ScreenNames } from '../navigation/screens/Main/ScreenNames';
 import LoadingIndicator from './LoadingIndicator';
 import { styles, windowWidth, margin } from './Styles';
-
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
-const margin = 10;
-const chartWidth = windowWidth - (margin * 2);
-const chartHeight = 210;
 
 const dummyData = [
     { x: "Transport", y: Math.round(Math.random() * 10000) },
@@ -311,7 +305,7 @@ export function DailyLog ({dataArray}) {
     return (
         <BarChart
         data ={barChartData}
-        chartConfig={style.logChartConfig}
+        chartConfig={styles.logChartConfig}
         withCustomBarColorFromData={true}
         flatColor={true}
         style={styles.barChart}
