@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
-import { VictoryChart, VictoryLine, VictoryArea, VictoryAxis } from 'victory-native';
+import { VictoryChart, VictoryLine, VictoryArea, VictoryAxis, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip } from 'victory-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ActivityIndicator } from 'react-native';
 
@@ -247,14 +247,14 @@ export const RenderPercentDifference = ({ percentDifference, percentColor }) => 
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             {percentDifference >= 0 ? (
-                <Ionicons name="caret-up" size={16} color={percentColor} style={{alignSelf: 'center', marginBottom: 3, marginRight: 4 }} />
+                <Ionicons name="caret-up" size={16} color={percentColor} style={{alignSelf: 'center', marginBottom: 7, marginRight: 4 }} />
             ) : (
-                <Ionicons name="caret-down" size={16} color={percentColor} style={{alignSelf: 'center',  marginBottom: 3, marginRight: 4 }} />
+                <Ionicons name="caret-down" size={16} color={percentColor} style={{alignSelf: 'center', marginBottom: 7, marginRight: 4 }} />
             )}
             <Text
                 style={{
                     fontSize: 14,
-                    paddingBottom: 6,
+                    paddingBottom: 10,
                     color: percentColor,
                 }}
             >
@@ -368,11 +368,12 @@ export const MonthlyFootprintChart = ({navigation}) => {
                     width={chartWidth}
                     maxDomain={{ y: maxY }}
                     padding={{ top: 0, bottom: margin*3, left: margin*3, right: margin * 2 }}
+                    containerComponent={<VictoryVoronoiContainer/>}
                 >
                     {/* Renders the line chart */}
                     <VictoryLine
                         data={data}
-                        interpolation="natural"
+                        interpolation="catmullRom"
                         style={{
                             data: {
                                 stroke: Colors.primary.MINT,
@@ -384,7 +385,7 @@ export const MonthlyFootprintChart = ({navigation}) => {
                     {/* Renders the area under the line chart */}
                     <VictoryArea
                         data={data}
-                        interpolation="natural"
+                        interpolation="catmullRom"
                         style={{
                             data: {
                                 fill: Colors.primary.MINT,
@@ -392,6 +393,34 @@ export const MonthlyFootprintChart = ({navigation}) => {
                                 stroke: "none",
                             }
                         }}
+                    />
+
+                    {/* Renders dots for each data point */}
+                    <VictoryScatter
+                        data={data.filter(point => point.y !== 0)}
+                        size={({ active }) => active ? 7 : 3}
+                        style={{
+                            data: {
+                                fill: Colors.primary.MINT_CREAM,
+                                stroke: Colors.primary.MINT,
+                                fillOpacity: 1,
+                                strokeWidth: 2,
+                            },
+                            labels: {
+                                fontSize: 12,
+                                fill: Colors.secondary.DARK_MINT,
+                            }
+                        }}
+                        labels={({ datum }) => datum.y}
+                        labelComponent={
+                            <VictoryTooltip
+                                flyoutStyle={{ stroke: "none", fill: "none" }} // Set flyoutStyle to an empty object
+                                style={{
+                                fontSize: 12,
+                                fill: Colors.secondary.DARK_MINT,
+                            }}
+                            />
+                        }
                     />
 
                     {/* Renders the y-axis */}
