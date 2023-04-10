@@ -2,55 +2,34 @@ import React, {useState} from 'react';
 import { StyleSheet, Modal, Text, View, Pressable, TextInput, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const EmissionModal = ({visible, onRequestClose, title, saveData, testID}) => {
-  const [log, setLog] = useState('');  
+const RecordFood = ({ navigation }) => {
+  const [log, setLog] = useState('');
   const showToast = () => {
     ToastAndroid.show("Emission saved successfully", ToastAndroid.SHORT);
   }
+
+  const handleSave = () => {
+    showToast("Emission saved successfully", { type: 'success' });
+    navigation.goBack();
+  };
+
   return (
-        <Modal
-          style={styles.modal}
-          animationType="slide"
-          transparent={true}
-          backdropOpacity={0}
-          visible={visible}
-          onRequestClose={() => {
-            setLog('');
-            onRequestClose();
-          }}
-          testID={testID}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>{title}</Text>
-              <View style={styles.textInput}>
-                <TextInput onChangeText={text => setLog(text)} testID="textInput"/>
-              </View>
-              <Pressable testID="saveButton" onPress={() => {
-                saveData(log)
-                showToast();
-                onRequestClose();
-              }}>
-            <Icon name="save" size={40} color="#201B1B" style={styles.icon} />
+    <View style={styles.centeredView}>
+      <Text style={styles.modalText}></Text>
+      <View style={styles.textInput}>
+        <TextInput onChangeText={text => setLog(text)} testID="textInput"/>
+      </View>
+      <Pressable testID="saveButton" onPress={handleSave}>
+        <Icon name="save" size={40} color="#201B1B" style={styles.icon} />
+      </Pressable>
+      <Pressable testID="closeButton" onPress={() => navigation.goBack()}>
+        <Icon name="close" size={40} color="#201B1B" style={styles.icon} />
+      </Pressable>
+    </View>
+  );
+};
 
-            </Pressable>
-
-            <Pressable testID="closeButton"
-                  onPress={() => {
-                    setLog('');
-                    onRequestClose();
-                  }}
-            >
-            <Icon name="close" size={40} color="#201B1B" style={styles.icon}  />
-
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
-      );
-    };
-
-export default EmissionModal;
+export default RecordFood;
 
 const styles = StyleSheet.create({
     centeredView: {

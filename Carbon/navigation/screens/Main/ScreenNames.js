@@ -9,4 +9,7 @@ export const ScreenNames = {
     BROWSER: 'Browser',
     QUIZ: 'Quiz',
     RECORD_EMISSION: 'Track Your Daily Emissions',
+    FOOD_SCREEN: 'Food',
+    TRANSPORTATION_SCREEN: 'Transportation',
+    RECYCLING_SCREEN: 'Recycling',
 };

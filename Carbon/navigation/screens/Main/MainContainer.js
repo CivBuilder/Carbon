@@ -88,7 +88,11 @@ const ProgressStack = ({ navigation }) => {
                 }}
             />
             {<Stack.Screen name={ScreenNames.ADD_GOAL} component={Screens.GoalScreen} />}
-            {<Stack.Screen name={ScreenNames.RECORD_EMISSION} component={Screens.EmissionScreen} />}
+            {<Stack.Screen name={ScreenNames.RECORD_EMISSION} component={Screens.RecordEmissionScreen} />}
+            {<Stack.Screen name={ScreenNames.FOOD_SCREEN} component={Screens.FoodScreen} />}
+            {<Stack.Screen name={ScreenNames.TRANSPORTATION_SCREEN} component={Screens.TransportationScreen} />}
+            {<Stack.Screen name={ScreenNames.RECYCLING_SCREEN} component={Screens.RecyclingScreen} />}
+
         </Stack.Navigator>
     );
 };
