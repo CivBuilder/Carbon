@@ -144,7 +144,7 @@ export const getLabel = (datum, total) => {
 export const getSelectedLabel = (selectedSlice, data) => {
     if (selectedSlice !== null && data.length > selectedSlice) {
         const selectedDatum = data[selectedSlice];
-        return `${selectedDatum.x}\n${selectedDatum.y} lbs CO2`;
+        return `${selectedDatum.x}\n${selectedDatum.y} lbs CO\u2082`;
     }
     return null;
 };

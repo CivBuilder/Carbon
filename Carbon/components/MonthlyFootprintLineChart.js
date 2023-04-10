@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { VictoryChart, VictoryLine, VictoryArea, VictoryAxis, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip } from 'victory-native';
+import { Svg, Defs, LinearGradient, Stop, Path } from 'react-native-svg';
 import { Ionicons } from '@expo/vector-icons';
 import { ActivityIndicator } from 'react-native';
 
@@ -357,7 +358,7 @@ export const MonthlyFootprintChart = ({navigation}) => {
         <View style={{ alignContent: 'center', alignItems:'center', justifyContent: 'center',}}>
             {/* Render the current month's CO2 emissions and the percentage difference */}
             <View style={{ alignContent: 'center', alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 6 }}>{`${currStringMonthEmission} lbs CO2`}</Text>
+                <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 6 }}>{`${currStringMonthEmission} lbs CO\u2082`}</Text>
                 <RenderPercentDifference percentDifference={percentDifference} percentColor={percentColor}/>
             </View>
 
@@ -370,6 +371,25 @@ export const MonthlyFootprintChart = ({navigation}) => {
                     padding={{ top: 0, bottom: margin*3, left: margin*3, right: margin * 2 }}
                     containerComponent={<VictoryVoronoiContainer/>}
                 >
+                    {/* Renders the area under the line chart */}
+                    <VictoryArea
+                        data={data}
+                        interpolation="catmullRom"
+                        style={{
+                            data: {
+                            fill: "url(#mintGradient)",
+                            fillOpacity: 1,
+                            stroke: "none"
+                            }
+                        }}
+                    />
+                    <Defs>
+                        <LinearGradient id="mintGradient" x1="0" y1="0" x2="0" y2="1">
+                            <Stop offset="40%" stopColor={Colors.primary.MINT} stopOpacity={.6} />
+                            <Stop offset="100%" stopColor={Colors.primary.MINT} stopOpacity={0} />
+                        </LinearGradient>
+                    </Defs>
+
                     {/* Renders the line chart */}
                     <VictoryLine
                         data={data}
@@ -382,23 +402,10 @@ export const MonthlyFootprintChart = ({navigation}) => {
                         }}
                     />
 
-                    {/* Renders the area under the line chart */}
-                    <VictoryArea
-                        data={data}
-                        interpolation="catmullRom"
-                        style={{
-                            data: {
-                                fill: Colors.primary.MINT,
-                                fillOpacity: 0.25,
-                                stroke: "none",
-                            }
-                        }}
-                    />
-
                     {/* Renders dots for each data point */}
                     <VictoryScatter
                         data={data.filter(point => point.y !== 0)}
-                        size={({ active }) => active ? 7 : 3}
+                        size={({ active }) => active ? 7 : 4}
                         style={{
                             data: {
                                 fill: Colors.primary.MINT_CREAM,
