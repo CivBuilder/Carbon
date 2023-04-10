@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { VictoryChart, VictoryLine, VictoryArea, VictoryAxis, VictoryScatter, VictoryVoronoiContainer, VictoryTooltip } from 'victory-native';
-import { Svg, Defs, LinearGradient, Stop, Path } from 'react-native-svg';
+import { Defs, LinearGradient, Stop } from 'react-native-svg';
 import { Ionicons } from '@expo/vector-icons';
+import numeral from 'numeral';
 import { ActivityIndicator } from 'react-native';
 
 import { Colors } from '../colors/Colors';
@@ -16,7 +17,7 @@ const chartHeight = 200;
 
 // This will be used for testing purposes
 const dummyData = [
-    { x: "Nov", y: Math.round(Math.random() * 1000) },
+    { x: "Nov", y: Math.round(Math.random() * 1000)},
     { x: "Dec", y: Math.round(Math.random() * 1000)},
     { x: "Jan", y: Math.round(Math.random() * 1000)},
     { x: "Feb", y: Math.round(Math.random() * 1000)},
@@ -70,7 +71,7 @@ export async function getTotalData(currentMonth, setError) {
     @returns {Promise<void>} - Returns nothing.
     @throws {Error} - If there is an error with the network request.
 **/
-const fetchTotalData = async (lastSixMonths, setData, setError) => {
+export const fetchTotalData = async (lastSixMonths, setData, setError) => {
     try {
         const requests = lastSixMonths.map(async (month) => {
             const totalEmissions = await getTotalData(month, setError);
@@ -102,8 +103,9 @@ export const getCurrentMonth = (offset = 0) => {
     ];
     const today = new Date();
 
-    return monthNames[(today.getMonth() + offset) % 12];
-}
+    const monthIndex = (today.getMonth() + offset) % 12;
+    return monthNames[monthIndex < 0 ? monthIndex + 12 : monthIndex];
+};
 
 /**
     Returns an array of the last six months in the format "MMM".
@@ -171,51 +173,17 @@ export function tickFormat(tick) {
 }
 
 /**
-    Returns the CO2 emissions for the specified month from the given data.
-    @param {Array<Object>} data - The array of data objects containing x and y values.
-    @param {number} num - The number specifying the month from the end of the data array for which to get the emissions value.
-    @returns {string} - The formatted emissions value string or empty string if there is an error.
-**/
-export function getStringMonthEmission(data, num) {
-    try {
-        if (!data || !data.length || num > data.length) {
-            throw new Error("getStringMonthEmission: Invalid data or num value");
-        }
-
-        const { y } = data[data.length - num];
-
-        // Check if value is in millions
-        if (y >= 1_000_000) {
-            return `${(y / 1_000_000).toFixed(1)}M`;
-        }
-
-        // Check if value is in thousands
-        if (y >= 1_000) {
-            return `${(y / 1_000).toFixed(1)}K`;
-        }
-
-        // Value is less than 1,000
-        return y.toString();
-    }
-
-    catch (error){
-        console.error(error);
-        return '';
-    }
-}
-
-/**
     Returns the emissions value for the month specified by the given number from the end of the data array.
     @param {Array<Object>} data - The array of data objects containing x and y values.
-    @param {number} num - The number specifying the month from the end of the data array for which to get the emissions value.
+    @param {number} index - The number specifying the month from the end of the data array for which to get the emissions value.
     @returns {number} - The emissions value or 0 if there is an error.
 **/
-export function getMonthEmission(data, num) {
+export function getMonthEmission(data, index) {
     try {
-        if (!data || !data.length || num > data.length) {
+        if (!data || !data.length || index > data.length) {
             throw new Error("getMonthEmission: Invalid data or num value");
         }
-        const { y } = data[data.length - num];
+        const { y } = data[data.length - index - 1];
         return y;
     }
 
@@ -232,6 +200,12 @@ export function getMonthEmission(data, num) {
     @returns {string} The percentage difference between the two values as a string
 **/
 export function getPercentDifference(curr, prev) {
+    if (prev === 0 && curr === 0) {
+        return "0";
+    } else if (prev === 0 && curr !== 0) {
+        return "100";
+    }
+
     const percentageDifference = ((curr - prev)) / prev * 100;
     return percentageDifference.toFixed(0).toString();
 }
@@ -253,6 +227,7 @@ export const RenderPercentDifference = ({ percentDifference, percentColor }) => 
                 <Ionicons name="caret-down" size={16} color={percentColor} style={{alignSelf: 'center', marginBottom: 9, marginRight: 4 }} />
             )}
             <Text
+                testID="percentDifferenceText"
                 style={{
                     fontSize: 14,
                     paddingBottom: 10,
@@ -285,18 +260,24 @@ export const MonthlyFootprintChart = ({navigation}) => {
             .then(() => setLoading(false)) // set loading to false when data has been fetched
             .catch(() => setLoading(false)); // also set loading to false on error
     }, []);
+
+    // (Debugging) This replaces fetched data with dummy data
     // data = dummyData;
     // console.log(JSON.stringify(data, null, 2));
 
     // Define the maximum Y-axis value to use in the chart
     const maxY = data.length ? setMaxDomain(data) : 0;
 
-    // Get the CO2 emissions for the current month as a string
-    const currStringMonthEmission = data.length ? getStringMonthEmission(data, 1) : '';
-
     // Get the CO2 emissions for the current month and the previous month
-    const currMonthEmission = data.length ? getMonthEmission(data, 1) : 0;
-    const lastMonthEmission = data.length ? getMonthEmission(data, 2) : 0;
+    const currMonthEmission = data.length ? getMonthEmission(data, 0) : 0;
+    const lastMonthEmission = data.length ? getMonthEmission(data, 1) : 0;
+
+    // Get the CO2 emissions for the current month as a string
+    let currStringMonthEmission = '';
+    if(currMonthEmission < 1000 || currMonthEmission % 1000 === 0 || currMonthEmission % 1000000 === 0)
+        currStringMonthEmission = numeral(currMonthEmission).format('0a')
+    else
+        currStringMonthEmission = numeral(currMonthEmission).format('0.0a');
 
     // Calculate the percentage difference between the two months
     const percentDifference = data.length ? getPercentDifference(currMonthEmission, lastMonthEmission) : 0;
@@ -332,7 +313,10 @@ export const MonthlyFootprintChart = ({navigation}) => {
     // Show error message if error exists.
     if (error) {
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 60}}>
+            <View
+                testID='error-message'
+                style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 60}}
+            >
                 <Text style={{ fontSize: 18, textAlign: 'center' }}>Unable to connect</Text>
                 <Text style={{ fontSize: 14, textAlign: 'center' }}>Please check your network settings and try again.</Text>
             </View>
@@ -368,7 +352,7 @@ export const MonthlyFootprintChart = ({navigation}) => {
                     height={chartHeight}
                     width={chartWidth}
                     maxDomain={{ y: maxY }}
-                    padding={{ top: 0, bottom: margin*3, left: margin*3, right: margin * 2 }}
+                    padding={{ top: 5, bottom: margin*3, left: margin*4, right: margin * 2 }}
                     containerComponent={<VictoryVoronoiContainer/>}
                 >
                     {/* Renders the area under the line chart */}

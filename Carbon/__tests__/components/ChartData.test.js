@@ -176,7 +176,7 @@ describe('getSelectedLabel', () => {
         ];
         const selectedSlice = 1;
 
-        expect(getSelectedLabel(selectedSlice, data)).toBe('Label 2\n20 lbs CO2');
+        expect(getSelectedLabel(selectedSlice, data)).toBe('Label 2\n20 lbs CO₂');
     });
 
     test('getSelectedLabel returns null when selectedSlice is null', () => {
