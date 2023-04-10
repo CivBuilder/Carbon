@@ -1,30 +1,53 @@
-import React, {useState} from 'react';
-import { StyleSheet, Modal, Text, View, Pressable, TextInput, ToastAndroid } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Switch, TouchableOpacity } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 const RecordTransportation = ({ navigation }) => {
-  const [log, setLog] = useState('');
-  const showToast = () => {
-    ToastAndroid.show("Emission saved successfully", ToastAndroid.SHORT);
-  }
+  const [milesDriven, setMilesDriven] = useState(0);
+  const [publicTransportationUsed, setPublicTransportationUsed] = useState(false);
+  const [bikeUsed, setBikeUsed] = useState(false);
 
   const handleSave = () => {
-    showToast("Emission saved successfully", { type: 'success' });
+    
     navigation.goBack();
   };
 
   return (
-    <View style={styles.centeredView}>
-      <Text style={styles.modalText}></Text>
-      <View style={styles.textInput}>
-        <TextInput onChangeText={text => setLog(text)} testID="textInput"/>
+    <View style={styles.container}>
+      <Text style={styles.label}>How many miles did you drive?</Text>
+      <Picker
+        selectedValue={milesDriven}
+        onValueChange={(value) => setMilesDriven(value)}
+        style={styles.picker}
+      >
+        <Picker.Item label="0 miles" value={0} />
+        <Picker.Item label="25 miles" value={25} />
+        <Picker.Item label="50 miles" value={50} />
+        <Picker.Item label="75 miles" value={75} />
+        <Picker.Item label="100 miles" value={100} />
+        <Picker.Item label="125 miles" value={125} />
+        <Picker.Item label="150 miles" value={150} />
+        <Picker.Item label="175 miles" value={175} />
+        <Picker.Item label="200 miles" value={200} />
+        <Picker.Item label="225 miles" value={225} />
+        <Picker.Item label="250 miles" value={250} />
+      </Picker>
+      <View style={styles.switchContainer}>
+        <Text style={styles.label}>Did you use public transportation?</Text>
+        <Switch
+          value={publicTransportationUsed}
+          onValueChange={(value) => setPublicTransportationUsed(value)}
+        />
       </View>
-      <Pressable testID="saveButton" onPress={handleSave}>
-        <Icon name="save" size={40} color="#201B1B" style={styles.icon} />
-      </Pressable>
-      <Pressable testID="closeButton" onPress={() => navigation.goBack()}>
-        <Icon name="close" size={40} color="#201B1B" style={styles.icon} />
-      </Pressable>
+      <View style={styles.switchContainer}>
+        <Text style={styles.label}>Did you bike?</Text>
+        <Switch
+          value={bikeUsed}
+          onValueChange={(value) => setBikeUsed(value)}
+        />
+      </View>
+      <TouchableOpacity style={styles.button} onPress={handleSave}>
+        <Text style={styles.buttonText}>Save</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -32,57 +55,40 @@ const RecordTransportation = ({ navigation }) => {
 export default RecordTransportation;
 
 const styles = StyleSheet.create({
-    centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 22,
-        justifyContent: 'flex-end',
-        marginBottom: 48 ,
-      },
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  label: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  picker: {
+    width: '100%',
+    marginBottom: 20,
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: 10,
+  },
+  button: {
+    backgroundColor: 'blue',
+    borderRadius: 4,
+    padding: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+});
 
-    modalView: {
-        width: "100%",
-        height: "50%",
-        borderTopStartRadius: 12,
-        borderTopEndRadius: 12,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: '#B2E4EE',
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    
-    text: {
-      textAlign: 'center',
-    },
-    textInput: {
-      width: 100,
-      height: 30,
-      fontSize: 12,
-      borderRadius: 8,
-      borderWidth: 2,
-      elevation: 2,
-      borderColor: '#201B1B',
-      backgroundColor: 'white',
-    },
-    button: {
-        borderRadius: 4,
-        borderWidth: 2,
-        borderColor: 'black',
-        padding: 10,
-        margin: 10,
-        elevation: 2,
-        width: 120,
-      },
 
-      modalText: {
-        marginBottom: 15,
-        textAlign: 'center',
-      },
-      icon: {
-        paddingBottom: 10,
-        paddingTop: 5
-      }
-})
+
+
+
