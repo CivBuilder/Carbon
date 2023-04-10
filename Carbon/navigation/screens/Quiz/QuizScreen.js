@@ -39,6 +39,8 @@ const QuizScreen = () => {
     const [quizCompleted, setQuizCompleted] = useState(false);
     const [quizActive, setQuizActive] = useState(true);
     const [showNext, setShowNext] = useState(false);
+    const [selectedAnswer, setSelectedAnswer] = useState(null);
+
 
     //HELPER FUNCTIONS
     const answerClicked = (answer) => {
@@ -47,7 +49,7 @@ const QuizScreen = () => {
             if(answer.iscorrect){
                 setScore(score+1);
             }
-            console.log(answer.iscorrect)
+            setSelectedAnswer(answer);
             setShowNext(true);
         }
     }
@@ -94,28 +96,30 @@ const QuizScreen = () => {
     }
 
     const renderAnswers = () => {
-        return(
-            <View>
-                {data.questions[currentQuestion].answers.map((answer) => (
-                           <TouchableOpacity
-                            key={answer}
-                            style = {{
-                               borderWidth: 3, borderColor: Colors.black,
-                               backgroundColor: Colors.black, 
-                               height: 60, borderRadius: 20, 
-                               flexDirection: 'row', 
-                               alignItems: 'center', justifyContent: 'space-between',
-                               paddingHorizontal: 20, 
-                               marginVertical: 10 
-                            }}
-                            onPress={() => answerClicked(answer)}>
-                               <Text style = {{fontSize: 20, color: Colors.black}}>{answer.answer}</Text>
-                           </TouchableOpacity>
-                       ))
-                }
-            </View>
+        return (
+          <View>
+            {data.questions[currentQuestion].answers.map((answer) => (
+              <TouchableOpacity
+                key={answer}
+                style={{
+                  borderWidth: 3,
+                  borderColor: Colors.black ,
+                  backgroundColor: quizActive ? Colors.black : (answer === selectedAnswer ? (answer.iscorrect ? 'green' : 'red') : Colors.black),
+                  height: 60,
+                  borderRadius: 20,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  paddingHorizontal: 20,
+                  marginVertical: 10
+                }}
+                onPress={() => answerClicked(answer)}>
+                <Text style={{ fontSize: 20, color: Colors.black }}>{answer.answer}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         )
-    }
+      }
 
     const renderNextButton = () => {
         return( 
@@ -126,8 +130,7 @@ const QuizScreen = () => {
               onPress ={() => submitClicked()}>
                   <Text style = {{fontSize: 20, color: Colors.black}}> Submit </Text>
               </TouchableOpacity>
-              ) : (
-              <View></View>)}
+              ) : (<View></View>)}
           </View>
         )
     }
