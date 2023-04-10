@@ -30,9 +30,8 @@ export default function HomeScreen({ navigation }) {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <View style={{ backgroundColor: "white", borderRadius: 16, padding: 10 }}>
-                            {/* Add Carbon Footprint chart here */}
-                            <MonthlyFootprintChart/>
+                        <View style={{ backgroundColor: "white", borderRadius: 16, padding: 10, height: 300 }}>
+                            <MonthlyFootprintChart navigation={navigation}/>
                         </View>
                     </View>
                 </View>

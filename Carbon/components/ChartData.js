@@ -200,8 +200,9 @@ export const CategoryChart = ({navigation}) => {
     // Show error message if error exists.
     if (error) {
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ fontSize: 18 }}>An error occurred while fetching data.</Text>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 60}}>
+                <Text style={{ fontSize: 18, textAlign: 'center' }}>Unable to connect</Text>
+                <Text style={{ fontSize: 14, textAlign: 'center' }}>Please check your network settings and try again.</Text>
             </View>
         );
     }
