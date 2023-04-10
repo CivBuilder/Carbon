@@ -37,19 +37,30 @@ const QuizScreen = () => {
     const [score, setScore] = useState(0);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [quizCompleted, setQuizCompleted] = useState(false);
+    const [quizActive, setQuizActive] = useState(true);
+    const [showNext, setShowNext] = useState(false);
 
     //HELPER FUNCTIONS
     const answerClicked = (answer) => {
-        if(answer.iscorrect){
-            setScore(score+1);
+        if (quizActive){
+            setQuizActive(false);
+            if(answer.iscorrect){
+                setScore(score+1);
+            }
+            console.log(answer.iscorrect)
+            setShowNext(true);
         }
-        console.log(answer.iscorrect)
+    }
+
+    const submitClicked = () => {
         if(currentQuestion + 1 < data.questions.length){
             setCurrentQuestion(currentQuestion + 1);
         }
         else{
             setQuizCompleted(true)
         }
+        setShowNext(false);
+        setQuizActive(true);
     }
 
     const redoQuiz = () => {
@@ -106,6 +117,21 @@ const QuizScreen = () => {
         )
     }
 
+    const renderNextButton = () => {
+        return( 
+
+          <View>
+              {showNext ?  (
+              <TouchableOpacity
+              onPress ={() => submitClicked()}>
+                  <Text style = {{fontSize: 20, color: Colors.black}}> Submit </Text>
+              </TouchableOpacity>
+              ) : (
+              <View></View>)}
+          </View>
+        )
+    }
+
     //BEGINNING OF DISPLAY
     return(
         <SafeAreaView style = {{ flex: 1}}>
@@ -143,6 +169,7 @@ const QuizScreen = () => {
                             {renderAnswers()}
             
                             {/* Next Button */}
+                            {renderNextButton()}
                         </View>
                    )}
                     </SafeAreaView>
