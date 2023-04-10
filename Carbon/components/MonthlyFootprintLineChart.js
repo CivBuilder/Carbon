@@ -8,6 +8,7 @@ import { ActivityIndicator } from 'react-native';
 
 import { Colors } from '../colors/Colors';
 import { FetchMonthEmissions } from './FetchMonthEmissions';
+import { ScreenNames } from '../navigation/screens/Main/ScreenNames';
 // import { LoadingIndicator } from './LoadingIndicator';
 
 const windowWidth = Dimensions.get("window").width;
@@ -35,7 +36,7 @@ export async function getTotalData(currentMonth, setError) {
     try {
         // Fetch data from the backend server for the given month
         const fetched_data = await Promise.race([
-            FetchMonthEmissions(currentMonth, 27), // TODO: Change hard coded user_id
+            FetchMonthEmissions(currentMonth, 338), // TODO: Change hard coded user_id
             new Promise((resolve, reject) => {
                 setTimeout(() => {
                     reject(new Error('Network request timed out'));
@@ -78,6 +79,14 @@ export const fetchTotalData = async (lastSixMonths, setData, setError) => {
             return { x: month, y: totalEmissions };
         });
         const newData = await Promise.all(requests);
+
+        // Check if there are data for the last 6 months
+        const allYValuesAreZero = newData.every((dataPoint) => dataPoint.y === 0);
+        if (allYValuesAreZero) {
+            setData([]);
+            return;
+        }
+
         setData(newData);
     } catch (error) {
         console.error(`fetchTotalData: ${error}`);
