@@ -248,9 +248,9 @@ export const RenderPercentDifference = ({ percentDifference, percentColor }) => 
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             {percentDifference >= 0 ? (
-                <Ionicons name="caret-up" size={16} color={percentColor} style={{alignSelf: 'center', marginBottom: 7, marginRight: 4 }} />
+                <Ionicons name="caret-up" size={16} color={percentColor} style={{alignSelf: 'center', marginBottom: 9, marginRight: 4 }} />
             ) : (
-                <Ionicons name="caret-down" size={16} color={percentColor} style={{alignSelf: 'center', marginBottom: 7, marginRight: 4 }} />
+                <Ionicons name="caret-down" size={16} color={percentColor} style={{alignSelf: 'center', marginBottom: 9, marginRight: 4 }} />
             )}
             <Text
                 style={{
@@ -385,8 +385,8 @@ export const MonthlyFootprintChart = ({navigation}) => {
                     />
                     <Defs>
                         <LinearGradient id="mintGradient" x1="0" y1="0" x2="0" y2="1">
-                            <Stop offset="40%" stopColor={Colors.primary.MINT} stopOpacity={.6} />
-                            <Stop offset="100%" stopColor={Colors.primary.MINT} stopOpacity={0} />
+                            <Stop offset="40%" stopColor={Colors.primary.MINT} stopOpacity={.7} />
+                            <Stop offset="100%" stopColor={Colors.primary.MINT} stopOpacity={.1} />
                         </LinearGradient>
                     </Defs>
 
@@ -423,9 +423,10 @@ export const MonthlyFootprintChart = ({navigation}) => {
                             <VictoryTooltip
                                 flyoutStyle={{ stroke: "none", fill: "none" }} // Set flyoutStyle to an empty object
                                 style={{
-                                fontSize: 12,
-                                fill: Colors.secondary.DARK_MINT,
-                            }}
+                                    fontSize: 12,
+                                    fontWeight: "bold",
+                                    fill: Colors.secondary.DARK_MINT,
+                                }}
                             />
                         }
                     />
@@ -443,7 +444,10 @@ export const MonthlyFootprintChart = ({navigation}) => {
                     />
 
                     {/* Renders the x-axis */}
-                    <VictoryAxis crossAxis/>
+                    <VictoryAxis
+                        crossAxis
+                        domainPadding={{ x: [10, 10] }}
+                    />
                 </VictoryChart>
             </View>
         </View>
