@@ -137,15 +137,20 @@ router.get('/:id', async function (req, res, next) {
 /**
   Retrieves a user's emissions for a given month.
 
-  @param {string} month - The non-case sensitive name of the month in full (e.g. January, march, APRIL).
-  @param {number} user_id - The ID of the user as an integer (e.g. 1, 5, 323).
-  @returns {Object} - All data in JSON format.
-  @example GET http://{link to the AWS}/api/userEmissions/April/323
-**/
-router.get('/:month/:user_id', async function (req, res) {
+  @param {number} month - The month as a number (1-12).
+  @param {number} year - The year as a four-digit number (e.g., 2023).
+  @param {number} user_id - The ID of the user as an integer (e.g., 1, 5, 323).
+  @returns {Object[]} - An array of emissions records in JSON format.
+
+  @example
+  // Sample usage:
+  // GET /api/userEmissions/2023-4/323
+  // Returns an array of emissions records for user 323 in April 2023.
+ */
+router.get('/:yearMonth/:user_id', async function (req, res) {
   // Grab the user_id and month from the URL parameters
   const userId = req.params.user_id;
-  const month = req.params.month;
+  const [currYear, currMonth] = req.params.yearMonth.split('-').map(str => parseInt(str));
 
   // Check if the user exists
   const user = await user_table.findByPk(userId);
@@ -153,27 +158,23 @@ router.get('/:month/:user_id', async function (req, res) {
       return res.status(400).send(`user_id ${userId} not found.`);
   }
 
-  // Convert month name to a number
-  const monthNum = new Date(Date.parse(`1 ${month} 2000`)).getMonth() + 1;
-
   // Check if month is valid
-  if (isNaN(monthNum)) {
-      return res.status(404).send(`Invalid month: ${month}`);
+  if (currMonth < 1 || currMonth > 12) {
+    return res.status(404).send(`Invalid month: ${currMonth}`);
   }
 
   // Construct a date range that covers the entire month
-  const year = new Date().getFullYear();
-  const startOfMonth = new Date(`${year}-${monthNum}-01`);
-  const endOfMonth = new Date(`${year}-${monthNum}-31`);
+  const startOfMonth = new Date(`${currYear}-${currMonth}-01`);
+  const endOfMonth = new Date(`${currYear}-${currMonth}-31`);
 
   // Find data based on user_id and given month
   const records = await UserEmissions.findAll({
       where: {
-      user_id: userId,
-      date: {
-          [Op.gte]: startOfMonth,
-          [Op.lte]: endOfMonth
-      }
+        user_id: userId,
+        date: {
+            [Op.gte]: startOfMonth,
+            [Op.lte]: endOfMonth
+        }
       }
   });
 

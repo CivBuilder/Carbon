@@ -28,15 +28,17 @@ const dummyData = [
 
 /**
     Calculates the total emissions data for a given month by fetching the data from the backend server.
-    @param {number} currentMonth - The month for which to fetch the emissions data.
-    @param {function} setError - A function to set error in case of network request error.
+
+    @param {string} yearMonth - The year and month (in 'YYYY-MM' format) for which to fetch the emissions data.
+    @param {function} setError - A callback function to set error in case of network request error.
     @returns {Promise<number>} - The total emissions data for the given month. Returns 0 if no data is fetched.
-**/
-export async function getTotalData(currentMonth, setError) {
+    @throws {Error} - If there is an error with the network request.
+*/
+export async function getTotalData(yearMonth, setError) {
     try {
         // Fetch data from the backend server for the given month
         const fetched_data = await Promise.race([
-            FetchMonthEmissions(currentMonth, 338), // TODO: Change hard coded user_id
+            FetchMonthEmissions(yearMonth, 27), // TODO: Change hard coded user_id
             new Promise((resolve, reject) => {
                 setTimeout(() => {
                     reject(new Error('Network request timed out'));
@@ -66,17 +68,24 @@ export async function getTotalData(currentMonth, setError) {
 
 /**
     Fetches the total emissions data for the last six months and sets the data in the component state.
-    @param {Array<number>} lastSixMonths - An array of the last six months for which to fetch the emissions data.
-    @param {function} setData - A function to set the fetched data in the component state.
-    @param {function} setError - A function to set error in case of network request error.
-    @returns {Promise<void>} - Returns nothing.
-    @throws {Error} - If there is an error with the network request.
+
+    @param {Array<string>} lastSixMonths - An array of the last six months for which to fetch the emissions data in the format YYYY-MM.
+    @param {function} setData - A function that sets the fetched data in the component state.
+    @param {function} setError - A function that sets the error message in case of network request error.
+    @returns {Promise<void>} Returns nothing.
+    @throws {Error} If there is an error with the network request.
 **/
 export const fetchTotalData = async (lastSixMonths, setData, setError) => {
     try {
-        const requests = lastSixMonths.map(async (month) => {
-            const totalEmissions = await getTotalData(month, setError);
-            return { x: month, y: totalEmissions };
+        const requests = lastSixMonths.map(async (yearMonth) => {
+            const totalEmissions = await getTotalData(yearMonth, setError);
+
+            // Extract the month from yearMonth (YYYY-MM) and parse as string name with just the first 3 letters
+            const [year, month] = yearMonth.split('-');
+            const date = new Date(`${year}-${month}-01`);
+            const monthName = date.toLocaleString('default', { month: 'short' }).substring(4, 7);
+
+            return { x: monthName, y: totalEmissions };
         });
         const newData = await Promise.all(requests);
 
@@ -117,19 +126,29 @@ export const getCurrentMonth = (offset = 0) => {
 };
 
 /**
-    Returns an array of the last six months in the format "MMM".
-    @returns {Array<string>} - An array of the last six months in the format "MMM".
+    Returns an array of the last six months in the format "YYYY-MM".
+    @returns {Array<string>} - An array of the last six months in the format "YYYY-MM".
 **/
 export const getLastSixMonths = () => {
-    return [
-        getCurrentMonth(7).slice(0, 3),
-        getCurrentMonth(8).slice(0, 3),
-        getCurrentMonth(9).slice(0, 3),
-        getCurrentMonth(10).slice(0, 3),
-        getCurrentMonth(11).slice(0, 3),
-        getCurrentMonth(12).slice(0, 3),
-    ];
-}
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentYear = currentDate.getFullYear();
+
+    const months = [];
+    for (let i = 0; i < 6; i++) {
+        let month = currentMonth - i;
+        let year = currentYear;
+        if (month < 1) {
+            month += 12;
+            year -= 1;
+        }
+            const monthString = month.toString().padStart(2, '0');
+            const yearString = year.toString();
+            const yearMonth = `${yearString}-${monthString}`;
+            months.push(yearMonth);
+    }
+    return months.reverse();
+};
 
 /**
     Calculates the maximum domain for a given dataset and adds an offset of 20% to the result.
