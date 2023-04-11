@@ -10,7 +10,7 @@ import { IconNames } from './IconNames';
 import { PopUpMenu } from '../../../components/PopUpMenu';
 import { ScreenNames } from './ScreenNames';
 
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen } from '../../screens';
+import * as Screens from '../../screens';
 import { getToken, setRenderCallback } from '../../../util/LoginManager';
 
 const Stack = createStackNavigator();
@@ -40,7 +40,8 @@ const HomeStack = ({ navigation }) => {
                 options={{
                     headerShown: true,
                     headerStyle: {
-                        height: Platform.OS === 'ios' ? 48 : 72,
+                        height: Platform.OS === 'ios' ? 48 : 92,
+                        
                     },
                     headerTitleAlign: 'center',
                     headerTitle: () => (
@@ -80,7 +81,7 @@ const ProgressStack = ({ navigation }) => {
                 options={{
                     headerShown: true,
                     headerStyle: {
-                        height: Platform.OS === 'ios' ? 48 : 72,
+                        height: Platform.OS === 'ios' ? 48 : 92,
                     },
                     headerTitleAlign: 'center',
                     headerRight: () => (
@@ -88,11 +89,11 @@ const ProgressStack = ({ navigation }) => {
                     ),
                 }}
             />
-            {<Stack.Screen name={ScreenNames.ADD_GOAL} component={Screens.GoalScreen} />}
-            {<Stack.Screen name={ScreenNames.RECORD_EMISSION} component={Screens.RecordEmissionScreen} />}
-            {<Stack.Screen name={ScreenNames.FOOD_SCREEN} component={Screens.FoodScreen} />}
-            {<Stack.Screen name={ScreenNames.TRANSPORTATION_SCREEN} component={Screens.TransportationScreen} />}
-            {<Stack.Screen name={ScreenNames.RECYCLING_SCREEN} component={Screens.RecyclingScreen} />}
+            <Stack.Screen name={ScreenNames.ADD_GOAL} component={Screens.GoalScreen} />
+            <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={Screens.RecordEmissionScreen} />
+            <Stack.Screen name={ScreenNames.FOOD} component={Screens.FoodScreen} />
+            <Stack.Screen name={ScreenNames.TRANSPORTATION} component={Screens.TransportationScreen} />
+            <Stack.Screen name={ScreenNames.RECYCLING} component={Screens.RecyclingScreen} />
 
         </Stack.Navigator>
     );
@@ -153,7 +154,7 @@ const LoginStack = ({ navigation}) => {
         <Stack.Navigator>
             <Stack.Screen
                 name={' '}
-                component={LoginScreen}
+                component={Screens.LoginScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
                     
@@ -161,7 +162,7 @@ const LoginStack = ({ navigation}) => {
             />
             <Stack.Screen
                 name={ScreenNames.SIGNUP}
-                component={SignUpScreen}
+                component={Screens.SignUpScreen}
                 options={{
                     headerShown: false,
                 }}

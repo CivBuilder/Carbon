@@ -8,17 +8,17 @@ export default function RecordEmissionScreen({navigation}) {
     <View style={styles.centeredView}>
       <View style={styles.modalView}>  
         <TouchableOpacity onPress={() => {
-            navigation.navigate(ScreenNames.FOOD_SCREEN)
+            navigation.navigate(ScreenNames.FOOD)
         }}>
           <Icon name="cutlery" size={40} color="#201B1B" style={styles.icon} testID="cutlery-icon"/>
         </TouchableOpacity> 
         <TouchableOpacity onPress={() => {
-            navigation.navigate(ScreenNames.TRANSPORTATION_SCREEN)
+            navigation.navigate(ScreenNames.TRANSPORTATION)
         }}>
           <Icon name="car" size={40} color="#201B1B" style={styles.icon} testID="car-icon" />
         </TouchableOpacity> 
         <TouchableOpacity onPress={() => {
-            navigation.navigate(ScreenNames.RECYCLING_SCREEN)
+            navigation.navigate(ScreenNames.RECYCLING)
         }}>
           <Icon name="recycle" size={40} color="#201B1B" style={styles.icon} testID="recycle-icon" />
         </TouchableOpacity> 
