@@ -5,18 +5,22 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var sequelize = require('./utils/Database.js');
 const ForumContent = require('./models/ForumContent.js');
-const user = require('./models/UserModel.js');                 
+const user = require('./models/User.js');                 
 const user_emissions = require('./models/UserEmissions.js');
+const passport = require('passport');
 
 var indexRouter = require('./api/index');
-var usersRouter = require('./api/users');
 var forumRouter = require('./api/forumContent');
 var quizRouter = require('./api/quiz');
 var userRouter = require('./api/user');
-var goalRouter = require('./api/goal')
+var goalRouter = require('./api/goal');
 var user_emissionsRouter = require('./api/userEmissions');
 
+// authorized route
+const secureRoute = require('./api/secure');
+
 var app = express();
+require('./auth/auth');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -35,10 +39,14 @@ app.use('/api/user', userRouter);
 app.use('/api/userEmissions', user_emissionsRouter);
 app.use('/api/goal', goalRouter)
 
+app.use('/api/secure', passport.authenticate('jwt', { session: false }), secureRoute);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+app.use(passport.initialize());
 
 // error handler
 app.use(function(err, req, res, next) {

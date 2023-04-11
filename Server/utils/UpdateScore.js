@@ -1,7 +1,7 @@
 //Angel Quintanilla
 const {SustainabilityMap, SUSTAINABILITY_POSITIVE_SCORE} = require('./SustainabilityScore')  
 var user_emissions_table = require('../models/UserEmissions.js')
-var user_table = require('../models/UserModel.js')
+var user_table = require('../models/User.js')
 
 
 //Prevent overflow in MySQL DB 
