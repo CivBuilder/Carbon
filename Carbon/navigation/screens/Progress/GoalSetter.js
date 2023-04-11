@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { Colors } from '../../../colors/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
@@ -7,6 +7,7 @@ import { API_URL } from '../../../config/Api';
 
 const margin = 10;
 const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
+const user_id = 1;
 
 export default function GoalSetter({ navigation }) {
   const [goal, setGoal] = useState(0);
@@ -17,7 +18,7 @@ export default function GoalSetter({ navigation }) {
   };
 
   const saveGoalToDatabase = () => {
-    fetch(API_URL + 'goal', {
+    fetch(API_URL + `goal?user_id=${user_id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -46,7 +47,7 @@ export default function GoalSetter({ navigation }) {
           onValueChange={handleValueChange}
           testID="slider"
         />
-        <Text style={styles.sliderText}>That's X pounds of CO2 compared to last month.</Text>
+        <Text style={styles.sliderSubText}>That's X pounds of CO2 compared to last month.</Text>
         <NonBreakingSpace />
       </View>
       <View style={styles.buttonContainer}>
@@ -79,6 +80,12 @@ const styles = StyleSheet.create({
   },
   sliderText: {
     fontSize: 20,
+    fontWeight: 'bold',
+    color: Colors.primary.RAISIN_BLACK,
+    textAlign: 'center',
+  },
+  sliderSubText: {
+    fontSize: 17,
     fontWeight: 'bold',
     color: Colors.primary.RAISIN_BLACK,
     textAlign: 'center',
