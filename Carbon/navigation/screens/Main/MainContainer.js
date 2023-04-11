@@ -10,7 +10,7 @@ import { IconNames } from './IconNames';
 
 import { ScreenNames } from './ScreenNames';
 
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen } from '../../screens';
+import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen } from '../../screens';
 import { getToken, setRenderCallback } from '../../../util/LoginManager';
 import { PopUpMenu } from '../../../components/PopUpMenu';
 
@@ -153,7 +153,6 @@ const LoginStack = ({ navigation}) => {
                 component={LoginScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
-                    
                 }}
             />
             <Stack.Screen
