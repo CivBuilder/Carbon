@@ -8,4 +8,6 @@ export const ScreenNames = {
     ADD_GOAL: 'AddGoal',
     BROWSER: 'Browser',
     QUIZ: 'Quiz',
+    LOGIN: 'Login',
+    SIGNUP: 'Signup',
 };
