@@ -12,4 +12,6 @@ export const ScreenNames = {
     FOOD_SCREEN: 'Food',
     TRANSPORTATION_SCREEN: 'Transportation',
     RECYCLING_SCREEN: 'Recycling',
+    LOGIN: 'Login',
+    SIGNUP: 'Signup',
 };
