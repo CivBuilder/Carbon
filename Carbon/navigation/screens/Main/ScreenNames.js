@@ -8,6 +8,8 @@ export const ScreenNames = {
     ADD_GOAL: 'AddGoal',
     BROWSER: 'Browser',
     QUIZ: 'Quiz',
-    LOGIN: 'Login',
-    SIGNUP: 'Signup',
+    RECORD_EMISSION: 'Track Your Daily Emissions',
+    FOOD_SCREEN: 'Food',
+    TRANSPORTATION_SCREEN: 'Transportation',
+    RECYCLING_SCREEN: 'Recycling',
 };
