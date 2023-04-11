@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/UserModel.js');
+const User = require('../models/User.js');
 
 // put goal in user table in db
 router.put('/', async (req, res) => {

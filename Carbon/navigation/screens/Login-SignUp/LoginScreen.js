@@ -5,8 +5,20 @@ import PasswordInput from '../../../components/PasswordInput'
 import ForgotPasswordNavButton from '../../../components/ForgotPasswordNavButton'
 import LoginButton from '../../../components/LoginButton'
 import SignUpNavButton from '../../../components/SignUpNavButton'
+import { useState } from 'react'
+import { TextInput, Button } from 'react-native';
+import { login } from '../../../util/LoginManager'
+import { ScreenNames } from '../Main/ScreenNames'
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  
+
+  async function handleLogin() {
+    await login(username, password);
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.logo} >
@@ -14,17 +26,17 @@ const LoginScreen = () => {
       </View>
       <View style={styles.content}>
         <KeyboardAvoidingView behavior= 'height'>
-          <EmailInput testID="emailInput"/>
-          <PasswordInput text="Password" testID="passwordInput" />
+          <EmailInput testID="emailInput" onChangeText={un => setUsername(un)}/>
+          <PasswordInput text="Password" testID="passwordInput" onChangeText={pw => setPassword(pw)} />
         </KeyboardAvoidingView>
         <View style={styles.forgotPassWrapper}>
           <ForgotPasswordNavButton />
         </View>
       </View>
-      <LoginButton />
+      <LoginButton onPress={() => {handleLogin()}}/>
       <View style={styles.signUpTextWrapper}>
         <Text style={styles.signUpText}>Don't have an account?</Text>
-        <SignUpNavButton />
+        <SignUpNavButton onPress={() => {navigation.navigate(ScreenNames.SIGNUP);}}/>
       </View>
     </View>
   )
