@@ -148,13 +148,13 @@ export default function MainContainer(){
             <StatusBar barStyle={'dark-content'} backgroundColor="transparent" translucent={true}/>
             <NavigationContainer>
                 <Tab.Navigator //Sets the default screen for the bottom nav bar (in this case, Home Screen)
-                initialRouteName={ScreenNames.HOME}
-                screenOptions={{
-                    headerShown: false, // Hides the default header
-                    tabBarLabelStyle: { display: 'none' }, // Hides label text
-                    tabBarActiveTintColor: Colors.primary.MINT,
-                    tabBarHideOnKeyboard: true,
-                }}
+                    initialRouteName={ScreenNames.HOME}
+                    screenOptions={{
+                        headerShown: false, // Hides the default header
+                        tabBarLabelStyle: { display: 'none' }, // Hides label text
+                        tabBarActiveTintColor: Colors.primary.MINT,
+                        tabBarHideOnKeyboard: true,
+                    }}
                 >
                     <Tab.Screen
                         name={ScreenNames.HOME}
