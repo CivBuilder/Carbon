@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Switch, TouchableOpacity } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
+import {Colors} from '../../../colors/Colors';
 const RecordTransportation = ({ navigation }) => {
   const [milesDriven, setMilesDriven] = useState(0);
   const [publicTransportationUsed, setPublicTransportationUsed] = useState(false);
@@ -60,15 +61,18 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: Colors.secondary.NON_PHOTO_BLUE,
   },
   label: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: Colors.primary.RAISIN_BLACK,
     marginBottom: 10,
   },
   picker: {
     width: '100%',
     marginBottom: 20,
+    color: Colors.primary.RAISIN_BLACK,
   },
   switchContainer: {
     flexDirection: 'row',
@@ -78,13 +82,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    backgroundColor: 'blue',
-    borderRadius: 4,
-    padding: 10,
+    backgroundColor: Colors.secondary.DARK_MINT,
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    margin: 4,
+    minWidth: 60,
+    alignItems: 'center',
   },
   buttonText: {
-    color: 'white',
+    color: Colors.primary.MINT_CREAM,
     fontWeight: 'bold',
+    fontSize: 16,
   },
 });
 
