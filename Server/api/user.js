@@ -1,13 +1,17 @@
 var express = require('express');
+var passport = require('passport');
 var router = express.Router();
-var user_table = require('../models/UserModel.js');
+var user_table = require('../models/User.js');
 const sequelize = require('../utils/Database.js');
+const jwt = require('jsonwebtoken');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('Sample Response - This should never appear outside of testing');
 });
 
+
+/*
 router.get('/:id', async function(req, res, next) {
     
     const user_entry = await user_table.findOne({
@@ -21,9 +25,11 @@ router.get('/:id', async function(req, res, next) {
     }
     res.status(200).json(user_entry);
 });
+*/
 
 /* GET User Rank, also their sustainability score is included */
 // This is mainly to be used 
+/*
 router.get('/rank/:id', async function(req, res, next) {
     const rank = await user_table.findOne({
         where : {
@@ -40,6 +46,7 @@ router.get('/rank/:id', async function(req, res, next) {
     }
     res.status(200).json(rank)
 })
+*/
 
 
 
@@ -182,5 +189,73 @@ router.post('/quiz/:id', async function(req, res, next) {
     return res.sendStatus(200);
 
 })
+
+
+// Example of getting rank instead using JWT in the GET requests header
+// By passing in passport.authenticate('jwt"...) as the second arg we are able to reference req.user
+router.get('/testrank', passport.authenticate('jwt', { session: false }), async function(req, res, next) {
+    const rank = await user_table.findOne({
+        where : {
+            id : req.user.id
+        },
+        attributes : [
+            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.global_score > user.global_score) + 1'), 'ranking'],
+            'sustainability_score'
+        ]
+    });
+    if(!rank) {
+        console.log("Sending error code 404. No match found");
+        return res.status(404).send(`404 : user with ${req.params.id} not found`);
+    }
+    console.log(rank);
+    res.status(200).json(rank)
+})
+
+
+
+// AUTHENTICATION
+
+router.post(
+    '/auth/signup',
+    passport.authenticate('signup', { session: false }),
+    async (req, res, next) => {
+        res.json({
+            message: 'Signup successful',
+            user: req.user
+        });
+    }
+);
+
+router.post(
+    '/auth/login',
+    async (req, res, next) => {
+        passport.authenticate(
+            'login',
+            async (err, user, info) => {
+                try {
+                    if (err || !user) {
+                        const error = new Error('An error occurred.');
+                        return next(error);
+                    }
+
+                    req.login(
+                    user,
+                    { session: false },
+                    async (error) => {
+                        if (error) return next(error);
+
+                        const body = { id: user.id, email: user.email };
+                        console.log(body);
+                        const token = jwt.sign({ user: body }, 'TOP_SECRET');
+
+                        return res.json({ token });
+                    }
+            );
+        } catch (error) {
+            return next(error);
+        }
+    }
+    )(req, res, next);
+});
 
 module.exports = router;
