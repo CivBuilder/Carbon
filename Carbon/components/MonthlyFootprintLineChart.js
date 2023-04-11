@@ -105,27 +105,6 @@ export const fetchTotalData = async (lastSixMonths, setData, setError) => {
 };
 
 /**
-    Returns the current month in string format
-    @returns {string} The current month name
-**/
-export const getCurrentMonth = (offset = 0) => {
-    // Check if offset is a number
-    if (typeof offset !== 'number') {
-        throw new TypeError('offset must be a number');
-    }
-
-    // Get the current month
-    const monthNames = [
-        "January", "February", "March", "April", "May", "June", "July",
-        "August", "September", "October", "November", "December"
-    ];
-    const today = new Date();
-
-    const monthIndex = (today.getMonth() + offset) % 12;
-    return monthNames[monthIndex < 0 ? monthIndex + 12 : monthIndex];
-};
-
-/**
     Returns an array of the last six months in the format "YYYY-MM".
     @returns {Array<string>} - An array of the last six months in the format "YYYY-MM".
 **/

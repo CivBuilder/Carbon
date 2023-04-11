@@ -4,7 +4,7 @@ const { INTEGER } = require('sequelize');
 const { Op } = require("sequelize"); // This is used for the router that grabs user_id's data based on the current month
 var router = express.Router(); //the router
 var UserEmissions = require('../models/UserEmissions.js'); //requires what we need
-var user_table = require('../models/UserModel.js');
+var user_table = require('../models/User.js');
 
 /*********************
           GET

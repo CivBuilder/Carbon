@@ -9,70 +9,105 @@ import
     } from '../../components/MonthlyFootprintLineChart';
 
 describe('getTotalData', () => {
-    const fetched_data = [
+    const fetchedData  = [
         { total_emissions: 10 },
         { total_emissions: 20 },
         { total_emissions: 30 },
     ];
+    const expectedYearMonth = '2023-04';
 
     const mockFetch = jest.fn(() => Promise.resolve({
-        json: () => Promise.resolve(fetched_data),
+        status: 200,
+        json: () => Promise.resolve(fetchedData),
     }));
 
+    const mockError = new Error('Network request failed');
+    const mockReject = jest.fn(() => Promise.reject(mockError));
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     it('should return 0 when no data is fetched', async () => {
-        const result = await getTotalData('April', jest.fn());
+        const result = await getTotalData(expectedYearMonth, jest.fn());
         expect(result).toBe(0);
     });
 
     it('should return the sum of all total_emissions values when data is fetched', async () => {
         global.fetch = mockFetch;
-        const result = await getTotalData('April', jest.fn());
+        const result = await getTotalData(expectedYearMonth, jest.fn());
         expect(result).toBe(60);
         expect(mockFetch).toHaveBeenCalledTimes(1);
-        expect(mockFetch).toHaveBeenCalledWith(expect.stringMatching(/\/api\/userEmissions\/April\/27/));
+        expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining(`/api/userEmissions/${expectedYearMonth}/27`));
     });
 
     it('should call the setError function when an error occurs', async () => {
         const setErrorMock = jest.fn();
-        const mockError = new Error('Network request failed');
-        global.fetch = jest.fn(() => Promise.reject(mockError));
-        const result = await getTotalData('April', setErrorMock);
+        global.fetch = mockReject;
+        const result = await getTotalData(expectedYearMonth, setErrorMock);
         expect(result).toBe(0);
         expect(setErrorMock).toHaveBeenCalledWith(mockError);
     });
 });
 
 describe('fetchTotalData', () => {
+    const setDataMock = jest.fn();
+    const setErrorMock = jest.fn();
 
-});
-
-describe('getCurrentMonth', () => {
-    it('should return the correct month name for a positive offset', () => {
-        expect(getCurrentMonth(1)).toEqual("May");
-        expect(getCurrentMonth(3)).toEqual("July");
-        expect(getCurrentMonth(12)).toEqual("April");
-        expect(getCurrentMonth(13)).toEqual("May");
+    afterEach(() => {
+        setDataMock.mockReset();
+        setErrorMock.mockReset();
     });
 
-    it('should return the correct month name for a negative offset', () => {
-        expect(getCurrentMonth(-1)).toEqual("March");
-        expect(getCurrentMonth(-3)).toEqual("January");
-        expect(getCurrentMonth(-12)).toEqual("April");
-        expect(getCurrentMonth(-13)).toEqual("March");
-    });
+    // it('should set data to empty array when all y values are zero', async () => {
+    //     const data = [
+    //         { x: 'Jan', y: 0 },
+    //         { x: 'Feb', y: 0 },
+    //         { x: 'Mar', y: 0 },
+    //     ];
 
-    it('should throw an error if offset is not a number', () => {
-        expect(() => getCurrentMonth('foo')).toThrowError(TypeError);
-        expect(() => getCurrentMonth(null)).toThrowError(TypeError);
-        expect(() => getCurrentMonth({})).toThrowError(TypeError);
+    //     await fetchTotalData(['2022-01', '2022-02', '2022-03'], setDataMock, setErrorMock);
+
+    //     expect(setDataMock).toHaveBeenCalledWith([]);
+    //     expect(setErrorMock).not.toHaveBeenCalled();
+    // });
+
+    // it('should set data to non-empty array when at least one y value is non-zero', async () => {
+    //     const data = [
+    //         { x: 'Jan', y: 10 },
+    //         { x: 'Feb', y: 20 },
+    //         { x: 'Mar', y: 30 },
+    //     ];
+
+    //     await fetchTotalData(['2022-01', '2022-02', '2022-03'], setDataMock, setErrorMock);
+
+    //     expect(setDataMock).toHaveBeenCalledWith(data);
+    //     expect(setErrorMock).not.toHaveBeenCalled();
+    // });
+
+    it('should set data to empty array and call setError when an error occurs', async () => {
+        const mockError = new Error('Network request failed');
+        const emptyData = [];
+
+        await fetchTotalData(['2022-01', '2022-02', '2022-03'], setDataMock, setErrorMock);
+
+        expect(setDataMock).toHaveBeenCalledWith(emptyData);
+        expect(setErrorMock).toHaveBeenCalledWith(mockError);
     });
 });
 
 describe('getLastSixMonths', () => {
-    it('should return an array of the last six months', () => {
-        const expected = ['Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr'];
-        const result = getLastSixMonths();
-        expect(result).toEqual(expected);
+    it('returns the last six months as an array of strings in YYYY-MM format', () => {
+        const expectedMonths = [
+            '2022-11',
+            '2022-12',
+            '2023-01',
+            '2023-02',
+            '2023-03',
+            '2023-04',
+        ];
+        const actualMonths = getLastSixMonths();
+        expect(actualMonths).toEqual(expectedMonths);
     });
 });
 
