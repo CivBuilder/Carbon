@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Slider } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import Slider from '@react-native-community/slider';
 import { Colors } from '../../../colors/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import { API_URL } from '../../../config/Api';
 
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 const margin = 10;
+const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
 
 export default function GoalSetter({ navigation }) {
   const [goal, setGoal] = useState(0);
@@ -36,7 +36,6 @@ export default function GoalSetter({ navigation }) {
           <Text style={styles.sliderText}>This month, I will lower my emissions by:</Text>
           <Text style={styles.sliderPercentage} testID="sliderPercentage">{goal}%</Text>
         </View>
-        {/* Change to not deprecated slider */}
         <Slider
           style={{ width: 200, height: 40 }}
           minimumValue={0}
@@ -47,6 +46,8 @@ export default function GoalSetter({ navigation }) {
           onValueChange={handleValueChange}
           testID="slider"
         />
+        <Text style={styles.sliderText}>That's X pounds of CO2 compared to last month.</Text>
+        <NonBreakingSpace />
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={() => { saveGoalToDatabase(); navigation.navigate(ScreenNames.PROGRESS); }}>
