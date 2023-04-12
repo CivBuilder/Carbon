@@ -1,10 +1,9 @@
-import { useState, useEffect} from 'react';
-import { StatusBar, Image, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect} from 'react';
+import { StatusBar, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Colors } from '../../../colors/Colors';
 import { IconNames } from './IconNames';
@@ -13,6 +12,7 @@ import { ScreenNames } from './ScreenNames';
 
 import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen } from '../../screens';
 import { getToken, setRenderCallback } from '../../../util/LoginManager';
+import { PopUpMenu } from '../../../components/PopUpMenu';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -40,6 +40,9 @@ const HomeStack = ({ navigation }) => {
                 component={HomeScreen}
                 options={{
                     headerShown: true,
+                    headerStyle: {
+                        height: Platform.OS === 'ios' ? 48 : 72,
+                    },
                     headerTitleAlign: 'center',
                     headerTitle: () => (
                         <Image
@@ -77,25 +80,17 @@ const ProgressStack = ({ navigation }) => {
                 component={ProgressScreen}
                 options={{
                     headerShown: true,
+                    headerStyle: {
+                        height: Platform.OS === 'ios' ? 48 : 72,
+                    },
                     headerTitleAlign: 'center',
                     headerRight: () => (
-                        <TouchableOpacity
-                            onPress={() =>
-                                console.log("Add button pressed. Did you connect the screen properly?")
-                                /*navigation.navigate(ScreenNames.ADD_PROGRESS)*/
-                            }
-                        >
-                            <Ionicons
-                                name={IconNames.ADD}
-                                size={28}
-                                color={Colors.primary.MINT}
-                                style={{ marginRight: 16 }}
-                            />
-                        </TouchableOpacity>
+                        <PopUpMenu navigation={navigation}/>
                     ),
                 }}
             />
             {<Stack.Screen name={ScreenNames.ADD_GOAL} component={GoalScreen} />}
+            {/* TODO: Add Records Emissions screen here */}
         </Stack.Navigator>
     );
 };
@@ -115,16 +110,16 @@ const ForumStack = ({ navigation }) => {
                 name={'Quiz'}
                 component={QuizScreen}
                 options={{
-                   // headerShown: false, // Set to false for now until we need to implement headers for this screen
-                   headerShown: true,
+                    // headerShown: false, // Set to false for now until we need to implement headers for this screen
+                    headerShown: true,
                 }}
             />
             <Stack.Screen
                 name={'Browser'}
                 component={BrowserScreen}
                 options={{
-                   // headerShown: false, // Set to false for now until we need to implement headers for this screen
-                   headerShown: true,
+                    // headerShown: false, // Set to false for now until we need to implement headers for this screen
+                    headerShown: true,
                 }}
             />
         </Stack.Navigator>
@@ -158,7 +153,6 @@ const LoginStack = ({ navigation}) => {
                 component={LoginScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
-                    
                 }}
             />
             <Stack.Screen
@@ -235,7 +229,7 @@ export default function MainContainer(){
     );
 };
 
-    
+
 const screenOptions = ({ route }) => ({
     tabBarIcon: ({ color, size }) => {
         let iconName;
