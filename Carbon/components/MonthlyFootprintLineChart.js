@@ -82,7 +82,7 @@ export const fetchTotalData = async (lastSixMonths, setData, setError) => {
 
             // Extract the month from yearMonth (YYYY-MM) and parse as string name with just the first 3 letters
             const [year, month] = yearMonth.split('-');
-            const date = new Date(`${year}-${month}-01`);
+            const date = new Date(year, month - 1, 1); // set to the last day of the month
             const monthName = date.toLocaleString('default', { month: 'short' }).substring(4, 7);
 
             return { x: monthName, y: totalEmissions };
