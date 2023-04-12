@@ -4,10 +4,11 @@ import Slider from '@react-native-community/slider';
 import { Colors } from '../../../colors/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import { API_URL } from '../../../config/Api';
+import { getToken } from '../../../util/LoginManager';
 
 const margin = 10;
 const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
-const user_id = 1;
+const API_GOAL_URL = API_URL + 'goal';
 
 export default function GoalSetter({ navigation }) {
   const [goal, setGoal] = useState(0);
@@ -17,11 +18,12 @@ export default function GoalSetter({ navigation }) {
     setGoal(roundedValue);
   };
 
-  const saveGoalToDatabase = () => {
-    fetch(API_URL + `goal?user_id=${user_id}`, {
+  const saveGoalToDatabase = async () => {
+    fetch(API_GOAL_URL, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'secrettoken': await getToken(),
       },
       body: JSON.stringify({ goal: goal })
     })
@@ -47,7 +49,8 @@ export default function GoalSetter({ navigation }) {
           onValueChange={handleValueChange}
           testID="slider"
         />
-        <Text style={styles.sliderSubText}>That's X pounds of CO2 compared to last month.</Text>
+        {/* TODO: add in pounds cut per month once Miguel's chart PR is in */}
+        {/* <Text style={styles.sliderSubText}>That's X pounds of CO2 compared to last month.</Text> */}
         <NonBreakingSpace />
       </View>
       <View style={styles.buttonContainer}>
