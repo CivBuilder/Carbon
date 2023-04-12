@@ -14,6 +14,7 @@ const TIMEOUT_DURATION = 25000;
   const data = await FetchMonthEmissions('2023-01', 1234);
 */
 export const FetchMonthEmissions = async(yearMonth, user_id) => {
+  console.log('FetchMonthEmissions: Fetching data...');
   try {
 
     // Check if yearMonth is in correct format
@@ -27,9 +28,7 @@ export const FetchMonthEmissions = async(yearMonth, user_id) => {
     }
 
     // Construct the URL for the API endpoint
-    // const url = `${API_URL}userEmissions/${month}/${user_id}`; // TODO: Connect to the actual API endpoint eventually
-
-    const url = `http://192.168.0.165:3000/api/userEmissions/${yearMonth}/${user_id}` // Using the local IPv4 for testing purposes
+    const url = `${API_URL}userEmissions/${yearMonth}/${user_id}`;
 
     // Use Promise.race() to fetch the data and timeout if it takes too long
     const response = await Promise.race([
@@ -49,6 +48,7 @@ export const FetchMonthEmissions = async(yearMonth, user_id) => {
 
     // Print out the data in a readable JSON format (for debugging)
     // console.log(`FetchMonthEmissions (data):\n\t${JSON.stringify(data)}`);
+    console.log('FetchMonthEmissions: Fetching complete!');
 
     // Return the data
     return data;

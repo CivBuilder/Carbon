@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
-//import { VictoryPie } from 'victory-native';
+import { VictoryPie } from 'victory-native';
 import { Colors } from '../colors/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import { FetchMonthEmissions } from './FetchMonthEmissions';
