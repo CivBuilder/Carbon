@@ -6,7 +6,17 @@ import {Colors} from '../../../colors/Colors';
 const RecordRecycling = ({ navigation }) => {
   const [recycledAmount, setRecycledAmount] = useState(0);
   const [reusableBags, setReusableBags] = useState(false);
-
+  const funFacts = [
+    "Recycling one ton of paper saves 17 trees, 7,000 gallons of water, and 463 gallons of oil.",
+    "Americans throw away enough aluminum to rebuild the entire commercial air fleet every three months.",
+    "Recycling plastic saves twice as much energy as burning it in an incinerator.",
+    "In 2018, the US generated 292.4 million tons of municipal solid waste, of which only 69 million tons were recycled.",
+    "Recycling electronics helps to conserve natural resources and reduces greenhouse gas emissions caused by the manufacturing of new electronics."
+  ];
+  function getRandomFunFact() {
+    const randomIndex = Math.floor(Math.random() * funFacts.length);
+    return funFacts[randomIndex];
+  }
   const handleSave = () => {
     // Code to post data to the user's database
     navigation.goBack();
@@ -14,6 +24,10 @@ const RecordRecycling = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.funfact}>
+        <Text style={styles.header}>Did you know?</Text>
+        <Text style={styles.label}>{getRandomFunFact()}</Text>
+      </View>
       <Text style={styles.label}>How many pounds did you recycle today?</Text>
       <Picker
         selectedValue={recycledAmount}
@@ -85,5 +99,19 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       fontSize: 16,
     },
-    
+    funfact: {
+      backgroundColor: Colors.primary.MINT_CREAM,
+      borderRadius: 8,
+      padding: 10,
+      flex: 2/3,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: 60,
+      width: '90%',
+    },
+    header: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      marginBottom: 10,
+    }
   });

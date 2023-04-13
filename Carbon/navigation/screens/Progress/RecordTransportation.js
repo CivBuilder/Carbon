@@ -6,7 +6,17 @@ const RecordTransportation = ({ navigation }) => {
   const [milesDriven, setMilesDriven] = useState(0);
   const [publicTransportationUsed, setPublicTransportationUsed] = useState(false);
   const [bikeUsed, setBikeUsed] = useState(false);
-
+  const funFacts = [
+    "Transportation accounts for the largest share of greenhouse gas emissions in the United States.",
+    "The average car emits about 4.6 metric tons of carbon dioxide per year.",
+    "Air travel produces about 2% of global carbon emissions.",
+    "Walking, biking, or taking public transit can significantly reduce individual carbon footprints compared to driving a car.",
+    "Shipping and trucking are responsible for transporting the vast majority of goods worldwide, and their emissions are a significant contributor to overall transportation-related emissions."
+  ];
+  function getRandomFunFact() {
+    const randomIndex = Math.floor(Math.random() * funFacts.length);
+    return funFacts[randomIndex];
+  }
   const handleSave = () => {
     
     navigation.goBack();
@@ -14,6 +24,11 @@ const RecordTransportation = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.funfact}>
+        <Text style={styles.header}>Did you know?</Text>
+        <Text style={styles.label}>{getRandomFunFact()}</Text>
+      </View>
+
       <Text style={styles.label}>How many miles did you drive?</Text>
       <Picker
         selectedValue={milesDriven}
@@ -95,6 +110,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  funfact: {
+    backgroundColor: Colors.primary.MINT,
+    borderRadius: 8,
+    padding: 10,
+    flex: 2/3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 60,
+    width: '90%',
+  },
+  header: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  }
 });
 
 

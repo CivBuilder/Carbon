@@ -2,45 +2,63 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {Colors} from '../../../colors/Colors';
+import { API_URL } from '../../../config/Api';
+import { getAuthHeader } from '../../../util/LoginManager';
 
 const RecordFood = ({ navigation }) => {
   const [consumption, setConsumption] = useState(0);
+  const funFacts = [
+    "The average American diet generates approximately 2.5 metric tons of carbon dioxide emissions per year.",
+    "A meat-based diet generates 2.5 times more carbon emissions than a vegetarian diet.",
+    "The production of cheese generates more carbon emissions per kilogram than the production of chicken or pork.",
+    "The transportation of food accounts for only 11% of the food system's emissions, while the production of food accounts for 83% of emissions.",
+    "Eating locally sourced, seasonal produce can reduce carbon emissions from transportation and refrigeration."
+  ];
 
-  const handleSave = async () => {
-    // try {
-    //   const response = await fetch('https://example.com/users/me', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({ red_meat_consumption: consumption }),
-    //   });
-    //   const data = await response.json();
-    //   console.log('Response:', data);
-      
-    // } catch (error) {
-    //   console.error('Error:', error);
-    // }
-    navigation.goBack();
+  function getRandomFunFact() {
+    const randomIndex = Math.floor(Math.random() * funFacts.length);
+    return funFacts[randomIndex];
+  }
+
+  const getMonth = async () => {
+    const url = API_URL + `userEmissions/April`;
+    console.log(url);
+    const header = await getAuthHeader();
+    console.log(header);
+    const response = await fetch(url, {
+      headers: header
+    });
+    
+    if (response.status === 200) {
+      const data = await response.json();
+      console.log(data);
+    } else {
+      console.log("Error: " + response.status);
+    }
   };
-
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>How much red meat did you consume today?</Text>
-      <Picker
-          selectedValue={consumption}
-          onValueChange={(value) => setConsumption(value)}
-          style={styles.picker}
-      >
-          <Picker.Item label="0 lbs" value={0} />
-          <Picker.Item label="0.25 lbs" value={0.25} />
-          <Picker.Item label="0.5 lbs" value={0.5} />
-          <Picker.Item label="0.75 lbs" value={0.75} />
-          <Picker.Item label="1 lb" value={1} />
-      </Picker>
-      <TouchableOpacity style={styles.button} onPress={handleSave}>
-        <Text style={styles.buttonText}>Save</Text>
-      </TouchableOpacity>
+      <View style={styles.funfact}>
+        <Text style={styles.header}>Did you know?</Text>
+        <Text style={styles.label}>{getRandomFunFact()}</Text>
+      </View>
+      <View style={styles.pickercontainer}>
+        <Text style={styles.label}>How much red meat did you consume today?</Text>
+        <Picker
+            selectedValue={consumption}
+            onValueChange={(value) => setConsumption(value)}
+            style={styles.picker}
+        >
+            <Picker.Item label="0 lbs" value={0} />
+            <Picker.Item label="0.25 lbs" value={0.25} />
+            <Picker.Item label="0.5 lbs" value={0.5} />
+            <Picker.Item label="0.75 lbs" value={0.75} />
+            <Picker.Item label="1 lb" value={1} />
+        </Picker>
+        <TouchableOpacity style={styles.button} onPress={getMonth}>
+          <Text style={styles.buttonText}>Save</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -59,11 +77,15 @@ const styles = StyleSheet.create({
     color: Colors.primary.RAISIN_BLACK,
     marginBottom: 10,
   },
-  picker: {
+  pickercontainer: {
+    flex: 1/3,
     width: '100%',
+  },
+  picker: {
     marginBottom: 20,
     color: Colors.primary.RAISIN_BLACK,
   },
+
   button: {
     backgroundColor: Colors.secondary.DARK_MINT,
     borderRadius: 8,
@@ -77,6 +99,21 @@ const styles = StyleSheet.create({
     color: Colors.primary.MINT_CREAM,
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  funfact: {
+    backgroundColor: Colors.primary.MINT,
+    borderRadius: 8,
+    padding: 10,
+    flex: 1/3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 60,
+    width: '90%',
+  },
+  header: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
   }
 });
 
