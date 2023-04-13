@@ -7,7 +7,7 @@
 
 */
 
-export const calcRecycling = ({miles}) => {
-    return miles * 53;
+export const calcPlane = ({miles}) => {
+    return Math.round(miles * 53);
     //source here https://blueskymodel.org/air-mile
 }

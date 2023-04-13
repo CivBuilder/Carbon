@@ -8,7 +8,7 @@
 
 export const calcPork = ({pounds_consumed}) =>
 {
-    return pounds_consumed * 11.7;
+    return Math.round(pounds_consumed * 11.7);
     //source https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/
 
 }

@@ -7,6 +7,6 @@
 */
 
 export const calcBeef = ({pounds_consumed}) => {
-    return pounds_consumed * 45;
+    return Math.round(pounds_consumed * 45);
     //source https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/
 }

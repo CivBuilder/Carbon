@@ -7,7 +7,7 @@
 */
 
 export const calcPoultry = ({pounds_consumed}) => {
-    return pounds_consumed * 8.55;
-        //source https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/
+    return Math.round(pounds_consumed * 8.55);
+    //source https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/
 
 }
