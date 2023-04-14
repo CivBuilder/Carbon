@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
+import { logout } from '../../../util/LoginManager';
 
 export default function SettingsScreen({navigation}) {
     return(
@@ -21,6 +22,7 @@ export default function SettingsScreen({navigation}) {
             >
                 Settings Screen
             </Text>
+            <Button title='logout' onPress={() => {logout()}}/>
         </View>
     )
 }

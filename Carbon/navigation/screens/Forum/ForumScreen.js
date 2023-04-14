@@ -29,7 +29,6 @@ export default function ForumScreen({navigation}) {
         } catch (error) {
             console.log(error);
         }
-
     };
 
     const onRefresh = React.useCallback(() => {

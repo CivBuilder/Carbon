@@ -1,10 +1,17 @@
 
 var express = require('express');
 const { INTEGER } = require('sequelize');
+const { Op } = require("sequelize"); // This is used for the router that grabs user_id's data based on the current month
 var router = express.Router(); //the router
 var UserEmissions = require('../models/UserEmissions.js'); //requires what we need
-router.get('/', async function (req, res, next) {
+var user_table = require('../models/User.js');
 
+/*********************
+          GET
+**********************/
+
+router.get('/', async function (req, res, next) {
+  console.log("test");
   const date = new Date(); //get date
   day = date.getDate(); //grab the day and month
   month = date.getMonth() + 1;
@@ -12,12 +19,17 @@ router.get('/', async function (req, res, next) {
   const todaysDate = new Date(year, month, day);
 
   const userId = req.query.user_id;
+  console.log("finding for this ID" + userId);
   const data = await UserEmissions.findAll(); //waits and then puts the data into content
   const content = data.filter(item => item.user_id == userId);
   // retArr = [[100, 200, 300, 400, 500], [500, 545, 100, 555, 100], [100, 200, 300, 400, 500], [800, 200, 750, 600, 500]]; //Temp array for data
   weekCount = 0;
   monthCount = 0;
-  retArr = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]; //Ret array
+  retArr = [[0, 0, 0, 0, 0], // TODAY
+            [0, 0, 0, 0, 0], // YESTERDAY
+            [0, 0, 0, 0, 0], // 7 DAYS (1 WEEK)
+            [0, 0, 0, 0, 0]  // 31 DAYS (1 MONTH)
+  ]; //Ret array
   for (const obj of content) {
     const value = obj.date;
     //grabbing all the necessary values for comapring dates
@@ -63,6 +75,21 @@ router.get('/', async function (req, res, next) {
       retArr[1][2] = lifestyle;
       retArr[1][3] = home;
       retArr[1][4] = total;
+      
+      weekCount += 1;
+      retArr[2][0] += transport;
+      retArr[2][1] += diet;
+      retArr[2][2] += lifestyle;
+      retArr[2][3] += home;
+      retArr[2][4] += total;
+      //add to the montly array and increment the count for that
+      monthCount += 1;
+      retArr[3][0] += transport;
+      retArr[3][1] += diet;
+      retArr[3][2] += lifestyle;
+      retArr[3][3] += home;
+      retArr[3][4] += total;
+      //   console.log(retArr);//for debugging
     }
     else if (difference_in_days <= 7) {
       weekCount += 1;
@@ -110,7 +137,7 @@ router.get('/', async function (req, res, next) {
 
 /* Finds all Entries where a user posted a submission*/
 router.get('/:id', async function (req, res, next) {
-  const user_entry = await user_emissions_table.findAll({
+  const user_entry = await UserEmissions.findAll({
     where: {
       user_id: req.params.id
     }
@@ -121,6 +148,63 @@ router.get('/:id', async function (req, res, next) {
   }
   res.status(200).json(user_entry);
 });
+
+
+/**
+  Retrieves a user's emissions for a given month.
+
+  @param {string} month - The non-case sensitive name of the month in full (e.g. January, march, APRIL).
+  @param {number} user_id - The ID of the user as an integer (e.g. 1, 5, 323).
+  @returns {Object} - All data in JSON format.
+  @example GET http://{link to the AWS}/api/userEmissions/April/323
+**/
+router.get('/:month/:user_id', async function (req, res) {
+  // Grab the user_id and month from the URL parameters
+  const userId = req.params.user_id;
+  const month = req.params.month;
+
+  // Check if the user exists
+  const user = await user_table.findByPk(userId);
+  if (!user) {
+      return res.status(400).send(`user_id ${userId} not found.`);
+  }
+
+  // Convert month name to a number
+  const monthNum = new Date(Date.parse(`1 ${month} 2000`)).getMonth() + 1;
+
+  // Check if month is valid
+  if (isNaN(monthNum)) {
+      return res.status(404).send(`Invalid month: ${month}`);
+  }
+
+  // Construct a date range that covers the entire month
+  const year = new Date().getFullYear();
+  const startOfMonth = new Date(`${year}-${monthNum}-01`);
+  const endOfMonth = new Date(`${year}-${monthNum}-31`);
+
+  // Find data based on user_id and given month
+  const records = await UserEmissions.findAll({
+      where: {
+      user_id: userId,
+      date: {
+          [Op.gte]: startOfMonth,
+          [Op.lte]: endOfMonth
+      }
+      }
+  });
+
+  // Send a 204 No Content response if records is empty
+  if (records.length === 0) {
+    return res.status(204).send();
+  }
+
+  // Return the records as a JSON response
+  return res.status(200).json(records);
+});
+
+/**********************
+          POST
+***********************/
 
 /* Post the Entry into the user table - Section is left blank for Data Entry to input whichever algorithm marks their recordkeeping
    Subsequent Function Call to UpdateScore is dependant on there being at least one entry from the post request, hence it being at the end 

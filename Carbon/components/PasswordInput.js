@@ -1,10 +1,17 @@
 import { View, Text, StyleSheet, TextInput } from 'react-native'
 import React from 'react'
 
-const PasswordInput = ({text, testID}) => {
+const PasswordInput = ({text, testID, onChangeText}) => {
   return (
     <View>
-        <TextInput style={styles.input} placeholder={text} placeholderTextColor="#AFAFAF" secureTextEntry={true} testID={testID}/>
+        <TextInput
+          style={styles.input}
+          placeholder={text}
+          placeholderTextColor="#AFAFAF"
+          secureTextEntry={true}
+          testID={testID}
+          onChangeText={onChangeText}
+        />
     </View>
   )
 }
