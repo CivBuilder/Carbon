@@ -25,7 +25,7 @@ const RecordFood = ({ navigation }) => {
         method: 'POST',
         headers:{
           'Content-Type': 'application/json',
-          'secrettoken': await getToken(),
+          'secret_token': await getToken(),
         },
         body: JSON.stringify({
           diet_emissions: consumption,

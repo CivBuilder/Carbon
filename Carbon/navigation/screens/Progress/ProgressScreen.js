@@ -11,9 +11,6 @@ export default function ProgressScreen({ navigation }) {
                 showsHorizontalScrollIndicator={false}
                 style={{ flexGrow: 1 }}
             >
-                {/* <View>
-                    <RecordEmission />
-                </View> */}
                 
                 <View style={styles.header}>
                     <Text style={styles.title}>Category Breakdown</Text>
@@ -25,12 +22,16 @@ export default function ProgressScreen({ navigation }) {
                 </View>
                 <View>
                     {/* <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.ADD_GOAL)}
-                    {/* <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.ADD_GOAL)}
                         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <View style={styles.button}>
                             <Text style={styles.buttonText}>Set Goal</Text>
                         </View>
                     </TouchableOpacity> */}
+                </View>
+                <View>
+                    <View style={styles.header}>
+                        <Text style={styles.title}>Key Factors</Text>
+                    </View>
                     <View style={styles.container}>
                         <View style={styles.chart}>
                             <KeyFactors />

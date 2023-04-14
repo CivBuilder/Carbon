@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Modal, Text, StyleSheet, Platform} from 'react-native';
+import { View, TouchableOpacity, Modal, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { IconNames } from '../navigation/screens/Main/IconNames';
 import { ScreenNames } from '../navigation/screens/Main/ScreenNames';
 import { Colors } from '../colors/Colors';
+import { styles } from './Styles';
 
 
 export const PopUpMenu = ({navigation}) => {
@@ -27,6 +28,7 @@ export const PopUpMenu = ({navigation}) => {
             icon: 'timer-outline',
             action: () => {
                 navigation.navigate(ScreenNames.ADD_GOAL);
+                setVisibility(false);
             },
         },
     ];
@@ -56,10 +58,7 @@ export const PopUpMenu = ({navigation}) => {
                         <TouchableOpacity
                             style={[styles.options, { borderBottomWidth: i === options.length - 1 ? 0 : 1 }]}
                             key={i}
-                            onPress={() => {
-                                op.action();
-                                setVisibility(false);
-                            }}
+                            onPress={() => op.action()}
                         >
                             {/* Display the menu text */}
                             <Text style={styles.popup_title}>{op.title}</Text>
@@ -77,33 +76,3 @@ export const PopUpMenu = ({navigation}) => {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    popup_modal: {
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: Colors.primary.RAISIN_BLACK,
-        backgroundColor: "white",
-        paddingHorizontal: 16,
-        position: 'absolute',
-        right: 24,
-        top: Platform.OS === 'ios' ? 69 : 43, // TODO: Use `useHeaderHeight()` hook to get the height of the header
-    },
-    popup_title: {
-        paddingRight: 16,
-    },
-    options: {
-        flexDirection:'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingVertical: 8,
-        borderBottomColor: '#ccc',
-    },
-    backdrop: { //NOTE: Keep the backdrop style in. Removing it causes the modal to not disappear when clicking outside
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-    },
-});

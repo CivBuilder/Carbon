@@ -1,15 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
 const User = require('../models/User.js');
 
 // put goal in user table in db
-router.put('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.put('/', async (req, res) => {
   let { goal } = req.body;
-  const userId = req.user.id;
 
   try {
-    const user = await User.findOne({ where: { id: userId } });
+    const user = await User.findOne({ where: { id: 1 } });
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }

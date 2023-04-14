@@ -6,7 +6,7 @@ function renderCallback() {
 };
 
 export async function getAuthHeader() {
-    return { headers: {"secrettoken": await getToken() }};
+    return { headers: {"secret_token": await getToken() }};
 }
 
 export function setRenderCallback(cb) {
@@ -14,7 +14,7 @@ export function setRenderCallback(cb) {
 }
 
 export async function getToken() {
-    return await AsyncStorage.getItem('secrettoken');
+    return await AsyncStorage.getItem('secret_token');
 }
 
 export async function login(username, password) {
@@ -49,7 +49,7 @@ export async function login(username, password) {
         }
 
         const data = await response.json();
-        await AsyncStorage.setItem('secrettoken', data.token);
+        await AsyncStorage.setItem('secret_token', data.token);
         renderCallback(await getToken());
     } catch (error) {
         console.error(error);
