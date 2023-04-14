@@ -39,22 +39,30 @@ const QuizScreen = () => {
     const [quizCompleted, setQuizCompleted] = useState(false);
     const [quizActive, setQuizActive] = useState(true);
     const [showNext, setShowNext] = useState(false);
+    const [showSubmit, setShowSubmit] = useState(false);
     const [selectedAnswer, setSelectedAnswer] = useState(null);
-
-
+    const [answerSelected, setAnswerSelected] = useState(false);
     //HELPER FUNCTIONS
     const answerClicked = (answer) => {
-        if (quizActive){
-            setQuizActive(false);
-            if(answer.iscorrect){
-                setScore(score+1);
-            }
+        if(quizActive){
             setSelectedAnswer(answer);
-            setShowNext(true);
+            setShowSubmit(true);
+            setAnswerSelected(true);
         }
     }
 
     const submitClicked = () => {
+        
+        setQuizActive(false);
+        if(selectedAnswer.iscorrect){
+            setScore(score+1);
+        }
+        setShowSubmit(false);
+        setShowNext(true);
+    
+    }
+
+    const nextClicked = () => {
         if(currentQuestion + 1 < data.questions.length){
             setCurrentQuestion(currentQuestion + 1);
         }
@@ -62,6 +70,7 @@ const QuizScreen = () => {
             setQuizCompleted(true)
         }
         setShowNext(false);
+        setAnswerSelected(false);
         setQuizActive(true);
     }
 
@@ -104,7 +113,7 @@ const QuizScreen = () => {
                 style={{
                   borderWidth: 3,
                   borderColor: Colors.black ,
-                  backgroundColor: quizActive ? Colors.black : (answer === selectedAnswer ? (answer.iscorrect ? 'green' : 'red') : Colors.black),
+                  backgroundColor:  quizActive ? (answer === selectedAnswer ? (answerSelected ? 'grey' : 'white') : 'white' ) : (answer === selectedAnswer ? (answer.iscorrect ? 'green' : 'red') : 'white'),
                   height: 60,
                   borderRadius: 20,
                   flexDirection: 'row',
@@ -121,11 +130,11 @@ const QuizScreen = () => {
         )
       }
 
-    const renderNextButton = () => {
+    const renderSubmitButton = () => {
         return( 
 
           <View>
-              {showNext ?  (
+              {showSubmit ?  (
               <TouchableOpacity
               onPress ={() => submitClicked()}>
                   <Text style = {{fontSize: 20, color: Colors.black}}> Submit </Text>
@@ -133,6 +142,20 @@ const QuizScreen = () => {
               ) : (<View></View>)}
           </View>
         )
+    }
+
+    const renderNextButton = () => {
+        return( 
+
+            <View>
+                {showNext ?  (
+                <TouchableOpacity
+                onPress ={() => nextClicked()}>
+                    <Text style = {{fontSize: 20, color: Colors.black}}> Next </Text>
+                </TouchableOpacity>
+                ) : (<View></View>)}
+            </View>
+          )
     }
 
     //BEGINNING OF DISPLAY
@@ -171,6 +194,9 @@ const QuizScreen = () => {
                             {/* Answers */}
                             {renderAnswers()}
             
+                            {/* Submit Button */}
+                            {renderSubmitButton()}
+
                             {/* Next Button */}
                             {renderNextButton()}
                         </View>
