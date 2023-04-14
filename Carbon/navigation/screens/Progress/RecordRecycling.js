@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Switch} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {Colors} from '../../../colors/Colors';
+import {API_URL} from '../../../config/Api';
+import { getToken } from '../../../util/LoginManager';
 
 const RecordRecycling = ({ navigation }) => {
   const [recycledAmount, setRecycledAmount] = useState(0);
@@ -23,7 +25,7 @@ const RecordRecycling = ({ navigation }) => {
         method: 'POST',
         headers:{
           'Content-Type': 'application/json',
-          'secret_token': await getToken(),
+          'secrettoken': await getToken(),
         },
         body: JSON.stringify({
           diet_emissions: 0,

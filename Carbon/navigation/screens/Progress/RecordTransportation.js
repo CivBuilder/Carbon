@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Switch, TouchableOpacity } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {Colors} from '../../../colors/Colors';
+import {API_URL} from '../../../config/Api';
+import { getToken } from '../../../util/LoginManager';
+
 const RecordTransportation = ({ navigation }) => {
   const [milesDriven, setMilesDriven] = useState(0);
   const [publicTransportationUsed, setPublicTransportationUsed] = useState(false);
@@ -23,7 +26,7 @@ const RecordTransportation = ({ navigation }) => {
         method: 'POST',
         headers:{
           'Content-Type': 'application/json',
-          'secret_token': await getToken(),
+          'secrettoken': await getToken(),
         },
         body: JSON.stringify({
           diet_emissions: 0,
@@ -78,7 +81,7 @@ const RecordTransportation = ({ navigation }) => {
           onValueChange={(value) => setBikeUsed(value)}
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={handleSave}>
+      <TouchableOpacity style={styles.button} onPress={postTransportation}>
         <Text style={styles.buttonText}>Save</Text>
       </TouchableOpacity>
     </View>

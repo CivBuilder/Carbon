@@ -153,14 +153,14 @@ const LoginStack = ({ navigation}) => {
         <Stack.Navigator>
             <Stack.Screen
                 name={' '}
-                component={LoginScreen}
+                component={Screens.LoginScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
                 }}
             />
             <Stack.Screen
                 name={ScreenNames.SIGNUP}
-                component={SignUpScreen}
+                component={Screens.SignUpScreen}
                 options={{
                     headerShown: false,
                 }}
