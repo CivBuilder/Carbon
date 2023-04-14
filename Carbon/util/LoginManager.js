@@ -6,7 +6,7 @@ function renderCallback() {
 };
 
 export async function getAuthHeader() {
-    return { headers: {"secrettoken": await getToken() }};
+    return { headers: { "secrettoken": await getToken() } };
 }
 
 export function setRenderCallback(cb) {
@@ -59,8 +59,15 @@ export async function login(username, password) {
 export async function signup(username, password, confirm) {
     console.log(username, password, confirm);
 
+    //TODO:Handle error logging on front end instead of console.log
+
     if (password != confirm || username === "" || password === "") {
         console.log("Passwords do not match, or empty TODO: handle this in the UI");
+        return false;
+    }
+
+    if(!validatePassword(password)) {
+        console.log("Password does not meet requirements. Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character ($,%,&,*,@,!).");
         return false;
     }
 
@@ -92,4 +99,9 @@ export async function logout() {
     console.log("Logging out");
     await AsyncStorage.clear();
     renderCallback(await getToken());
+}
+
+export function validatePassword(password) {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$,%,&,*,@,!])[A-Za-z\d$,%,&,*,@,!]{8,}$/;
+    return regex.test(password);
 }
