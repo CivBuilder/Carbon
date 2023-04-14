@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {Colors} from '../../../colors/Colors';
 import { API_URL } from '../../../config/Api';
-import { getAuthHeader } from '../../../util/LoginManager';
+import { getToken } from '../../../util/LoginManager';
 
 const RecordFood = ({ navigation }) => {
   const [consumption, setConsumption] = useState(0);
@@ -19,23 +19,27 @@ const RecordFood = ({ navigation }) => {
     const randomIndex = Math.floor(Math.random() * funFacts.length);
     return funFacts[randomIndex];
   }
-
-  const getMonth = async () => {
-    const url = API_URL + `userEmissions/April`;
-    console.log(url);
-    const header = await getAuthHeader();
-    console.log(header);
-    const response = await fetch(url, {
-      headers: header
-    });
-    
-    if (response.status === 200) {
-      const data = await response.json();
-      console.log(data);
-    } else {
-      console.log("Error: " + response.status);
+  async function postFood() {
+    try {
+      const response = await fetch(`${API_URL}userEmissions`, {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+          'secret_token': await getToken(),
+        },
+        body: JSON.stringify({
+          diet_emissions: consumption,
+          transport_emissions: 0,
+          total_emissions: consumption,
+          lifestyle_emissions: 0,
+          home_emissions: 0,
+        })
+      })
+      .then(navigation.goBack());
+    } catch (error) {
+      console.error(error);
     }
-  };
+  }
   return (
     <View style={styles.container}>
       <View style={styles.funfact}>
@@ -55,7 +59,7 @@ const RecordFood = ({ navigation }) => {
             <Picker.Item label="0.75 lbs" value={0.75} />
             <Picker.Item label="1 lb" value={1} />
         </Picker>
-        <TouchableOpacity style={styles.button} onPress={getMonth}>
+        <TouchableOpacity style={styles.button} onPress={postFood}>
           <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
       </View>

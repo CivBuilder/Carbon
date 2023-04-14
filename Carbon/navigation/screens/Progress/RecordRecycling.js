@@ -17,10 +17,27 @@ const RecordRecycling = ({ navigation }) => {
     const randomIndex = Math.floor(Math.random() * funFacts.length);
     return funFacts[randomIndex];
   }
-  const handleSave = () => {
-    // Code to post data to the user's database
-    navigation.goBack();
-  };
+  async function postRecycling() {
+    try {
+      const response = await fetch(`${API_URL}userEmissions`, {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+          'secret_token': await getToken(),
+        },
+        body: JSON.stringify({
+          diet_emissions: 0,
+          transport_emissions: 0,
+          total_emissions: recycledAmount,
+          lifestyle_emissions: recycledAmount,
+          home_emissions: 0,
+        })
+      })
+      .then(navigation.goBack());
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -47,7 +64,7 @@ const RecordRecycling = ({ navigation }) => {
           onValueChange={(value) => setReusableBags(value)}
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={handleSave}>
+      <TouchableOpacity style={styles.button} onPress={postRecycling}>
         <Text style={styles.buttonText}>Save</Text>
       </TouchableOpacity>      
     </View>

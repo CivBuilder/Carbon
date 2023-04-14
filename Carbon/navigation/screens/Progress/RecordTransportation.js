@@ -17,10 +17,27 @@ const RecordTransportation = ({ navigation }) => {
     const randomIndex = Math.floor(Math.random() * funFacts.length);
     return funFacts[randomIndex];
   }
-  const handleSave = () => {
-    
-    navigation.goBack();
-  };
+  async function postTransportation() {
+    try {
+      const response = await fetch(`${API_URL}userEmissions`, {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+          'secret_token': await getToken(),
+        },
+        body: JSON.stringify({
+          diet_emissions: 0,
+          transport_emissions: milesDriven,
+          total_emissions: milesDriven,
+          lifestyle_emissions: 0,
+          home_emissions: 0,
+        })
+      })
+      .then(navigation.goBack());
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <View style={styles.container}>
