@@ -23,7 +23,7 @@ const RecordRecycling = ({ navigation }) => {
         method: 'POST',
         headers:{
           'Content-Type': 'application/json',
-          'secret_token': await getToken(),
+          'secrettoken': await getToken(),
         },
         body: JSON.stringify({
           diet_emissions: 0,

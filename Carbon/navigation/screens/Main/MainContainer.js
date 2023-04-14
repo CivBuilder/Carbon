@@ -7,11 +7,11 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { Colors } from '../../../colors/Colors';
 import { IconNames } from './IconNames';
-import { PopUpMenu } from '../../../components/PopUpMenu';
 import { ScreenNames } from './ScreenNames';
-
 import * as Screens from '../../screens';
+
 import { getToken, setRenderCallback } from '../../../util/LoginManager';
+import { PopUpMenu } from '../../../components/PopUpMenu';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -40,8 +40,7 @@ const HomeStack = ({ navigation }) => {
                 options={{
                     headerShown: true,
                     headerStyle: {
-                        height: Platform.OS === 'ios' ? 48 : 92,
-                        
+                        height: Platform.OS === 'ios' ? 48 : 72,
                     },
                     headerTitleAlign: 'center',
                     headerTitle: () => (
@@ -81,11 +80,11 @@ const ProgressStack = ({ navigation }) => {
                 options={{
                     headerShown: true,
                     headerStyle: {
-                        height: Platform.OS === 'ios' ? 48 : 92,
+                        height: Platform.OS === 'ios' ? 48 : 72,
                     },
                     headerTitleAlign: 'center',
                     headerRight: () => (
-                        <PopUpMenu navigation={navigation} />
+                        <PopUpMenu navigation={navigation}/>
                     ),
                 }}
             />
@@ -116,12 +115,16 @@ const ForumStack = ({ navigation }) => {
                 options={{
                     // headerShown: false, // Set to false for now until we need to implement headers for this screen
                     headerShown: true,
+                    // headerShown: false, // Set to false for now until we need to implement headers for this screen
+                    headerShown: true,
                 }}
             />
             <Stack.Screen
                 name={'Browser'}
                 component={Screens.BrowserScreen}
                 options={{
+                    // headerShown: false, // Set to false for now until we need to implement headers for this screen
+                    headerShown: true,
                     // headerShown: false, // Set to false for now until we need to implement headers for this screen
                     headerShown: true,
                 }}
@@ -157,7 +160,6 @@ const LoginStack = ({ navigation}) => {
                 component={Screens.LoginScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
-                    
                 }}
             />
             <Stack.Screen
@@ -234,7 +236,7 @@ export default function MainContainer(){
     );
 };
 
-    
+
 const screenOptions = ({ route }) => ({
     tabBarIcon: ({ color, size }) => {
         let iconName;
