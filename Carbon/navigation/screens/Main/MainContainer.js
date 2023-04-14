@@ -1,5 +1,5 @@
-import { useState, useEffect} from 'react';
-import { StatusBar, Image, TouchableOpacity, SafeAreaView, Platform } from 'react-native';
+import React, { useState, useEffect} from 'react';
+import { StatusBar, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -40,8 +40,7 @@ const HomeStack = ({ navigation }) => {
                 options={{
                     headerShown: true,
                     headerStyle: {
-                        height: Platform.OS === 'ios' ? 48 : 92,
-                        
+                        height: Platform.OS === 'ios' ? 48 : 72,
                     },
                     headerTitleAlign: 'center',
                     headerTitle: () => (
@@ -81,11 +80,11 @@ const ProgressStack = ({ navigation }) => {
                 options={{
                     headerShown: true,
                     headerStyle: {
-                        height: Platform.OS === 'ios' ? 48 : 92,
+                        height: Platform.OS === 'ios' ? 48 : 72,
                     },
                     headerTitleAlign: 'center',
                     headerRight: () => (
-                        <PopUpMenu navigation={navigation} />
+                        <PopUpMenu navigation={navigation}/>
                     ),
                 }}
             />
@@ -154,15 +153,14 @@ const LoginStack = ({ navigation}) => {
         <Stack.Navigator>
             <Stack.Screen
                 name={' '}
-                component={Screens.LoginScreen}
+                component={LoginScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
-                    
                 }}
             />
             <Stack.Screen
                 name={ScreenNames.SIGNUP}
-                component={Screens.SignUpScreen}
+                component={SignUpScreen}
                 options={{
                     headerShown: false,
                 }}
@@ -234,7 +232,7 @@ export default function MainContainer(){
     );
 };
 
-    
+
 const screenOptions = ({ route }) => ({
     tabBarIcon: ({ color, size }) => {
         let iconName;
