@@ -3,5 +3,5 @@ import calcElecCar from "../../../calculations/travel_calculations/calcElecCar.j
 test("calcElecCar", () =>
 {
     ret = calcElecCar(30);
-    expect(ret).equalsTo(Math.round(0.771618 * 30));
+    expect(ret).toBe(Math.round(0.771618 * 30));
 });

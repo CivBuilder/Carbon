@@ -8,6 +8,6 @@ describe('calcCar', () => {
     });
     it("caclCar choosen case", () => {
         ret = calcCar(36, 18);
-        expect(ret).equalsTo(Math.round(19.59248 * (36 / 18)));
+        expect(ret).toBe(Math.round(19.59248 * (36 / 18)));
     });
 });

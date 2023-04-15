@@ -11,8 +11,13 @@ const calcPublic = (miles, type_of_transport) => {
     {
         return Math.round(miles * 0.659182);
     }
-    return Math.round(miles * 0.390218);
+    else if (type_of_transport == "train")
+    {
+        return Math.round(miles * 0.390218);
+
+    }
     //source here https://blueskymodel.org/air-mile
+    return 'error, please enter "train" or "bus"'; //error case
 }
 
 export default calcPublic;
