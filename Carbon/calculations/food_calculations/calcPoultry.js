@@ -6,8 +6,8 @@
     CO2 produced in lbs
 */
 
-export const calcPoultry = ({pounds_consumed}) => {
+const calcPoultry = (pounds_consumed) => {
     return Math.round(pounds_consumed * 8.55);
     //source https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/
-
 }
+export default calcPoultry;

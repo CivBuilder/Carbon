@@ -29,7 +29,13 @@ router.get('/', async function (req, res, next) {
             [0, 0, 0, 0, 0], // 7 DAYS (1 WEEK)
             [0, 0, 0, 0, 0]  // 31 DAYS (1 MONTH)
   ]; //Ret array
+  count = 0
   for (const obj of content) {
+    if(count >= 100)
+    {
+      break;
+    }
+    count+=1;
     const value = obj.date;
     //grabbing all the necessary values for comapring dates
     checkMonth = value.substring(5, 7);
@@ -43,7 +49,7 @@ router.get('/', async function (req, res, next) {
     total = obj.total_emissions;
     const oldDate = new Date(checkYear, checkMonth, checkDay);
     difference_in_days = (todaysDate.getTime() - oldDate.getTime()) / (1000 * 60 * 60 * 24); //gets diff in ms then converts to days
-
+    
     if (difference_in_days == 0) {
       //Add to the daily array
       retArr[0][0] = transport;

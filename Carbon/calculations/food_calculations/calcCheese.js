@@ -6,9 +6,8 @@
     CO2 produced in lbs
 */
 
-export const calcCheese = ({pounds_consumed}) => {
+const calcCheese = (pounds_consumed) => {
     return Math.round(pounds_consumed * 16.6792);
     //source https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/
-
-
 }
+export default calcCheese;

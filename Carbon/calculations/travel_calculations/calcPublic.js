@@ -6,8 +6,7 @@
     CO2 produced in lbs
 
 */
-
-export const calcPublic = ({miles, type_of_transport}) => {
+const calcPublic = (miles, type_of_transport) => {
     if(type_of_transport == "bus")
     {
         return Math.round(miles * 0.659182);
@@ -15,3 +14,5 @@ export const calcPublic = ({miles, type_of_transport}) => {
     return Math.round(miles * 0.390218);
     //source here https://blueskymodel.org/air-mile
 }
+
+export default calcPublic;

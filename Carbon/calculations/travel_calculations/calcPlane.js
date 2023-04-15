@@ -7,7 +7,9 @@
 
 */
 
-export const calcPlane = ({miles}) => {
+const calcPlane = (miles) => {
     return Math.round(miles * 53);
     //source here https://blueskymodel.org/air-mile
 }
+
+export default calcPlane;

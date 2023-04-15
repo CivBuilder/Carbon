@@ -8,7 +8,8 @@
     The amount of CO2 emitted based off that in lbs
 */
 
-export const homeElec = ({megawatt_hours}) => {
+const homeElec = (megawatt_hours) => {
     return Math.round(megawatt_hours * 884.2);
     //calculation obtained from https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references (Again, very much so an estimate)
 }
+export default homeElec;

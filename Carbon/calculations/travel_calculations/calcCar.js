@@ -7,10 +7,9 @@
     C02 in pounds emitted by your driving session
 
 */
-
-export const calcCar = ({miles_driven, gas_mileage}) => {
+const calcCar = (miles_driven, gas_mileage) => {
     gallonsConsumed = 0; 
-    if(gas_mileage == undefined) //if undefined we use the default gallons consumed
+    if(gas_mileage == 0) //if 0 we use the default gallons consumed
     {
         gallonsConsumed = miles_driven/24.2;
     } 
@@ -23,3 +22,5 @@ export const calcCar = ({miles_driven, gas_mileage}) => {
     //source for the above calcualtion is here https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references "Gallons of gaslonine consumed"
     //Please note obviously this is an estimate based on the cars MPG and not 100% accurate as mpg varies often.
 } 
+
+export default calcCar;
