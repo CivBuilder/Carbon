@@ -5,7 +5,8 @@ const { Op } = require("sequelize"); // This is used for the router that grabs u
 var router = express.Router(); //the router
 var UserEmissions = require('../models/UserEmissions.js'); //requires what we need
 var user_table = require('../models/User.js');
-
+var passport = require('passport');
+var sequelize = require('sequelize');
 /*********************
           GET
 **********************/
@@ -218,16 +219,16 @@ router.get('/:month/:user_id', async function (req, res) {
    }
    Each Number is to be lbs of CO2 from the day. 
 */
-router.post('/:id', async function (req, res, next) {
+router.post('/', passport.authenticate('jwt', { session: false }), async function (req, res) {
   //Verify User exists
   const user_entry = await user_table.findOne({
     where: {
-      id: req.params.id
+      id: req.user.id
     }
   });
   if (!user_entry) {
     console.log("Sending error code 404. Submissions cannot be made for user's not in the database.");
-    return res.status(404).send(`404 : user with ${req.params.id} not found`);
+    return res.status(404).send(`404 : user with ${req.user.id} not found`);
   }
 
   //Check if the necessary entries exist
@@ -246,8 +247,8 @@ router.post('/:id', async function (req, res, next) {
   }
   const today = new Date().toISOString().slice(0, 10);
 
-  await user_emissions_table.create({
-    user_id: req.params.id,                                 //Needs to change with sessions states
+  await UserEmissions.create({
+    user_id: req.user.id,                                 //Needs to change with sessions states
     date: sequelize.fn('STR_TO_DATE', today, '%Y-%m-%d'),
     total_emissions: req.body.total_emissions,
     transport_emissions: req.body.transport_emissions,
@@ -256,7 +257,7 @@ router.post('/:id', async function (req, res, next) {
     home_emissions: req.body.home_emissions
   });
 
-  await UpdateScore(req.params.id);
+  // await UpdateScore(req.user.id);
   return res.status(200).send("Data Successfully posted to Database.");
 });
 
