@@ -38,7 +38,7 @@ export async function getTotalData(yearMonth, setError) {
     try {
         // Fetch data from the backend server for the given month
         const fetched_data = await Promise.race([
-            FetchMonthEmissions(yearMonth, 27), // TODO: Change hard coded user_id
+            FetchMonthEmissions(yearMonth, 338), // TODO: Change hard coded user_id
             new Promise((resolve, reject) => {
                 setTimeout(() => {
                     reject(new Error('Network request timed out'));
@@ -331,12 +331,11 @@ export const MonthlyFootprintChart = ({navigation}) => {
     }
 
     // Renders a message and a button to add emissions if there is no data available for the current month.
-    // TODO: Change the navigation from ADD GOAL to RECORD EMISSIONS
     if (!data || !Array.isArray(data) || data.length === 0) {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ fontSize: 18 }}>No data found in the last 6 months.</Text>
-                <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.ADD_GOAL)}>
+                <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION)}>
                     <View style={{ backgroundColor: Colors.primary.MINT, padding: 10, marginTop: 12, borderRadius: 12 }}>
                         <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 14 }}>Add Emissions</Text>
                     </View>
