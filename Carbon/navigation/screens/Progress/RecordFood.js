@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {Colors} from '../../../colors/Colors';
-import { API_URL } from '../../../config/Api';
-import { getToken } from '../../../util/LoginManager';
+import { ScreenNames } from '../Main/ScreenNames';
 
-const RecordFood = ({ navigation }) => {
+const RecordFood = ({ navigation, route }) => {
   const [consumption, setConsumption] = useState(0);
+  const [emissionsEntry, setEmissionsEntry] = useState();
   const funFacts = [
     "The average American diet generates approximately 2.5 metric tons of carbon dioxide emissions per year.",
     "A meat-based diet generates 2.5 times more carbon emissions than a vegetarian diet.",
@@ -19,27 +19,17 @@ const RecordFood = ({ navigation }) => {
     const randomIndex = Math.floor(Math.random() * funFacts.length);
     return funFacts[randomIndex];
   }
-  async function postFood() {
-    try {
-      const response = await fetch(`${API_URL}userEmissions`, {
-        method: 'POST',
-        headers:{
-          'Content-Type': 'application/json',
-          'secrettoken': await getToken(),
-        },
-        body: JSON.stringify({
-          diet_emissions: consumption,
-          transport_emissions: 0,
-          total_emissions: consumption,
-          lifestyle_emissions: 0,
-          home_emissions: 0,
-        })
-      })
-      .then(navigation.goBack());
-    } catch (error) {
-      console.error(error);
-    }
-  }
+
+  //Update our parameter to send back when the consumption state variable changes 
+  useEffect( () => {
+    if(consumption !== null)
+    setEmissionsEntry({
+        ...route.params.sentEmissionsEntry,
+        diet_emissions:consumption
+    })
+  }, [consumption])
+
+
   return (
     <View style={styles.container}>
       <View style={styles.funfact}>
@@ -59,8 +49,8 @@ const RecordFood = ({ navigation }) => {
             <Picker.Item label="0.75 lbs" value={0.75} />
             <Picker.Item label="1 lb" value={1} />
         </Picker>
-        <TouchableOpacity style={styles.button} onPress={postFood}>
-          <Text style={styles.buttonText}>Save</Text>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
+          <Text style={styles.buttonText}>Save & Return</Text>
         </TouchableOpacity>
       </View>
     </View>
