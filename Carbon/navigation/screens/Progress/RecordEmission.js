@@ -25,7 +25,28 @@ export default function RecordEmissionScreen({navigation, route}) {
   }, [route.params]);
 
 
-  
+  // async function postRecycling() {
+  //   try {
+  //     const response = await fetch(`${API_URL}userEmissions`, {
+  //       method: 'POST',
+  //       headers:{
+  //         'Content-Type': 'application/json',
+  //         'secrettoken': await getToken(),
+  //       },
+  //       body: JSON.stringify({
+  //         diet_emissions: 0,
+  //         transport_emissions: 0,
+  //         total_emissions: recycledAmount,
+  //         lifestyle_emissions: recycledAmount,
+  //         home_emissions: 0,
+  //       })
+  //     })
+  //     .then(navigation.goBack());
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
+
 
   return (
     <View style={styles.centeredView}>
