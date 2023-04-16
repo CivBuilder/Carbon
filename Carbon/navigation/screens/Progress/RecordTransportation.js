@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Switch, TouchableOpacity } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {Colors} from '../../../colors/Colors';
-import {API_URL} from '../../../config/Api';
-import { getToken } from '../../../util/LoginManager';
+import { ScreenNames } from '../Main/ScreenNames';
 
-const RecordTransportation = ({ navigation }) => {
+
+const RecordTransportation = ({ navigation, route }) => {
+  const [emissionsEntry, setEmissionsEntry] = useState({});
   const [milesDriven, setMilesDriven] = useState(0);
   const [publicTransportationUsed, setPublicTransportationUsed] = useState(false);
   const [bikeUsed, setBikeUsed] = useState(false);
@@ -20,27 +21,17 @@ const RecordTransportation = ({ navigation }) => {
     const randomIndex = Math.floor(Math.random() * funFacts.length);
     return funFacts[randomIndex];
   }
-  async function postTransportation() {
-    try {
-      const response = await fetch(`${API_URL}userEmissions`, {
-        method: 'POST',
-        headers:{
-          'Content-Type': 'application/json',
-          'secrettoken': await getToken(),
-        },
-        body: JSON.stringify({
-          diet_emissions: 0,
-          transport_emissions: milesDriven,
-          total_emissions: milesDriven,
-          lifestyle_emissions: 0,
-          home_emissions: 0,
-        })
-      })
-      .then(navigation.goBack());
-    } catch (error) {
-      console.error(error);
-    }
-  }
+
+
+  //Update our parameter to send back when the consumption state variable changes 
+  useEffect(() => {
+    if(milesDriven !== null)
+    setEmissionsEntry({
+        ...route.params.sentEmissionsEntry,
+        transport_emissions : milesDriven
+    })
+  }, [milesDriven])
+
 
   return (
     <View style={styles.container}>
@@ -81,7 +72,7 @@ const RecordTransportation = ({ navigation }) => {
           onValueChange={(value) => setBikeUsed(value)}
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={postTransportation}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
         <Text style={styles.buttonText}>Save</Text>
       </TouchableOpacity>
     </View>

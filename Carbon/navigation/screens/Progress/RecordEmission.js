@@ -3,6 +3,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { React, useCallback, useEffect } from 'react';
 import { ScreenNames } from '../Main/ScreenNames';
 import { useState } from 'react';
+import {API_URL} from '../../../config/Api';
+import { getToken } from '../../../util/LoginManager';
 export default function RecordEmissionScreen({navigation, route}) {
   
   //Default value for the final submission that we post to the server
