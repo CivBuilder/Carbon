@@ -27,27 +27,35 @@ export default function RecordEmissionScreen({navigation, route}) {
   }, [route.params]);
 
 
-  // async function postRecycling() {
-  //   try {
-  //     const response = await fetch(`${API_URL}userEmissions`, {
-  //       method: 'POST',
-  //       headers:{
-  //         'Content-Type': 'application/json',
-  //         'secrettoken': await getToken(),
-  //       },
-  //       body: JSON.stringify({
-  //         diet_emissions: 0,
-  //         transport_emissions: 0,
-  //         total_emissions: recycledAmount,
-  //         lifestyle_emissions: recycledAmount,
-  //         home_emissions: 0,
-  //       })
-  //     })
-  //     .then(navigation.goBack());
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
+  async function postResults() { 
+    try{
+      let e = emissionsEntry; 
+      emissionsEntry.total_emissions = e.diet_emissions + e.home_emissions + e.lifestyle_emissions + e.transport_emissions
+
+      if(emissionsEntry.total_emissions === 0 ) throw new Error(`Please Upload at least one Emission Category`);
+
+      const response = await fetch(`${API_URL}userEmissions`, {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+          'secrettoken': await getToken(),
+        },
+        body : JSON.stringify(emissionsEntry)
+      });
+      if(response.status === 200) {
+        console.log("Successful Post!");
+        navigation.goBack();
+      }
+      else if(response.status === 400){
+        throw new Error(`You can only upload results once a day :(`);
+      }
+      else if(response.status === 404){
+        throw new Error(`Client ID Not Found`);
+      }
+    } catch(err) {
+      alert(err.message)
+    }
+  }
 
 
   return (
@@ -69,9 +77,9 @@ export default function RecordEmissionScreen({navigation, route}) {
           <Icon name="recycle" size={40} color="#201B1B" style={styles.icon} testID="recycle-icon" />
         </TouchableOpacity> 
         <TouchableOpacity
-          onPress={() => navigation.goBack()}
+          onPress={() => {postResults()}}
         >
-          <Icon name="close" size={40} color="#201B1B" style={styles.icon} testID="close-icon" />
+          <Icon name="cloud-upload" size={40} color="#201B1B" style={styles.icon} testID="save-and-exit-icon" />
         </TouchableOpacity>
       </View>
           
