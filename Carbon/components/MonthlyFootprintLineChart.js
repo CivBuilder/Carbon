@@ -38,7 +38,7 @@ export async function getTotalData(yearMonth, setError) {
     try {
         // Fetch data from the backend server for the given month
         const fetched_data = await Promise.race([
-            FetchMonthEmissions(yearMonth, 338), // TODO: Change hard coded user_id
+            FetchMonthEmissions(yearMonth),
             new Promise((resolve, reject) => {
                 setTimeout(() => {
                     reject(new Error('Network request timed out'));
@@ -81,9 +81,9 @@ export const fetchTotalData = async (lastSixMonths, setData, setError) => {
             const totalEmissions = await getTotalData(yearMonth, setError);
 
             // Extract the month from yearMonth (YYYY-MM) and parse as string name with just the first 3 letters
-            const [year, month] = yearMonth.split('-');
-            const date = new Date(year, month - 1, 1); // set to the last day of the month
-            const monthName = date.toLocaleString('default', { month: 'short' }).substring(4, 7);
+            const month = parseInt(yearMonth.split('-')[1], 10);
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const monthName = monthNames[month - 1];
 
             return { x: monthName, y: totalEmissions };
         });
@@ -154,7 +154,7 @@ export const setMaxDomain = (data) => {
     @param {number} tick - The value of the tick to format.
     @returns {string} - A string representing the tick value with a magnitude suffix.
 **/
-export function tickFormat(tick) {
+export function tickYFormat(tick) {
     // Check if tick is a number
     if (typeof tick !== 'number') {
         throw new TypeError('tick must be a number');
@@ -417,13 +417,14 @@ export const MonthlyFootprintChart = ({navigation}) => {
                                     fontWeight: "bold",
                                     fill: Colors.secondary.DARK_MINT,
                                 }}
+                                renderInPortal={false} //removes the warning error
                             />
                         }
                     />
 
                     {/* Renders the y-axis */}
                     <VictoryAxis dependentAxis
-                        tickFormat={tickFormat}
+                        tickFormat={tickYFormat}
                         tickCount={4}
                         style={{
                             axis: { stroke: "none" },

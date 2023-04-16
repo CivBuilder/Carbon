@@ -158,21 +158,20 @@ router.get('/:id', async function (req, res, next) {
 
 
 /**
-  Retrieves a user's emissions for a given month.
-
-  @param {number} month - The month as a number (1-12).
-  @param {number} year - The year as a four-digit number (e.g., 2023).
-  @param {number} user_id - The ID of the user as an integer (e.g., 1, 5, 323).
-  @returns {Object[]} - An array of emissions records in JSON format.
-
-  @example
-  // Sample usage:
-  // GET /api/userEmissions/2023-4/323
-  // Returns an array of emissions records for user 323 in April 2023.
- */
-router.get('/:yearMonth/:user_id', async function (req, res) {
+  GET request to retrieve user's emissions records for a specific year and month.
+  @function
+  @async
+  @param {Object} req - Express request object.
+  @param {Object} req.user - The authenticated user object.
+  @param {number} req.user.id - The user ID.
+  @param {Object} req.params - The URL parameters.
+  @param {string} req.params.yearMonth - The year and month in the format "YYYY-MM".
+  @param {Object} res - Express response object.
+  @returns {Promise<void>} - A promise that resolves with no value upon completion.
+*/
+router.get('/yearMonth/:yearMonth', passport.authenticate('jwt', { session: false }), async function (req, res) {
   // Grab the user_id and month from the URL parameters
-  const userId = req.params.user_id;
+  const userId = req.user.id; // retrieve the user_id from the authenticated user
   const [currYear, currMonth] = req.params.yearMonth.split('-').map(str => parseInt(str));
 
   // Check if the user exists

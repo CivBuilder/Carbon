@@ -38,7 +38,7 @@ export async function getData(yearMonth, setLoading, setError) {
     try {
         // Fetch data from the backend server for the given month
         const fetched_data = await Promise.race([
-            FetchMonthEmissions(yearMonth, 338), // TODO: Change hard coded user_id
+            FetchMonthEmissions(yearMonth),
             new Promise((resolve, reject) => {
                 setTimeout(() => {
                     reject(new Error('Network request timed out'));
