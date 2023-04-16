@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import numeral from 'numeral';
 import { ActivityIndicator } from 'react-native';
 
-import { Colors } from '../colors/Colors';
+import { Colors } from '../styling/Colors';
 import { FetchMonthEmissions } from './FetchMonthEmissions';
 import { ScreenNames } from '../navigation/screens/Main/ScreenNames';
 // import { LoadingIndicator } from './LoadingIndicator';
