@@ -1,18 +1,18 @@
-import * as React from 'react';
-import { StatusBar, Image, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect} from 'react';
+import { StatusBar, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Colors } from '../../../styling/Colors';
 import { IconNames } from './IconNames';
 
 import { ScreenNames } from './ScreenNames';
 
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen } from '../../screens';
-
+import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen, FoodScreen, TransportationScreen, RecyclingScreen, RecordEmissionScreen} from '../../screens';
+import { getToken, setRenderCallback } from '../../../util/LoginManager';
+import { PopUpMenu } from '../../../components/PopUpMenu';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -40,6 +40,9 @@ const HomeStack = ({ navigation }) => {
                 component={HomeScreen}
                 options={{
                     headerShown: true,
+                    headerStyle: {
+                        height: Platform.OS === 'ios' ? 48 : 72,
+                    },
                     headerTitleAlign: 'center',
                     headerTitle: () => (
                         <Image
@@ -64,6 +67,8 @@ const HomeStack = ({ navigation }) => {
                 }}
             />
             <Stack.Screen name={ScreenNames.SETTINGS} component={SettingsScreen} />
+            {/* TODO: Change this to Record Emissions */}
+            <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={RecordEmissionScreen} />
         </Stack.Navigator>
     );
 };
@@ -77,25 +82,21 @@ const ProgressStack = ({ navigation }) => {
                 component={ProgressScreen}
                 options={{
                     headerShown: true,
+                    headerStyle: {
+                        height: Platform.OS === 'ios' ? 48 : 72,
+                    },
                     headerTitleAlign: 'center',
                     headerRight: () => (
-                        <TouchableOpacity
-                            onPress={() =>
-                                console.log("Add button pressed. Did you connect the screen properly?")
-                                /*navigation.navigate(ScreenNames.ADD_PROGRESS)*/
-                            }
-                        >
-                            <Ionicons
-                                name={IconNames.ADD}
-                                size={28}
-                                color={Colors.primary.MINT}
-                                style={{ marginRight: 16 }}
-                            />
-                        </TouchableOpacity>
+                        <PopUpMenu navigation={navigation}/>
                     ),
                 }}
             />
-            {<Stack.Screen name={ScreenNames.ADD_GOAL} component={GoalScreen} />}
+            <Stack.Screen name={ScreenNames.ADD_GOAL} component={GoalScreen} />
+            <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={RecordEmissionScreen} />
+            <Stack.Screen name={ScreenNames.FOOD} component={FoodScreen} />
+            <Stack.Screen name={ScreenNames.TRANSPORTATION} component={TransportationScreen} />
+            <Stack.Screen name={ScreenNames.RECYCLING} component={RecyclingScreen} />
+
         </Stack.Navigator>
     );
 };
@@ -115,16 +116,16 @@ const ForumStack = ({ navigation }) => {
                 name={'Quiz'}
                 component={QuizScreen}
                 options={{
-                   // headerShown: false, // Set to false for now until we need to implement headers for this screen
-                   headerShown: true,
+                    // headerShown: false, // Set to false for now until we need to implement headers for this screen
+                    headerShown: true,
                 }}
             />
             <Stack.Screen
                 name={'Browser'}
                 component={BrowserScreen}
                 options={{
-                   // headerShown: false, // Set to false for now until we need to implement headers for this screen
-                   headerShown: true,
+                    // headerShown: false, // Set to false for now until we need to implement headers for this screen
+                    headerShown: true,
                 }}
             />
         </Stack.Navigator>
@@ -148,49 +149,92 @@ const RankingStack = ({ navigation }) => {
     );
 };
 
+
+// Login screen stack navigation & header
+const LoginStack = ({ navigation}) => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name={' '}
+                component={LoginScreen}
+                options={{
+                    headerShown: false, // Set to false for now until we need to implement headers for this screen
+                }}
+            />
+            <Stack.Screen
+                name={ScreenNames.SIGNUP}
+                component={SignUpScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
+        </Stack.Navigator>
+    );
+};
+
 export default function MainContainer(){
+    const [isSignedIn, setIsSignedIn] = useState(false);
+
+    // In order to rerender the maincontainer on signin, we gotta callback and update the state
+    setRenderCallback(setIsSignedIn);
+
+    useEffect(() => {
+        async function checkSignin() {
+            setIsSignedIn(await getToken());
+        }
+
+        checkSignin();
+    }, []);
+
     return(
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar barStyle={'dark-content'} backgroundColor="transparent" translucent={true}/>
-            <NavigationContainer>
-                <Tab.Navigator //Sets the default screen for the bottom nav bar (in this case, Home Screen)
-                initialRouteName={ScreenNames.HOME}
-                screenOptions={{
-                    headerShown: false, // Hides the default header
-                    tabBarLabelStyle: { display: 'none' }, // Hides label text
-                    tabBarActiveTintColor: Colors.primary.MINT,
-                    tabBarHideOnKeyboard: true,
-                }}
-                >
-                    <Tab.Screen
-                        name={ScreenNames.HOME}
-                        component={HomeStack}
-                        options={{
-                            tabBarIcon: ({ color, size }) => (
-                                <Ionicons name={IconNames.HOME} size={size} color={color} />
-                            ),
-                        }}
-                    />
-                    <Tab.Screen
-                        name={ScreenNames.PROGRESS}
-                        component={ProgressStack}
-                        options={screenOptions}
-                    />
-                    <Tab.Screen
-                        name={ScreenNames.FORUM}
-                        component={ForumStack}
-                        options={screenOptions}
-                    />
-                    <Tab.Screen
-                        name={ScreenNames.RANKING}
-                        component={RankingStack}
-                        options={screenOptions}
-                    />
-                </Tab.Navigator>
+                <NavigationContainer>
+        {isSignedIn ? (
+                <>
+                    <Tab.Navigator //Sets the default screen for the bottom nav bar (in this case, Home Screen)
+                    initialRouteName={ScreenNames.HOME}
+                    screenOptions={{
+                        headerShown: false, // Hides the default header
+                        tabBarLabelStyle: { display: 'none' }, // Hides label text
+                        tabBarActiveTintColor: Colors.primary.MINT,
+                        tabBarHideOnKeyboard: true,
+                    }}
+                    >
+                        <Tab.Screen
+                            name={ScreenNames.HOME}
+                            component={HomeStack}
+                            options={{
+                                tabBarIcon: ({ color, size }) => (
+                                    <Ionicons name={IconNames.HOME} size={size} color={color} />
+                                ),
+                            }}
+                        />
+                        <Tab.Screen
+                            name={ScreenNames.PROGRESS}
+                            component={ProgressStack}
+                            options={screenOptions}
+                        />
+                        <Tab.Screen
+                            name={ScreenNames.FORUM}
+                            component={ForumStack}
+                            options={screenOptions}
+                        />
+                        <Tab.Screen
+                            name={ScreenNames.RANKING}
+                            component={RankingStack}
+                            options={screenOptions}
+                        />
+                    </Tab.Navigator>
+                </>
+        ) : (
+            <LoginStack></LoginStack>
+        )}
             </NavigationContainer>
         </SafeAreaView>
     );
 };
+
 
 const screenOptions = ({ route }) => ({
     tabBarIcon: ({ color, size }) => {

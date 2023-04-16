@@ -6,11 +6,12 @@ import LoadingIndicator from "../../../components/LoadingIndicator";
 import {Colors} from "../../../styling/Colors";
 import ListPlayers from './ListPlayers';
 import { API_URL } from '../../../config/Api';
+import { getAuthHeader } from '../../../util/LoginManager';
 const PAGE_SIZE = 15;
 
 //Constants - These are to be removed and placed entirely when we build a user session
 
-const API_Entry_RANK_URL = API_URL + "user/rank/";
+const API_Entry_RANK_URL = API_URL + "user/testrank/";
 const API_Entry_LEADERBOARD_URL = API_URL + "user/leaderboard/";
 
 // const API_Entry_RANK_URL = "http://localhost:3000/api/user/rank/"
@@ -53,11 +54,14 @@ export default function RankingScreen({navigation}){
 
       //Get result from Server via Fetch
       try { 
-        const response = await fetch(API_Entry_RANK_URL+KEY);
+
+        // Changing rank to use the new JWT
+        const response = await fetch(API_Entry_RANK_URL, await getAuthHeader());
 
         //Set Rank and first table to load on the "Like You" page for the table
         if(response.status === 200) {
           const response_content = await response.json(); 
+          console.log(response_content);
           
           setRank(response_content.ranking);
           setSustainabilityScore(response_content.sustainability_score);
@@ -278,7 +282,7 @@ export default function RankingScreen({navigation}){
               {buttonPressed === 1 && 
               <ListPlayers
                 table = {like_you_table}
-                onRefresh ={() =>{fetchAndUpdatePlayersLikeYouTable(true)}}
+                onRefresh ={() =>{fetchAndUpdatePlayersLikeYouTable(true);}}
                 onEndReached = {() => {fetchAndUpdatePlayersLikeYouTable(false)}}
               />}
 

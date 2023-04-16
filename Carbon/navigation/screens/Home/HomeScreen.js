@@ -4,6 +4,7 @@ import { Card } from 'react-native-elements';
 import { Colors } from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import Log from './Log';
+import { MonthlyFootprintChart } from '../../../components/MonthlyFootprintLineChart';
 
 // =====================
 //     Home Screen
@@ -29,8 +30,8 @@ export default function HomeScreen({ navigation }) {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <View style={{ backgroundColor: "white", borderRadius: 16, height: windowHeight / 4, padding: 10 }}>
-                            {/* Add Carbon Footprint chart here */}
+                        <View style={{ backgroundColor: "white", borderRadius: 16, padding: 10, height: 300 }}>
+                            <MonthlyFootprintChart navigation={navigation}/>
                         </View>
                     </View>
                 </View>

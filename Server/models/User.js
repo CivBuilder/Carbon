@@ -1,7 +1,8 @@
 const { DataTypes, Sequelize } = require("sequelize");
 const sequelize = require('../utils/Database.js');
+const bcrypt = require('bcrypt');
 
-const user = sequelize.define('user', {
+const User = sequelize.define('user', {
     //Columns 
     id : {
         type : DataTypes.INTEGER.UNSIGNED,
@@ -44,10 +45,18 @@ const user = sequelize.define('user', {
         defaultValue: 0 
     }
 }, {
+    hooks: {
+        beforeCreate: async(user) => {
+            if (user.password) {
+                const salt = await bcrypt.genSaltSync(10, 'a');
+                user.password = bcrypt.hashSync(user.password, 10);
+            }
+        }
+    },
     tableName : "user",
     freezeTableName : true,
     timestamps : false,
 })
 
 
-module.exports = user;
+module.exports = User;

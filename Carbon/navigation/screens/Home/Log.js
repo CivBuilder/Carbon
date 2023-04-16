@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Pressable } from "react-native";
 import { DailyLog } from "../../../components/ChartData";
 import React, { useState, useEffect } from 'react';
 import { Colors } from '../../../styling/Colors';

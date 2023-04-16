@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react-native';
 import GetData from '../../../../navigation/screens/Home/GetData';
-
 /*
     This needs to be updated with more tests
     It's currently having issues with fetching
@@ -11,7 +10,7 @@ global.fetch = jest.fn(() => {
         resolve({
         ok: true,
         json: () => {
-            return getData();
+            return [[100, 200, 300, 400, 500], [500, 545, 100, 555, 100], [100, 200, 300, 400, 500], [800, 200, 750, 600, 500]];
         },
         status : 200,
         });

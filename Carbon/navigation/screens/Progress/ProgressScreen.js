@@ -18,21 +18,24 @@ export default function ProgressScreen({ navigation }) {
                 showsHorizontalScrollIndicator={false}
                 style={{ flexGrow: 1 }}
             >
-                <View>
+                {/* <View>
                     <RecordEmission />
-                </View>
-                <Section title="Your Progress" shortcutTitle="Add Data" shortcutURL={ScreenNames.HOME}>
+                </View> */}
+                <View style={styles.container}>
+                    <View style={styles.header}>
+                        <Text style={styles.title}>Category Breakdown</Text>
+                    </View>
                     <View style={{...styles.chart, height:320, alignContent:'center', alignItems: 'center', justifyContent: 'center'}}>
                         <CategoryChart navigation={navigation} />
                     </View>
-                </Section>
+                </View>
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.ADD_GOAL)}
+                    {/* <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.ADD_GOAL)}
                         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <View style={styles.button}>
                             <Text style={styles.buttonText}>Set Goal</Text>
                         </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <View style={styles.container}>
                         <View style={styles.header}>
                             <Text style={styles.title}>Key Factors</Text>
