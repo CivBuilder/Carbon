@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import {ActivityIndicator, ScrollView, StyleSheet, Text, View, RefreshControl, TouchableOpacity, FlatList} from 'react-native';
 import ServerErrorScreen from '../../../components/ServerErrorScreen';
 import LoadingIndicator from "../../../components/LoadingIndicator";
-import {Colors} from "../../../colors/Colors";
+import {Colors} from "../../../styling/Colors";
 import ListPlayers from './ListPlayers';
 import { API_URL } from '../../../config/Api';
 const PAGE_SIZE = 15;

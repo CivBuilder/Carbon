@@ -1,5 +1,5 @@
 import { View, Text, FlatList } from "react-native";
-import {Colors} from "../../../colors/Colors";
+import {Colors} from "../../../styling/Colors";
 const DEFAULT_USERNAME = "sellen7"; //This is for testing purposes to get better code coverage 
 const USERNAME = "anon1234" // This is to replaced by the actual username acquired from the session
 

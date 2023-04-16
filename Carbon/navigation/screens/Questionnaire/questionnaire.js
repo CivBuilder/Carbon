@@ -2,7 +2,7 @@ import React, {useState,useEffect} from 'react';
 import {View, Text,Switch,Button,TextInput } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { Colors } from '../../../colors/Colors';
+import { Colors } from '../../../styling/Colors';
 const Stack = createNativeStackNavigator();
 
 function Start ({navigation}){

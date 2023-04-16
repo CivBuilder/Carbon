@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { DailyLog } from "../../../components/ChartData";
 import React, { useState, useEffect } from 'react';
-import { Colors } from '../../../colors/Colors';
+import { Colors } from '../../../styling/Colors';
 import GetData from "./GetData";
 /*
     Log function, it can get todays, yesterdays, weekly or monthly data

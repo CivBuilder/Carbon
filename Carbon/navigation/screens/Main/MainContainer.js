@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Colors } from '../../../colors/Colors';
+import { Colors } from '../../../styling/Colors';
 import { IconNames } from './IconNames';
 
 import { ScreenNames } from './ScreenNames';

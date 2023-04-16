@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView, TouchableOpacity, Platform } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { Card } from 'react-native-elements';
-import { Colors } from '../../../colors/Colors';
+import { Colors } from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import Log from './Log';
 

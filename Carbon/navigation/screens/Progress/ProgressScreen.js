@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text, Platform } from 'react-native';
-import { Colors } from '../../../colors/Colors';
+import { Colors } from '../../../styling/Colors';
 import { CategoryChart, KeyFactors } from '../../../components/ChartData';
 import RecordEmission from './RecordEmission';
 import { TouchableOpacity } from 'react-native';
 import { ScreenNames } from '../Main/ScreenNames';
+import { Section } from '../../../components/Section';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -20,14 +21,11 @@ export default function ProgressScreen({ navigation }) {
                 <View>
                     <RecordEmission />
                 </View>
-                <View style={styles.container}>
-                    <View style={styles.header}>
-                        <Text style={styles.title}>Category Breakdown</Text>
-                    </View>
+                <Section title="Your Progress" shortcutTitle="Add Data" shortcutURL={ScreenNames.HOME}>
                     <View style={{...styles.chart, height:320, alignContent:'center', alignItems: 'center', justifyContent: 'center'}}>
                         <CategoryChart navigation={navigation} />
                     </View>
-                </View>
+                </Section>
                 <View>
                     <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.ADD_GOAL)}
                         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
