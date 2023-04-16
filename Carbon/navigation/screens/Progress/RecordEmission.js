@@ -52,8 +52,8 @@ export default function RecordEmissionScreen({navigation, route}) {
         navigation.goBack();
       }
       //if second post for the day - alert and also go back
-      else if(response.status === 400){
-        throw new Error(`You can only upload results once a day :(`);
+      else if(response.status === 204){
+        alert(`You can only upload results once a day :(`);
         navigation.goBack(); 
       }
       //Alert on bad request - should only see on testing 
