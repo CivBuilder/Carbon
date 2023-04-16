@@ -11,5 +11,6 @@ export const Colors = {
         LIGHT_MINT: "#8BD0AD",
         DARK_MINT: "#51B885",
         NYANZA: "#D8F3DC",
+        RED: "#E23E57",
     },
 };

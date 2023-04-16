@@ -67,6 +67,8 @@ const HomeStack = ({ navigation }) => {
                 }}
             />
             <Stack.Screen name={ScreenNames.SETTINGS} component={SettingsScreen} />
+            {/* TODO: Change this to Record Emissions */}
+            <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={RecordEmissionScreen} />
         </Stack.Navigator>
     );
 };

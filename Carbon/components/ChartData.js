@@ -25,20 +25,20 @@ const dummyData = [
 /**
     This function fetches and aggregates emissions data by category for a given month and user ID from the server.
 
-    @param {string} currentMonth - The non-case sensitive name of the month in full (e.g. January, march, APRIL).
+    @param {string} yearMonth - The year and month in YYYY-MM format
     @param {function} setLoading - A function that takes a boolean as its parameter to update the loading state of the component.
     @param {function} setError - A function that takes an error object as its parameter to update the error state of the component.
     @throws {Error} - An error is thrown if the network request times out or if an error occurs while fetching data.
     @returns {Promise<Array>} - An array of objects containing the total emissions data within their respective categories.
 **/
-export async function getData(currentMonth, setLoading, setError) {
+export async function getData(yearMonth, setLoading, setError) {
     // Turn on the loading indicator component
     setLoading(true);
 
     try {
         // Fetch data from the backend server for the given month
         const fetched_data = await Promise.race([
-            FetchMonthEmissions(currentMonth, 27), // TODO: Change hard coded user_id
+            FetchMonthEmissions(yearMonth, 338), // TODO: Change hard coded user_id
             new Promise((resolve, reject) => {
                 setTimeout(() => {
                     reject(new Error('Network request timed out'));
@@ -88,19 +88,19 @@ export async function getData(currentMonth, setLoading, setError) {
 
 /**
     This asynchronous function fetches data for a given month and updates the state of the component with the retrieved data.
-    If there is an error, the function sets the state for the data, total and error to a default value.
+    If there is an error, the function sets the state for the data, total, and error to a default value.
 
-    @param {string} currentMonth - The month for which to fetch data
-    @param {function} setData - A state setter function to set the fetched data
-    @param {function} setTotal - A state setter function to set the total value calculated from the fetched data
-    @param {function} setLoading - A state setter function to set the loading state of the component
-    @param {function} setError - A state setter function to set the error state of the component
-    @returns {Promise<void>} - A promise that resolves when the data has been fetched and the state has been updated
-    @throws {Error} - Throws an error if there is a problem fetching the data
-**/
-export async function fetchData(currentMonth, setData, setTotal, setLoading, setError) {
+    @param {string} currentYearMonth - The month for which to fetch data.
+    @param {function} setData - A state setter function to set the fetched data.
+    @param {function} setTotal - A state setter function to set the total value calculated from the fetched data.
+    @param {function} setLoading - A state setter function to set the loading state of the component.
+    @param {function} setError - A state setter function to set the error state of the component.
+    @returns {Promise<void>} - A promise that resolves when the data has been fetched and the state has been updated.
+    @throws {Error} - If there is a problem fetching the data.
+*/
+export async function fetchData(currentYearMonth, setData, setTotal, setLoading, setError) {
     try {
-        const newData = await getData(currentMonth, setLoading, setError);
+        const newData = await getData(currentYearMonth, setLoading, setError);
 
         if (newData === null) {
             setData([]);
@@ -144,7 +144,7 @@ export const getLabel = (datum, total) => {
 export const getSelectedLabel = (selectedSlice, data) => {
     if (selectedSlice !== null && data.length > selectedSlice) {
         const selectedDatum = data[selectedSlice];
-        return `${selectedDatum.x}\n${selectedDatum.y} lbs CO2`;
+        return `${selectedDatum.x}\n${selectedDatum.y} lbs CO\u2082`;
     }
     return null;
 };
@@ -172,17 +172,18 @@ export const CategoryChart = ({navigation}) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    // Get the current month
-    const monthNames = [
-        "January", "February", "March", "April", "May", "June", "July",
-        "August", "September", "October", "November", "December"
-    ];
-    const today = new Date();
-    const currentMonth = monthNames[today.getMonth()];
+    // Get the current year and month in YYYY-MM format
+    const now = new Date();
+    const currentYearMonth = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}`;
+
+    // Get the current month to display on the label
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"];
+    const currMonthString = monthNames[now.getMonth()];
 
     // Fetches data for the current month and updates state accordingly. Handles errors and null cases.
     useEffect(() => {
-        fetchData(currentMonth, setData, setTotal, setLoading, setError);
+        fetchData(currentYearMonth, setData, setTotal, setLoading, setError);
     }, []);
 
     // Select slice on press events
@@ -200,8 +201,9 @@ export const CategoryChart = ({navigation}) => {
     // Show error message if error exists.
     if (error) {
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ fontSize: 18 }}>An error occurred while fetching data.</Text>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 60}}>
+                <Text style={{ fontSize: 18, textAlign: 'center' }}>Unable to connect</Text>
+                <Text style={{ fontSize: 14, textAlign: 'center' }}>Please check your network settings and try again.</Text>
             </View>
         );
     }
@@ -211,7 +213,7 @@ export const CategoryChart = ({navigation}) => {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ fontSize: 18 }}>You have no data for this month.</Text>
-                <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.ADD_GOAL)}>
+                <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION)}>
                     <View style={{ backgroundColor: Colors.primary.MINT, padding: 10, marginTop: 12, borderRadius: 12 }}>
                         <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 14 }}>Add Emissions</Text>
                     </View>
@@ -264,7 +266,7 @@ export const CategoryChart = ({navigation}) => {
             >
                 {/* Displays the current month in the center of the pie chart */}
                 <View style={{ paddingBottom: 5 }}>
-                    <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: 'bold', textDecorationLine: 'underline' }}>{currentMonth}</Text>
+                    <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: 'bold', textDecorationLine: 'underline' }}>{currMonthString}</Text>
                 </View>
 
                 {/* Displays the category and its value under the month */}
