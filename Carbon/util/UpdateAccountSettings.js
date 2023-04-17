@@ -1,9 +1,42 @@
 import { validatePassword } from "./LoginManager";
+import { API_URL } from "../config/Api";
+import { getToken } from "./LoginManager";
+
+const API_CHECK_USERNAME_URL = API_URL + 'user/checkUsername/';
+const API_CHANGE_USERNAME_URL = API_URL + 'user/changeUsername/';
+const API_CHANGE_PASSWORD_URL = API_URL + 'user/changePassword/';
+const API_CHECK_PASSWORD_URL = API_URL + 'user/checkPassword/';
 
 export async function changeUsername(username) {
-    // pass the username into the API to change it
-    // will need to check if the username is already in use, if so, return false
-    // if the username is not in use, return true and change the username in the DB
+    // check if the username already exists in the DB
+    const res = await fetch(API_CHECK_USERNAME_URL + "?username=" + username, {
+        method: 'GET',
+        headers: {
+            'secrettoken': await getToken(),
+        }
+    });
+
+    if (res.status === 200) {
+        const resContent = await res.json();
+        // if username already exists error, else put it
+        if (resContent === true) {
+            // TODO: turn this into a front-end error
+            console.log("Error, username already exists. Please choose another username.");
+        }
+        else {
+            await fetch(API_CHANGE_USERNAME_URL, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'secrettoken': await getToken(),
+                },
+                body: JSON.stringify({ username: username })
+            })
+                .then(response => response.text())
+                .then(data => console.log(data))
+                .catch(error => console.error(error));
+        }
+    }
 }
 
 export async function changePassword(oldPassword, newPassword) {
@@ -12,7 +45,31 @@ export async function changePassword(oldPassword, newPassword) {
         return false;
     }
 
-    // pass the old password into the API to check if it matches
-    // pass the new password into the API to change it if the old password matches.
-    // do both of these in one API call
+    const res = await fetch(API_CHECK_PASSWORD_URL, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'secrettoken': await getToken(),
+        },
+        body: JSON.stringify({ password: oldPassword })
+    });
+    const resContent = await res.json();
+    if (resContent === true) {
+        // change the password as the old password matches the DB
+        await fetch(API_CHANGE_PASSWORD_URL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'secrettoken': await getToken(),
+            },
+            body: JSON.stringify({ password: newPassword })
+        })
+            .then(response => response.text())
+            .then(data => console.log(data))
+            .catch(error => console.error(error));
+    }
+    else {
+        // TODO: Change this to a real front-end error
+        console.log('Error, old password does not match our records. Please try again.')
+    }
 }
