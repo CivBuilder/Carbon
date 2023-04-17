@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Switch} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {Colors} from '../../../colors/Colors';
-import {API_URL} from '../../../config/Api';
-import { getToken } from '../../../util/LoginManager';
+import { ScreenNames } from '../Main/ScreenNames';
 
-const RecordRecycling = ({ navigation }) => {
+
+const RecordRecycling = ({ navigation, route }) => {
+  const [emissionsEntry, setEmissionsEntry] = useState();
   const [recycledAmount, setRecycledAmount] = useState(0);
   const [reusableBags, setReusableBags] = useState(false);
   const funFacts = [
@@ -19,27 +20,18 @@ const RecordRecycling = ({ navigation }) => {
     const randomIndex = Math.floor(Math.random() * funFacts.length);
     return funFacts[randomIndex];
   }
-  async function postRecycling() {
-    try {
-      const response = await fetch(`${API_URL}userEmissions`, {
-        method: 'POST',
-        headers:{
-          'Content-Type': 'application/json',
-          'secrettoken': await getToken(),
-        },
-        body: JSON.stringify({
-          diet_emissions: 0,
-          transport_emissions: 0,
-          total_emissions: recycledAmount,
-          lifestyle_emissions: recycledAmount,
-          home_emissions: 0,
-        })
-      })
-      .then(navigation.goBack());
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  
+
+  //Update our parameter to send back when the consumption state variable changes 
+  useEffect(() => {
+    if(recycledAmount !== null)
+    setEmissionsEntry({
+        ...route.params.sentEmissionsEntry,
+        lifestyle_emissions : recycledAmount
+    })
+  }, [recycledAmount])
+  
+  
 
   return (
     <View style={styles.container}>
@@ -66,7 +58,7 @@ const RecordRecycling = ({ navigation }) => {
           onValueChange={(value) => setReusableBags(value)}
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={postRecycling}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
         <Text style={styles.buttonText}>Save</Text>
       </TouchableOpacity>      
     </View>
