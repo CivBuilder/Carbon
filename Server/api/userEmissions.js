@@ -5,7 +5,10 @@ const { Op } = require("sequelize"); // This is used for the router that grabs u
 var router = express.Router(); //the router
 var UserEmissions = require('../models/UserEmissions.js'); //requires what we need
 var user_table = require('../models/User.js');
-
+var passport = require('passport');
+var sequelize = require('sequelize');
+const User = require('../models/User.js');
+const UpdateScore = require('../utils/UpdateScore.js')
 /*********************
           GET
 **********************/
@@ -30,7 +33,13 @@ router.get('/', async function (req, res, next) {
             [0, 0, 0, 0, 0], // 7 DAYS (1 WEEK)
             [0, 0, 0, 0, 0]  // 31 DAYS (1 MONTH)
   ]; //Ret array
+  count = 0
   for (const obj of content) {
+    if(count >= 100)
+    {
+      break;
+    }
+    count+=1;
     const value = obj.date;
     //grabbing all the necessary values for comapring dates
     checkMonth = value.substring(5, 7);
@@ -44,7 +53,7 @@ router.get('/', async function (req, res, next) {
     total = obj.total_emissions;
     const oldDate = new Date(checkYear, checkMonth, checkDay);
     difference_in_days = (todaysDate.getTime() - oldDate.getTime()) / (1000 * 60 * 60 * 24); //gets diff in ms then converts to days
-
+    
     if (difference_in_days == 0) {
       //Add to the daily array
       retArr[0][0] = transport;
@@ -153,15 +162,20 @@ router.get('/:id', async function (req, res, next) {
 /**
   Retrieves a user's emissions for a given month.
 
-  @param {string} month - The non-case sensitive name of the month in full (e.g. January, march, APRIL).
-  @param {number} user_id - The ID of the user as an integer (e.g. 1, 5, 323).
-  @returns {Object} - All data in JSON format.
-  @example GET http://{link to the AWS}/api/userEmissions/April/323
-**/
-router.get('/:month/:user_id', async function (req, res) {
+  @param {number} month - The month as a number (1-12).
+  @param {number} year - The year as a four-digit number (e.g., 2023).
+  @param {number} user_id - The ID of the user as an integer (e.g., 1, 5, 323).
+  @returns {Object[]} - An array of emissions records in JSON format.
+
+  @example
+  // Sample usage:
+  // GET /api/userEmissions/2023-4/323
+  // Returns an array of emissions records for user 323 in April 2023.
+ */
+router.get('/:yearMonth/:user_id', async function (req, res) {
   // Grab the user_id and month from the URL parameters
   const userId = req.params.user_id;
-  const month = req.params.month;
+  const [currYear, currMonth] = req.params.yearMonth.split('-').map(str => parseInt(str));
 
   // Check if the user exists
   const user = await user_table.findByPk(userId);
@@ -169,27 +183,23 @@ router.get('/:month/:user_id', async function (req, res) {
       return res.status(400).send(`user_id ${userId} not found.`);
   }
 
-  // Convert month name to a number
-  const monthNum = new Date(Date.parse(`1 ${month} 2000`)).getMonth() + 1;
-
   // Check if month is valid
-  if (isNaN(monthNum)) {
-      return res.status(404).send(`Invalid month: ${month}`);
+  if (currMonth < 1 || currMonth > 12) {
+    return res.status(404).send(`Invalid month: ${currMonth}`);
   }
 
   // Construct a date range that covers the entire month
-  const year = new Date().getFullYear();
-  const startOfMonth = new Date(`${year}-${monthNum}-01`);
-  const endOfMonth = new Date(`${year}-${monthNum}-31`);
+  const startOfMonth = new Date(`${currYear}-${currMonth}-01`);
+  const endOfMonth = new Date(`${currYear}-${currMonth}-31`);
 
   // Find data based on user_id and given month
   const records = await UserEmissions.findAll({
       where: {
-      user_id: userId,
-      date: {
-          [Op.gte]: startOfMonth,
-          [Op.lte]: endOfMonth
-      }
+        user_id: userId,
+        date: {
+            [Op.gte]: startOfMonth,
+            [Op.lte]: endOfMonth
+        }
       }
   });
 
@@ -218,16 +228,16 @@ router.get('/:month/:user_id', async function (req, res) {
    }
    Each Number is to be lbs of CO2 from the day. 
 */
-router.post('/:id', async function (req, res, next) {
+router.post('/', passport.authenticate('jwt', { session: false }), async function (req, res) {
   //Verify User exists
   const user_entry = await user_table.findOne({
     where: {
-      id: req.params.id
+      id: req.user.id
     }
   });
   if (!user_entry) {
     console.log("Sending error code 404. Submissions cannot be made for user's not in the database.");
-    return res.status(404).send(`404 : user with ${req.params.id} not found`);
+    return res.status(404).send(`404 : user with ${req.user.id} not found`);
   }
 
   //Check if the necessary entries exist
@@ -244,10 +254,30 @@ router.post('/:id', async function (req, res, next) {
   for (const n of Object.values(req.body)) {
     if (n < 0) return res.status(400).send(`400 : bad request. No Negative Emissions`);
   }
-  const today = new Date().toISOString().slice(0, 10);
 
-  await user_emissions_table.create({
-    user_id: req.params.id,                                 //Needs to change with sessions states
+  //Validate if user has already posted once today
+  const now = new Date();
+  const todaysDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const nextDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+
+  const todaysEntries = await UserEmissions.findAll({
+    where : {
+      date : {
+        [Op.between] : [todaysDate, nextDay],
+      }
+    }
+  });
+
+  if (todaysEntries.some((entry) => entry.user_id === req.user.id))
+    return res.status(204).send(`User Entry already submitted today.`);
+
+  
+
+
+  const today = new Date().toISOString().slice(0, 10);
+  
+  await UserEmissions.create({
+    user_id: req.user.id,                                 //Needs to change with sessions states
     date: sequelize.fn('STR_TO_DATE', today, '%Y-%m-%d'),
     total_emissions: req.body.total_emissions,
     transport_emissions: req.body.transport_emissions,
@@ -256,7 +286,7 @@ router.post('/:id', async function (req, res, next) {
     home_emissions: req.body.home_emissions
   });
 
-  await UpdateScore(req.params.id);
+  await UpdateScore(req.user.id);
   return res.status(200).send("Data Successfully posted to Database.");
 });
 
