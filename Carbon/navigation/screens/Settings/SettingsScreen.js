@@ -6,7 +6,7 @@ import { Colors } from '../../../colors/Colors';
 import { logout } from '../../../util/LoginManager';
 import ChangeUsernameButton from '../../../components/ChangeUsernameButton';
 import ChangePasswordButton from '../../../components/ChangePasswordButton';
-import { changeUsername, changePassword } from '../../../util/SettingsManager';
+import { changeUsername, changePassword } from '../../../util/UpdateAccountSettings';
 
 const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
 
