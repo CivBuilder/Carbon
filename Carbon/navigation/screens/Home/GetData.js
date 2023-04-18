@@ -7,6 +7,7 @@ const GetData = async() => {
   try {
       const user_id = 323;
       //const url = "http://{YOURLOCALIPHERE}:3000/api/userEmissions?user_id="+ user_id; //for local hosting and testing 
+      console.log('goop');
 
       const url = API_URL + `userEmissions?user_id=${user_id}`; //for the database
       console.log("fetching data from " + url); //log to see if if it works
