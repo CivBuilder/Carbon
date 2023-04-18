@@ -134,8 +134,8 @@ export default function ForumScreen({navigation}) {
 
 
     return(
-        <SafeAreaView style={{flexDirection:'column', flexGrow: 1}}>
-            <View style={{width: '100%', flex: 1}}>
+        <SafeAreaView edges={['bottom', 'left', 'right']} style={{flexDirection:'column', flexGrow: 1}}>
+            <View style={{width: '100%'}}>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <View style={styles.categoryView}>
                         <EducationMenu
@@ -202,12 +202,14 @@ const styles = StyleSheet.create({
     categoryView: {
         flexDirection: 'row',
         justifyContent: "space-evenly",
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingVertical: 12
     },
 
     educationMenu: {
         paddingHorizontal: 40
     },
+
     container: {
         margin: 10,
         height: '100%',

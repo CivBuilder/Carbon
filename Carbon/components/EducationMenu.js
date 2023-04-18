@@ -14,8 +14,6 @@ const EducationMenu = ({title, imageSrc, onPress}) => {
             </TouchableOpacity>
             <Text style = {styles.imageText}>{title}</Text>
         </View>
-
-
    )
 }
 
