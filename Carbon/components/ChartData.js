@@ -26,15 +26,11 @@ const dummyData = [
     This function fetches and aggregates emissions data by category for a given month and user ID from the server.
 
     @param {string} yearMonth - The year and month in YYYY-MM format
-    @param {function} setLoading - A function that takes a boolean as its parameter to update the loading state of the component.
     @param {function} setError - A function that takes an error object as its parameter to update the error state of the component.
     @throws {Error} - An error is thrown if the network request times out or if an error occurs while fetching data.
     @returns {Promise<Array>} - An array of objects containing the total emissions data within their respective categories.
 **/
-export async function getData(yearMonth, setLoading, setError) {
-    // Turn on the loading indicator component
-    setLoading(true);
-
+export async function getData(yearMonth, setError) {
     try {
         // Fetch data from the backend server for the given month
         const fetched_data = await Promise.race([
@@ -48,7 +44,6 @@ export async function getData(yearMonth, setLoading, setError) {
 
         // Return null if no data is fetched
         if (!fetched_data || fetched_data.length === 0) {
-            setLoading(false);
             return null;
         }
 
@@ -73,49 +68,43 @@ export async function getData(yearMonth, setLoading, setError) {
             { x: "Diet", y: dietTotal },
         ];
 
-        // Turn off the loading indicator component
-        setLoading(false);
-
         return emissionsData;
     }
     catch (error) {
         console.error(`getData: ${error}`);
         setError(error);
-        setLoading(false);
         return null;
     }
 }
 
 /**
-    This asynchronous function fetches data for a given month and updates the state of the component with the retrieved data.
+    This asynchronous function fetches data for a given month and year and updates the state of the component with the retrieved data.
     If there is an error, the function sets the state for the data, total, and error to a default value.
 
-    @param {string} currentYearMonth - The month for which to fetch data.
+    @param {string} currentYearMonth - The month and year for which to fetch data.
     @param {function} setData - A state setter function to set the fetched data.
     @param {function} setTotal - A state setter function to set the total value calculated from the fetched data.
-    @param {function} setLoading - A state setter function to set the loading state of the component.
     @param {function} setError - A state setter function to set the error state of the component.
     @returns {Promise<void>} - A promise that resolves when the data has been fetched and the state has been updated.
     @throws {Error} - If there is a problem fetching the data.
 */
-export async function fetchData(currentYearMonth, setData, setTotal, setLoading, setError) {
+export async function fetchData(currentYearMonth, setData, setTotal, setError) {
+    let newData;
     try {
-        const newData = await getData(currentYearMonth, setLoading, setError);
-
-        if (newData === null) {
-            setData([]);
-            setTotal(0);
-        } else {
-            setData(newData);
-            setTotal(newData.reduce((acc, datum) => acc + datum.y, 0));
-        }
+        newData = await getData(currentYearMonth, setError);
     } catch (error) {
-        console.error(`CategoryChart (useEffect): ${error}`);
+        setError(error);
+        console.error(`ChartData (fetchData): ${error}`);
+    }
+
+    if (newData && newData.length) {
+        setData(newData);
+        setTotal(newData.reduce((acc, datum) => acc + datum.y, 0));
+    } else {
         setData([]);
         setTotal(0);
-        setError(error);
     }
-}
+};
 
 /**
     Renders the label for each section of the pie chart
@@ -183,7 +172,10 @@ export const CategoryChart = ({navigation}) => {
 
     // Fetches data for the current month and updates state accordingly. Handles errors and null cases.
     useEffect(() => {
-        fetchData(currentYearMonth, setData, setTotal, setLoading, setError);
+        setLoading(true);
+        fetchData(currentYearMonth, setData, setTotal, setError)
+        .then(() => setLoading(false)) // set loading to false when data has been fetched
+        .catch(() => setLoading(false)); // also set loading to false on error
     }, []);
 
     // Select slice on press events

@@ -30,11 +30,10 @@ const dummyData = [
     Calculates the total emissions data for a given month by fetching the data from the backend server.
 
     @param {string} yearMonth - The year and month (in 'YYYY-MM' format) for which to fetch the emissions data.
-    @param {function} setError - A callback function to set error in case of network request error.
     @returns {Promise<number>} - The total emissions data for the given month. Returns 0 if no data is fetched.
     @throws {Error} - If there is an error with the network request.
 */
-export async function getTotalData(yearMonth, setError) {
+export async function getTotalData(yearMonth) {
     try {
         // Fetch data from the backend server for the given month
         const fetched_data = await Promise.race([
@@ -51,18 +50,16 @@ export async function getTotalData(yearMonth, setError) {
             return 0;
         }
 
-        // Add up each individual data based on categories
+        // Add up all the total emissions based on total_emissions and return the total
         let totalEmissions = 0;
         fetched_data.forEach((data) => {
             totalEmissions += data.total_emissions;
         });
-
         return totalEmissions;
-    }
-    catch (error) {
+
+    } catch (error) {
         console.error(`getTotalData: ${error}`);
-        setError(error);
-        return 0;
+        throw new Error(error);
     }
 }
 
@@ -78,7 +75,10 @@ export async function getTotalData(yearMonth, setError) {
 export const fetchTotalData = async (lastSixMonths, setData, setError) => {
     try {
         const requests = lastSixMonths.map(async (yearMonth) => {
-            const totalEmissions = await getTotalData(yearMonth, setError);
+            const totalEmissions = await getTotalData(yearMonth);
+            if (totalEmissions.error) {
+                throw totalEmissions.error;
+            }
 
             // Extract the month from yearMonth (YYYY-MM) and parse as string name with just the first 3 letters
             const month = parseInt(yearMonth.split('-')[1], 10);
@@ -229,9 +229,9 @@ export const RenderPercentDifference = ({ percentDifference, percentColor }) => 
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             {percentDifference >= 0 ? (
-                <Ionicons name="caret-up" size={16} color={percentColor} style={{alignSelf: 'center', marginBottom: 9, marginRight: 4 }} />
+                <Ionicons testID="up-icon" name="caret-up" size={16} color={percentColor} style={{alignSelf: 'center', marginBottom: 9, marginRight: 4 }} />
             ) : (
-                <Ionicons name="caret-down" size={16} color={percentColor} style={{alignSelf: 'center', marginBottom: 9, marginRight: 4 }} />
+                <Ionicons testID="down-icon" name="caret-down" size={16} color={percentColor} style={{alignSelf: 'center', marginBottom: 9, marginRight: 4 }} />
             )}
             <Text
                 testID="percentDifferenceText"
@@ -253,7 +253,7 @@ export const RenderPercentDifference = ({ percentDifference, percentColor }) => 
     percentage difference from the previous month displayed above the chart.
     @return the rendered React component
 **/
-export const MonthlyFootprintChart = ({navigation}) => {
+export const MonthlyFootprintLineChart = ({navigation}) => {
     // State variables
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -300,6 +300,7 @@ export const MonthlyFootprintChart = ({navigation}) => {
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 {/* <LoadingIndicator loading={loading}/> */}
                 <ActivityIndicator
+                    testID="loading-indicator"
                     size="large"
                     color={Colors.primary.RAISIN_BLACK}
                     style={{
@@ -312,7 +313,7 @@ export const MonthlyFootprintChart = ({navigation}) => {
                         justifyContent: 'center',
                         alignItems: 'center',
                     }}
-                    testID="loading-indicator"/>
+                />
             </View>
         );
     }
@@ -321,11 +322,11 @@ export const MonthlyFootprintChart = ({navigation}) => {
     if (error) {
         return (
             <View
-                testID='error-message'
+                testID='network-error'
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 60}}
             >
-                <Text style={{ fontSize: 18, textAlign: 'center' }}>Unable to connect</Text>
-                <Text style={{ fontSize: 14, textAlign: 'center' }}>Please check your network settings and try again.</Text>
+                <Text testID="network-error-label1" style={{ fontSize: 18, textAlign: 'center' }}>Unable to connect</Text>
+                <Text testID="network-error-label2" style={{ fontSize: 14, textAlign: 'center' }}>Please check your network settings and try again.</Text>
             </View>
         );
     }
@@ -334,10 +335,10 @@ export const MonthlyFootprintChart = ({navigation}) => {
     if (!data || !Array.isArray(data) || data.length === 0) {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ fontSize: 18 }}>No data found in the last 6 months.</Text>
-                <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION)}>
+                <Text testID="no-data-text" style={{ fontSize: 18 }}>No data found in the last 6 months.</Text>
+                <TouchableOpacity testID="record-emission-button" onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION)}>
                     <View style={{ backgroundColor: Colors.primary.MINT, padding: 10, marginTop: 12, borderRadius: 12 }}>
-                        <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 14 }}>Add Emissions</Text>
+                        <Text testID="add-emission-text" style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 14 }}>Add Emissions</Text>
                     </View>
                 </TouchableOpacity>
             </View>

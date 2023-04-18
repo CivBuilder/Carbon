@@ -11,7 +11,7 @@ const TIMEOUT_DURATION = 25000;
   @throws {Error} If there is an issue with the inputs or there is an error fetching the data.
 
   @example
-  const data = await FetchMonthEmissions('2023-01', 1234);
+  const data = await FetchMonthEmissions('2023-01');
 */
 export const FetchMonthEmissions = async(yearMonth) => {
   console.log('FetchMonthEmissions: Fetching data...');
