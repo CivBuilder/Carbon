@@ -53,4 +53,22 @@ describe("PopUpMenu", () => {
 
         expect(navigateMock).toHaveBeenCalledWith(ScreenNames.RECORD_EMISSION);
     });
+
+    it('navigates to the record emissions screen when the "Record Emissions" option is selected', () => {
+        const navigateMock = jest.fn();
+        const { getByTestId, getByText } = render(<PopUpMenu navigation={{ navigate: navigateMock }} />);
+        fireEvent.press(getByTestId('plus_button'));
+        fireEvent.press(getByText('Record Emissions'));
+        expect(navigateMock).toHaveBeenCalledWith(ScreenNames.RECORD_EMISSION);
+        expect(getByTestId('popup_menu')).not.toBeVisible();
+    });
+
+    it('navigates to the add goal screen when the "Add Goal" option is selected', () => {
+        const navigateMock = jest.fn();
+        const { getByTestId, getByText } = render(<PopUpMenu navigation={{ navigate: navigateMock }} />);
+        fireEvent.press(getByTestId('plus_button'));
+        fireEvent.press(getByText('Add Goal'));
+        expect(navigateMock).toHaveBeenCalledWith(ScreenNames.ADD_GOAL);
+        expect(getByTestId('popup_menu')).not.toBeVisible();
+    });
 });
