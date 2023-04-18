@@ -19,7 +19,7 @@ export const PopUpMenu = ({navigation}) => {
             title: 'Record Emissions',
             icon: 'checkmark-circle-outline',
             action: () => {
-                navigation.navigate(ScreenNames.RECORD_EMISSION) 
+                navigation.navigate(ScreenNames.RECORD_EMISSION)
             }
         },
         {
@@ -38,6 +38,7 @@ export const PopUpMenu = ({navigation}) => {
                 onPress={() => setVisibility(true)}
             >
                 <Ionicons
+                    testID="plus_button"
                     name={IconNames.ADD}
                     size={28}
                     color={Colors.primary.MINT}
@@ -45,10 +46,10 @@ export const PopUpMenu = ({navigation}) => {
                 />
             </TouchableOpacity>
 
-            <Modal transparent visible={visible}>
+            <Modal testID="popup_menu" transparent visible={visible}>
                 {/* Clicking outside of the modal will close the menu */}
                 {/* NOTE: Keep the backdrop style in. Removing it causes the modal to not disappear when clicking outside */}
-                <TouchableOpacity style={styles.backdrop} onPress={() => setVisibility(false)}/>
+                <TouchableOpacity testID="popup_menu_backdrop" style={styles.backdrop} onPress={() => setVisibility(false)}/>
 
                 {/* Handles the menu inside the modal */}
                 <View style={styles.popup_modal}>
@@ -66,6 +67,7 @@ export const PopUpMenu = ({navigation}) => {
 
                             {/* Display the menu icons */}
                             <Ionicons
+                                testID='popup_menu_icon'
                                 name={op.icon}
                                 size={24}
                                 color={Colors.primary.RAISIN_BLACK}
