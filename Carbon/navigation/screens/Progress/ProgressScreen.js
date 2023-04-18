@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text, Platform } from 'react-native';
 import { Colors } from '../../../styling/Colors';
-import { CategoryChart, KeyFactors } from '../../../components/ChartData';
+import { CategoryBreakdown, KeyFactors } from '../../../components/ChartData';
 import RecordEmission from './RecordEmission';
 import { TouchableOpacity } from 'react-native';
 import { ScreenNames } from '../Main/ScreenNames';
 import { Section } from '../../../components/Section';
+import CategoryChart from './CategoryChart';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -26,7 +27,8 @@ export default function ProgressScreen({ navigation }) {
                         <Text style={styles.title}>Category Breakdown</Text>
                     </View>
                     <View style={{...styles.chart, height:320, alignContent:'center', alignItems: 'center', justifyContent: 'center'}}>
-                        <CategoryChart navigation={navigation} />
+                        {/* <CategoryBreakdown navigation={navigation} /> */}
+                        <CategoryChart/>
                     </View>
                 </View>
                 <View>
