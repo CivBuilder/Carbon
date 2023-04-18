@@ -1,9 +1,6 @@
 name: Carbon CI/CD Pipeline v1.00
 
-on:
-  pull_request:
-    branches:
-      - main
+on: [pull_request]
 
 jobs:
   build:
