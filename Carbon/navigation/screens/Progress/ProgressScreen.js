@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text, Platform } from 'react-native';
-import { Colors } from '../../../styling/Colors';
-import { CategoryBreakdown, KeyFactors } from '../../../components/ChartData';
+import { Colors } from '../../../colors/Colors';
+import { KeyFactors } from '../../../components/ChartData';
+import { CategoryChart } from '../../../components/CategoryChart';
 import RecordEmission from './RecordEmission';
 import { TouchableOpacity } from 'react-native';
 import { ScreenNames } from '../Main/ScreenNames';

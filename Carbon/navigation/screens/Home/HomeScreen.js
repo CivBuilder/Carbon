@@ -4,7 +4,7 @@ import { Card } from 'react-native-elements';
 import { Colors } from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import Log from './Log';
-import { MonthlyFootprintChart } from '../../../components/MonthlyFootprintLineChart';
+import { MonthlyFootprintLineChart } from '../../../components/MonthlyFootprintLineChart';
 
 // =====================
 //     Home Screen
@@ -31,7 +31,7 @@ export default function HomeScreen({ navigation }) {
                             </View>
                         </View>
                         <View style={{ backgroundColor: "white", borderRadius: 16, padding: 10, height: 300 }}>
-                            <MonthlyFootprintChart navigation={navigation}/>
+                            <MonthlyFootprintLineChart navigation={navigation}/>
                         </View>
                     </View>
                 </View>
