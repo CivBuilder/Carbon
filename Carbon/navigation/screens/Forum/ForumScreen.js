@@ -84,10 +84,10 @@ export default function ForumScreen({navigation}) {
                     }}
                     onPress={() => {
                         switch (item.type) {
-                            case 'quiz':
+                            case 'Quiz':
                                     navigation.navigate(ScreenNames.QUIZ, { id: item.id_forumcontent})
                                 break;
-                            case 'embeded':
+                            case 'Article':
                                     navigation.navigate(ScreenNames.BROWSER, { id: item.id_forumcontent})
                                 break;
                         
@@ -111,7 +111,7 @@ export default function ForumScreen({navigation}) {
                         position: 'absolute',
                         fontSize: 18,
                         fontWeight: 'bold',
-                        color: Colors.primary.MINT_CREAM,
+                        color: 'white',
                         top: 5,
                         right: 10,
                     }}>
