@@ -39,6 +39,11 @@ const User = sequelize.define('user', {
         allowNull : true,       //Should only be true when the user is first created
         defaultValue : null 
     },
+    avatar_index : {
+        type : DataTypes.TINYINT.UNSIGNED,
+        allowNull : false, 
+        defaultValue : 1
+    },
     global_score : {
         type : DataTypes.INTEGER.UNSIGNED,
         allowNull : false, 
