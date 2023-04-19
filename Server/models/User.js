@@ -48,6 +48,26 @@ const User = sequelize.define('user', {
         type : DataTypes.INTEGER.UNSIGNED,
         allowNull : false, 
         defaultValue: 0 
+    },
+    transport_score : {
+        type : DataTypes.INTEGER.UNSIGNED,
+        allowNull : false, 
+        defaultValue: 0 
+    },
+    lifestyle_score : {
+        type : DataTypes.INTEGER.UNSIGNED,
+        allowNull : false, 
+        defaultValue: 0 
+    },
+    diet_score : {
+        type : DataTypes.INTEGER.UNSIGNED,
+        allowNull : false, 
+        defaultValue: 0 
+    },
+    home_score : {
+        type : DataTypes.INTEGER.UNSIGNED,
+        allowNull : false, 
+        defaultValue: 0 
     }
 }, {
     hooks: {
