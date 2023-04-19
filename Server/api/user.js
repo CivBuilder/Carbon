@@ -161,7 +161,8 @@ Put new Quiz result
         "score" : number // this is to be a percentage of what the user got correct
     }
 */ 
-router.post('/quiz/:id', async function(req, res, next) {
+router.post('/quiz', passport.authenticate('jwt', { session: false }), async function (req, res) {
+
     // //Just refactor this to a helper function
     const user_entry = await user_table.findOne({
         where : {

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ActivityIndicator, Alert, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {useState, useEffect} from 'react';
 import { RadioButton } from 'react-native-paper';
+import { getToken } from '../../../util/LoginManager';
 import { API_URL } from '../../../config/Api';
 
 
@@ -39,6 +40,7 @@ const [showNext, setShowNext] = useState(false);
 const [showSubmit, setShowSubmit] = useState(false);
 const [selectedAnswer, setSelectedAnswer] = useState(null);
 const [answerSelected, setAnswerSelected] = useState(false);
+const [perfectScore, setperfectScore] = useState(false);
 //HELPER FUNCTIONS
 const answerClicked = (answer) => {
     if(quizActive){
@@ -65,6 +67,13 @@ const nextClicked = () => {
     }
     else{
         setQuizCompleted(true)
+        if(score/data.questions.length == 1){
+            setperfectScore(true)
+            postScore()
+        }
+        else{
+            setperfectScore(false)
+        }
     }
     setShowNext(false);
     setAnswerSelected(false);
@@ -77,6 +86,21 @@ const redoQuiz = () => {
     setScore(0)
 }
 
+async function postScore() { 
+    try{
+        const response = await fetch(`${API_URL}quiz`, {
+            method: 'POST',
+            headers:{
+              'Content-Type': 'application/json',
+              'secrettoken': await getToken(),
+            },
+            body : JSON.stringify("100")
+          });
+        }
+        catch(error){
+            console.error("Post Failed: " + error)
+        }
+}
 //RENDER FUNCTIONS
 const renderQuestion = () => {
     return (
@@ -169,9 +193,17 @@ return(
                    <View>
                    <Text>Quiz Done</Text>
                    <Text>Final Score: {score}/{data.questions.length}</Text>
-                   <TouchableOpacity onPress={() => redoQuiz()}>
-                       <Text>Redo Quiz</Text>
-                   </TouchableOpacity>
+                   {perfectScore ? ( 
+                        <View>
+                            <Text>Congratulations! 100%, Press back to return to Education Forum</Text>
+                        </View>
+
+                   ) : (
+                    <TouchableOpacity onPress={() => redoQuiz()}>
+                        <Text>Redo Quiz</Text>
+                    </TouchableOpacity>
+                   )}
+
                    </View>
                ) : (
                     <View style={{
