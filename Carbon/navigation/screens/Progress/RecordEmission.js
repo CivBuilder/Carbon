@@ -1,151 +1,140 @@
-import { StyleSheet, Text, TextInput, View, Pressable, Modal, KeyboardAvoidingView } from 'react-native'
-import {React, useState} from 'react'
-import EmissionModal from './EmissionModal';
+import {View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-const RecordEmission = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [foodVisible, setFoodVisible] = useState(false);
-  const [transportationVisible, setTransportationVisible] = useState(false);
-  const [recyclingVisible, setRecyclingVisible] = useState(false);
-
+import { React, useCallback, useEffect } from 'react';
+import { ScreenNames } from '../Main/ScreenNames';
+import { useState } from 'react';
+import {API_URL} from '../../../config/Api';
+import { getToken } from '../../../util/LoginManager';
+export default function RecordEmissionScreen({navigation, route}) {
   
-  //TODO: Sanitize and save input to database
-  
-  // const saveFoodLog = (log) => {
-  //   console.log('saving food ' + log);
-  // }
-  // const saveTransportationLog = (log) => {
-  //   console.log('saving transportation ' + log);
-  // }
-  // const saveRecyclingLog = (log) => {
-  //   console.log('saving recycling ' + log);
-  // }
+  //Default value for the final submission that we post to the server
+  const [emissionsEntry, setEmissionsEntry] = useState({
+        transport_emissions : 0, 
+        total_emissions : 0,
+        lifestyle_emissions : 0, 
+        diet_emissions : 0, 
+        home_emissions : 0
+  });
+
+  //When we get a "returningEmissionsEntry", which is returned by the category screens, we update our own
+  //EmissionsEntry state variable to reflect the new update. Originally passing the stateSetter was planned
+  //But we get warnings about possible bugs, so we're passing by value and not changing state.
+  useEffect(() => { 
+    if(route.params?.returningEmissionsEntry){
+      console.log(route.params.returningEmissionsEntry)
+      setEmissionsEntry(route.params.returningEmissionsEntry);
+    }
+  }, [route.params]);
+
+
+  //Posts the results, on a successfull post it will leave the screen
+  async function postResults() { 
+    try{
+      //for conciseness, emissionsEntry total is just the sum of the others
+      let e = emissionsEntry; 
+      emissionsEntry.total_emissions = e.diet_emissions + e.home_emissions + e.lifestyle_emissions + e.transport_emissions
+
+      //Check if at least one emission was entered
+      if(emissionsEntry.total_emissions === 0 ) throw new Error(`Please Upload at least one Emission Category`);
+
+      //post emission to server
+      const response = await fetch(`${API_URL}userEmissions`, {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+          'secrettoken': await getToken(),
+        },
+        body : JSON.stringify(emissionsEntry)
+      });
+      //exit screen on successful request
+      if(response.status === 200) {
+        console.log("Successful Post!");
+        navigation.goBack();
+      }
+      //if second post for the day - alert and also go back
+      else if(response.status === 204){
+        alert(`You can only upload results once a day :(`);
+        navigation.goBack(); 
+      }
+      //Alert on bad request - should only see on testing 
+      else if(response.status === 404){
+        throw new Error(`Client ID Not Found`);
+      }
+    } catch(err) {
+      alert(err.message)
+    }
+  }
+
+
+
+
   return (
-    <KeyboardAvoidingView >
-        <Modal style={styles.modal}
-        animationType="fade"
-        transparent={true}
-        presentationStyle={'overFullScreen'}
-        backdropOpacity={50}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-        testID="button-modal"
+    <View style={styles.centeredView}>
+      <View style={styles.modalView}>  
+        <TouchableOpacity onPress={() => {
+            navigation.navigate(ScreenNames.FOOD, {sentEmissionsEntry : emissionsEntry})
+        }}>
+          <Icon name="cutlery" size={40} color="#201B1B" style={styles.icon} testID="cutlery-icon"/>
+        </TouchableOpacity> 
+        <TouchableOpacity onPress={() => {
+            navigation.navigate(ScreenNames.TRANSPORTATION, {sentEmissionsEntry : emissionsEntry})
+        }}>
+          <Icon name="car" size={40} color="#201B1B" style={styles.icon} testID="car-icon" />
+        </TouchableOpacity> 
+        <TouchableOpacity onPress={() => {
+            navigation.navigate(ScreenNames.RECYCLING, {sentEmissionsEntry : emissionsEntry})
+        }}>
+          <Icon name="recycle" size={40} color="#201B1B" style={styles.icon} testID="recycle-icon" />
+        </TouchableOpacity> 
+        <TouchableOpacity
+          onPress={() => {postResults()}}
         >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-
-            <Pressable onPress={() => {
-                setModalVisible(!modalVisible)
-                setFoodVisible(true)}
-            }>
-              <Icon name="cutlery" size={40} color="#201B1B" style={styles.icon} testID="cutlery-icon"/>
-            </Pressable>
-
-            <Pressable onPress={() => {
-                setModalVisible(!modalVisible)
-                setTransportationVisible(true)
-            }}>
-              <Icon name="car" size={40} color="#201B1B" style={styles.icon} testID="car-icon" />
-            </Pressable>
-
-            <Pressable onPress={() => {
-                setModalVisible(!modalVisible)
-                setRecyclingVisible(true)}
-            }>
-              <Icon name="recycle" size={40} color="#201B1B" style={styles.icon} testID="recycle-icon" />
-            </Pressable>
-
-            <Pressable
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Icon name="close" size={40} color="#201B1B" style={styles.icon} testID="close-icon" />
-            </Pressable>
-
-          </View>
-        </View>
-        </Modal>
-
-      <EmissionModal visible={foodVisible}
-                     onRequestClose={() => {
-                      setFoodVisible(!foodVisible)
-                      setModalVisible(!modalVisible)
-                    }}  
-                    title={"How much meat did you consume today?"}
-                    // saveData={(log) => saveFoodLog(log)}
-                    testID="food-modal"
-                    />
-      <EmissionModal visible={transportationVisible}
-                     onRequestClose={() => {
-                      setTransportationVisible(!transportationVisible)
-                      setModalVisible(!modalVisible)
-                    }}  
-                    title={"How many miles did you drive today?"}
-                    // saveData={(log) => saveTransportationLog(log)}
-                    testID="transportation-modal"
-                    />
-      <EmissionModal visible={recyclingVisible}
-                     onRequestClose={() => {
-                      setRecyclingVisible(!recyclingVisible)
-                      setModalVisible(!modalVisible)
-                    }}  
-                    title={"How much did you recycle today?"}
-                    // saveData={(log) => saveRecyclingLog(log)}
-                    testID="recycle-modal"
-                    />
-
-        <Pressable style={styles.button} onPress={() => setModalVisible(true)}>
-        <Text style={styles.text}>Record Emissions</Text>
-        </Pressable>
-    </KeyboardAvoidingView>
-    
+          <Icon name="cloud-upload" size={40} color="#201B1B" style={styles.icon} testID="save-and-exit-icon" />
+        </TouchableOpacity>
+      </View>
+          
+    </View>
   )
 }
-
-export default RecordEmission;
-
 const styles = StyleSheet.create({
-    centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 22,
-        justifyContent: 'flex-end',
-        marginBottom: 48 ,
-        backgroundColor: '#D8F3DC',
-      },
+  centeredView: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      backgroundColor: '#D8F3DC',
+    },
 
-      modalView: {
-        backgroundColor: '#D8F3DC',
-        alignItems: 'center',
-      },
-      modal: {
-        backgroundColor: '#D8F3DC',
-      },
-      modalText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 20,
-      },
-    button: {
-        borderRadius: 4,
-        borderWidth: 2,
-        borderColor: 'black',
-        padding: 10,
-        margin: 10,
-        elevation: 2,
-        width: 120,
-      },
+    modalView: {
+      backgroundColor: '#D8F3DC',
+      alignItems: 'center',
+    },
+    modal: {
+      backgroundColor: '#D8F3DC',
+    },
+    modalText: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 20,
+    },
+  button: {
+      borderRadius: 4,
+      borderWidth: 2,
+      borderColor: 'black',
+      padding: 10,
+      margin: 10,
+      elevation: 2,
+      width: 120,
+    },
 
-      modalText: {
-        marginBottom: 15,
-        textAlign: 'center',
-      },
-      icon: {
-        marginHorizontal: 20,
-        padding: 20,
+    modalText: {
+      marginBottom: 15,
+      textAlign: 'center',
+    },
+    icon: {
+      marginHorizontal: 20,
+      padding: 20,
 
-      },
-    
+    },
+  
 })

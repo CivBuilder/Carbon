@@ -10,5 +10,9 @@ export const ScreenNames = {
     QUIZ: 'Quiz',
     LOGIN: 'Login',
     SIGNUP: 'Signup',
+    RECORD_EMISSION: 'Track your Emissions',
+    FOOD: 'Food',
+    RECYCLING: 'Recycling',
+    TRANSPORTATION: 'Transportation',
     QUESTIONNAIRE: "Questionnaire",
 };
