@@ -10,4 +10,5 @@ export const ScreenNames = {
     QUIZ: 'Quiz',
     LOGIN: 'Login',
     SIGNUP: 'Signup',
+    QUESTIONNAIRE: "Questionnaire",
 };
