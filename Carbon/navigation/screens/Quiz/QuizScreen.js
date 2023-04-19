@@ -88,13 +88,15 @@ const redoQuiz = () => {
 
 async function postScore() { 
     try{
-        const response = await fetch(`${API_URL}quiz`, {
+        const fscore = {score: 100};
+        console.log(await getToken());
+        const response = await fetch(`${API_URL}user/quiz`, {
             method: 'POST',
             headers:{
               'Content-Type': 'application/json',
               'secrettoken': await getToken(),
             },
-            body : JSON.stringify("100")
+            body : JSON.stringify(fscore)
           });
         }
         catch(error){
