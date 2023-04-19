@@ -67,11 +67,14 @@ const RecordFood = ({ navigation, route }) => {
 
   //Update our parameter to send back when the consumption state variable changes 
   useEffect( () => {
-    if(totalConsumption !== null)
-    setEmissionsEntry({
+    //need to check if route is undefined for testing purposes
+    if(totalConsumption !== 0 && route !== undefined) {
+      setEmissionsEntry({
         ...route.params.sentEmissionsEntry,
         diet_emissions:totalConsumption
     })
+    }
+    
   }, [totalConsumption])
 
 
@@ -89,6 +92,7 @@ const RecordFood = ({ navigation, route }) => {
           selectedValue={beefConsumption}
           onValueChange={(value) => setBeefConsumption(value)}
           style={styles.picker}
+          testID='red-meat-picker'
         >
           {weights.map((weight) => (
             <Picker.Item
@@ -105,12 +109,15 @@ const RecordFood = ({ navigation, route }) => {
           selectedValue={cheeseConsumption}
           onValueChange={(value) => setCheeseConsumption(value)}
           style={styles.picker}
+          testID='cheese-picker'
+
         >
          {filteredWeights.map((weight) => (
             <Picker.Item
               key={weight.value}
               label={weight.label}
               value={weight.value}
+              
             />
           ))}
         </Picker>
@@ -121,6 +128,7 @@ const RecordFood = ({ navigation, route }) => {
           selectedValue={porkConsumption}
           onValueChange={(value) => setPorkConsumption(value)}
           style={styles.picker}
+          testID='pork-picker'
         >
           {weights.map((weight) => (
             <Picker.Item
@@ -137,6 +145,7 @@ const RecordFood = ({ navigation, route }) => {
           selectedValue={poultryConsumption}
           onValueChange={(value) => setPoultryConsumption(value)}
           style={styles.picker}
+          testID='poultry-picker'
         >
           {weights.map((weight) => (
             <Picker.Item
