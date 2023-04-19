@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {Colors} from '../../../colors/Colors';
@@ -15,7 +15,7 @@ const RecordFood = ({ navigation, route }) => {
   const [porkConsumption, setPorkConsumption] = useState(0);
   const [poultryConsumption, setPoultryConsumption] = useState(0);
   const [emissionsEntry, setEmissionsEntry] = useState();
-  
+  const [funFact, setFunFact] = useState('');
   const funFacts = [
     "The average American diet generates approximately 2.5 metric tons of carbon dioxide emissions per year.",
     "A meat-based diet generates 2.5 times more carbon emissions than a vegetarian diet.",
@@ -50,7 +50,14 @@ const RecordFood = ({ navigation, route }) => {
     const poultry = calcPoultry(poultryConsumption)
     return beef + cheese + pork + poultry
   }
-  
+  //set the fun fact when the component mounts
+  useEffect(() => {
+    setFunFact(getRandomFunFact());
+  }, []);
+
+  //memoize the fun fact so it doesn't change when the state variable changes
+  const memoizedFunFact = useMemo(() => funFact, [funFact]);
+
     // Call setTotalConsumption when the consumption state variables change
   useEffect(() => {
     const newTotalConsumption = calcConsumption();
@@ -72,7 +79,7 @@ const RecordFood = ({ navigation, route }) => {
     <View style={styles.container}>
       <View style={styles.funfact}>
         <Text style={styles.header}>Did you know?</Text>
-        <Text style={styles.label}>{getRandomFunFact()}</Text>
+        <Text style={styles.label}>{memoizedFunFact}</Text>
       </View>
       <Text style={styles.header}>Log your food intake for today</Text>
       <View style={styles.pickercontainer}>
