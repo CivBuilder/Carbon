@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text, Platform } from 'react-native';
 import { Colors } from '../../../styling/Colors';
-import { KeyFactors } from '../../../components/ChartData';
 import { CategoryBreakdown } from './CategoryBreakdown';
 import RecordEmission from './RecordEmission';
 import { TouchableOpacity } from 'react-native';
 import { ScreenNames } from '../Main/ScreenNames';
 import { Section } from '../../../components/Section';
-import CategoryChart from './CategoryChart';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -23,14 +21,9 @@ export default function ProgressScreen({ navigation }) {
                 {/* <View>
                     <RecordEmission />
                 </View> */}
-                <View style={styles.container}>
-                    <View style={styles.header}>
-                        <Text style={styles.title}>Category Breakdown</Text>
-                    </View>
-                    <View>
-                        <CategoryBreakdown navigation={navigation} />
-                    </View>
-                </View>
+                <Section title="Category Breakdown">
+                  <CategoryBreakdown navigation={navigation} />
+                </Section>
                 <View>
                     <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.ADD_GOAL)}
                         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -38,14 +31,6 @@ export default function ProgressScreen({ navigation }) {
                             <Text style={styles.buttonText}>Set Goal</Text>
                         </View>
                     </TouchableOpacity>
-                    <View style={styles.container}>
-                        <View style={styles.header}>
-                            <Text style={styles.title}>Key Factors</Text>
-                        </View>
-                        <View style={styles.chart}>
-                            <KeyFactors />
-                        </View>
-                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>

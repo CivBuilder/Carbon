@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "./Colors";
 
-export const SectionStylesheet = StyleSheet.create({
+export const SectionCSS = StyleSheet.create({
   container: {
     margin: 10,
   },

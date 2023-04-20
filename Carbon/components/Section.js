@@ -1,6 +1,6 @@
 import { Pressable, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { SectionStylesheet as styling } from "../styling/SectionStylesheet";
+import { SectionCSS as styling } from "../styling/SectionCSS";
 
 export const Section = (props) => {
   const {children, title, shortcutURL, shortcutTitle} = props;

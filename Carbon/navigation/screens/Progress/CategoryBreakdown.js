@@ -5,6 +5,7 @@ import { FetchMonthEmissions } from '../../../components/FetchMonthEmissions';
 import { ScreenNames } from '../Main/ScreenNames';
 import LoadingIndicator from '../../../components/LoadingIndicator';
 import CategoryChart from './CategoryChart';
+import KeyFactors from './KeyFactors';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -213,5 +214,10 @@ export const CategoryBreakdown = ({navigation}) => {
     }
 
   // Renders the actual pie chart if everything is working properly
-  return <CategoryChart data={data} />;
+  return (
+    <>
+      <CategoryChart data={data} />
+      <KeyFactors data={data} />
+    </>
+  );
 };
