@@ -50,8 +50,7 @@ async function UpdateScore(ID) {
     let score_offset = 0; 
     let login_bonus = 0.10; 
     let newScores = [user.global_score, user.transport_score, user.lifestyle_score, user.diet_score, user.home_score];
-    console.log("\n\nOld Scores:\n");
-    console.log(newScores);
+
     let individualEmissions = 
         [
             emission_entries[0].total_emissions, emission_entries[0].transport_emissions, 
@@ -81,11 +80,6 @@ async function UpdateScore(ID) {
         if(newScores[i] > MAX_SCORE) newScores[i] = MAX_SCORE;
     }
     
-    console.log("Individual Emissions:\n");
-    console.log(individualEmissions);
-    console.log("\n\nNew Scores");
-    console.log(newScores)
-
     await user_table.update(
         {
             global_score : newScores[0],
