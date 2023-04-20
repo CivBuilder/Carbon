@@ -30,12 +30,12 @@ export default function MileageScreen({navigation,route}) {
     }}
     >
         <Text>
-        (Optional) What is the mileage on your vehicle?
+        (Optional) What are the miles per gallon (MPG) on your vehicle?
         </Text>
         <View>
-        <Text> Miles </Text>
+        <Text> MPG </Text>
         <TextInput
-        placeholder="Ex: 208309"
+        placeholder="Ex: 33"
         style={{
         backgroundColor:Colors.secondary.NYANZA,
         }}
