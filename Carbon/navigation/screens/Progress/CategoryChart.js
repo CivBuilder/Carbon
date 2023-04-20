@@ -5,8 +5,8 @@ import { Colors } from "../../../styling/Colors";
 // import { CategoryChartStylesheet as styling } from "../styling/CategoryChartStylesheet";
 
 const CategoryChart = (props) => {
-  // const {data} = props;
-  const data = [{ "x": "Transport", "y": 50 }, { "x": "Lifestyle", "y": 20 }, { "x": "Home", "y": 10 }, { "x": "Diet", "y": 90 }];
+  const {data} = props;
+  // const data = [{ "x": "Transport", "y": 50 }, { "x": "Lifestyle", "y": 20 }, { "x": "Home", "y": 10 }, { "x": "Diet", "y": 90 }];
   const [newData, newYKey] = getMinBarSize(data);
   const [firstCategory, lastCategory] = getEdgeIndices(data);
   const colorScale = Object.values(Colors.categories);

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text, Platform } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { KeyFactors } from '../../../components/ChartData';
-import { CategoryBreakdown } from '../../../components/CategoryBreakdown';
+import { CategoryBreakdown } from './CategoryBreakdown';
 import RecordEmission from './RecordEmission';
 import { TouchableOpacity } from 'react-native';
 import { ScreenNames } from '../Main/ScreenNames';

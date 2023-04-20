@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
-import { Colors } from '../styling/Colors';
-import { FetchMonthEmissions } from './FetchMonthEmissions';
-import { ScreenNames } from '../navigation/screens/Main/ScreenNames';
-import LoadingIndicator from './LoadingIndicator';
-import CategoryChart from '../navigation/screens/Progress/CategoryChart';
+import { Colors } from '../../../styling/Colors';
+import { FetchMonthEmissions } from '../../../components/FetchMonthEmissions';
+import { ScreenNames } from '../Main/ScreenNames';
+import LoadingIndicator from '../../../components/LoadingIndicator';
+import CategoryChart from './CategoryChart';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
