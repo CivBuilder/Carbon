@@ -1,21 +1,26 @@
-import { View, Text } from "react-native";
 import { VictoryStack, VictoryBar } from "victory-native";
+import getMinBarSize from "../../../util/getMinBarSize";
+import getEdgeIndices from "../../../util/getEdgeIndices";
+import { Colors } from "../../../styling/Colors";
 // import { CategoryChartStylesheet as styling } from "../styling/CategoryChartStylesheet";
 
 const CategoryChart = (props) => {
   // const {data} = props;
-  const data = [{"x": "Transport", "y": 160}, {"x": "Lifestyle", "y": 33}, {"x": "Home", "y": 2}, {"x": "Diet", "y": 85}];
-  const categories = [];
+  const data = [{ "x": "Transport", "y": 50 }, { "x": "Lifestyle", "y": 20 }, { "x": "Home", "y": 10 }, { "x": "Diet", "y": 90 }];
+  const [newData, newYKey] = getMinBarSize(data);
+  const [firstCategory, lastCategory] = getEdgeIndices(data);
+  const colorScale = Object.values(Colors.categories);
+  let categories = [];
 
-  for (var slice of data) {
-    slice.x = "dummy";
-    categories.push(new Array(slice));
+  for (var i in newData) {
+    newData[i].fill = colorScale[i];
+    newData[i].x = "dummy";
+    categories.push(new Array(newData[i]));
   };
 
   return (
     <VictoryStack
       horizontal
-      colorScale={["tomato", "orange", "gold", "red"]}
     >
       {categories.map((category, index) => {
         return (
@@ -23,11 +28,12 @@ const CategoryChart = (props) => {
             key={index}
             data={category}
             cornerRadius={{
-              top: index === categories.length-1 ? 13 : 0,
-              bottom: index === 0 ? 13 : 0,
+              top: index === lastCategory ? 7 : 0,
+              bottom: index === firstCategory ? 7 : 0,
             }}
-            barWidth={26}
-            y={datum => Math.max(datum.y, 15)}
+            style={{ data: { fill: ({ datum }) => datum.fill } }}
+            barWidth={28}
+            y={datum => datum.y === 0 ? 0 : datum[newYKey]}
           />
         );
       })}

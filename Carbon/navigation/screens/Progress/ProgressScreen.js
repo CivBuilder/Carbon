@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text, Platform } from 'react-native';
-import { Colors } from '../../../colors/Colors';
+import { Colors } from '../../../styling/Colors';
 import { KeyFactors } from '../../../components/ChartData';
-import { CategoryChart } from '../../../components/CategoryChart';
+import { CategoryBreakdown } from '../../../components/CategoryBreakdown';
 import RecordEmission from './RecordEmission';
 import { TouchableOpacity } from 'react-native';
 import { ScreenNames } from '../Main/ScreenNames';
@@ -27,18 +27,17 @@ export default function ProgressScreen({ navigation }) {
                     <View style={styles.header}>
                         <Text style={styles.title}>Category Breakdown</Text>
                     </View>
-                    <View style={{...styles.chart, height:320, alignContent:'center', alignItems: 'center', justifyContent: 'center'}}>
-                        {/* <CategoryBreakdown navigation={navigation} /> */}
-                        <CategoryChart/>
+                    <View>
+                        <CategoryBreakdown navigation={navigation} />
                     </View>
                 </View>
                 <View>
-                    {/* <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.ADD_GOAL)}
+                    <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.ADD_GOAL)}
                         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <View style={styles.button}>
                             <Text style={styles.buttonText}>Set Goal</Text>
                         </View>
-                    </TouchableOpacity> */}
+                    </TouchableOpacity>
                     <View style={styles.container}>
                         <View style={styles.header}>
                             <Text style={styles.title}>Key Factors</Text>

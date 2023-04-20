@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
-import { Colors } from '../colors/Colors';
+import { Colors } from '../styling/Colors';
 import { Ionicons } from '@expo/vector-icons';
 
 const windowWidth = Dimensions.get("window").width;
