@@ -78,7 +78,7 @@ const RecordTransportation = ({ navigation, route }) => {
         transport_emissions = calcElecCar(milesTraveled);
       }
       else if(selectedValue === "Bike") {
-        transpor_emissions = calcBike(milesTraveled);
+        transport_emissions = calcBike(milesTraveled);
       } 
       else if(selectedValue === "Plane") {
         transport_emissions = calcPlane(milesTraveled);
