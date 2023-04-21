@@ -8,7 +8,7 @@ import { ScreenNames } from '../Main/ScreenNames.js';
 import { API_URL } from '../../../config/Api';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
-import { Colors } from '../../../colors/Colors';
+import { Colors } from '../../../styling/Colors';
 
 // Using my test AWS node server for now
 export default function ForumScreen({navigation}) {
