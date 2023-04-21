@@ -2,8 +2,7 @@ import React, {useState,useEffect} from 'react';
 import {View, Text,Switch,Button,TextInput } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { Colors } from '../../../colors/Colors';
-
+import { Colors } from '../../../styling/Colors';
 import StartScreen from './Start';
 import DietScreen from './QuestionDiet';
 import HouseholdScreen from './QuestionHousehold';

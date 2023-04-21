@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
-import { Colors } from '../colors/Colors';
-import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '../styling/Colors';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -55,44 +54,6 @@ export function DailyLog ({dataArray}) {
     />
     )
 }
-
-// Jira Ticket C4-20
-export const KeyFactors = () => {
-  // Temp data to represent a prior month to show comparison to the current month's progress by category.
-  const temp_data = 3500;
-
-  // Displays the change in emission from the current month to the previous month.
-  const difference = (num1, num2) => {
-    const value = num1-num2;
-    const diff = <Text>{Math.abs(value)}</Text>;
-    const bad_change = <Ionicons name={'caret-up'} size={16} color={'#FF6961'}/>;
-    const good_change  = <Ionicons name={'caret-down'} size={16} color={'#61FF69'}/>;
-
-    if (value == 0) return null;
-    return (
-      <View style={[styleBar.category, {alignContent: 'flex-end', flex: 1}]}>
-        { value > 0 && (
-          <>{bad_change}{diff}</>
-        )}
-        { value < 0 && (
-          <>{good_change}{diff}</>
-        )}
-      </View>
-    )
-  };
-
-  return (
-    <View style={styleBar.keyFactors}>
-      {dummyData.map(entry => (
-        <View key={entry.x} style={styleBar.category}>
-          <Text style={{flex: 3}}>{entry.x}</Text>
-          <Text style={{flex: 2}}>{entry.y}</Text>
-          {difference(entry.y, temp_data)}
-        </View>
-      ))}
-    </View>
-  );
-};
 
 const styles = StyleSheet.create({
     chart: {
