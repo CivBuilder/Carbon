@@ -9,6 +9,8 @@ const RecordRecycling = ({ navigation, route }) => {
   const [emissionsEntry, setEmissionsEntry] = useState();
   const [recycledAmount, setRecycledAmount] = useState(0);
   const [reusableBags, setReusableBags] = useState(false);
+  const [funFact, setFunFact] = useState('');
+
   const funFacts = [
     "Recycling one ton of paper saves 17 trees, 7,000 gallons of water, and 463 gallons of oil.",
     "Americans throw away enough aluminum to rebuild the entire commercial air fleet every three months.",
@@ -20,7 +22,13 @@ const RecordRecycling = ({ navigation, route }) => {
     const randomIndex = Math.floor(Math.random() * funFacts.length);
     return funFacts[randomIndex];
   }
-  
+  //set the fun fact when the component mounts
+  useEffect(() => {
+    setFunFact(getRandomFunFact());
+  }, []);
+
+  //memoize the fun fact so it doesn't change when the state variable changes
+  const memoizedFunFact = useMemo(() => funFact, [funFact]);
 
   //Update our parameter to send back when the consumption state variable changes 
   useEffect(() => {
@@ -37,7 +45,7 @@ const RecordRecycling = ({ navigation, route }) => {
     <View style={styles.container}>
       <View style={styles.funfact}>
         <Text style={styles.header}>Did you know?</Text>
-        <Text style={styles.label}>{getRandomFunFact()}</Text>
+        <Text style={styles.label}>{memoizedFunFact}</Text>
       </View>
       <Text style={styles.label}>How many pounds did you recycle today?</Text>
       <Picker
