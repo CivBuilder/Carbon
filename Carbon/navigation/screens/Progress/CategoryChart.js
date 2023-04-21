@@ -9,8 +9,6 @@ const chartWidth = Dimensions.get("window").width * 0.9;
 const chartHeight = Dimensions.get("window").height * 0.08;
 
 const CategoryChart = (props) => {
-  // DEBUG values:
-  // const data = [{ "x": "Transport", "y": 50 }, { "x": "Lifestyle", "y": 20 }, { "x": "Home", "y": 10 }, { "x": "Diet", "y": 90 }];
   const {data} = props;
   const [newData, newYKey] = getMinBarSize(data);
   const [firstCategory, lastCategory] = getEdgeIndices(data);
