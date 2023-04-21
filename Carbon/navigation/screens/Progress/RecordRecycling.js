@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Switch} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import {Colors} from '../../../colors/Colors';
+import {Colors} from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 
 

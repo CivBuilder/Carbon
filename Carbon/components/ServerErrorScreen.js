@@ -3,7 +3,7 @@
 import React from 'react';
 import { View, ScrollView, RefreshControl, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Colors} from '../colors/Colors'
+import {Colors} from '../styling/Colors'
 const ICON_SIZE = 75;
 
 /**
