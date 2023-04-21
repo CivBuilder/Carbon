@@ -5,12 +5,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
-import { Colors } from '../../../colors/Colors';
+import { Colors } from '../../../styling/Colors';
 import { IconNames } from './IconNames';
 
 import { ScreenNames } from './ScreenNames';
 
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen } from '../../screens';
+import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen, FoodScreen, TransportationScreen, RecyclingScreen, RecordEmissionScreen} from '../../screens';
 import { getToken, setRenderCallback } from '../../../util/LoginManager';
 import { PopUpMenu } from '../../../components/PopUpMenu';
 
@@ -67,6 +67,8 @@ const HomeStack = ({ navigation }) => {
                 }}
             />
             <Stack.Screen name={ScreenNames.SETTINGS} component={SettingsScreen} />
+            {/* TODO: Change this to Record Emissions */}
+            <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={RecordEmissionScreen} />
         </Stack.Navigator>
     );
 };
@@ -89,8 +91,12 @@ const ProgressStack = ({ navigation }) => {
                     ),
                 }}
             />
-            {<Stack.Screen name={ScreenNames.ADD_GOAL} component={GoalScreen} />}
-            {/* TODO: Add Records Emissions screen here */}
+            <Stack.Screen name={ScreenNames.ADD_GOAL} component={GoalScreen} />
+            <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={RecordEmissionScreen} />
+            <Stack.Screen name={ScreenNames.FOOD} component={FoodScreen} />
+            <Stack.Screen name={ScreenNames.TRANSPORTATION} component={TransportationScreen} />
+            <Stack.Screen name={ScreenNames.RECYCLING} component={RecyclingScreen} />
+
         </Stack.Navigator>
     );
 };

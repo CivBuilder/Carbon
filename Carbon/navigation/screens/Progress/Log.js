@@ -1,8 +1,8 @@
 import { View, Text, TouchableOpacity, StyleSheet, Pressable } from "react-native";
 import { DailyLog } from "../../../components/ChartData";
 import React, { useState, useEffect } from 'react';
-import { Colors } from '../../../colors/Colors';
-import GetData from "./GetData";
+import { Colors } from '../../../styling/Colors';
+import GetData from "../Home/GetData";
 /*
     Log function, it can get todays, yesterdays, weekly or monthly data
     It's purpose is to display to the user their relevant data in an easy to see way and let them track their progress

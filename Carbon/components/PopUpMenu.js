@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { IconNames } from '../navigation/screens/Main/IconNames';
 import { ScreenNames } from '../navigation/screens/Main/ScreenNames';
-import { Colors } from '../colors/Colors';
+import { Colors } from '../styling/Colors';
 
 
 export const PopUpMenu = ({navigation}) => {
@@ -19,8 +19,7 @@ export const PopUpMenu = ({navigation}) => {
             title: 'Record Emissions',
             icon: 'checkmark-circle-outline',
             action: () => {
-                console.log("Record Emissions button is clicked"); // TODO: Connect to the Record Emissions page
-                // TODO: Add the records emissions page in ProgressStack in MainContainer.js
+                navigation.navigate(ScreenNames.RECORD_EMISSION) 
             }
         },
         {

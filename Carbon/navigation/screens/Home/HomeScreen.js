@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView, TouchableOpacity, Platform } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { Card } from 'react-native-elements';
-import { Colors } from '../../../colors/Colors';
+import { Colors } from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
-import Log from './Log';
+import { MonthlyFootprintLineChart } from '../../../components/MonthlyFootprintLineChart';
 
 // =====================
 //     Home Screen
@@ -29,18 +29,11 @@ export default function HomeScreen({ navigation }) {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <View style={{ backgroundColor: "white", borderRadius: 16, height: windowHeight / 4, padding: 10 }}>
-                            {/* Add Carbon Footprint chart here */}
+                        <View style={{ backgroundColor: "white", borderRadius: 16, padding: 10, height: 300 }}>
+                            <MonthlyFootprintLineChart navigation={navigation}/>
                         </View>
                     </View>
                 </View>
-                <View style={styles.container}>
-                        <View style={{ backgroundColor: "white",  borderRadius: 16, height: windowHeight / 2, padding: 10 }}>
-
-                            <Log></Log>
-
-                            {/*Please put this where it belongs once home is finished :) */}
-                    </View></View>
                 {/******* RANKINGS *******/}
                 <View>
                     <View style={styles.container}>
