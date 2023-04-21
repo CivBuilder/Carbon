@@ -5,6 +5,7 @@ import { Colors } from '../../../colors/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import Log from './Log';
 import { MonthlyFootprintLineChart } from '../../../components/MonthlyFootprintLineChart';
+import MiniRanking from '../Ranking/RankingMiniView';
 
 // =====================
 //     Home Screen
@@ -54,9 +55,10 @@ export default function HomeScreen({ navigation }) {
                                     <Text style={styles.link}>See More</Text>
                                 </TouchableOpacity>
                             </View> */}
+                            
                         </View>
                         <View style={{ backgroundColor: "white", borderRadius: 16, height: windowHeight / 4, padding: 10 }}>
-                            {/* Add Ranking chart here */}
+                            <MiniRanking/>
                         </View>
                     </View>
                 </View>
