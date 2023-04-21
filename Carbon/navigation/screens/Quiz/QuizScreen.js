@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { ActivityIndicator, Alert, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, SafeAreaView, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import {useState, useEffect} from 'react';
-import { RadioButton } from 'react-native-paper';
 import { getToken } from '../../../util/LoginManager';
 import { API_URL } from '../../../config/Api';
+import { Colors } from '../../../styling/Colors';
+import { Ionicons } from '@expo/vector-icons';
 
-
-const QuizScreen = ({route}) => {
-    //used for fetching data 
+const QuizScreen = ({navigation, route}) => {
+    //used for fetching data
     const[isLoading, setLoading] = useState(true);
     const[data, setData] = useState([]);
     const[question, setQuestion] = useState([]);
@@ -31,7 +31,7 @@ const QuizScreen = ({route}) => {
         fetchData();
     }, []);
 
-//sets score and current question to 0 
+//sets score and current question to 0
 const [score, setScore] = useState(0);
 const [currentQuestion, setCurrentQuestion] = useState(0);
 const [quizCompleted, setQuizCompleted] = useState(false);
@@ -51,7 +51,7 @@ const answerClicked = (answer) => {
 }
 
 const submitClicked = () => {
-    
+
     setQuizActive(false);
     if(selectedAnswer.iscorrect){
         setScore(score+1);
@@ -86,161 +86,302 @@ const redoQuiz = () => {
     setScore(0)
 }
 
-async function postScore() { 
+async function postScore() {
     try{
         const fscore = {score: 100};
         console.log(await getToken());
         const response = await fetch(`${API_URL}user/quiz`, {
             method: 'POST',
             headers:{
-              'Content-Type': 'application/json',
-              'secrettoken': await getToken(),
+                'Content-Type': 'application/json',
+                'secrettoken': await getToken(),
             },
             body : JSON.stringify(fscore)
-          });
-        }
-        catch(error){
+        });
+    } catch(error){
             console.error("Post Failed: " + error)
-        }
+    }
 }
 //RENDER FUNCTIONS
 const renderQuestion = () => {
     return (
-        <View style={{
-            marginVertical: 40
-        }}>
+        <View>
             {/* Question Counter */}
-            <View style={{
-                flexDirection: 'row',
-                alignItems: 'flex-end'
-            }}>
-                <Text style={{ fontSize: 20, opacity: 0.6, marginRight: 2}}>{currentQuestion + 1}</Text>
-                <Text style={{ fontSize: 18, opacity: 0.6}}>/ {data.questions.length}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                <Text
+                    style={ styles.question_counter }
+                >
+                    {`Question ${currentQuestion + 1} of ${data.questions.length}`}
+                </Text>
             </View>
 
             {/* Question */}
-            <Text style={{
-                color: 'black',
-                fontSize: 30
-            }}>{data.questions[currentQuestion].question}</Text>
+            <View style={styles.question_container}>
+                <Text
+                    style={{
+                        ...styles.question_text,
+                        fontSize: data.questions[currentQuestion].question.length > 50 ? 18 : 22,
+                    }}
+                >
+                    {data.questions[currentQuestion].question}
+                </Text>
+            </View>
         </View>
     )
 }
 
 const renderAnswers = () => {
     return (
-      <View>
-        {data.questions[currentQuestion].answers.map((answer) => (
-          <TouchableOpacity
-            key={answer}
-            style={{
-              borderWidth: 3,
-              borderColor: 'black' ,
-              backgroundColor:  quizActive ? (answer === selectedAnswer ? (answerSelected ? 'grey' : 'white') : 'white' ) : (answer === selectedAnswer ? (answer.iscorrect ? 'green' : 'red') : 'white'),
-              height: 60,
-              borderRadius: 20,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingHorizontal: 20,
-              marginVertical: 10
-            }}
-            onPress={() => answerClicked(answer)}>
-            <Text style={{ fontSize: 20, color: 'black' }}>{answer.answer}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+        <View>
+            {data.questions[currentQuestion].answers.map((answer) => (
+                <TouchableOpacity
+                    key={answer}
+                    style={{
+                        ...styles.answer_button,
+                        backgroundColor:
+                            quizActive ?(answer === selectedAnswer ?
+                            (answerSelected ? 'rgba(32, 27, 27, 0.1)' : Colors.primary.MINT_CREAM) : Colors.primary.MINT_CREAM ) :
+                            (answer === selectedAnswer ? (answer.iscorrect ? 'rgba(116, 198, 157, 0.8)' : 'rgba(225, 28, 43, 0.5)') : Colors.primary.MINT_CREAM),
+                        borderColor:
+                            quizActive ?(answer === selectedAnswer ?
+                            (answerSelected ? 'rgba(32, 27, 27, 0.6)' : 'rgba(32, 27, 27, 0.2)') : 'rgba(32, 27, 27, 0.2)' ) :
+                            (answer === selectedAnswer ? (answer.iscorrect ? 'rgba(49, 105, 57, 1)' : 'rgba(225, 28, 43, 1)') : 'rgba(32, 27, 27, 0.2)'),
+                        }}
+                    onPress={() => answerClicked(answer)}
+                >
+                    <Text style={styles.answer_text}>{answer.answer}</Text>
+                </TouchableOpacity>
+            ))}
+        </View>
     )
-  }
+}
 
 const renderSubmitButton = () => {
-    return( 
-
-      <View>
-          {showSubmit ?  (
-          <TouchableOpacity
-          onPress ={() => submitClicked()}>
-              <Text style = {{fontSize: 20, color: 'black'}}> Submit </Text>
-          </TouchableOpacity>
-          ) : (<View></View>)}
-      </View>
+    return(
+        <View>
+            {showSubmit ?  (
+                <TouchableOpacity
+                    style={ styles.cta_button }
+                    onPress ={() => submitClicked()}
+                >
+                    <Text style = { styles.cta_text }> Submit </Text>
+                </TouchableOpacity>
+            ) : (
+                <View/>
+            )}
+        </View>
     )
 }
 
 const renderNextButton = () => {
-    return( 
-
+    return(
         <View>
             {showNext ?  (
-            <TouchableOpacity
-            onPress ={() => nextClicked()}>
-                <Text style = {{fontSize: 20, color: 'black'}}> Next </Text>
-            </TouchableOpacity>
-            ) : (<View></View>)}
+                <TouchableOpacity
+                    style={ styles.cta_button }
+                    onPress ={() => nextClicked()}
+                >
+                    <Text style = { styles.cta_text }> Next </Text>
+                </TouchableOpacity>
+            ) : (
+                <View/>
+            )}
         </View>
-      )
+    )
 }
 
 //BEGINNING OF DISPLAY
 return(
-    <SafeAreaView style = {{ flex: 1}}>
-            {isLoading ? (
+    <SafeAreaView
+        style={{
+            // backgroundColor: "lightgreen"
+            marginTop: 36,
+            marginHorizontal: 24,
+        }}
+    >
+        {isLoading ? (
             <View>
                 <Text>Loading</Text>
             </View>
-
-            ) : (
-                <SafeAreaView>
-                     {quizCompleted ? (
-                   <View>
-                   <Text>Quiz Done</Text>
-                   <Text>Final Score: {score}/{data.questions.length}</Text>
-                   {perfectScore ? ( 
-                        <View>
-                            <Text>Congratulations! 100%, Press back to return to Education Forum</Text>
+        ) : (
+            <View>
+                {quizCompleted ? (
+                    <View
+                        style={{
+                            height: '100%',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Text
+                            style={{
+                                textAlign: 'center',
+                                fontSize: 24,
+                                marginBottom: 12 * 3,
+                            }}
+                        >
+                            All done!
+                        </Text>
+                        <Text
+                            style={{
+                                textAlign: 'center',
+                                fontSize: 24
+                            }}
+                        >
+                            Your Score:
+                        </Text>
+                        <Text
+                            style={{
+                                textAlign: 'center',
+                                fontSize: 36,
+                                fontWeight: '500'
+                            }}
+                        >
+                            {score}/{data.questions.length}
+                        </Text>
+                        <View
+                            style={{
+                                // backgroundColor: "lightpink",
+                                position: 'absolute',
+                                bottom: 0,
+                                marginBottom: 12 * 3,
+                                width: '100%',
+                            }}
+                        >
+                            <View
+                                style={{
+                                    alignContent: 'center',
+                                    justifyContent: 'center',
+                                    // marginHorizontal: Dimensions.get('window').width/5,
+                                }}
+                            >
+                                <TouchableOpacity
+                                    style={{ ...styles.cta_button, marginBottom: 12 }}
+                                    onPress={() => redoQuiz()}
+                                >
+                                    <Text
+                                        style={ styles.cta_text}
+                                    >
+                                        Retake
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={ styles.cta_button }
+                                    onPress={() => navigation.goBack()}
+                                >
+                                    <Text
+                                        style={ styles.cta_text }
+                                    >
+                                        Go back
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-
-                   ) : (
-                    <TouchableOpacity onPress={() => redoQuiz()}>
-                        <Text>Redo Quiz</Text>
-                    </TouchableOpacity>
-                   )}
-
-                   </View>
-               ) : (
-                    <View style={{
-                        
-                        paddingVertical: 40,
-                        paddingHorizontal: 16,
-                        position:'relative'
-                    }}>
-                    <Text>Current Score: {score}</Text>
+                    </View>
+                ) : (
+                    <View style={{height: '100%'}}>
+                        {/* <View
+                            style={{
+                                // backgroundColor: "orange",
+                            }}
+                        >
+                            <Text style={{textAlign: 'center', fontSize: 16}}>Score: {score}</Text>
+                        </View> */}
 
                         {/* ProgressBar */}
-                        
-        
-                        {/* Question */}
-                        {renderQuestion()}
-        
-                        {/* Answers */}
-                        {renderAnswers()}
-        
-                        {/* Submit Button */}
-                        {renderSubmitButton()}
 
-                        {/* Next Button */}
-                        {renderNextButton()}
+                        <View
+                            style={{
+                                // backgroundColor: "lightblue",
+                                marginTop: 36
+                            }}
+                            >
+                            {/* Question */}
+                            {renderQuestion()}
+                        </View>
+                        <View
+                            style={{
+                                // backgroundColor: "red",
+                                position: 'absolute',
+                                bottom: 0,
+                                marginBottom: 12*14,
+                                width: '100%',
+                            }}
+                        >
+                            {/* Answers */}
+                            {renderAnswers()}
+                        </View>
+                        <View
+                            style={{
+                                // backgroundColor: "lightpink",
+                                position: 'absolute',
+                                bottom: 0,
+                                marginBottom: 12*3,
+                                width: '100%',
+                            }}
+                        >
+                            <View
+                                style={{
+                                    alignContent: 'center',
+                                    justifyContent: 'center',
+                                    // marginHorizontal: Dimensions.get('window').width/5,
+                                }}
+                            >
+                                {/* Submit Button */}
+                                {renderSubmitButton()}
+
+                                {/* Next Button */}
+                                {renderNextButton()}
+                            </View>
+                        </View>
                     </View>
-               )}
-                </SafeAreaView>
-            )}
-            
+                )}
+            </View>
+        )}
     </SafeAreaView>
-)
-}
+)}
 
-const styles = StyleSheet.create({
+styles = StyleSheet.create({
+    question_container: {
+        borderRadius: 16,
+        paddingHorizontal: 12,
+        paddingVertical: 24,
+        height: Dimensions.get('window').height/3,
+        backgroundColor: 'rgba(247, 223, 197, 0.5)', //Same color as ALMOND, but half the opacity
+    },
+    question_counter: {
+        fontSize: 14,
+        color: Colors.primary.RAISIN_BLACK,
+        marginBottom: 12,
+    },
+    question_text: {
+        fontWeight: '400',
+        color: Colors.primary.RAISIN_BLACK,
+    },
+    answer_button: {
+        borderRadius: 12,
+        borderWidth: 2,
+        padding: 12,
+        marginVertical: 8,
+    },
+    answer_text: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: 'rgba(32, 27, 27, 0.9)',
+        textAlign: 'center',
+    },
+    cta_button: {
+        borderRadius: 12,
+        padding: 12,
+        backgroundColor: Colors.secondary.LIGHT_MINT,
+    },
+    cta_text: {
+        fontSize: 18,
+        fontWeight: '500',
+        textAlign: 'center',
+        color: Colors.primary.RAISIN_BLACK,
+    }
 
-})
+});
+
 export default QuizScreen;
-    
