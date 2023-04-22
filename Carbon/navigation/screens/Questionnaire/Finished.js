@@ -1,7 +1,6 @@
 import React,{useEffect} from 'react';
 import {View, Text,Button} from 'react-native';
-import { Colors } from '../../../colors/Colors';
-
+import { Colors } from '../../../styling/Colors';
 /*
 Finished Screen
 
@@ -65,10 +64,11 @@ export default function FinishedScreen({navigation,route}) {
                 justifyContent:'center',
             }}>
             <Button
-            title="View your rank!"
+            title="Signup or Login"
             color={Colors.primary.MINT}
             onPress={() =>
-                navigation.navigate('GetStarted')
+                //TODO: Need to add relevant data to confirm questionnaire AND handle data in Main Container function
+                route.params.confirmQuestionnaire(true)
             }
             />
             </View>
