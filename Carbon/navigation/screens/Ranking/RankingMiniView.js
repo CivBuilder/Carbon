@@ -16,44 +16,56 @@ export default function MiniRanking() {
 
     const [rank, setRank] = useState(null);
     const [sustainability_score, setSustainabilityScore] = useState(null);
-    const [avatar, setAvatar] = useState(null);
+    const [nextRankScore, setNextRankScore] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setErrorMessage] = useState(false);
 
     useEffect(() => {
-        getRankAndTitles(setRank, setSustainabilityScore, setLoading, setAvatar);
+        getRankAndTitles(setRank, setSustainabilityScore, setLoading, setNextRankScore);
     }, []);
 
-    useEffect( () => {
-        if(sustainability_score != null) ;
-    }, [sustainability_score]);
+    // useEffect( () => {
+    //     if(sustainability_score != null) ;
+    // }, [sustainability_score]);
 
     
 
-    if(rank && sustainability_score!=null && avatar) 
+    if(rank && sustainability_score!=null && nextRankScore != null) 
       return (
-            <View style = {styles.miniRankContainer}>
-              <View style = {styles.imageContainer}>
-                <Image 
-                  source = {SustainabilityScoreProfileView[sustainability_score].picture}
-                  style={styles.profileImage}
-                  resizeMode = "contain"
-                />
+            // <View style = {styles.miniRankContainer}>
+            //   <View style = {styles.imageContainer}>
+            //     <Image 
+            //       source = {SustainabilityScoreProfileView[sustainability_score].picture}
+            //       style={styles.profileImage}
+            //       resizeMode = "contain"
+            //     />
 
-                <View style = {styles.rankSphere}>            
-                  <Text style = {styles.rankText}>
-                    {formatRankText(rank)}
-                  </Text>
-                </View>
+            //     <View style = {styles.rankSphere}>            
+            //       <Text style = {styles.rankText}>
+            //         {formatRankText(rank)}
+            //       </Text>
+            //     </View>
 
-                <Image 
-                  source = {AvatarView[avatar]}
-                  style={styles.profileImage}
-                  resizeMode = "contain"
-                />
-              </View>
+            //     <Image 
+            //       source = {AvatarView[avatar]}
+            //       style={styles.profileImage}
+            //       resizeMode = "contain"
+            //     />
+            //   </View>
+            //   <Text style = {styles.titleText}>{SustainabilityScoreProfileView[sustainability_score].title}</Text>
+            // </View>
+          <View style = {styles.miniRankContainer}>
+            <Image 
+              style = {styles.profileImage}
+              source = {SustainabilityScoreProfileView[sustainability_score].picture}
+              resizeMode = "contain"
+            />
+            <View style = {styles.SideContainer}>
+              <Text style = {styles.rankText}> Your Rank: {formatRankText(rank)}</Text>
               <Text style = {styles.titleText}>{SustainabilityScoreProfileView[sustainability_score].title}</Text>
+              <View style = {styles.progressBar}></View>
             </View>
+          </View>
       )
     else return (<LoadingIndicator loading={loading}/>)
 }
@@ -86,7 +98,7 @@ function formatRankText(rank) {
  * @param {*} setSustainabilityProfile - State changing function to get the users Profile from the sustatinabilityScore
  * @param {*} setLoading - State changing function to set a loading screen
  */
-async function getRankAndTitles(setRank, setSustainabilityScore, setLoading, setAvatar){
+async function getRankAndTitles(setRank, setSustainabilityScore, setLoading, setNextRankScore){
   setLoading(true);
   console.log(`Fetching from ${API_Entry_RANK_URL}`);
 
@@ -103,7 +115,8 @@ async function getRankAndTitles(setRank, setSustainabilityScore, setLoading, set
       
       setRank(response_content.ranking);
       setSustainabilityScore(response_content.sustainability_score);
-      setAvatar(response_content.avatar_index);
+      setNextRankScore(response_content.nextRankScore);
+      
       console.log(`Fetch from ${API_Entry_RANK_URL} was a success!`);
     }
     //Handle Error thrown from Server
@@ -128,46 +141,38 @@ async function getRankAndTitles(setRank, setSustainabilityScore, setLoading, set
 const styles = StyleSheet.create({
 
   miniRankContainer : { 
-    flex : 1
+    flex : 1,
+    flexDirection : 'row'
   },
-  imageContainer  : { 
-    flexDirection : 'row',
-    flex : 2
-  },
+
   profileImage : {
     width : '100%',
     height : '100%',
-    flex : 1 
+    flex : 1
   },
-  rankSphere : { 
-    width: 125, 
-    height: 125, 
-    backgroundColor : Colors.secondary.NON_PHOTO_BLUE,
-    borderRadius : 100,
-    flex: 1, 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    borderWidth : 4,
-    borderColor : Colors.primary.MINT_CREAM,
+
+  SideContainer : {
+    flex : 2,
+    padding : 10
   },
 
 
   rankText: {
-    color: Colors.secondary.LIGHT_MINT,
-    textAlign : 'center',
-    textAlignVertical : 'center',
-    fontSize : 45,
-    borderWidth : 2,
-    borderColor : Colors.primary.RAISIN_BLACK
+    color: Colors.primary.RAISIN_BLACK,
+    textAlign : "left",
+    fontSize : 23,
+    flex : 1
   },
 
   titleText : { 
     color: Colors.primary.RAISIN_BLACK,
     fontWeight: 'bold',
     flex : 1,
-    textAlign : 'center',
-    textAlignVertical : 'center',
-    fontSize : 30,
+    fontSize : 28,
+  },
+
+  progressBar : {
+    flex : 1
   }
 });
 
