@@ -201,7 +201,8 @@ router.get('/testrank', passport.authenticate('jwt', { session: false }), async 
         },
         attributes : [
             [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.global_score > user.global_score) + 1'), 'ranking'],
-            'sustainability_score'
+            'sustainability_score',
+            'avatar_index'
         ]
     });
     if(!rank) {

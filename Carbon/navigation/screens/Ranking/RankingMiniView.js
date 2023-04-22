@@ -9,54 +9,54 @@ import { AvatarView } from '../../../util/AvatarProfileMap';
 import { SustainabilityScoreProfileView } from '../../../util/SustainabilityScoreProfileView';
 
 
-const localPath  = "../../../"; //Path to Carbon/Carbon directory for profile view
 const API_Entry_RANK_URL = API_URL + "user/testrank/";
 
 
 export default function MiniRanking() {
 
     const [rank, setRank] = useState(null);
-    const [sustainability_score, setSustainabilityScore] = useState(0);
+    const [sustainability_score, setSustainabilityScore] = useState(null);
+    const [avatar, setAvatar] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setErrorMessage] = useState(false);
 
     useEffect(() => {
-        getRankAndTitles(setRank, setSustainabilityScore, setLoading);
+        getRankAndTitles(setRank, setSustainabilityScore, setLoading, setAvatar);
     }, []);
 
     useEffect( () => {
-        if(sustainability_score != null)
-        console.log(localPath+SustainabilityScoreProfileView[sustainability_score].picture);
+        if(sustainability_score != null) ;
     }, [sustainability_score]);
 
+    
 
+    if(rank && sustainability_score!=null && avatar) 
+      return (
+            <View style = {styles.miniRankContainer}>
+              <View style = {styles.imageContainer}>
+                <Image 
+                  source = {SustainabilityScoreProfileView[sustainability_score].picture}
+                  style={styles.profileImage}
+                  resizeMode = "contain"
+                />
 
-    return (
+                <View style = {styles.rankSphere}>            
+                  <Text style = {styles.rankText}>
+                    {rank}
+                  </Text>
+                </View>
 
-        
-        <View style = {{flex : 1}}>
-          <View style = {{flexDirection : 'row', flex : 2}}>
-            <Image 
-              source = {SustainabilityScoreProfileView[sustainability_score].picture}
-              style={{ width: '100%', height: '100%' , flex : 1}}
-              resizeMode = "contain"
-            />
-            <Image 
-              source = {SustainabilityScoreProfileView[sustainability_score].picture}
-              style={{ width: '130%', height: '130%' , flex : 1.5}}
-              resizeMode = "contain"
-            />
-            <Image 
-              source = {SustainabilityScoreProfileView[sustainability_score].picture}
-              style={{ width: '100%', height: '100%' , flex : 1}}
-              resizeMode = "contain"
-            />
-          </View>
-          <Text style = {styles.rankText}>Poop</Text>
-        </View>
-    )
+                <Image 
+                  source = {AvatarView[avatar]}
+                  style={styles.profileImage}
+                  resizeMode = "contain"
+                />
+              </View>
+              <Text style = {styles.titleText}>{SustainabilityScoreProfileView[sustainability_score].title}</Text>
+            </View>
+      )
+    else return (<LoadingIndicator loading={loading}/>)
 }
-
 
 
 const styles = StyleSheet.create({
@@ -73,11 +73,33 @@ const styles = StyleSheet.create({
     height : '100%',
     flex : 1 
   },
+  rankSphere : { 
+    width: 125, 
+    height: 125, 
+    backgroundColor : Colors.secondary.NON_PHOTO_BLUE,
+    borderRadius : 100,
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    borderWidth : 4,
+    borderColor : Colors.primary.MINT_CREAM,
+  },
+
+
   rankText: {
-    color: 'black',
+    color: Colors.secondary.LIGHT_MINT,
+    textAlign : 'center',
+    textAlignVertical : 'center',
+    fontSize : 45,
+  },
+
+  titleText : { 
+    color: Colors.primary.RAISIN_BLACK,
     fontWeight: 'bold',
-    marginTop: 25,
-    flex : 1
+    flex : 1,
+    textAlign : 'center',
+    textAlignVertical : 'center',
+    fontSize : 30,
   }
 });
 
@@ -88,7 +110,7 @@ const styles = StyleSheet.create({
  * @param {*} setSustainabilityProfile - State changing function to get the users Profile from the sustatinabilityScore
  * @param {*} setLoading - State changing function to set a loading screen
  */
-async function getRankAndTitles(setRank, setSustainabilityScore, setLoading){
+async function getRankAndTitles(setRank, setSustainabilityScore, setLoading, setAvatar){
   setLoading(true);
   console.log(`Fetching from ${API_Entry_RANK_URL}`);
 
@@ -105,6 +127,7 @@ async function getRankAndTitles(setRank, setSustainabilityScore, setLoading){
       
       setRank(response_content.ranking);
       setSustainabilityScore(response_content.sustainability_score);
+      setAvatar(response_content.avatar_index);
       console.log(`Fetch from ${API_Entry_RANK_URL} was a success!`);
     }
     //Handle Error thrown from Server
