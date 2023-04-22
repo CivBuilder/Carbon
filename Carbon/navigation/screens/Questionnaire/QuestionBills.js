@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {View, Text,Button,TextInput } from 'react-native';
 import { Colors } from '../../../colors/Colors';
 
@@ -19,6 +19,23 @@ export default function BillScreen({navigation,route}) {
     //Bill values (not calculated until the end)
     const [bill,setBill] = useState(0);
     const [rate,setRate] = useState(0);
+
+    //Updating progress bar (a.k.a the header)
+    useEffect(()=>{
+        navigation.setOptions({
+        header: ()=>(
+        <View style={{
+        position: "absolute",
+        top:0,
+        height:40,
+        borderRadius: 6,
+        width:"42%",
+        backgroundColor: Colors.secondary.CELADON,
+        }}>
+        </View>
+        ),
+        })
+    });
 
     return (
     <>

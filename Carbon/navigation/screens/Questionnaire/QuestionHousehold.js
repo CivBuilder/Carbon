@@ -29,8 +29,21 @@ export default function HouseholdScreen({navigation,route}) {
         let denominator = (buttonOn0+buttonOn1+buttonOn2+buttonOn3)*maxPoints;
         setPointPercent(previousState=>numerator/denominator);
     }
-    //Ensure points are synchronous
+    //Ensure points are synchronous & updating progress bar
     useEffect(()=>{
+        navigation.setOptions({
+        header: ()=>(
+        <View style={{
+        position: "absolute",
+        top:0,
+        height:40,
+        borderRadius: 6,
+        width:"28%",
+        backgroundColor: Colors.secondary.CELADON,
+        }}>
+        </View>
+        ),
+        })
         calculatePoints();
     });
 

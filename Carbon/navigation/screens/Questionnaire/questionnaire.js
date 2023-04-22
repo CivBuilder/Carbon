@@ -20,10 +20,9 @@ const Stack = createNativeStackNavigator();
 export default function Questionnaire() {
     return(
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="GetStarted"
-            screenOptions={{
-                headerShown:false
-            }}>
+            <Stack.Navigator
+            initialRouteName="GetStarted"
+            >
                 <Stack.Screen name = "GetStarted" component={StartScreen}/>
                 <Stack.Screen name="q1" component={DietScreen}/>
                 <Stack.Screen name="q2" component={HouseholdScreen}/>
@@ -37,3 +36,4 @@ export default function Questionnaire() {
         </NavigationContainer>
     )
 }
+

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text,Button} from 'react-native';
 import { Colors } from '../../../colors/Colors';
 
@@ -14,6 +14,23 @@ export default function TransportScreen({navigation, route}) {
     const dietScore = route.params?.dietScore;
     const homePowerScore = route.params?.homePowerScore;
     const annualPower = route.params?.annualPower;
+
+    //Updating progress bar (a.k.a the header)
+    useEffect(()=>{
+        navigation.setOptions({
+        header: ()=>(
+        <View style={{
+        position: "absolute",
+        top:0,
+        height:40,
+        borderRadius: 6,
+        width:"56%",
+        backgroundColor: Colors.secondary.CELADON,
+        }}>
+        </View>
+        ),
+        })
+    });
 
     return (
             <>

@@ -35,6 +35,22 @@ export default function VehicleTypeScreen({navigation,route}) {
             setPointPercent(previousState=>points/maxPoints);
     }
 
+    //Updating progress bar (a.k.a the header)
+    useEffect(()=>{
+        navigation.setOptions({
+        header: ()=>(
+        <View style={{
+        position: "absolute",
+        top:0,
+        height:40,
+        borderRadius: 6,
+        width:"83%",
+        backgroundColor: Colors.secondary.CELADON,
+        }}>
+        </View>
+        ),
+        })
+    });
     return (
             <>
             <View

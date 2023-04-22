@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {View, Text,Button,TextInput } from 'react-native';
 import { Colors } from '../../../colors/Colors';
 
@@ -19,6 +19,22 @@ export default function MileageScreen({navigation,route}) {
     //Value to calculate & transfer at the "finished" screen
     const [miles,setMiles] = useState(0);
 
+    //Updating progress bar (a.k.a the header)
+    useEffect(()=>{
+        navigation.setOptions({
+        header: ()=>(
+        <View style={{
+        position: "absolute",
+        top:0,
+        height:40,
+        borderRadius: 6,
+        width:"95%",
+        backgroundColor: Colors.secondary.CELADON,
+        }}>
+        </View>
+        ),
+        })
+    });
     return (
     <>
     <View

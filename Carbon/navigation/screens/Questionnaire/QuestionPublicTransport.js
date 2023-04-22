@@ -32,6 +32,19 @@ export default function PublicTransportScreen({navigation,route}) {
     }
     //Ensure that points is synchronous
     useEffect(()=>{
+        navigation.setOptions({
+        header: ()=>(
+        <View style={{
+        position: "absolute",
+        top:0,
+        height:40,
+        borderRadius: 6,
+        width:"95%",
+        backgroundColor: Colors.secondary.CELADON,
+        }}>
+        </View>
+        ),
+        })
         calculatePoints();
     });
 

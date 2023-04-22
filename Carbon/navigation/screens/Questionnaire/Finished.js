@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {View, Text,Button} from 'react-native';
 import { Colors } from '../../../colors/Colors';
 
@@ -25,6 +25,22 @@ export default function FinishedScreen({navigation,route}) {
     const foodScore = dietScore;
     const homeScore = homePowerScore;
     const awarenessScore= (miles!=0) ? transportScore*miles/200000: transportScore
+
+    useEffect(()=>{
+        navigation.setOptions({
+        header: ()=>(
+        <View style={{
+        position: "absolute",
+        top:0,
+        height:40,
+        borderRadius: 6,
+        width:"100%",
+        backgroundColor: Colors.secondary.CELADON,
+        }}>
+        </View>
+        ),
+        })
+    });
 
     return (
             <>

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 import {View, Text,Button} from 'react-native';
 import { Colors } from '../../../colors/Colors'; //Chose UI colors from this page
 
@@ -10,6 +10,22 @@ TODO: Update UI
 */
 
 export default function DietScreen({navigation}) {
+    useEffect(()=>{
+            navigation.setOptions({
+            header: ()=>(
+                <View style={{
+                position: "absolute",
+                top:0,
+                height:40,
+                borderRadius: 6,
+                width:"14.3%",
+                backgroundColor: Colors.secondary.CELADON,
+                }}>
+                </View>
+            ),
+            })
+    });
+
     //Maximum points -- Can be set to a different value
     const maxPoints = 10.0;
 
