@@ -42,7 +42,7 @@ export default function MiniRanking() {
 
                 <View style = {styles.rankSphere}>            
                   <Text style = {styles.rankText}>
-                    {rank}
+                    {formatRankText(rank)}
                   </Text>
                 </View>
 
@@ -59,49 +59,25 @@ export default function MiniRanking() {
 }
 
 
-const styles = StyleSheet.create({
+/**
+ * Menial function to use across both the main and mini versions of the ranking screen 
+ * @param {*} rank - number to use 
+ * @returns 
+ */
+function formatRankText(rank) {
 
-  miniRankContainer : { 
-    flex : 1
-  },
-  imageContainer  : { 
-    flexDirection : 'row',
-    flex : 2
-  },
-  profileImage : {
-    width : '100%',
-    height : '100%',
-    flex : 1 
-  },
-  rankSphere : { 
-    width: 125, 
-    height: 125, 
-    backgroundColor : Colors.secondary.NON_PHOTO_BLUE,
-    borderRadius : 100,
-    flex: 1, 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    borderWidth : 4,
-    borderColor : Colors.primary.MINT_CREAM,
-  },
-
-
-  rankText: {
-    color: Colors.secondary.LIGHT_MINT,
-    textAlign : 'center',
-    textAlignVertical : 'center',
-    fontSize : 45,
-  },
-
-  titleText : { 
-    color: Colors.primary.RAISIN_BLACK,
-    fontWeight: 'bold',
-    flex : 1,
-    textAlign : 'center',
-    textAlignVertical : 'center',
-    fontSize : 30,
+  
+  switch(rank % 10) {
+      case 1: 
+          return rank+"st";
+      case 2: 
+          return rank+"nd";
+      case 3:
+          return rank+"rd";
+      default: 
+          return rank+"th";
   }
-});
+}
 
 
 /**
@@ -146,4 +122,52 @@ async function getRankAndTitles(setRank, setSustainabilityScore, setLoading, set
   setLoading(false);
 }
 
+
+
+
+const styles = StyleSheet.create({
+
+  miniRankContainer : { 
+    flex : 1
+  },
+  imageContainer  : { 
+    flexDirection : 'row',
+    flex : 2
+  },
+  profileImage : {
+    width : '100%',
+    height : '100%',
+    flex : 1 
+  },
+  rankSphere : { 
+    width: 125, 
+    height: 125, 
+    backgroundColor : Colors.secondary.NON_PHOTO_BLUE,
+    borderRadius : 100,
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    borderWidth : 4,
+    borderColor : Colors.primary.MINT_CREAM,
+  },
+
+
+  rankText: {
+    color: Colors.secondary.LIGHT_MINT,
+    textAlign : 'center',
+    textAlignVertical : 'center',
+    fontSize : 45,
+    borderWidth : 2,
+    borderColor : Colors.primary.RAISIN_BLACK
+  },
+
+  titleText : { 
+    color: Colors.primary.RAISIN_BLACK,
+    fontWeight: 'bold',
+    flex : 1,
+    textAlign : 'center',
+    textAlignVertical : 'center',
+    fontSize : 30,
+  }
+});
 
