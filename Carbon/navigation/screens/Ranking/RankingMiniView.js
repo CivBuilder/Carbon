@@ -5,8 +5,9 @@ import LoadingIndicator from "../../../components/LoadingIndicator";
 import { API_URL } from '../../../config/Api';
 import { getAuthHeader } from '../../../util/LoginManager';
 import {StyleSheet, Text, View, Image} from 'react-native';
-import { AvatarView } from '../../../util/AvatarProfileMap';
 import { SustainabilityScoreProfileView } from '../../../util/SustainabilityScoreProfileView';
+import { State } from 'react-native-gesture-handler';
+import RankProgressBar from '../../../components/ProgressBar.js';
 
 
 const API_Entry_RANK_URL = API_URL + "user/testrank/";
@@ -14,56 +15,33 @@ const API_Entry_RANK_URL = API_URL + "user/testrank/";
 
 export default function MiniRanking() {
 
-    const [rank, setRank] = useState(null);
-    const [sustainability_score, setSustainabilityScore] = useState(null);
-    const [nextRankScore, setNextRankScore] = useState(null);
+    const [rank, setRank] = useState(1);
+    const [sustainability_score, setSustainabilityScore] = useState(6);
+    const [global_score, setglobalScore] = useState(8);
+    const [nextRankScore, setNextRankScore] = useState(9);
     const [loading, setLoading] = useState(false);
     const [error, setErrorMessage] = useState(false);
 
-    useEffect(() => {
-        getRankAndTitles(setRank, setSustainabilityScore, setLoading, setNextRankScore);
-    }, []);
-
-    // useEffect( () => {
-    //     if(sustainability_score != null) ;
-    // }, [sustainability_score]);
-
-    
+    // useEffect(() => {
+    //     getRankAndTitles(setRank, setSustainabilityScore, setLoading, setNextRankScore);
+    // }, []);
 
     if(rank && sustainability_score!=null && nextRankScore != null) 
       return (
-            // <View style = {styles.miniRankContainer}>
-            //   <View style = {styles.imageContainer}>
-            //     <Image 
-            //       source = {SustainabilityScoreProfileView[sustainability_score].picture}
-            //       style={styles.profileImage}
-            //       resizeMode = "contain"
-            //     />
-
-            //     <View style = {styles.rankSphere}>            
-            //       <Text style = {styles.rankText}>
-            //         {formatRankText(rank)}
-            //       </Text>
-            //     </View>
-
-            //     <Image 
-            //       source = {AvatarView[avatar]}
-            //       style={styles.profileImage}
-            //       resizeMode = "contain"
-            //     />
-            //   </View>
-            //   <Text style = {styles.titleText}>{SustainabilityScoreProfileView[sustainability_score].title}</Text>
-            // </View>
           <View style = {styles.miniRankContainer}>
-            <Image 
-              style = {styles.profileImage}
-              source = {SustainabilityScoreProfileView[sustainability_score].picture}
-              resizeMode = "contain"
-            />
+            <View style = {styles.profileImageContainer}>
+              <Image 
+                style = {styles.profileImage}
+                source = {SustainabilityScoreProfileView[sustainability_score].picture}
+                resizeMode = "contain"
+              />
+            </View>
             <View style = {styles.SideContainer}>
-              <Text style = {styles.rankText}> Your Rank: {formatRankText(rank)}</Text>
-              <Text style = {styles.titleText}>{SustainabilityScoreProfileView[sustainability_score].title}</Text>
-              <View style = {styles.progressBar}></View>
+              <View style = {styles.textContainer}> 
+                <Text style = {styles.rankText}>Your Rank: {formatRankText(rank)}</Text>
+                <Text style = {styles.titleText}>{SustainabilityScoreProfileView[sustainability_score].title}</Text>
+                <RankProgressBar progress = {global_score} total = {nextRankScore}/>
+              </View>
             </View>
           </View>
       )
@@ -94,9 +72,11 @@ function formatRankText(rank) {
 
 /**
  * 
- * @param {*} setRank - State changing function to get the users rank 
+ * @param {Function} setRank - State changing function to get the users rank 
  * @param {*} setSustainabilityProfile - State changing function to get the users Profile from the sustatinabilityScore
  * @param {*} setLoading - State changing function to set a loading screen
+ * 
+ * 
  */
 async function getRankAndTitles(setRank, setSustainabilityScore, setLoading, setNextRankScore){
   setLoading(true);
@@ -115,8 +95,9 @@ async function getRankAndTitles(setRank, setSustainabilityScore, setLoading, set
       
       setRank(response_content.ranking);
       setSustainabilityScore(response_content.sustainability_score);
+      setglobalScore(response_content.global_score);
       setNextRankScore(response_content.nextRankScore);
-      
+
       console.log(`Fetch from ${API_Entry_RANK_URL} was a success!`);
     }
     //Handle Error thrown from Server
@@ -142,37 +123,59 @@ const styles = StyleSheet.create({
 
   miniRankContainer : { 
     flex : 1,
-    flexDirection : 'row'
+    flexDirection : 'row',
+    // backgroundColor : "black",
+    justifyContent : 'center',
+    marginBottom : 12,
+  },
+
+  profileImageContainer :{
+    flex : 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   profileImage : {
-    width : '100%',
-    height : '100%',
-    flex : 1
+    height : 100,
+    width : 100,
+    resizeMode : 'contain',
   },
 
   SideContainer : {
     flex : 2,
-    padding : 10
+    padding : 5,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignContent : 'center',
+    // backgroundColor : 'cyan',
+  },
+
+  textContainer : {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignContent : 'center',
+    // backgroundColor : 'white',
+    flex : 0.75
   },
 
 
   rankText: {
     color: Colors.primary.RAISIN_BLACK,
-    textAlign : "left",
-    fontSize : 23,
-    flex : 1
+    fontSize : 21,
+    textAlignVertical : 'center',
+    flex : 1,
+    // backgroundColor : 'white',
   },
 
   titleText : { 
     color: Colors.primary.RAISIN_BLACK,
     fontWeight: 'bold',
-    flex : 1,
     fontSize : 28,
+    flex : 1,
+    // backgroundColor : 'red',
+    textAlignVertical : 'center',
+    paddingBottom : 10,
   },
-
-  progressBar : {
-    flex : 1
-  }
 });
 

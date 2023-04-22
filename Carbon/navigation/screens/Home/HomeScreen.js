@@ -57,8 +57,8 @@ export default function HomeScreen({ navigation }) {
                             </View> */}
                             
                         </View>
-                        <View style={{ backgroundColor: "white", borderRadius: 16, height: windowHeight / 4, padding: 10 }}>
-                            <MiniRanking/>
+                        <View style={{ backgroundColor: "white", borderRadius: 16, padding: 10 }}>
+                            <MiniRanking/>  
                         </View>
                     </View>
                 </View>

@@ -214,7 +214,7 @@ router.get('/testrank', passport.authenticate('jwt', { session: false }), async 
         return res.status(404).send(`404 : user with ${req.params.id} not found`);
     }
     
-    //Get the score of the 
+    //Get the score of the score of the user who is one rank above you
     users = await user_table.findAll({
         where : {
             global_score : { 
@@ -231,8 +231,6 @@ router.get('/testrank', passport.authenticate('jwt', { session: false }), async 
         userScores.dataValues.nextRankScore = users[0].dataValues.global_score;
     }
 
-
-    console.log(userScores.dataValues);
     res.status(200).json(userScores)
 })
 
