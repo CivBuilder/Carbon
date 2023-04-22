@@ -1,7 +1,6 @@
 import {useState,useEffect} from 'react';
 import {View, Text,Button} from 'react-native';
-import { Colors } from '../../../colors/Colors'; //Chose UI colors from this page
-
+import { Colors } from '../../../styling/Colors';
 
 /*
 Question 1 Screen

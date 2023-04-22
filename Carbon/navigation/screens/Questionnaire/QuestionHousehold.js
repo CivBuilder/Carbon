@@ -1,7 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import {View, Text,Switch,Button} from 'react-native';
-import { Colors } from '../../../colors/Colors';
-
+import { Colors } from '../../../styling/Colors';
 /*
 Household Screen
 TODO: Managing scores in a better way (instead of passing them through pages)

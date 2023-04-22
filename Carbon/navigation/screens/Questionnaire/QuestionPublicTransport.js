@@ -1,7 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import {View, Text,Button,Switch } from 'react-native';
-import { Colors } from '../../../colors/Colors';
-
+import { Colors } from '../../../styling/Colors';
 /*
 Public Transport Screen
 

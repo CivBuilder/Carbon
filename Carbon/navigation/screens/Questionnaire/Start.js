@@ -1,6 +1,6 @@
 import {View, Text,Button} from 'react-native';
 import {useEffect} from 'react';
-import { Colors } from '../../../colors/Colors';
+import { Colors } from '../../../styling/Colors';
 
 /*
 Start Screen -> Leads to the first question for questionnaire.js

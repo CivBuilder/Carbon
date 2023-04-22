@@ -1,7 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import {View, Text,Button } from 'react-native';
-import { Colors } from '../../../colors/Colors';
-/*
+import { Colors } from '../../../styling/Colors';/*
 Vehicle Type Screen
 
 TODO: Improve UI

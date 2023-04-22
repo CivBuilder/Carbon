@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {View, Text,Button} from 'react-native';
-import { Colors } from '../../../colors/Colors';
-
+import { Colors } from '../../../styling/Colors';
 /*
 Transport Screen
 TODO: Find a better way to transfer values to the last screen(instead of transferring between pages)
