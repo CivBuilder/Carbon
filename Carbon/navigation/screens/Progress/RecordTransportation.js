@@ -161,7 +161,7 @@ const RecordTransportation = ({ navigation, route }) => {
       </RadioButton.Group>
 
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
-        <Text style={styles.buttonText}>Save</Text>
+        <Text style={styles.buttonText}>Save & Return</Text>
       </TouchableOpacity>
     </View>
   );
