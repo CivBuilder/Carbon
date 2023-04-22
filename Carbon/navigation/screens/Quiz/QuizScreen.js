@@ -24,6 +24,7 @@ const QuizScreen = ({navigation, route}) => {
         }
         catch(error) {
             console.error("An error occured when connecting to the api, ensure you turned on the server and updated the APIURL accordingly if hosting localy - Avery. The following is the official error message: " + error)
+            navigation.goBack(); //Hacky way of going back to the previous screen if the api is down since there's no other way to exit out of the loading screen
         }
     };
 
@@ -112,13 +113,16 @@ const QuizScreen = ({navigation, route}) => {
     const renderQuestion = () => {
         return (
             <View>
-                {/* Question Counter */}
-                <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                    <Text
-                        style={ styles.question_counter }
-                    >
-                        {`Question ${currentQuestion + 1} of ${data.questions.length}`}
-                    </Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12, }}>
+                    {/* Question Counter */}
+                    <View>
+                        <Text style={ styles.question_counter }>{`Question ${currentQuestion + 1} of ${data.questions.length}`}</Text>
+                    </View>
+
+                    {/* Score Counter */}
+                    <View>
+                        <Text style={ styles.score_counter }>Score: {score}</Text>
+                    </View>
                 </View>
 
                 {/* Question */}
@@ -146,13 +150,13 @@ const QuizScreen = ({navigation, route}) => {
                             ...styles.answer_button,
                             backgroundColor:
                                 quizActive ?(answer === selectedAnswer ?
-                                (answerSelected ? 'rgba(32, 27, 27, 0.1)' : Colors.primary.MINT_CREAM) : Colors.primary.MINT_CREAM ) :
-                                (answer === selectedAnswer ? (answer.iscorrect ? 'rgba(116, 198, 157, 0.8)' : 'rgba(225, 28, 43, 0.5)') : Colors.primary.MINT_CREAM),
+                                (answerSelected ? '#80bbff' : "white") : "white" ) :
+                                (answer === selectedAnswer ? (answer.iscorrect ? '#9ce8b2' : '#ff9494') : "white"),
 
                             borderColor:
                                 quizActive ?(answer === selectedAnswer ?
-                                (answerSelected ? 'rgba(32, 27, 27, 0.6)' : 'rgba(32, 27, 27, 0.2)') : 'rgba(32, 27, 27, 0.2)' ) :
-                                (answer === selectedAnswer ? (answer.iscorrect ? 'rgba(49, 105, 57, 1)' : 'rgba(225, 28, 43, 1)') : 'rgba(32, 27, 27, 0.2)'),
+                                (answerSelected ? '#1e73d6' : '#737373') : '#737373' ) :
+                                (answer === selectedAnswer ? (answer.iscorrect ? '#1c622f' : '#c83737') : '#737373'),
                             }}
                         onPress={() => answerClicked(answer)}
                     >
@@ -206,197 +210,166 @@ const QuizScreen = ({navigation, route}) => {
             animationInTiming={1000}
             animationOutTiming={1000}
         >
-            <SafeAreaView
-                style={{
-                    // backgroundColor: "lightgreen"
-                    marginTop: 12,
-                    marginHorizontal: 24,
-                }}
-            >
+            <SafeAreaView style={ styles.screen }>
                 {isLoading ? (
                     <View>
                         <Text>Loading</Text>
                     </View>
                 ) : (
                     <View>
-                        {/* Close button and exit modal */}
-                        <View style={{ position: 'relative' }}>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    setShowModal(true);
-                                }}
-                                style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    right: 0,
-                                }}
-                            >
-                                <Ionicons name="close-outline" size={30} color="black" />
-                            </TouchableOpacity>
-
-                            {showModal && (
-                                <Modal
-                                    isVisible={showModal}
-                                    animationType="fade"
-                                    animationInTiming={1000}
-                                    animationOutTiming={1000}
-                                >
-                                    <TouchableOpacity onPress={() => setVisibility(false)}/>
-                                    <View
+                        { quizCompleted ? (
+                            <View style={{ height: '100%', justifyContent: 'center', alignItems: 'center', }}>
+                                <View style={styles.result_container}>
+                                    <Text style={styles.result_heading}>All done!</Text>
+                                    <Text style={styles.result_subheading}>Your score:</Text>
+                                    <Text
                                         style={{
-                                            flex: 1,
-                                            backgroundColor: 'white',
-                                            borderRadius: 10,
-                                            padding: 22,
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
+                                            ...styles.result_score,
+                                            color:
+                                            score / data.questions.length >= 0.8
+                                                ? "#3CB371" // Green if at least 80% of the questions are correct
+                                                : score / data.questions.length >= 0.5
+                                                ? "#FFA500" // Yellow if between 50% and 80%
+                                                : "#FF6347", // Red if below 50%
                                         }}
-                                    >
-                                        <Text style={{ fontSize: 18, marginBottom: 24 }}>
-                                            Are you sure you want to exit the quiz?
-                                        </Text>
-                                        <TouchableOpacity
-                                            onPress={() => {
-                                                setShowModal(false);
-                                                navigation.goBack();
-                                            }}
-                                            style={{
-                                                backgroundColor: '#74C69D',
-                                                borderRadius: 10,
-                                                padding: 12,
-                                                paddingHorizontal: 48,
-                                            }}
-                                        >
-                                            <Text style={{ color: Colors.primary.RAISIN_BLACK }}>Yes</Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity
-                                            onPress={() => {
-                                                setShowModal(false);
-                                            }}
-                                            style={{
-                                                backgroundColor: 'lightgray',
-                                                borderRadius: 10,
-                                                padding: 12,
-                                                paddingHorizontal: 48,
-                                                marginTop: 12,
-                                            }}
-                                        >
-                                            <Text>No</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </Modal>
-                            )}
+                                    >{Math.round(score / data.questions.length * 100)}%</Text>
 
-                        </View>
+                                    <Text style={styles.result_info}>You answered {score} out of {data.questions.length} correctly.</Text>
 
-                        {quizCompleted ? (
-                            <View
-                                style={{
-                                    height: '100%',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        textAlign: 'center',
-                                        fontSize: 24,
-                                        marginBottom: 12 * 3,
-                                    }}
-                                >
-                                    All done!
-                                </Text>
-                                <Text
-                                    style={{
-                                        textAlign: 'center',
-                                        fontSize: 24
-                                    }}
-                                >
-                                    Your Score:
-                                </Text>
-                                <Text
-                                    style={{
-                                        textAlign: 'center',
-                                        fontSize: 36,
-                                        fontWeight: '500'
-                                    }}
-                                >
-                                    {score}/{data.questions.length}
-                                </Text>
+                                    <Text style={styles.result_encouragement}>
+                                        {perfectScore &&
+                                            "Impressive! You got a perfect score!"}
+                                        {score / data.questions.length >= 0.8 && score / data.questions.length < 1 &&
+                                            "Great job! You really know your stuff!"}
+                                        {score / data.questions.length < 0.8 && score / data.questions.length >= 0.5 &&
+                                            "Good effort! You're on the right track!"}
+                                        {score / data.questions.length < 0.5 && score / data.questions.length > 0 &&
+                                            "You can retake the quiz and improve your score!"}
+                                        {score / data.questions.length == 0 &&
+                                            "Don't give up! You can retake the quiz and try again!"}
+                                    </Text>
+                                </View>
+
+
                                 <View
                                     style={{
-                                        // backgroundColor: "lightpink",
                                         position: 'absolute',
                                         bottom: 0,
                                         marginBottom: 12 * 3,
                                         width: '100%',
                                     }}
                                 >
-                                    <View
-                                        style={{
-                                            alignContent: 'center',
-                                            justifyContent: 'center',
-                                        }}
-                                    >
-                                        <TouchableOpacity
-                                            style={{ ...styles.cta_button, marginBottom: 12 }}
-                                            onPress={() => redoQuiz()}
-                                        >
-                                            <Text
-                                                style={ styles.cta_text}
+                                    <View style={{ alignContent: 'center', justifyContent: 'center', }}>
+                                        {/* Only ask to retake the quiz if the user got a score less than 100% */}
+                                        {!perfectScore && (
+                                            <TouchableOpacity
+                                                style={{ ...styles.cta_button, marginBottom: 12, backgroundColor: "white", borderWidth: 2, borderColor: "#1e73d6" }}
+                                                onPress={() => redoQuiz()}
                                             >
-                                                Retake
-                                            </Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity
-                                            style={ styles.cta_button }
-                                            onPress={() => navigation.goBack()}
-                                        >
-                                            <Text
-                                                style={ styles.cta_text }
-                                            >
-                                                Go back
-                                            </Text>
+                                                <Text style={{ ...styles.cta_text, color: "#1e73d6" }}>Retake Quiz</Text>
+                                            </TouchableOpacity>
+                                        )}
+                                        <TouchableOpacity style={ styles.cta_button } onPress={() => navigation.goBack()}>
+                                            <Text  style={ styles.cta_text }>Finish</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>
                             </View>
+
                         ) : (
+
                             <View style={{height: '100%'}}>
-                                {/* <View
-                                    style={{
-                                        // backgroundColor: "orange",
-                                    }}
-                                >
-                                    <Text style={{textAlign: 'center', fontSize: 16}}>Score: {score}</Text>
-                                </View> */}
-
-                                {/* ProgressBar */}
-
-                                <View
-                                    style={{
-                                        // backgroundColor: "lightblue",
-                                        marginTop: 36
-                                    }}
+                                {/* Close button and exit modal */}
+                                <View style={{ position: 'relative' }}>
+                                    <TouchableOpacity
+                                        onPress={() => { setShowModal(true); }}
+                                        style={{ position: 'absolute', top: 0, right: 0, }}
                                     >
+                                        <Ionicons name="close-outline" size={30} color="black" />
+                                    </TouchableOpacity>
+
+                                    {showModal && (
+                                        <Modal
+                                            isVisible={showModal}
+                                            animationType="fade"
+                                            animationInTiming={1000}
+                                            animationOutTiming={1000}
+                                        >
+                                            <TouchableOpacity onPress={() => setVisibility(false)}/>
+                                            <View
+                                                style={{
+                                                    flex: 1,
+                                                    backgroundColor: 'white',
+                                                    borderRadius: 10,
+                                                    padding: 22,
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                }}
+                                            >
+                                                <Text style={{ fontSize: 22 }}>
+                                                    Are you sure you want to quit?
+                                                </Text>
+                                                <Text style={{ fontSize: 22, marginBottom: 24 }}>
+                                                    Your progress will be lost.
+                                                </Text>
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            setShowModal(false);
+                                                            navigation.goBack();
+                                                        }}
+                                                        style={{
+                                                            backgroundColor: '#74C69D',
+                                                            borderRadius: 12,
+                                                            padding: 12,
+                                                            paddingHorizontal: 48,
+                                                            marginRight: 36,
+                                                        }}
+                                                    >
+                                                        <Text style={{ color: Colors.primary.MINT_CREAM, fontSize: 18, fontWeight: '500' }}>Yes</Text>
+                                                    </TouchableOpacity>
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            setShowModal(false);
+                                                        }}
+                                                        style={{
+                                                            backgroundColor: 'white',
+                                                            borderRadius: 12,
+                                                            borderWidth: 2,
+                                                            borderColor: '#db2525',
+                                                            padding: 12,
+                                                            paddingHorizontal: 48,
+                                                        }}
+                                                    >
+                                                        <Text style={{ color: Colors.primary.RAISIN_BLACK, fontSize: 18, fontWeight: '500', color: '#db2525' }}>No</Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                            </View>
+                                        </Modal>
+                                    )}
+
+                                </View>
+
+                                <View style={{ marginTop: 36 }} >
                                     {/* Question */}
                                     {renderQuestion()}
                                 </View>
+
                                 <View
                                     style={{
-                                        // backgroundColor: "red",
                                         position: 'absolute',
                                         bottom: 0,
-                                        marginBottom: 12*14,
+                                        marginBottom: 12*10,
                                         width: '100%',
+                                        height: Dimensions.get('window').height/3,
                                     }}
                                 >
                                     {/* Answers */}
                                     {renderAnswers()}
                                 </View>
+
                                 <View
                                     style={{
-                                        // backgroundColor: "lightpink",
                                         position: 'absolute',
                                         bottom: 0,
                                         marginBottom: 12*3,
@@ -404,11 +377,7 @@ const QuizScreen = ({navigation, route}) => {
                                     }}
                                 >
                                     <View
-                                        style={{
-                                            alignContent: 'center',
-                                            justifyContent: 'center',
-                                            // marginHorizontal: Dimensions.get('window').width/5,
-                                        }}
+                                        style={{ alignContent: 'center', justifyContent: 'center', }}
                                     >
                                         {/* Submit Button */}
                                         {renderSubmitButton()}
@@ -427,45 +396,103 @@ const QuizScreen = ({navigation, route}) => {
 }
 
 styles = StyleSheet.create({
+    screen:{
+        backgroundColor: "#e3f7ff",
+        paddingTop: 12,
+        paddingHorizontal: 24,
+        height: '100%',
+    },
     question_container: {
         borderRadius: 16,
         paddingHorizontal: 12,
         paddingVertical: 24,
         height: Dimensions.get('window').height/3,
-        backgroundColor: 'rgba(247, 223, 197, 0.5)', //Same color as ALMOND, but half the opacity
+        width: '100%',
+        justifyContent: 'center',
+        backgroundColor: '#fff1c9',
     },
     question_counter: {
-        fontSize: 14,
+        fontSize: 16,
         color: Colors.primary.RAISIN_BLACK,
-        marginBottom: 12,
+    },
+    score_counter: {
+        fontSize: 16,
+        marginRight: 12*2,
+        color: Colors.primary.RAISIN_BLACK,
     },
     question_text: {
         fontWeight: '400',
+        textAlign: 'center',
         color: Colors.primary.RAISIN_BLACK,
     },
     answer_button: {
         borderRadius: 12,
         borderWidth: 2,
-        padding: 12,
+        height: 48,
+        justifyContent: 'center',
         marginVertical: 8,
     },
     answer_text: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: '500',
-        color: 'rgba(32, 27, 27, 0.9)',
+        color: Colors.primary.RAISIN_BLACK,
         textAlign: 'center',
     },
     cta_button: {
         borderRadius: 12,
-        padding: 12,
         backgroundColor: Colors.secondary.LIGHT_MINT,
+        height: 48,
+        justifyContent: 'center',
     },
     cta_text: {
-        fontSize: 18,
+        fontSize: 24,
         fontWeight: '500',
         textAlign: 'center',
-        color: Colors.primary.RAISIN_BLACK,
-    }
+        letterSpacing: 1, // add spacing between characters
+        color: Colors.primary.MINT_CREAM,
+    },
+    result_container: {
+        paddingHorizontal: 12,
+        paddingVertical: 24,
+        height: Dimensions.get('window').height/2.5,
+        width: '100%',
+        marginBottom: 12*14,
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        borderRadius: 16,
+        borderWidth: 4,
+        borderColor: '#1e73d6',
+    },
+    result_heading: {
+        textAlign: 'center',
+        fontSize: 32,
+        fontWeight: '400',
+        marginBottom: 4,
+    },
+    result_subheading: {
+        textAlign: 'center',
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 4,
+    },
+    result_score: {
+        textAlign: 'center',
+        fontSize: 64,
+        fontWeight: 'bold',
+        color: Colors.primary.MINT,
+        marginBottom: 16,
+    },
+    result_info: {
+        textAlign: 'center',
+        fontSize: 18,
+        fontWeight: '400',
+        marginBottom: 24,
+    },
+    result_encouragement: {
+        textAlign: 'center',
+        fontSize: 18,
+        fontWeight: '500',
+    },
 });
 
 export default QuizScreen;
