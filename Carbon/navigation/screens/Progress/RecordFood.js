@@ -58,7 +58,7 @@ const RecordFood = ({ navigation, route }) => {
   //memoize the fun fact so it doesn't change when the state variable changes
   const memoizedFunFact = useMemo(() => funFact, [funFact]);
 
-    // Call setTotalConsumption when the consumption state variables change
+  // Call setTotalConsumption when the consumption state variables change
   useEffect(() => {
     const newTotalConsumption = calcConsumption();
     console.log('total consumption: ', newTotalConsumption, 'lbs')
@@ -74,9 +74,7 @@ const RecordFood = ({ navigation, route }) => {
         diet_emissions:totalConsumption
     })
     }
-    
   }, [totalConsumption])
-
 
   return (
     <View style={styles.container}>
@@ -110,7 +108,6 @@ const RecordFood = ({ navigation, route }) => {
           onValueChange={(value) => setCheeseConsumption(value)}
           style={styles.picker}
           testID='cheese-picker'
-
         >
          {filteredWeights.map((weight) => (
             <Picker.Item
