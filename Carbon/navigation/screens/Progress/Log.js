@@ -87,8 +87,8 @@ export default function Log({ navigation }) {
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15,/*backgroundColor: Colors.primary.MINT*/ }}>
                 {/* Implements the log itself from ChartData.js */}
                 {data.every((num) => num === 0) ? (
-                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={{ fontSize: 18 }}>ERROR, not enough data for {whichLog[number]} log.</Text>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: windowHeight / 10}}>
+                                <Text style={{ fontSize: 18 }}>Not enough data for {whichLog[number]} log.</Text>
                                 <TouchableOpacity testID="record-emission-button" onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION)}>
                                     <View style={{ backgroundColor: Colors.primary.MINT, padding: 10, marginTop: 12, borderRadius: 12 }}>
                                         <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 14 }}>Add Emissions</Text>
@@ -103,7 +103,7 @@ export default function Log({ navigation }) {
                 {/*Additional formatting for the button */}
             </View>
 
-            <View style={{ bottom: 0, position: 'absolute', justifyContent: 'center', flexDirection: 'row', alignSelf: "center" }}>
+            <View style={{ padding: 10, bottom: 0, position: 'absolute', justifyContent: 'center', flexDirection: 'row', alignSelf: "center" }}>
                 <TouchableOpacity
                     style={{
                         backgroundColor: Colors.primary.MINT,
