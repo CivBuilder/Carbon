@@ -7,8 +7,6 @@ var UserEmissions = require('../models/UserEmissions.js'); //requires what we ne
 var user_table = require('../models/User.js');
 var passport = require('passport');
 var sequelize = require('sequelize');
-const User = require('../models/User.js');
-const UpdateScore = require('../utils/UpdateScore.js')
 /*********************
           GET
 **********************/
@@ -160,20 +158,21 @@ router.get('/:id', async function (req, res, next) {
 
 
 /**
-  GET request to retrieve user's emissions records for a specific year and month.
-  @function
-  @async
-  @param {Object} req - Express request object.
-  @param {Object} req.user - The authenticated user object.
-  @param {number} req.user.id - The user ID.
-  @param {Object} req.params - The URL parameters.
-  @param {string} req.params.yearMonth - The year and month in the format "YYYY-MM".
-  @param {Object} res - Express response object.
-  @returns {Promise<void>} - A promise that resolves with no value upon completion.
-*/
-router.get('/yearMonth/:yearMonth', passport.authenticate('jwt', { session: false }), async function (req, res) {
+  Retrieves a user's emissions for a given month.
+
+  @param {number} month - The month as a number (1-12).
+  @param {number} year - The year as a four-digit number (e.g., 2023).
+  @param {number} user_id - The ID of the user as an integer (e.g., 1, 5, 323).
+  @returns {Object[]} - An array of emissions records in JSON format.
+
+  @example
+  // Sample usage:
+  // GET /api/userEmissions/2023-4/323
+  // Returns an array of emissions records for user 323 in April 2023.
+ */
+router.get('/:yearMonth/:user_id', async function (req, res) {
   // Grab the user_id and month from the URL parameters
-  const userId = req.user.id; // retrieve the user_id from the authenticated user
+  const userId = req.params.user_id;
   const [currYear, currMonth] = req.params.yearMonth.split('-').map(str => parseInt(str));
 
   // Check if the user exists
@@ -253,28 +252,8 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
   for (const n of Object.values(req.body)) {
     if (n < 0) return res.status(400).send(`400 : bad request. No Negative Emissions`);
   }
-
-  //Validate if user has already posted once today
-  const now = new Date();
-  const todaysDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const nextDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-
-  const todaysEntries = await UserEmissions.findAll({
-    where : {
-      date : {
-        [Op.between] : [todaysDate, nextDay],
-      }
-    }
-  });
-
-  if (todaysEntries.some((entry) => entry.user_id === req.user.id))
-    return res.status(204).send(`User Entry already submitted today.`);
-
-  
-
-
   const today = new Date().toISOString().slice(0, 10);
-  
+
   await UserEmissions.create({
     user_id: req.user.id,                                 //Needs to change with sessions states
     date: sequelize.fn('STR_TO_DATE', today, '%Y-%m-%d'),
@@ -285,7 +264,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
     home_emissions: req.body.home_emissions
   });
 
-  await UpdateScore(req.user.id);
+  // await UpdateScore(req.user.id);
   return res.status(200).send("Data Successfully posted to Database.");
 });
 

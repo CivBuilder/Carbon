@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView, TouchableOpacity, Platform } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { Card } from 'react-native-elements';
-import { Colors } from '../../../styling/Colors';
+import { Colors } from '../../../colors/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import Log from '../Progress/Log';
 import { MonthlyFootprintChart } from '../../../components/MonthlyFootprintLineChart';
@@ -31,7 +31,7 @@ export default function HomeScreen({ navigation }) {
                             </View>
                         </View>
                         <View style={{ backgroundColor: "white", borderRadius: 16, padding: 10, height: 300 }}>
-                            <MonthlyFootprintLineChart navigation={navigation}/>
+                            <MonthlyFootprintChart navigation={navigation}/>
                         </View>
                     </View>
                 </View>

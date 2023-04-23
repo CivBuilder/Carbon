@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Switch} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import {Colors} from '../../../styling/Colors';
-import { ScreenNames } from '../Main/ScreenNames';
+import {Colors} from '../../../colors/Colors';
+import {API_URL} from '../../../config/Api';
+import { getToken } from '../../../util/LoginManager';
 
-
-const RecordRecycling = ({ navigation, route }) => {
-  const [emissionsEntry, setEmissionsEntry] = useState();
+const RecordRecycling = ({ navigation }) => {
   const [recycledAmount, setRecycledAmount] = useState(0);
   const [reusableBags, setReusableBags] = useState(false);
-  const [funFact, setFunFact] = useState('');
-
   const funFacts = [
     "Recycling one ton of paper saves 17 trees, 7,000 gallons of water, and 463 gallons of oil.",
     "Americans throw away enough aluminum to rebuild the entire commercial air fleet every three months.",
@@ -22,30 +19,33 @@ const RecordRecycling = ({ navigation, route }) => {
     const randomIndex = Math.floor(Math.random() * funFacts.length);
     return funFacts[randomIndex];
   }
-  //set the fun fact when the component mounts
-  useEffect(() => {
-    setFunFact(getRandomFunFact());
-  }, []);
-
-  //memoize the fun fact so it doesn't change when the state variable changes
-  const memoizedFunFact = useMemo(() => funFact, [funFact]);
-
-  //Update our parameter to send back when the consumption state variable changes 
-  useEffect(() => {
-    if(recycledAmount !== null)
-    setEmissionsEntry({
-        ...route.params.sentEmissionsEntry,
-        lifestyle_emissions : recycledAmount
-    })
-  }, [recycledAmount])
-  
-  
+  async function postRecycling() {
+    try {
+      const response = await fetch(`${API_URL}userEmissions`, {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+          'secrettoken': await getToken(),
+        },
+        body: JSON.stringify({
+          diet_emissions: 0,
+          transport_emissions: 0,
+          total_emissions: recycledAmount,
+          lifestyle_emissions: recycledAmount,
+          home_emissions: 0,
+        })
+      })
+      .then(navigation.goBack());
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.funfact}>
         <Text style={styles.header}>Did you know?</Text>
-        <Text style={styles.label}>{memoizedFunFact}</Text>
+        <Text style={styles.label}>{getRandomFunFact()}</Text>
       </View>
       <Text style={styles.label}>How many pounds did you recycle today?</Text>
       <Picker
@@ -66,7 +66,7 @@ const RecordRecycling = ({ navigation, route }) => {
           onValueChange={(value) => setReusableBags(value)}
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
+      <TouchableOpacity style={styles.button} onPress={postRecycling}>
         <Text style={styles.buttonText}>Save</Text>
       </TouchableOpacity>      
     </View>

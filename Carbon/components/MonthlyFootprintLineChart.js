@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import numeral from 'numeral';
 import { ActivityIndicator } from 'react-native';
 
-import { Colors } from '../styling/Colors';
+import { Colors } from '../colors/Colors';
 import { FetchMonthEmissions } from './FetchMonthEmissions';
 import { ScreenNames } from '../navigation/screens/Main/ScreenNames';
 // import { LoadingIndicator } from './LoadingIndicator';
@@ -30,14 +30,15 @@ const dummyData = [
     Calculates the total emissions data for a given month by fetching the data from the backend server.
 
     @param {string} yearMonth - The year and month (in 'YYYY-MM' format) for which to fetch the emissions data.
+    @param {function} setError - A callback function to set error in case of network request error.
     @returns {Promise<number>} - The total emissions data for the given month. Returns 0 if no data is fetched.
     @throws {Error} - If there is an error with the network request.
 */
-export async function getTotalData(yearMonth) {
+export async function getTotalData(yearMonth, setError) {
     try {
         // Fetch data from the backend server for the given month
         const fetched_data = await Promise.race([
-            FetchMonthEmissions(yearMonth),
+            FetchMonthEmissions(yearMonth, 338), // TODO: Change hard coded user_id
             new Promise((resolve, reject) => {
                 setTimeout(() => {
                     reject(new Error('Network request timed out'));
@@ -50,16 +51,18 @@ export async function getTotalData(yearMonth) {
             return 0;
         }
 
-        // Add up all the total emissions based on total_emissions and return the total
+        // Add up each individual data based on categories
         let totalEmissions = 0;
         fetched_data.forEach((data) => {
             totalEmissions += data.total_emissions;
         });
-        return totalEmissions;
 
-    } catch (error) {
+        return totalEmissions;
+    }
+    catch (error) {
         console.error(`getTotalData: ${error}`);
-        throw new Error(error);
+        setError(error);
+        return 0;
     }
 }
 
@@ -75,15 +78,12 @@ export async function getTotalData(yearMonth) {
 export const fetchTotalData = async (lastSixMonths, setData, setError) => {
     try {
         const requests = lastSixMonths.map(async (yearMonth) => {
-            const totalEmissions = await getTotalData(yearMonth);
-            if (totalEmissions.error) {
-                throw totalEmissions.error;
-            }
+            const totalEmissions = await getTotalData(yearMonth, setError);
 
             // Extract the month from yearMonth (YYYY-MM) and parse as string name with just the first 3 letters
-            const month = parseInt(yearMonth.split('-')[1], 10);
-            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            const monthName = monthNames[month - 1];
+            const [year, month] = yearMonth.split('-');
+            const date = new Date(year, month - 1, 1); // set to the last day of the month
+            const monthName = date.toLocaleString('default', { month: 'short' }).substring(4, 7);
 
             return { x: monthName, y: totalEmissions };
         });
@@ -154,7 +154,7 @@ export const setMaxDomain = (data) => {
     @param {number} tick - The value of the tick to format.
     @returns {string} - A string representing the tick value with a magnitude suffix.
 **/
-export function tickYFormat(tick) {
+export function tickFormat(tick) {
     // Check if tick is a number
     if (typeof tick !== 'number') {
         throw new TypeError('tick must be a number');
@@ -229,9 +229,9 @@ export const RenderPercentDifference = ({ percentDifference, percentColor }) => 
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             {percentDifference >= 0 ? (
-                <Ionicons testID="up-icon" name="caret-up" size={16} color={percentColor} style={{alignSelf: 'center', marginBottom: 9, marginRight: 4 }} />
+                <Ionicons name="caret-up" size={16} color={percentColor} style={{alignSelf: 'center', marginBottom: 9, marginRight: 4 }} />
             ) : (
-                <Ionicons testID="down-icon" name="caret-down" size={16} color={percentColor} style={{alignSelf: 'center', marginBottom: 9, marginRight: 4 }} />
+                <Ionicons name="caret-down" size={16} color={percentColor} style={{alignSelf: 'center', marginBottom: 9, marginRight: 4 }} />
             )}
             <Text
                 testID="percentDifferenceText"
@@ -253,7 +253,7 @@ export const RenderPercentDifference = ({ percentDifference, percentColor }) => 
     percentage difference from the previous month displayed above the chart.
     @return the rendered React component
 **/
-export const MonthlyFootprintLineChart = ({navigation}) => {
+export const MonthlyFootprintChart = ({navigation}) => {
     // State variables
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -300,7 +300,6 @@ export const MonthlyFootprintLineChart = ({navigation}) => {
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 {/* <LoadingIndicator loading={loading}/> */}
                 <ActivityIndicator
-                    testID="loading-indicator"
                     size="large"
                     color={Colors.primary.RAISIN_BLACK}
                     style={{
@@ -313,7 +312,7 @@ export const MonthlyFootprintLineChart = ({navigation}) => {
                         justifyContent: 'center',
                         alignItems: 'center',
                     }}
-                />
+                    testID="loading-indicator"/>
             </View>
         );
     }
@@ -322,11 +321,11 @@ export const MonthlyFootprintLineChart = ({navigation}) => {
     if (error) {
         return (
             <View
-                testID='network-error'
+                testID='error-message'
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 60}}
             >
-                <Text testID="network-error-label1" style={{ fontSize: 18, textAlign: 'center' }}>Unable to connect</Text>
-                <Text testID="network-error-label2" style={{ fontSize: 14, textAlign: 'center' }}>Please check your network settings and try again.</Text>
+                <Text style={{ fontSize: 18, textAlign: 'center' }}>Unable to connect</Text>
+                <Text style={{ fontSize: 14, textAlign: 'center' }}>Please check your network settings and try again.</Text>
             </View>
         );
     }
@@ -335,10 +334,10 @@ export const MonthlyFootprintLineChart = ({navigation}) => {
     if (!data || !Array.isArray(data) || data.length === 0) {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text testID="no-data-text" style={{ fontSize: 18 }}>No data found in the last 6 months.</Text>
-                <TouchableOpacity testID="record-emission-button" onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION)}>
+                <Text style={{ fontSize: 18 }}>No data found in the last 6 months.</Text>
+                <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION)}>
                     <View style={{ backgroundColor: Colors.primary.MINT, padding: 10, marginTop: 12, borderRadius: 12 }}>
-                        <Text testID="add-emission-text" style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 14 }}>Add Emissions</Text>
+                        <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 14 }}>Add Emissions</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -418,14 +417,13 @@ export const MonthlyFootprintLineChart = ({navigation}) => {
                                     fontWeight: "bold",
                                     fill: Colors.secondary.DARK_MINT,
                                 }}
-                                renderInPortal={false} //removes the warning error
                             />
                         }
                     />
 
                     {/* Renders the y-axis */}
                     <VictoryAxis dependentAxis
-                        tickFormat={tickYFormat}
+                        tickFormat={tickFormat}
                         tickCount={4}
                         style={{
                             axis: { stroke: "none" },

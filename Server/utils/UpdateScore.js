@@ -7,11 +7,6 @@ var user_table = require('../models/User.js')
 //Prevent overflow in MySQL DB 
 const MAX_SCORE = 100_000_000
 
-/**
- * 
- * @param {Number} ID  
- * @returns - No value returned, instead will update database based on recorded emissions 
- */
 async function UpdateScore(ID) {
     
     //get total_emissions, the only valid one is today. and the next earliest one
@@ -46,65 +41,11 @@ async function UpdateScore(ID) {
 
 
     //shorthand
-    let goal_bonus = calculateGoalBonus(user.goal);
-    let score_offset = 0; 
-    let login_bonus = 0.10; 
-    let newScores = [user.global_score, user.transport_score, user.lifestyle_score, user.diet_score, user.home_score];
-
-    let individualEmissions = 
-        [
-            emission_entries[0].total_emissions, emission_entries[0].transport_emissions, 
-            emission_entries[0].lifestyle_emissions, emission_entries[0].diet_emissions, 
-            emission_entries[0].home_emissions    
-        ]
+    let globalScore = user.global_score;
+    let goal = user.goal;
+    let goal_bonus = 0;
 
 
-    //Check if youre track for your yearly carbon emissions
-    if(emission_entries[0].total_emissions*365 <= projected_emissions) {
-        score_offset = 500*(1+login_bonus+goal_bonus);
-    }
-    else {
-        score_offset -= 300*(1-login_bonus);    
-    }
-
-    //Let each emission 
-    for(let i = 0; i < newScores.length; i++) {
-        if(i == 0) {
-            newScores[i]+=score_offset;
-        }
-        else{
-            newScores[i]+=score_offset*(1-(individualEmissions[i]/individualEmissions[0]));
-        }
-    
-        if(newScores[i] < 0) newScores[i] = 0;
-        if(newScores[i] > MAX_SCORE) newScores[i] = MAX_SCORE;
-    }
-    
-    await user_table.update(
-        {
-            global_score : newScores[0],
-            transport_score : newScores[1],
-            lifestyle_score: newScores[2],
-            diet_score : newScores[3], 
-            home_score : newScores[4] 
-        },
-        { where : { id : ID}}
-    );
-
-}
-
-
-
-
-/**
- * 
- * @param {Number} goal - goal set by user - Can be null
- * @param {Array} emission_entries - a collection of at max, the two previous emission entries
- * @returns - Goal bonus, which checks to see if a user has a goal, will return the percentage 
- *            of the goal met]
- */
-function calculateGoalBonus(goal, emission_entries) {
-    let goal_bonus = 0; 
 
     //get their previous emmissions only if they have a goal, and they
     //have an emission in the db to count
@@ -122,7 +63,31 @@ function calculateGoalBonus(goal, emission_entries) {
         }
     }
 
-    return goal_bonus;
+
+
+    //TODO : Bring up adding a streak of logins into the user db table  
+    let login_bonus = 0.10;
+
+    //Check if youre track for your yearly carbon emissions
+    if(emission_entries[0].total_emissions*365 <= projected_emissions) {
+        globalScore += 500*(1+login_bonus+goal_bonus);
+    }
+    else {
+        globalScore -= 300*(1-login_bonus);    
+        if(globalScore < 0) globalScore = 0;
+    }
+
+    //Todo : Make function logarithmic after reaching level 50/30 - Will ask team which one would be preferred 
+    
+
+    //Put in table
+    if(globalScore > MAX_SCORE) globalScore = MAX_SCORE; //prevent overflow in the DB, Cut a little short but just 
+
+    await user_table.update(
+        {global_score : globalScore}, 
+        { where : { id : ID}}
+    );
 
 }
+
 module.exports = UpdateScore

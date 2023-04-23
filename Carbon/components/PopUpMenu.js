@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { IconNames } from '../navigation/screens/Main/IconNames';
 import { ScreenNames } from '../navigation/screens/Main/ScreenNames';
-import { Colors } from '../styling/Colors';
+import { Colors } from '../colors/Colors';
 
 
 export const PopUpMenu = ({navigation}) => {
