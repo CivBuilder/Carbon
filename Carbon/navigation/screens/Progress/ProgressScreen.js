@@ -6,7 +6,6 @@ import RecordEmission from './RecordEmission';
 import { TouchableOpacity } from 'react-native';
 import { ScreenNames } from '../Main/ScreenNames';
 import Log from '../Progress/Log';const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 const margin = 10;
 
 export default function ProgressScreen({ navigation }) {
@@ -28,11 +27,10 @@ export default function ProgressScreen({ navigation }) {
                     </View>
                 </View>
                 <View style={styles.container}>
-                        <View style={{ backgroundColor: "white",  borderRadius: 16, height: windowHeight / 2, padding: 10 }}>
 
-                            <Log></Log>
+                            <Log navigation={navigation}></Log>
 
-                    </View></View>
+                    </View>
                 <View>
                     {/* <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.ADD_GOAL)}
                         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

@@ -1,9 +1,13 @@
-import { View, Text, TouchableOpacity, StyleSheet, Pressable } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Pressable, Dimensions} from "react-native";
 import { DailyLog } from "../../../components/ChartData";
 import React, { useState, useEffect } from 'react';
 import { Colors } from '../../../colors/Colors';
 import GetData from "./GetData";
+import { ScreenNames } from '../Main/ScreenNames';
+
 import PredictInput from "../../../calculations/PredictInput.js";
+const windowHeight = Dimensions.get("window").height;
+
 /*
     Log function, it can get todays, yesterdays, weekly or monthly data
     It's purpose is to display to the user their relevant data in an easy to see way and let them track their progress
@@ -12,8 +16,8 @@ import PredictInput from "../../../calculations/PredictInput.js";
 
 
 
-export default function Log() {
-    PredictInput();
+export default function Log({ navigation }) {
+    //  PredictInput();
     const whichLog = ["Today's", "Yesterday's", "Weekly", "Monthly"]; //String list for displaying
     const [number, setNumber] = useState(0);  //A state hook to set which area we are time frame we look at. 
     //0 = "Today", 1= "Yesterday's" etc etc.
@@ -68,7 +72,7 @@ export default function Log() {
     };
     //our rendering
     return (
-        <View>
+        <View style={{  backgroundColor: "white",  borderRadius: 16, height: windowHeight / 2, padding: 10 }}> 
             <View style={styles.header}>
 
                 <Text style={styles.title}>{whichLog[number]} Log</Text>
@@ -83,45 +87,54 @@ export default function Log() {
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15,/*backgroundColor: Colors.primary.MINT*/ }}>
                 {/* Implements the log itself from ChartData.js */}
                 {data.every((num) => num === 0) ? (
-                    <Text style={{ fontSize: 28 }} >ERROR, not enough data for {whichLog[number]} log.
-                    Please add data for today.</Text>
-                ) :(
+                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{ fontSize: 18 }}>ERROR, not enough data for {whichLog[number]} log.</Text>
+                                <TouchableOpacity testID="record-emission-button" onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION)}>
+                                    <View style={{ backgroundColor: Colors.primary.MINT, padding: 10, marginTop: 12, borderRadius: 12 }}>
+                                        <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 14 }}>Add Emissions</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                
+                   
+                ) : (
                     <DailyLog dataArray={data}></DailyLog>
                 )}
                 {/*Additional formatting for the button */}
-                <View style={{ justifyContent: 'center', flexDirection: 'row', }}>
-                    <TouchableOpacity
-                        style={{
-                            backgroundColor: Colors.primary.MINT,
-                            borderRadius: 5,
-                            flex: 1,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            margin: margin,
-                        }}
-                        testID = "left-click"
-                        
-                        onPress={handleChangeLeft}
-                    >{/* handle left*/}
-                        {/* More formatting*/}
-                        <Text style={{ color: 'white', fontSize: 26 }}>{' <-'}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
+            </View>
+
+            <View style={{ bottom: 0, position: 'absolute', justifyContent: 'center', flexDirection: 'row', alignSelf: "center" }}>
+                <TouchableOpacity
+                    style={{
+                        backgroundColor: Colors.primary.MINT,
+                        borderRadius: 5,
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        margin: margin,
+                    }}
+                    testID="left-click"
+
+                    onPress={handleChangeLeft}
+                >{/* handle left*/}
+                    {/* More formatting*/}
+                    <Text style={{ color: 'white', fontSize: 26 }}>{' <-'}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
                     testID="right-click"
-                        style={{
-                            backgroundColor: Colors.primary.MINT,
-                            borderRadius: 5,
-                            flex: 1,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            margin: margin,
-                        }}
-                        onPress={handleChangeRight}
-                    >{/* Handle right*/}
-                        {/* more button formatting*/}
-                        <Text style={{ justifyContent: 'center', color: 'white', fontSize: 26 }}>{' ->'}</Text>
-                    </TouchableOpacity>
-                </View>
+                    style={{
+                        backgroundColor: Colors.primary.MINT,
+                        borderRadius: 5,
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        margin: margin,
+                    }}
+                    onPress={handleChangeRight}
+                >{/* Handle right*/}
+                    {/* more button formatting*/}
+                    <Text style={{ justifyContent: 'center', color: 'white', fontSize: 26 }}>{' ->'}</Text>
+                </TouchableOpacity>
             </View>
         </View>
     )
