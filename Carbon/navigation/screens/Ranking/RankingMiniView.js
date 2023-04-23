@@ -38,12 +38,15 @@ export default function MiniRanking({userScores}) {
 
 /**
  * Menial function to use across both the main and mini versions of the ranking screen 
- * @param {Number} rank - Value to return the string 
+ * @param {Number} rank - Value to return the correctly formatted placementstring 
  * @returns 
  */
 function formatRankText(rank) {
 
-  
+    //11th, 12th, ... edge case.
+    if(Math.floor(rank/10) % 10 === 1)
+        return rank+"th";
+
     switch(rank % 10) {
         case 1: 
             return rank+"st";
