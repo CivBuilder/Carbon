@@ -30,7 +30,7 @@ const SettingsScreen = ({ navigation }) => {
                 <Text style={styles.generalText}>Change username</Text>
                 <UsernameInput testID="usernameInput" onChangeText={un => setUsername(un)} />
             </View>
-            <ChangeUsernameButton onPress={() => handleUsernameChange()} />
+            <ChangeUsernameButton onPress={async() => await handleUsernameChange()} />
 
             {/* Change password */}
             <View style={styles.content}>
@@ -39,7 +39,7 @@ const SettingsScreen = ({ navigation }) => {
                 <PasswordInput text="Old Password" testID="OldPassword" onChangeText={pw => setOldPassword(pw)} />
                 <PasswordInput text="New Password" testID="NewPassword" onChangeText={pw => setNewPassword(pw)} />
             </View>
-            <ChangePasswordButton onPress={() => handlePasswordChange()} />
+            <ChangePasswordButton onPress={async () => await handlePasswordChange()} />
 
             {/* Logout */}
             <View style={styles.content}>
