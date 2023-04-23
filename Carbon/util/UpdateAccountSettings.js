@@ -1,6 +1,6 @@
 import { validatePassword } from "./LoginManager";
 import { API_URL } from "../config/Api";
-import { getToken, getAuthHeader } from "./LoginManager";
+import { getToken } from "./LoginManager";
 
 const API_CHANGE_USERNAME_URL = API_URL + 'user/changeUsername/';
 const API_CHANGE_PASSWORD_URL = API_URL + 'user/changePassword/';
@@ -16,13 +16,28 @@ export async function changeUsername(username) {
     })
         .then(response => response.text())
         .then(data => console.log(data))
-        .catch(error => console.error(error));
+        .catch(error => alert(error));
 }
 
 export async function changePassword(oldPassword, newPassword) {
     // make sure new password matches regex
     if (!validatePassword(newPassword)) {
-        console.log("Password does not meet requirements. Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character ($,%,&,*,@,!).");
+        // Define the error messages
+        const errors = [
+            "Password must fulfill these requirements:",
+            "Must be at least 8 characters long",
+            "Must contain at least one uppercase letter",
+            "Must contain at least one lowercase letter",
+            "Must contain at least one number",
+            "Must contain at least one special character ($,%,&,*,@,!)"
+        ];
+
+        // Build the error message string
+        const errorMessage = errors.join("\n");
+
+        // Show the error message in a popup
+        alert(errorMessage);
+
         return false;
     }
 
@@ -37,5 +52,5 @@ export async function changePassword(oldPassword, newPassword) {
     })
         .then(response => response.text())
         .then(data => console.log(data))
-        .catch(error => console.error(error));
+        .catch(error => alert(error));
 }

@@ -168,7 +168,6 @@ router.post('/quiz', passport.authenticate('jwt', { session: false }), async fun
             id: req.user.id
         }
     });
-    console.log(":) ")
     if (!user_entry) {
         console.log("Sending error code 404. No match found");
         return res.status(404).send(`404 : user with ${req.user.id} not found`);

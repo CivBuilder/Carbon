@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import UsernameInput from '../../../components/UsernameInput';
 import PasswordInput from '../../../components/PasswordInput';
-import { Colors } from '../../../colors/Colors';
+import { Colors } from '../../../styling/Colors';
 import { logout } from '../../../util/LoginManager';
 import ChangeUsernameButton from '../../../components/ChangeUsernameButton';
 import ChangePasswordButton from '../../../components/ChangePasswordButton';
@@ -30,7 +30,7 @@ const SettingsScreen = ({ navigation }) => {
                 <Text style={styles.generalText}>Change username</Text>
                 <UsernameInput testID="usernameInput" onChangeText={un => setUsername(un)} />
             </View>
-            <ChangeUsernameButton onPress={async() => await handleUsernameChange()} />
+            <ChangeUsernameButton onPress={async () => await handleUsernameChange()} />
 
             {/* Change password */}
             <View style={styles.content}>
