@@ -3,7 +3,7 @@ import Swiper from 'react-native-swiper';
 import { Card } from 'react-native-elements';
 import { Colors } from '../../../colors/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
-import Log from './Log';
+import Log from '../Progress/Log';
 import { MonthlyFootprintChart } from '../../../components/MonthlyFootprintLineChart';
 
 // =====================
@@ -35,13 +35,7 @@ export default function HomeScreen({ navigation }) {
                         </View>
                     </View>
                 </View>
-                <View style={styles.container}>
-                        <View style={{ backgroundColor: "white",  borderRadius: 16, height: windowHeight / 2, padding: 10 }}>
-
-                            <Log></Log>
-
-                            {/*Please put this where it belongs once home is finished :) */}
-                    </View></View>
+       
                 {/******* RANKINGS *******/}
                 <View>
                     <View style={styles.container}>

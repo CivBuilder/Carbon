@@ -3,6 +3,7 @@ import { DailyLog } from "../../../components/ChartData";
 import React, { useState, useEffect } from 'react';
 import { Colors } from '../../../colors/Colors';
 import GetData from "./GetData";
+import PredictInput from "../../../calculations/PredictInput.js";
 /*
     Log function, it can get todays, yesterdays, weekly or monthly data
     It's purpose is to display to the user their relevant data in an easy to see way and let them track their progress
@@ -12,6 +13,7 @@ import GetData from "./GetData";
 
 
 export default function Log() {
+    PredictInput();
     const whichLog = ["Today's", "Yesterday's", "Weekly", "Monthly"]; //String list for displaying
     const [number, setNumber] = useState(0);  //A state hook to set which area we are time frame we look at. 
     //0 = "Today", 1= "Yesterday's" etc etc.
@@ -72,7 +74,7 @@ export default function Log() {
                 <Text style={styles.title}>{whichLog[number]} Log</Text>
                 {/* Will display the log as well as some text next to it*/}
 
-                <Text>Units: lb's CO2e</Text>
+                <Text>Units: lb's CO2</Text>
                 {/* Displays our units used */}
 
             </View>
@@ -81,8 +83,8 @@ export default function Log() {
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15,/*backgroundColor: Colors.primary.MINT*/ }}>
                 {/* Implements the log itself from ChartData.js */}
                 {data.every((num) => num === 0) ? (
-                    <Text style={{ fontSize: 32 }} >ERROR, not enough data for {whichLog[number]} log.
-                    Please click left or right.</Text>
+                    <Text style={{ fontSize: 28 }} >ERROR, not enough data for {whichLog[number]} log.
+                    Please add data for today.</Text>
                 ) :(
                     <DailyLog dataArray={data}></DailyLog>
                 )}
@@ -98,7 +100,7 @@ export default function Log() {
                             margin: margin,
                         }}
                         testID = "left-click"
-
+                        
                         onPress={handleChangeLeft}
                     >{/* handle left*/}
                         {/* More formatting*/}

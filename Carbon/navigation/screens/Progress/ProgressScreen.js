@@ -5,8 +5,7 @@ import { CategoryChart, KeyFactors } from '../../../components/ChartData';
 import RecordEmission from './RecordEmission';
 import { TouchableOpacity } from 'react-native';
 import { ScreenNames } from '../Main/ScreenNames';
-
-const windowWidth = Dimensions.get("window").width;
+import Log from '../Progress/Log';const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const margin = 10;
 
@@ -28,6 +27,12 @@ export default function ProgressScreen({ navigation }) {
                         <CategoryChart navigation={navigation} />
                     </View>
                 </View>
+                <View style={styles.container}>
+                        <View style={{ backgroundColor: "white",  borderRadius: 16, height: windowHeight / 2, padding: 10 }}>
+
+                            <Log></Log>
+
+                    </View></View>
                 <View>
                     {/* <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.ADD_GOAL)}
                         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

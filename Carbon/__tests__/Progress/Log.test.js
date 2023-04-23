@@ -2,7 +2,7 @@ import React from 'react';
 
 
 import { fireEvent, render, waitFor, act } from '@testing-library/react-native';
-import Log from '../../../../navigation/screens/Home/Log';
+import Log from '../../navigation/screens/Progress/Log.js';
 const testData = [[100, 200, 300, 400, 500], [500, 545, 100, 555, 100], [100, 200, 300, 400, 500], [800, 200, 750, 600, 500]];
 global.fetch = jest.fn(() => Promise.resolve({
   json: () => Promise.resolve(testData)
