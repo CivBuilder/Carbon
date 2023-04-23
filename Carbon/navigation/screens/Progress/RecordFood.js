@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import {Colors} from '../../../colors/Colors';
+import {Colors} from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import calcBeef  from '../../../calculations/food_calculations/calcBeef'
 import calcCheese from '../../../calculations/food_calculations/calcCheese'

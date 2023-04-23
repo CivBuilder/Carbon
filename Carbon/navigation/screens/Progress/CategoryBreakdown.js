@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
-import { VictoryPie } from 'victory-native';
-import { Colors } from '../colors/Colors';
-import { FetchMonthEmissions } from './FetchMonthEmissions';
-import { ScreenNames } from '../navigation/screens/Main/ScreenNames';
-import LoadingIndicator from './LoadingIndicator';
+import { Colors } from '../../../styling/Colors';
+import { FetchMonthEmissions } from '../../../components/FetchMonthEmissions';
+import { ScreenNames } from '../Main/ScreenNames';
+import LoadingIndicator from '../../../components/LoadingIndicator';
+import CategoryChart from './CategoryChart';
+import KeyFactors from './KeyFactors';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -151,7 +152,7 @@ export const getSelectedLabel = (selectedSlice, data) => {
             );
         }
 **/
-export const CategoryChart = ({navigation}) => {
+export const CategoryBreakdown = ({navigation}) => {
     // State variables
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
@@ -212,66 +213,11 @@ export const CategoryChart = ({navigation}) => {
         );
     }
 
-    // Components for the pie chart
-    const pieRadius = (windowWidth - (margin * 2)) * 0.4;
-    const innerRadius = pieRadius * 0.65;
-    const labelRadius = ((pieRadius + innerRadius) / 2);
-
-    // Renders the actual pie chart if everything is working properly
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginVertical: -40 }}>
-            <VictoryPie
-                data={data}
-                colorScale={["#5D5FEF", "#FF8C00", "#3CB371", "#FF69B4"]}
-                padAngle={2}
-                radius={pieRadius}
-                innerRadius={innerRadius}
-                cornerRadius={6}
-                labelRadius={labelRadius}
-                labels={({ datum }) => getLabel(datum, total)}
-                style={{
-                    labels: {
-                        fill: "white",
-                        fontSize: 12,
-                        fontWeight: "bold",
-                        textAnchor: "middle",
-                        verticalAnchor: "middle",
-                    },
-                }}
-                events={[{
-                    target: 'data',
-                    eventHandlers: {
-                        onPressIn: handlePress,
-                    },
-                },]}
-                animate={{ duration: 500, ease: "exp" }}
-                selected={[selectedSlice]}
-            />
-            <View
-                style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    position: 'absolute',
-                }}
-            >
-                {/* Displays the current month in the center of the pie chart */}
-                <View style={{ paddingBottom: 5 }}>
-                    <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: 'bold', textDecorationLine: 'underline' }}>{currMonthString}</Text>
-                </View>
-
-                {/* Displays the category and its value under the month */}
-                {selectedSlice == null && ( // A slice has not yet selected
-                    <View style={{ }}>
-                        <Text style={{ textAlign: 'center', fontSize: 16 }}>Click a section</Text>
-                        <Text style={{ textAlign: 'center', fontSize: 16 }}>to learn more</Text>
-                    </View>
-                )}
-                {selectedSlice !== null && ( // A slice has been selected
-                    <View style={{ }}>
-                        <Text style={{ textAlign: 'center', fontSize: 16 }}>{getSelectedLabel(selectedSlice, data)}</Text>
-                    </View>
-                )}
-            </View>
-        </View>
-    );
+  // Renders the actual pie chart if everything is working properly
+  return (
+    <>
+      <CategoryChart data={data} />
+      <KeyFactors data={data} />
+    </>
+  );
 };
