@@ -161,16 +161,17 @@ Put new Quiz result
         "score" : number // this is to be a percentage of what the user got correct
     }
 */ 
-router.post('/quiz/:id', async function(req, res, next) {
+router.post('/quiz', passport.authenticate('jwt', { session: false }), async function (req, res) {
     // //Just refactor this to a helper function
     const user_entry = await user_table.findOne({
         where : {
-            id : req.params.id
+            id : req.user.id
         }
     });
+    console.log(":) ")
     if(!user_entry) {
         console.log("Sending error code 404. No match found");
-        return res.status(404).send(`404 : user with ${req.params.id} not found`);
+        return res.status(404).send(`404 : user with ${req.user.id} not found`);
     }
     //Make sure body has a percentage for their score that was correct
     if( (typeof req.body.score) != "number") { 
@@ -183,7 +184,7 @@ router.post('/quiz/:id', async function(req, res, next) {
     //increase score based on the percentage of the questions right
     await user_table.update(
         {global_score : user_entry.global_score+(req.body.score)}, 
-        { where : { id : req.params.id}}
+        { where : { id : req.user.id}}
     );
 
     return res.sendStatus(200);

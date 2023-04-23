@@ -1,85 +1,140 @@
 import {View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { React, useState } from 'react';
+import { React, useCallback, useEffect } from 'react';
 import { ScreenNames } from '../Main/ScreenNames';
-import { Colors } from '../../../colors/Colors';
-
-export default function RecordEmissionScreen({navigation}) {
+import { useState } from 'react';
+import {API_URL} from '../../../config/Api';
+import { getToken } from '../../../util/LoginManager';
+export default function RecordEmissionScreen({navigation, route}) {
   
+  //Default value for the final submission that we post to the server
+  const [emissionsEntry, setEmissionsEntry] = useState({
+        transport_emissions : 0, 
+        total_emissions : 0,
+        lifestyle_emissions : 0, 
+        diet_emissions : 0, 
+        home_emissions : 0
+  });
+
+  //When we get a "returningEmissionsEntry", which is returned by the category screens, we update our own
+  //EmissionsEntry state variable to reflect the new update. Originally passing the stateSetter was planned
+  //But we get warnings about possible bugs, so we're passing by value and not changing state.
+  useEffect(() => { 
+    if(route.params?.returningEmissionsEntry){
+      console.log(route.params.returningEmissionsEntry)
+      setEmissionsEntry(route.params.returningEmissionsEntry);
+    }
+  }, [route.params]);
+
+
+  //Posts the results, on a successfull post it will leave the screen
+  async function postResults() { 
+    try{
+      //for conciseness, emissionsEntry total is just the sum of the others
+      let e = emissionsEntry; 
+      emissionsEntry.total_emissions = e.diet_emissions + e.home_emissions + e.lifestyle_emissions + e.transport_emissions
+
+      //Check if at least one emission was entered
+      if(emissionsEntry.total_emissions === 0 ) throw new Error(`Please Upload at least one Emission Category`);
+
+      //post emission to server
+      const response = await fetch(`${API_URL}userEmissions`, {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+          'secrettoken': await getToken(),
+        },
+        body : JSON.stringify(emissionsEntry)
+      });
+      //exit screen on successful request
+      if(response.status === 200) {
+        console.log("Successful Post!");
+        navigation.goBack();
+      }
+      //if second post for the day - alert and also go back
+      else if(response.status === 204){
+        alert(`You can only upload results once a day :(`);
+        navigation.goBack(); 
+      }
+      //Alert on bad request - should only see on testing 
+      else if(response.status === 404){
+        throw new Error(`Client ID Not Found`);
+      }
+    } catch(err) {
+      alert(err.message)
+    }
+  }
+
+
+
+
   return (
     <View style={styles.centeredView}>
-      <View style={styles.titleView}>
-        <Text style={styles.title}>
-          Choose a category to record today's carbon emissions:
-        </Text>
-      </View>
       <View style={styles.modalView}>  
-        <TouchableOpacity style={styles.categoryTile} onPress={() => {
-            navigation.navigate(ScreenNames.FOOD_SCREEN)
+        <TouchableOpacity onPress={() => {
+            navigation.navigate(ScreenNames.FOOD, {sentEmissionsEntry : emissionsEntry})
         }}>
-          <Icon name="cutlery" size={30} color={Colors.secondary.ALMOND} style={styles.icon} testID="cutlery-icon"/>
-          <Text style={styles.categoryText}>Diet</Text>
+          <Icon name="cutlery" size={40} color="#201B1B" style={styles.icon} testID="cutlery-icon"/>
         </TouchableOpacity> 
-        <TouchableOpacity style={styles.categoryTile} onPress={() => {
-            navigation.navigate(ScreenNames.TRANSPORTATION_SCREEN)
+        <TouchableOpacity onPress={() => {
+            navigation.navigate(ScreenNames.TRANSPORTATION, {sentEmissionsEntry : emissionsEntry})
         }}>
-          <Icon name="car" size={30} color={Colors.secondary.NON_PHOTO_BLUE} style={styles.icon} testID="car-icon" />
-          <Text style={styles.categoryText}>Transportation</Text>
+          <Icon name="car" size={40} color="#201B1B" style={styles.icon} testID="car-icon" />
         </TouchableOpacity> 
-        <TouchableOpacity style={styles.categoryTile} onPress={() => {
-            navigation.navigate(ScreenNames.RECYCLING_SCREEN)
+        <TouchableOpacity onPress={() => {
+            navigation.navigate(ScreenNames.RECYCLING, {sentEmissionsEntry : emissionsEntry})
         }}>
-          <Icon name="recycle" size={30} color={Colors.secondary.DARK_MINT} style={styles.icon} testID="recycle-icon" />
-          <Text style={styles.categoryText}>Recycling</Text>
+          <Icon name="recycle" size={40} color="#201B1B" style={styles.icon} testID="recycle-icon" />
         </TouchableOpacity> 
+        <TouchableOpacity
+          onPress={() => {postResults()}}
+        >
+          <Icon name="cloud-upload" size={40} color="#201B1B" style={styles.icon} testID="save-and-exit-icon" />
+        </TouchableOpacity>
       </View>
+          
     </View>
   )
 }
 const styles = StyleSheet.create({
   centeredView: {
       flex: 1,
-      alignItems: 'center',
-      justifyContent: 'space-evenly',
-      backgroundColor: Colors.primary.MINT_CREAM,
-    },
-    titleView: {
       justifyContent: 'center',
       alignItems: 'center',
-      width: '100%',
-      backgroundColor: Colors.primary.MINT,
+      justifyContent: 'flex-end',
+      backgroundColor: '#D8F3DC',
     },
-    title: {
-      paddingVertical: 10,
-      fontSize: 24,
-      textAlign: 'center',
-      color: Colors.primary.MINT_CREAM,
-    },
+
     modalView: {
-      backgroundColor: Colors.primary.MINT_CREAM,
+      backgroundColor: '#D8F3DC',
       alignItems: 'center',
-      width: '90%',
     },
-    categoryTile: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      width: '90%',
-      backgroundColor: Colors.primary.MINT_CREAM,
-      margin: 10,
-      padding: 20,
-      borderColor: Colors.primary.MINT,
+    modal: {
+      backgroundColor: '#D8F3DC',
+    },
+    modalText: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 20,
+    },
+  button: {
+      borderRadius: 4,
       borderWidth: 2,
-      borderRadius: 50,
+      borderColor: 'black',
+      padding: 10,
+      margin: 10,
+      elevation: 2,
+      width: 120,
+    },
+
+    modalText: {
+      marginBottom: 15,
+      textAlign: 'center',
     },
     icon: {
-      padding: 10,
-      backgroundColor: Colors.secondary.ROSE_TAUPE,
-      borderRadius: 10,
-    },
-    categoryText: {
-      fontSize: 20,
-      color: Colors.secondary.ROSE_TAUPE,
+      marginHorizontal: 20,
+      padding: 20,
+
     },
   
 })

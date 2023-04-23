@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Slider } from 'react-native';
-import { Colors } from '../../../colors/Colors';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import Slider from '@react-native-community/slider';
+import { Colors } from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import { API_URL } from '../../../config/Api';
+import { getToken } from '../../../util/LoginManager';
 
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 const margin = 10;
+const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
+const API_GOAL_URL = API_URL + 'goal';
 
 export default function GoalSetter({ navigation }) {
   const [goal, setGoal] = useState(0);
@@ -16,11 +18,12 @@ export default function GoalSetter({ navigation }) {
     setGoal(roundedValue);
   };
 
-  const saveGoalToDatabase = () => {
-    fetch(API_URL + 'goal', {
+  const saveGoalToDatabase = async () => {
+    fetch(API_GOAL_URL, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'secrettoken': await getToken(),
       },
       body: JSON.stringify({ goal: goal })
     })
@@ -36,7 +39,6 @@ export default function GoalSetter({ navigation }) {
           <Text style={styles.sliderText}>This month, I will lower my emissions by:</Text>
           <Text style={styles.sliderPercentage} testID="sliderPercentage">{goal}%</Text>
         </View>
-        {/* Change to not deprecated slider */}
         <Slider
           style={{ width: 200, height: 40 }}
           minimumValue={0}
@@ -47,6 +49,9 @@ export default function GoalSetter({ navigation }) {
           onValueChange={handleValueChange}
           testID="slider"
         />
+        {/* TODO: add in pounds cut per month once Miguel's chart PR is in */}
+        {/* <Text style={styles.sliderSubText}>That's X pounds of CO2 compared to last month.</Text> */}
+        <NonBreakingSpace />
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={() => { saveGoalToDatabase(); navigation.navigate(ScreenNames.PROGRESS); }}>
@@ -78,6 +83,12 @@ const styles = StyleSheet.create({
   },
   sliderText: {
     fontSize: 20,
+    fontWeight: 'bold',
+    color: Colors.primary.RAISIN_BLACK,
+    textAlign: 'center',
+  },
+  sliderSubText: {
+    fontSize: 17,
     fontWeight: 'bold',
     color: Colors.primary.RAISIN_BLACK,
     textAlign: 'center',

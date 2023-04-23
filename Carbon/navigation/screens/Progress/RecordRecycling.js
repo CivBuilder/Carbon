@@ -1,19 +1,52 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Switch} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import {Colors} from '../../../colors/Colors';
+import {Colors} from '../../../styling/Colors';
+import { ScreenNames } from '../Main/ScreenNames';
 
-const RecordRecycling = ({ navigation }) => {
+
+const RecordRecycling = ({ navigation, route }) => {
+  const [emissionsEntry, setEmissionsEntry] = useState();
   const [recycledAmount, setRecycledAmount] = useState(0);
   const [reusableBags, setReusableBags] = useState(false);
+  const [funFact, setFunFact] = useState('');
 
-  const handleSave = () => {
-    // Code to post data to the user's database
-    navigation.goBack();
-  };
+  const funFacts = [
+    "Recycling one ton of paper saves 17 trees, 7,000 gallons of water, and 463 gallons of oil.",
+    "Americans throw away enough aluminum to rebuild the entire commercial air fleet every three months.",
+    "Recycling plastic saves twice as much energy as burning it in an incinerator.",
+    "In 2018, the US generated 292.4 million tons of municipal solid waste, of which only 69 million tons were recycled.",
+    "Recycling electronics helps to conserve natural resources and reduces greenhouse gas emissions caused by the manufacturing of new electronics."
+  ];
+  function getRandomFunFact() {
+    const randomIndex = Math.floor(Math.random() * funFacts.length);
+    return funFacts[randomIndex];
+  }
+  //set the fun fact when the component mounts
+  useEffect(() => {
+    setFunFact(getRandomFunFact());
+  }, []);
+
+  //memoize the fun fact so it doesn't change when the state variable changes
+  const memoizedFunFact = useMemo(() => funFact, [funFact]);
+
+  //Update our parameter to send back when the consumption state variable changes 
+  useEffect(() => {
+    if(recycledAmount !== null)
+    setEmissionsEntry({
+        ...route.params.sentEmissionsEntry,
+        lifestyle_emissions : recycledAmount
+    })
+  }, [recycledAmount])
+  
+  
 
   return (
     <View style={styles.container}>
+      <View style={styles.funfact}>
+        <Text style={styles.header}>Did you know?</Text>
+        <Text style={styles.label}>{memoizedFunFact}</Text>
+      </View>
       <Text style={styles.label}>How many pounds did you recycle today?</Text>
       <Picker
         selectedValue={recycledAmount}
@@ -33,7 +66,7 @@ const RecordRecycling = ({ navigation }) => {
           onValueChange={(value) => setReusableBags(value)}
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={handleSave}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
         <Text style={styles.buttonText}>Save</Text>
       </TouchableOpacity>      
     </View>
@@ -85,5 +118,19 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       fontSize: 16,
     },
-    
+    funfact: {
+      backgroundColor: Colors.primary.MINT_CREAM,
+      borderRadius: 8,
+      padding: 10,
+      flex: 2/3,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: 60,
+      width: '90%',
+    },
+    header: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      marginBottom: 10,
+    }
   });

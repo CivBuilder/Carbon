@@ -14,4 +14,9 @@ export const ScreenNames = {
     RECYCLING_SCREEN: 'Recycling',
     LOGIN: 'Login',
     SIGNUP: 'Signup',
+    RECORD_EMISSION: 'Track your Emissions',
+    FOOD: 'Food',
+    RECYCLING: 'Recycling',
+    TRANSPORTATION: 'Transportation',
+    QUESTIONNAIRE: "Questionnaire",
 };

@@ -1,17 +1,18 @@
-import { useState, useEffect} from 'react';
-import { StatusBar, Image, TouchableOpacity, SafeAreaView, Platform } from 'react-native';
+import React, { useState, useEffect} from 'react';
+import { StatusBar, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
-import { Colors } from '../../../colors/Colors';
+import { Colors } from '../../../styling/Colors';
 import { IconNames } from './IconNames';
-import { PopUpMenu } from '../../../components/PopUpMenu';
+
 import { ScreenNames } from './ScreenNames';
 
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen } from '../../screens';
+import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen, FoodScreen, TransportationScreen, RecyclingScreen, RecordEmissionScreen} from '../../screens';
 import { getToken, setRenderCallback } from '../../../util/LoginManager';
+import { PopUpMenu } from '../../../components/PopUpMenu';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -36,7 +37,7 @@ const HomeStack = ({ navigation }) => {
         <Stack.Navigator>
             <Stack.Screen
                 name={' '}
-                component={Screens.HomeScreen}
+                component={HomeScreen}
                 options={{
                     headerShown: true,
                     headerStyle: {
@@ -65,7 +66,9 @@ const HomeStack = ({ navigation }) => {
                     ),
                 }}
             />
-            <Stack.Screen name={ScreenNames.SETTINGS} component={Screens.SettingsScreen} />
+            <Stack.Screen name={ScreenNames.SETTINGS} component={SettingsScreen} />
+            {/* TODO: Change this to Record Emissions */}
+            <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={RecordEmissionScreen} />
         </Stack.Navigator>
     );
 };
@@ -76,7 +79,7 @@ const ProgressStack = ({ navigation }) => {
         <Stack.Navigator>
             <Stack.Screen
                 name={'Your Progress'}
-                component={Screens.ProgressScreen}
+                component={ProgressScreen}
                 options={{
                     headerShown: true,
                     headerStyle: {
@@ -84,15 +87,15 @@ const ProgressStack = ({ navigation }) => {
                     },
                     headerTitleAlign: 'center',
                     headerRight: () => (
-                        <PopUpMenu navigation={navigation} />
+                        <PopUpMenu navigation={navigation}/>
                     ),
                 }}
             />
-            {<Stack.Screen name={ScreenNames.ADD_GOAL} component={Screens.GoalScreen} />}
-            {<Stack.Screen name={ScreenNames.RECORD_EMISSION} component={Screens.RecordEmissionScreen} />}
-            {<Stack.Screen name={ScreenNames.FOOD_SCREEN} component={Screens.FoodScreen} />}
-            {<Stack.Screen name={ScreenNames.TRANSPORTATION_SCREEN} component={Screens.TransportationScreen} />}
-            {<Stack.Screen name={ScreenNames.RECYCLING_SCREEN} component={Screens.RecyclingScreen} />}
+            <Stack.Screen name={ScreenNames.ADD_GOAL} component={GoalScreen} />
+            <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={RecordEmissionScreen} />
+            <Stack.Screen name={ScreenNames.FOOD} component={FoodScreen} />
+            <Stack.Screen name={ScreenNames.TRANSPORTATION} component={TransportationScreen} />
+            <Stack.Screen name={ScreenNames.RECYCLING} component={RecyclingScreen} />
 
         </Stack.Navigator>
     );
@@ -104,14 +107,14 @@ const ForumStack = ({ navigation }) => {
         <Stack.Navigator>
             <Stack.Screen
                 name={' '}
-                component={Screens.ForumScreen}
+                component={ForumScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
                 }}
             />
             <Stack.Screen
                 name={'Quiz'}
-                component={Screens.QuizScreen}
+                component={QuizScreen}
                 options={{
                     // headerShown: false, // Set to false for now until we need to implement headers for this screen
                     headerShown: true,
@@ -119,7 +122,7 @@ const ForumStack = ({ navigation }) => {
             />
             <Stack.Screen
                 name={'Browser'}
-                component={Screens.BrowserScreen}
+                component={BrowserScreen}
                 options={{
                     // headerShown: false, // Set to false for now until we need to implement headers for this screen
                     headerShown: true,
@@ -135,7 +138,7 @@ const RankingStack = ({ navigation }) => {
         <Stack.Navigator>
             <Stack.Screen
                 name={' '}
-                component={Screens.RankingScreen}
+                component={RankingScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
                 }}
@@ -156,7 +159,6 @@ const LoginStack = ({ navigation}) => {
                 component={LoginScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
-                    
                 }}
             />
             <Stack.Screen
@@ -233,7 +235,7 @@ export default function MainContainer(){
     );
 };
 
-    
+
 const screenOptions = ({ route }) => ({
     tabBarIcon: ({ color, size }) => {
         let iconName;
