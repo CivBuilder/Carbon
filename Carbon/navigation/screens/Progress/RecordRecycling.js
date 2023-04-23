@@ -110,7 +110,7 @@ const RecordRecycling = ({ navigation, route }) => {
         <Text style={styles.label}>{memoizedFunFact}</Text>
       </View>
       <Text style={styles.header}>Log the amount of each material you recycled today</Text>
-        <Text style={styles.label} >Paper</Text>
+        <Text style={styles.pickerHeader} >Paper</Text>
         <Picker
           selectedValue={paperAmount}
           onValueChange={(value) => setPaperAmount(value)}
@@ -124,7 +124,7 @@ const RecordRecycling = ({ navigation, route }) => {
             />
           ))}
         </Picker>
-        <Text>Plastic</Text>
+        <Text style={styles.pickerHeader}>Plastic</Text>
         <Picker
           selectedValue={plasticAmount}
           onValueChange={(value) => setPlasticAmount(value)}
@@ -138,7 +138,7 @@ const RecordRecycling = ({ navigation, route }) => {
             />
           ))}
         </Picker>
-        <Text>Glass</Text>
+        <Text style={styles.pickerHeader}>Glass</Text>
         <Picker
           selectedValue={glassAmount}
           onValueChange={(value) => setGlassAmount(value)}
@@ -152,7 +152,7 @@ const RecordRecycling = ({ navigation, route }) => {
             />
           ))}
         </Picker>
-        <Text>Metal</Text>
+        <Text style={styles.pickerHeader}>Metal</Text>
         <Picker
           selectedValue={metalAmount}
           onValueChange={(value) => setMetalAmount(value)}
@@ -227,5 +227,9 @@ const styles = StyleSheet.create({
       fontSize: 20,
       fontWeight: 'bold',
       marginBottom: 10,
-    }
+    },
+    pickerHeader: {
+      fontWeight: 'bold',
+      fontSize: 16,
+    },
   });

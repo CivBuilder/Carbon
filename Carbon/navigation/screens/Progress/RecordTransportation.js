@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   },
   picker: {
     width: '50%',
-    marginBottom: 20,
+    marginBottom: 10,
     color: Colors.primary.RAISIN_BLACK,
   },
   switchContainer: {
