@@ -44,7 +44,7 @@ export async function login(username, password) {
         );
 
         if (response.status != 200) {
-            console.log('login failed, TODO: handle this in ui somehow');
+            alert('Login failed, please try again.');
             return false;
         }
 
@@ -57,17 +57,27 @@ export async function login(username, password) {
 }
 
 export async function signup(username, password, confirm) {
-    console.log(username, password, confirm);
-
-    //TODO:Handle error logging on front end instead of console.log
-
     if (password != confirm || username === "" || password === "") {
-        console.log("Passwords do not match, or empty TODO: handle this in the UI");
+        alert("Passwords do not match, or fields are empty.");
         return false;
     }
 
-    if(!validatePassword(password)) {
-        console.log("Password does not meet requirements. Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character ($,%,&,*,@,!).");
+    if (!validatePassword(password)) {
+        // Define the error messages
+        const errors = [
+            "Password must fulfill these requirements:",
+            "Must be at least 8 characters long",
+            "Must contain at least one uppercase letter",
+            "Must contain at least one lowercase letter",
+            "Must contain at least one number",
+            "Must contain at least one special character ($,%,&,*,@,!)"
+        ];
+
+        // Build the error message string
+        const errorMessage = errors.join("\n");
+
+        // Show the error message in a popup
+        alert(errorMessage);
         return false;
     }
 
