@@ -234,7 +234,7 @@ const QuizScreen = ({navigation, route}) => {
                                         }}
                                     >{Math.round(score / data.questions.length * 100)}%</Text>
 
-                                    <Text style={styles.result_info}>You answered {score} out of {data.questions.length} correctly.</Text>
+                                    <Text style={styles.result_info}>{`You answered ${score} out of ${data.questions.length}\nquestions correctly.`}</Text>
 
                                     <Text style={styles.result_encouragement}>
                                         {perfectScore &&
