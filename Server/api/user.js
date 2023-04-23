@@ -4,6 +4,7 @@ var router = express.Router();
 var user_table = require('../models/User.js');
 const sequelize = require('../utils/Database.js');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -211,10 +212,9 @@ router.get('/testrank', passport.authenticate('jwt', { session: false }), async 
 })
 
 // UPDATE USER SETTINGS
-
-// Check if username is already in use
-router.get('/checkUsername', passport.authenticate('jwt', { session: false }), async function (req, res) {
-    const username = req.query.username;
+router.put('/changeUsername', passport.authenticate('jwt', { session: false }), async function (req, res) {
+    // check if the username already exists in the DB
+    let { username } = req.body;
     const user = await user_table.findOne({
         where: {
             username: username
@@ -224,67 +224,64 @@ router.get('/checkUsername', passport.authenticate('jwt', { session: false }), a
     // below line is equivalent to user ? true : false
     const usernameExists = !!user;
 
-    res.status(200).json(usernameExists);
-})
+    // if username not already in use, change it
+    if (!usernameExists) {
+        const userId = req.user.id;
 
+        try {
+            const user = await user_table.findOne({ where: { id: userId } });
+            if (!user) {
+                return res.status(404).json({ error: 'User not found' });
+            }
 
-router.put('/changeUsername', passport.authenticate('jwt', { session: false }), async function (req, res) {
-    let { username } = req.body;
-    const userId = req.user.id;
-
-    try {
-        const user = await User.findOne({ where: { id: userId } });
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+            await user.update({ username });
+            res.status(200).json({
+                'content': 'Username updated'
+            });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Server error' });
         }
-
-        await user.update({ username });
-        res.status(200).json({
-            'content': 'Username updated'
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error' });
-    }
-});
-
-router.put('/checkPassword', passport.authenticate('jwt', { session: false }), async function (req, res) {
-    const userId = req.user.id;
-    let { password } = req.body;
-    const passwordChecker = await user_table.findOne({
-        where: {
-            id: userId,
-            password: password,
-        }
-    });
-
-    if (passwordChecker) {
-        // password matches and user found.
-        res.status(200).json(true);
-    }
-    else {
-        // password does not match
-        res.status(200).json(false);
+    } else {
+        res.status(500).json({ error: 'Username already use.' });
     }
 });
 
 router.put('/changePassword', passport.authenticate('jwt', { session: false }), async function (req, res) {
-    let { password } = req.body;
+    let { newPassword, oldPassword } = req.body;
     const userId = req.user.id;
 
-    try {
-        const user = await User.findOne({ where: { id: userId } });
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+    const user = await user_table.findOne({
+        where: {
+            id: userId,
         }
+    });
 
-        await user.update({ password: password });
-        res.status(200).json({
-            'content': 'Password updated'
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error' });
+    if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+    }
+
+    const passwordChecker = await bcrypt.compare(oldPassword, user.password);
+
+    // below line is equivalent to user ? true : false
+    const correctPassword = !!passwordChecker;
+
+    if (correctPassword) {
+        try {
+            const salt = await bcrypt.genSaltSync(10, 'a');
+            const saltedPassword = bcrypt.hashSync(newPassword, 10);
+
+            await user.update({ password: saltedPassword });
+            res.status(200).json({
+                'content': 'Password updated'
+            });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Server error' });
+        }
+    }
+    else {
+        res.status(500).json({ error: `Password doesn't match our records.` });
     }
 });
 
