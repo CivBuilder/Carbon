@@ -14,7 +14,6 @@ const QuizScreen = ({route}) => {
 
     //gets all content from quizcontent
     const fetchData = async() => {
-        console.log('goop');
         console.log("Fetching data for quizcontent");
         try{
         const response = await fetch(API_URL + "quiz/" + route.params.id)
