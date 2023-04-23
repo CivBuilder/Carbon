@@ -3,6 +3,7 @@ var passport = require('passport');
 var router = express.Router();
 var user_table = require('../models/User.js');
 const sequelize = require('../utils/Database.js');
+const {Op} = require('sequelize');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -193,22 +194,47 @@ router.post('/quiz', passport.authenticate('jwt', { session: false }), async fun
 
 // Example of getting rank instead using JWT in the GET requests header
 // By passing in passport.authenticate('jwt"...) as the second arg we are able to reference req.user
-router.get('/testrank', passport.authenticate('jwt', { session: false }), async function (req, res, next) {
-    const rank = await user_table.findOne({
-        where: {
-            id: req.user.id
+
+router.get('/rank', passport.authenticate('jwt', { session: false }), async function(req, res, next) {
+    
+    const userScores = await user_table.findOne({
+        where : {
+            id : req.user.id
+
         },
         attributes: [
             [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.global_score > user.global_score) + 1'), 'ranking'],
-            'sustainability_score'
-        ]
+            'sustainability_score',
+            'avatar_index',
+            'global_score',
+        ],
+        
     });
-    if (!rank) {
+
+    if(!userScores) {
+
         console.log("Sending error code 404. No match found");
         return res.status(404).send(`404 : user with ${req.params.id} not found`);
     }
-    console.log(rank);
-    res.status(200).json(rank)
+    
+    //Get the score of the score of the user who is one rank above you
+    users = await user_table.findAll({
+        where : {
+            global_score : { 
+                [Op.gt] : userScores.dataValues.global_score,
+            }
+        },
+        order : [['global_score', 'ASC']]
+    })
+
+    if(users.length == 0) {
+        userScores.dataValues.nextRankScore = userScores.dataValues.global_score;
+    }
+    else {
+        userScores.dataValues.nextRankScore = users[0].dataValues.global_score;
+    }
+
+    res.status(200).json(userScores)
 })
 
 // UPDATE USER SETTINGS
