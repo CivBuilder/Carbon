@@ -1,8 +1,8 @@
-import {Colors} from "../../../colors/Colors";
+
 import {StyleSheet, Text, View, Image} from 'react-native';
 import { SustainabilityScoreProfileView } from '../../../util/SustainabilityScoreProfileView';
 import RankProgressBar from '../../../components/ProgressBar.js';
-
+import { Colors } from '../../../styling/Colors.js';
 
 export default function MiniRanking({userScores}) {
     if(userScores != null){ 
@@ -64,9 +64,7 @@ const styles = StyleSheet.create({
     miniRankContainer : { 
       flex : 1,
       flexDirection : 'row',
-      // backgroundColor : "black",
       justifyContent : 'center',
-      marginBottom : 12,
     },
   
     profileImageContainer :{
@@ -111,7 +109,7 @@ const styles = StyleSheet.create({
     titleText : { 
       color: Colors.primary.RAISIN_BLACK,
       fontWeight: 'bold',
-      fontSize : 28,
+      fontSize: 28,
       flex : 1,
       // backgroundColor : 'red',
       textAlignVertical : 'center',

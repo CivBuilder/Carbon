@@ -195,7 +195,7 @@ router.post('/quiz', passport.authenticate('jwt', { session: false }), async fun
 
 // Example of getting rank instead using JWT in the GET requests header
 // By passing in passport.authenticate('jwt"...) as the second arg we are able to reference req.user
-router.get('/testrank', passport.authenticate('jwt', { session: false }), async function(req, res, next) {
+router.get('/rank', passport.authenticate('jwt', { session: false }), async function(req, res, next) {
     
     const userScores = await user_table.findOne({
         where : {

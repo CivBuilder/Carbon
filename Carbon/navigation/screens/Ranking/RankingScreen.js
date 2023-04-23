@@ -11,7 +11,7 @@ const PAGE_SIZE = 15;
 
 //Constants - These are to be removed and placed entirely when we build a user session
 
-const API_Entry_RANK_URL = API_URL + "user/testrank/";
+const API_Entry_RANK_URL = API_URL + "user/rank/";
 const API_Entry_LEADERBOARD_URL = API_URL + "user/leaderboard/";
 
 

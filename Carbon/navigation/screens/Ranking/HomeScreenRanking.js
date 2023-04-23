@@ -6,12 +6,14 @@ import { API_URL } from '../../../config/Api';
 import { getAuthHeader } from '../../../util/LoginManager';
 import MiniRanking from './RankingMiniView';
 
-const API_Entry_RANK_URL = API_URL + "user/testrank/";
+const API_Entry_RANK_URL = API_URL + "user/rank/";
 
 
 export default function HomeScreenRanking() {
 
+  
     const [userScores, setUserScores] = useState(null);
+
     const [error, setErrorMessage] = useState(false);    
     const [loading, setLoading] = useState(false);
 
@@ -21,7 +23,7 @@ export default function HomeScreenRanking() {
     }, []);
 
     return (
-      <View>
+      <View style= {{height : 160}}>
         <MiniRanking userScores={userScores}/>
         <LoadingIndicator loading={loading}/>
       </View>

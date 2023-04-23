@@ -1,6 +1,6 @@
 import {View, StyleSheet, Animated, Dimensions, Text} from 'react-native';
 import React from 'react';
-import { Colors } from '../colors/Colors';
+import { Colors }   from '../styling/Colors.js';
 import { useEffect } from 'react';
 import { useLayoutEffect, useRef } from 'react';
 

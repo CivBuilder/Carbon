@@ -5,28 +5,31 @@ export const SustainabilityScoreProfileView = [
         picture : require("../assets/rank-icons/rank-icon-1.png")
     },
     {
-        title : "Climate Change Denier",
+        title : "Pollution Boss",
         picture : require("../assets/rank-icons/rank-icon-1.png")
     },
     {
-        title : "Sustainability Saboteur",
+        title : "Planet Polluter",
+        picture : require("../assets/rank-icons/rank-icon-1.png")
+    },
+    {
+        title : "Fossil Fueled",
         picture : require("../assets/rank-icons/rank-icon-2.png")
     },
     {
-        title : "Planet Polluter",
+        title : "Carbon Rookie",
         picture : require("../assets/rank-icons/rank-icon-2.png")
     },
-    
     {
         title : "Carbon Neutral",
         picture : require("../assets/rank-icons/rank-icon-3.png")
     },
     {
-        title : "Climate Conscious",
+        title : "Carbon Cadet",
         picture : require("../assets/rank-icons/rank-icon-3.png")
     },
     {
-        title : "Renewable Energy Enthusiast",
+        title : "Eco-Conscious",
         picture : require("../assets/rank-icons/rank-icon-4.png")
     },
     {
@@ -34,7 +37,7 @@ export const SustainabilityScoreProfileView = [
         picture : require("../assets/rank-icons/rank-icon-4.png")
     },
     {
-        title : "Sustainability Titan",
+        title : "Climate Savior",
         picture : require("../assets/rank-icons/rank-icon-5.png")
     },
     {
