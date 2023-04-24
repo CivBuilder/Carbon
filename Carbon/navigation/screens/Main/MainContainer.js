@@ -10,7 +10,6 @@ import { IconNames } from './IconNames';
 
 import { ScreenNames } from './ScreenNames';
 
-<<<<<<< HEAD
 import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen, FoodScreen, TransportationScreen, RecyclingScreen, RecordEmissionScreen} from '../../screens';
 import StartScreen from '../Questionnaire/Start';
 import DietScreen from '../Questionnaire/QuestionDiet';
@@ -22,8 +21,6 @@ import MileageScreen from '../Questionnaire/QuestionMileage';
 import PublicTransportScreen from '../Questionnaire/QuestionPublicTransport';
 import FinishedScreen from '../Questionnaire/Finished';
 
-=======
->>>>>>> 8fef78ad094dd50c88468404d708d5467b1297fc
 import { getToken, setRenderCallback } from '../../../util/LoginManager';
 import { PopUpMenu } from '../../../components/PopUpMenu';
 
