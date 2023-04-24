@@ -14,11 +14,12 @@ const {width} = Dimensions.get('window');
  */
 export default function RankProgressBar({progress, total}) {
 
+    const ratio = progress === total ? 1 : progress/total;
 
     const initWidth = useRef(new Animated.Value(0)).current;
     useEffect (() => {
         Animated.spring(initWidth, {
-            toValue : progress/total*width*2/3.3,
+            toValue : ratio*width*2/3.3,
             bounciness : 10,
             speed : 2,
             useNativeDriver : false
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
         flex : 0.25,
     },
     progressBar : {
-        backgroundColor : Colors.secondary.LIGHT_MINT,
+        backgroundColor : Colors.secondary.DARK_MINT,
         width : 0, 
         height : 10, 
         borderRadius : 15,
