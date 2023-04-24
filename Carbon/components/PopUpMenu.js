@@ -19,7 +19,7 @@ export const PopUpMenu = ({navigation}) => {
             title: 'Record Emissions',
             icon: 'checkmark-circle-outline',
             action: () => {
-                navigation.navigate(ScreenNames.RECORD_EMISSION) 
+                navigation.navigate(ScreenNames.RECORD_EMISSION)
             }
         },
         {

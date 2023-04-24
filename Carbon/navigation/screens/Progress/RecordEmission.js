@@ -20,7 +20,7 @@ export default function RecordEmissionScreen({navigation, route}) {
   //EmissionsEntry state variable to reflect the new update. Originally passing the stateSetter was planned
   //But we get warnings about possible bugs, so we're passing by value and not changing state.
   useEffect(() => { 
-    if(route.params?.returningEmissionsEntry){
+    if(route.params?.returningEmissionsEntry && route.params !== undefined){
       console.log(route.params.returningEmissionsEntry)
       setEmissionsEntry(route.params.returningEmissionsEntry);
     }
@@ -65,12 +65,9 @@ export default function RecordEmissionScreen({navigation, route}) {
     }
   }
 
-
-
-
   return (
     <View style={styles.centeredView}>
-      <View style={styles.modalView}>  
+      <View style={styles.modalView} testID='modal-view'>  
         <TouchableOpacity onPress={() => {
             navigation.navigate(ScreenNames.FOOD, {sentEmissionsEntry : emissionsEntry})
         }}>
@@ -88,8 +85,9 @@ export default function RecordEmissionScreen({navigation, route}) {
         </TouchableOpacity> 
         <TouchableOpacity
           onPress={() => {postResults()}}
+          testID="save-and-exit-icon"
         >
-          <Icon name="cloud-upload" size={40} color="#201B1B" style={styles.icon} testID="save-and-exit-icon" />
+          <Icon name="cloud-upload" size={40} color="#201B1B" style={styles.icon}  />
         </TouchableOpacity>
       </View>
           
