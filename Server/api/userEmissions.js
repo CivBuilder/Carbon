@@ -211,34 +211,31 @@ router.get('/yearMonth/:yearMonth', passport.authenticate('jwt', { session: fals
 });
 
 /**
-  Retrieves a user's total emissions for a given month.
-
-  @param {string} month - The non-case sensitive name of the month in full (e.g. January, march, APRIL).
-  @param {number} user_id - The ID of the user as an integer (e.g. 1, 5, 323).
-  @returns {Object} - All data in JSON format.
-  @example GET http://{link to the AWS}/api/userEmissions/April/323
+  Retrieves a user's total emissions for the previous month for goal setting.
 **/
 router.post('/previousMonthEmissions', passport.authenticate('jwt', { session: false }), async function (req, res) {
-  // Grab the user_id and month from the URL parameters
   const userId = req.user.id;
 
+  // set up the date range from a month ago to today
   const now = new Date();
   const lastMonth = moment(now).subtract(1, 'month').format('YYYY-MM-DD');
-  const yesterday = moment(now).subtract(1, 'day').format('YYYY-MM-DD');
+  const today = moment(now).format('YYYY-MM-DD');
 
   // Find data based on user_id and given month
   const records = await UserEmissions.findAll({
     where: {
       [Op.and]: [
         { user_id: userId },
-        { date: { [Op.between]: [lastMonth, yesterday] } }
+        { date: { [Op.between]: [lastMonth, today] } }
       ]
     },
     attributes: ['total_emissions'] // Only select the total_emissions column
   });
 
+  // means this is a new user, show 0 pounds of CO2
   if (records.length === 0) {
-    return res.status(200).json(0);
+    const records = [{ total_emissions: 0 }];  // create a new array with the total_emissions column
+    return res.status(200).json(records);
   }
 
   return res.status(200).json(records);
