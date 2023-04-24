@@ -44,7 +44,7 @@ const Tab = createBottomTabNavigator();
     Just add the function name on the import on top.
 */
 
-const QuestionnaireStack = (props,{navigation}) =>{
+const QuestionnaireStack = ({route,navigation}) =>{
     return(
     <Stack.Navigator
     initialRouteName="GetStarted"
@@ -57,7 +57,7 @@ const QuestionnaireStack = (props,{navigation}) =>{
         <Stack.Screen name="q4a" component={VehicleTypeScreen}/>
         <Stack.Screen name="q4b" component={MileageScreen}/>
         <Stack.Screen name="q4c" component={PublicTransportScreen}/>
-        <Stack.Screen name="finished" component={FinishedScreen} initialParams={{confirmQuestionnaire: props.confirmQuestionnaire}}/>
+        <Stack.Screen name="finished" component={FinishedScreen} initialParams={{confirmQuestionnaire: route.params?.setIsSignedIn}}/>
     </Stack.Navigator>
     )
 }
@@ -183,7 +183,8 @@ const RankingStack = ({ navigation }) => {
 
 
 // Login screen stack navigation & header
-const LoginStack = ({ navigation}) => {
+const LoginStack = (props,{navigation}) => {
+
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -191,6 +192,9 @@ const LoginStack = ({ navigation}) => {
                 component={LoginScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
+                }}
+                initialParams={{
+                    setIsSignedIn:props.confirmSignup
                 }}
             />
             <Stack.Screen
@@ -200,15 +204,22 @@ const LoginStack = ({ navigation}) => {
                     headerShown: false,
                 }}
             />
+            <Stack.Screen
+                name={ScreenNames.QUESTIONNAIRE}
+                component={QuestionnaireStack}
+                options={{
+                    headerShown:false,
+                }}
+                initialParams={{
+                    setIsSignedIn:props.confirmSignup
+                }}
+            />
         </Stack.Navigator>
     );
 };
 
 export default function MainContainer(){
     const [isSignedIn, setIsSignedIn] = useState(false);
-    //TODO: CHECK CACHE FOR QUESTIONNAIRE DATA?
-    //TODO: ADD FINAL DATA TO BACKEND
-    const [hasQuestionnaireData,setHasQuestionnaireData] = useState(false);
     // In order to rerender the maincontainer on signin, we gotta callback and update the state
     setRenderCallback(setIsSignedIn);
 
@@ -261,9 +272,8 @@ export default function MainContainer(){
                             />
                         </Tab.Navigator>
                     </>
-            ) : hasQuestionnaireData ? (
-                <LoginStack></LoginStack>
-            ) : (<QuestionnaireStack confirmQuestionnaire={setHasQuestionnaireData}></QuestionnaireStack>)}
+            ) : (<LoginStack confirmSignup={setIsSignedIn}></LoginStack>)
+            }
             </NavigationContainer>
         </SafeAreaView>
     );
