@@ -19,7 +19,7 @@ export default function GoalSetter({ navigation }) {
   };
 
   const saveGoalToDatabase = async () => {
-    fetch(API_GOAL_URL, {
+    await fetch(API_GOAL_URL, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
