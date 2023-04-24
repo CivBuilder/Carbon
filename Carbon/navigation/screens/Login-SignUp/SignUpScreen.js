@@ -1,9 +1,12 @@
 import { View, Text , StyleSheet, Image, KeyboardAvoidingView} from 'react-native'
 import React from 'react'
 import SignUpButton from '../../../components/SignUpButton'
+import UsernameInput from '../../../components/UsernameInput'
 import EmailInput from '../../../components/EmailInput'
 import PasswordInput from '../../../components/PasswordInput'
 import LoginNavButton from '../../../components/LoginNavButton'
+import { Colors } from '../../../styling/Colors'
+import { ScreenNames } from '../Main/ScreenNames'
 import { useState } from 'react'
 import { signup } from '../../../util/LoginManager'
 
@@ -24,6 +27,7 @@ const SignUpScreen = ({navigation}) => {
         <Image source={{ uri: 'https://i.ibb.co/s9Kfh8p/carbon-logo.png'}} style={{width: 200, height: 100}} testID="image"/>
       </View>
       <KeyboardAvoidingView behavior= 'height' style={styles.content}>
+        <UsernameInput testID="usernameInput" />
         <EmailInput testID="emailInput" onChangeText={(un) => setUsername(un)}/>
         <PasswordInput text="Password" testID="passwordInput" onChangeText={(pw) => setPassword(pw)}/>
         <PasswordInput text="Confirm Password" testID="confirmPasswordInput" onChangeText={(cf) => setConfirm(cf)}/>
@@ -31,7 +35,7 @@ const SignUpScreen = ({navigation}) => {
       <SignUpButton onPress={() => handleSignUp()} />
       <View style={styles.loginTextWrapper}>
         <Text style={styles.loginText}>Already have an account?</Text>
-        <LoginNavButton onPress={() => console.log("login pressed")} />
+        <LoginNavButton onPress={() => {navigation.navigate(ScreenNames.LOGIN)}} />
       </View>
     </View>
   )
@@ -40,7 +44,7 @@ const SignUpScreen = ({navigation}) => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#F7FCF8',
+      backgroundColor: Colors.primary.MINT_CREAM,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -55,8 +59,8 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     loginText: {
-      color: '#74C69D',
-      fontFamily: 'sans-serif',
+      color: Colors.primary.MINT,
+      // fontFamily: 'sans-serif',
     },
 })
 
