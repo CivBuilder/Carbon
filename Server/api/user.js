@@ -3,7 +3,9 @@ var passport = require('passport');
 var router = express.Router();
 var user_table = require('../models/User.js');
 const sequelize = require('../utils/Database.js');
+const {Op} = require('sequelize');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 /* GET users listing. */
 router.get('/', passport.authenticate('jwt', { session: false }), async function (req, res, next) {
@@ -130,16 +132,15 @@ Put new Quiz result
     {
         "score" : number // this is to be a percentage of what the user got correct
     }
-*/ 
+*/
 router.post('/quiz', passport.authenticate('jwt', { session: false }), async function (req, res) {
     // //Just refactor this to a helper function
     const user_entry = await user_table.findOne({
-        where : {
-            id : req.user.id
+        where: {
+            id: req.user.id
         }
     });
-    console.log(":) ")
-    if(!user_entry) {
+    if (!user_entry) {
         console.log("Sending error code 404. No match found");
         return res.status(404).send(`404 : user with ${req.user.id} not found`);
     }
@@ -153,8 +154,8 @@ router.post('/quiz', passport.authenticate('jwt', { session: false }), async fun
 
     //increase score based on the percentage of the questions right
     await user_table.update(
-        {global_score : user_entry.global_score+(req.body.score)}, 
-        { where : { id : req.user.id}}
+        { global_score: user_entry.global_score + (req.body.score) },
+        { where: { id: req.params.id } }
     );
 
     return res.sendStatus(200);
@@ -164,29 +165,53 @@ router.post('/quiz', passport.authenticate('jwt', { session: false }), async fun
 
 // Example of getting rank instead using JWT in the GET requests header
 // By passing in passport.authenticate('jwt"...) as the second arg we are able to reference req.user
-router.get('/testrank', passport.authenticate('jwt', { session: false }), async function (req, res, next) {
-    const rank = await user_table.findOne({
-        where: {
-            id: req.user.id
+
+router.get('/rank', passport.authenticate('jwt', { session: false }), async function(req, res, next) {
+    
+    const userScores = await user_table.findOne({
+        where : {
+            id : req.user.id
+
         },
         attributes: [
             [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.global_score > user.global_score) + 1'), 'ranking'],
-            'sustainability_score'
-        ]
+            'sustainability_score',
+            'avatar_index',
+            'global_score',
+        ],
+        
     });
-    if (!rank) {
+
+    if(!userScores) {
+
         console.log("Sending error code 404. No match found");
         return res.status(404).send(`404 : user with ${req.params.id} not found`);
     }
-    console.log(rank);
-    res.status(200).json(rank)
+    
+    //Get the score of the score of the user who is one rank above you
+    users = await user_table.findAll({
+        where : {
+            global_score : { 
+                [Op.gt] : userScores.dataValues.global_score,
+            }
+        },
+        order : [['global_score', 'ASC']]
+    })
+
+    if(users.length == 0) {
+        userScores.dataValues.nextRankScore = userScores.dataValues.global_score;
+    }
+    else {
+        userScores.dataValues.nextRankScore = users[0].dataValues.global_score;
+    }
+
+    res.status(200).json(userScores)
 })
 
 // UPDATE USER SETTINGS
-
-// Check if username is already in use
-router.get('/checkUsername', passport.authenticate('jwt', { session: false }), async function (req, res) {
-    const username = req.query.username;
+router.put('/changeUsername', passport.authenticate('jwt', { session: false }), async function (req, res) {
+    // check if the username already exists in the DB
+    let { username } = req.body;
     const user = await user_table.findOne({
         where: {
             username: username
@@ -196,67 +221,64 @@ router.get('/checkUsername', passport.authenticate('jwt', { session: false }), a
     // below line is equivalent to user ? true : false
     const usernameExists = !!user;
 
-    res.status(200).json(usernameExists);
-})
+    // if username not already in use, change it
+    if (!usernameExists) {
+        const userId = req.user.id;
 
+        try {
+            const user = await user_table.findOne({ where: { id: userId } });
+            if (!user) {
+                return res.status(404).json({ error: 'User not found' });
+            }
 
-router.put('/changeUsername', passport.authenticate('jwt', { session: false }), async function (req, res) {
-    let { username } = req.body;
-    const userId = req.user.id;
-
-    try {
-        const user = await User.findOne({ where: { id: userId } });
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+            await user.update({ username });
+            res.status(200).json({
+                'content': 'Username updated'
+            });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Server error' });
         }
-
-        await user.update({ username });
-        res.status(200).json({
-            'content': 'Username updated'
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error' });
-    }
-});
-
-router.put('/checkPassword', passport.authenticate('jwt', { session: false }), async function (req, res) {
-    const userId = req.user.id;
-    let { password } = req.body;
-    const passwordChecker = await user_table.findOne({
-        where: {
-            id: userId,
-            password: password,
-        }
-    });
-
-    if (passwordChecker) {
-        // password matches and user found.
-        res.status(200).json(true);
-    }
-    else {
-        // password does not match
-        res.status(200).json(false);
+    } else {
+        res.status(500).json({ error: 'Username already use.' });
     }
 });
 
 router.put('/changePassword', passport.authenticate('jwt', { session: false }), async function (req, res) {
-    let { password } = req.body;
+    let { newPassword, oldPassword } = req.body;
     const userId = req.user.id;
 
-    try {
-        const user = await user_table.findOne({ where: { id: userId } });
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+    const user = await user_table.findOne({
+        where: {
+            id: userId,
         }
+    });
 
-        await user.update({ password: password });
-        res.status(200).json({
-            'content': 'Password updated'
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error' });
+    if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+    }
+
+    const passwordChecker = await bcrypt.compare(oldPassword, user.password);
+
+    // below line is equivalent to user ? true : false
+    const correctPassword = !!passwordChecker;
+
+    if (correctPassword) {
+        try {
+            const salt = await bcrypt.genSaltSync(10, 'a');
+            const saltedPassword = bcrypt.hashSync(newPassword, 10);
+
+            await user.update({ password: saltedPassword });
+            res.status(200).json({
+                'content': 'Password updated'
+            });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Server error' });
+        }
+    }
+    else {
+        res.status(500).json({ error: `Password doesn't match our records.` });
     }
 });
 
