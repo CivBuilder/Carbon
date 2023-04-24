@@ -11,11 +11,11 @@ TODO: Connect finished to signup page(?)
 
 export default function FinishedScreen({navigation,route}) {
     //Values from previous pages
-    const dietScore = route.params?.dietScore;
-    const homePowerScore = route.params?.homePowerScore;
-    const annualPower = route.params?.annualPower;
-    const transportScore=route.params?.transportScore;
-    const miles = (route.params?.miles) ? route.params?.miles : 0;
+    const dietScore = 0;
+    const homePowerScore = 0;
+    const annualPower = 0;
+    const transportScore=0;
+    const miles = 0;
 
 
     //Final scores!!
@@ -64,12 +64,11 @@ export default function FinishedScreen({navigation,route}) {
                 justifyContent:'center',
             }}>
             <Button
-            title="Signup or Login"
+            title="Go to Home!"
             color={Colors.primary.MINT}
-            onPress={() =>
-                //TODO: Need to add relevant data to confirm questionnaire AND handle data in Main Container function
-                route.params.confirmQuestionnaire(true)
-            }
+            onPress={() =>{
+                route.params?.confirmQuestionnaire(true)
+            }}
             />
             </View>
             </>
