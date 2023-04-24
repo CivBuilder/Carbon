@@ -68,6 +68,11 @@ const User = sequelize.define('user', {
         type : DataTypes.INTEGER.UNSIGNED,
         allowNull : false, 
         defaultValue: 0 
+    },
+    profile_selection : {
+        type : DataTypes.INTEGER.UNSIGNED,
+        allowNull : false, 
+        defaultValue: 0 
     }
 }, {
     hooks: {
