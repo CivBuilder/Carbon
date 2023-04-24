@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, Text, Button, StyleSheet, ScrollView, Image, Pressable } from 'react-native';
 import UsernameInput from '../../../components/UsernameInput';
 import PasswordInput from '../../../components/PasswordInput';
 import { Colors } from '../../../styling/Colors';
 import { logout } from '../../../util/LoginManager';
 import ChangeUsernameButton from '../../../components/ChangeUsernameButton';
 import ChangePasswordButton from '../../../components/ChangePasswordButton';
-import { changeUsername, changePassword } from '../../../util/UpdateAccountSettings';
+import { changeUsername, changePassword, changePFP } from '../../../util/UpdateAccountSettings';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import pfps from '../../../assets/profile-icons/index'
 import { API_URL } from '../../../config/Api';
 import { getToken } from '../../../util/LoginManager';
 import Svg, { Defs, Rect }  from 'react-native-svg';
-import { Modal } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import LoadingIndicator from '../../../components/LoadingIndicator';
 
 const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
 
@@ -40,10 +41,8 @@ const SettingsScreen = ({ navigation }) => {
     }
 
     useEffect(() => {
-        if (user == null)
-            fetchUser()
-    }, [user])
-
+        fetchUser()
+    }, [])
 
     async function fetchUser() {
         var response = await fetch(USER_API, {
@@ -64,36 +63,49 @@ const SettingsScreen = ({ navigation }) => {
         setModalVisible(true);
     }
 
+    function hideModal() {
+        setModalVisible(false);
+    }
+
+    async function onSetPFP(index) {
+        await changePFP(index);
+        hideModal();
+        await fetchUser();
+    }
+
     return (
-        <ScrollView scrollEnabled={!modalVisible} style={styles.container} contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}>
+        <ScrollView scrollEnabled={!modalVisible} style={styles.container} contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
             <View style={styles.profileContainer}>
                 {!loadingUser? ( 
-                <View style={{borderRadius: 16, paddingVertical: 30}}>
+                <View style={{borderRadius: 16}}>
                     <View style={{position: 'absolute', height: '50%', width: '100%', backgroundColor: Colors.primary.MINT, borderTopLeftRadius: 16, borderTopRightRadius: 16}}></View>
-                        <TouchableOpacity onPress={onChangePFP}>
-                            <Image
-                                source={pfps[user.profile_selection]}
-                                style={{
-                                    height: 100,
-                                    width: 100,
-                                    alignSelf: 'center',
-                                    borderColor: 'black',
-                                }}
-                            />
-                        </TouchableOpacity>
-                        <Text
+                    <Pressable onPress={onChangePFP} style={{padding: 15}}>
+                        <Image
+                            source={pfps[user.profile_selection]}
                             style={{
-                                margin: 10,
-                                textAlign: 'center',
-                                fontSize: 22,
-                                fontWeight: 'bold'
+                                height: 100,
+                                width: 100,
+                                alignSelf: 'center',
+                                justifyContent: 'center',
+                                borderColor: 'black',
                             }}
-                        >
-                            Username: {user.email}
-                        </Text>
+                        />
+                    </Pressable>
+                    <Text
+                        style={{
+                            paddingBottom: 20,
+                            textAlign: 'center',
+                            fontSize: 22,
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        Username: {user.email}
+                    </Text>
                 </View>
                 ) : (
-                    <Text>Loading</Text>
+                    <View style={{borderRadius: 16, height: 40}}>
+                        <LoadingIndicator loading={loadingUser}/>
+                    </View>
                 )}
             </View>
 
@@ -118,20 +130,18 @@ const SettingsScreen = ({ navigation }) => {
                 <Button title='logout' onPress={() => { logout() }} />
             </View>
 
-            <Modal transparent={false} visible={modalVisible}
-                style={{position: 'absolute', top: -40, width: '100%', alignItems: 'center', alignSelf: 'center'}}>
-                <View style={{alignSelf: 'center'}}>
-                    <ScrollView showsVerticalScrollIndicator={false}>
-                        {pfps.map((item, index) => {
-                            return (
-                            <TouchableOpacity key={index} onPress={onSetPFP(index)}>
-                                <Image source={item} style={{height: 120, width: 120, margin: 8}}/>
-                            </TouchableOpacity>
-                        )})}
-                    </ScrollView>
-                </View>
-            </Modal>
-
+            {modalVisible && (
+            <View style={{position: 'absolute', height: '100%', width: '100%'}}>
+                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{alignSelf: 'center', paddingBottom: 60}}>
+                    {pfps.map((item, index) => {
+                        return(
+                        <TouchableOpacity key={index} onPress={() => {onSetPFP(index)}}>
+                            <Image source={item} style={{height: 120, width: 120, margin: 8}}/>
+                        </TouchableOpacity>
+                    )})}
+                </ScrollView>
+            </View>
+            )}
         </ScrollView>
     )
 }
@@ -151,9 +161,11 @@ const styles = StyleSheet.create({
 
     content: {
         width: 300,
+        marginBottom: 10,
     },
 
     profileContainer: {
+        margin: 10,
         width: '80%',
         backgroundColor: "white",
         borderRadius: 16,

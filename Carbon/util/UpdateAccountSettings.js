@@ -6,6 +6,7 @@ const API_CHECK_USERNAME_URL = API_URL + 'user/checkUsername/';
 const API_CHANGE_USERNAME_URL = API_URL + 'user/changeUsername/';
 const API_CHANGE_PASSWORD_URL = API_URL + 'user/changePassword/';
 const API_CHECK_PASSWORD_URL = API_URL + 'user/checkPassword/';
+const API_CHANGE_PFP_URL = API_URL + 'user/changePFP/';
 
 export async function changeUsername(username) {
     // check if the username already exists in the DB
@@ -72,4 +73,15 @@ export async function changePassword(oldPassword, newPassword) {
         // TODO: Change this to a real front-end error
         console.log('Error, old password does not match our records. Please try again.')
     }
+}
+
+export async function changePFP(selection) {
+    const res = await fetch(API_CHANGE_PFP_URL, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'secrettoken': await getToken(),
+        },
+        body: JSON.stringify({ profile_selection: selection })
+    });
 }
