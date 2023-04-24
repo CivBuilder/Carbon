@@ -35,9 +35,11 @@ const SettingsScreen = ({ navigation }) => {
 
     async function handleUsernameChange() {
         await changeUsername(username);
+        await fetchUser();
     }
     async function handlePasswordChange() {
         await changePassword(oldPassword, newPassword);
+        await fetchUser();
     }
 
     useEffect(() => {
@@ -74,65 +76,85 @@ const SettingsScreen = ({ navigation }) => {
     }
 
     return (
-        <ScrollView scrollEnabled={!modalVisible} style={styles.container} contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
-            <View style={styles.profileContainer}>
-                {!loadingUser? ( 
-                <View style={{borderRadius: 16}}>
-                    <View style={{position: 'absolute', height: '50%', width: '100%', backgroundColor: Colors.primary.MINT, borderTopLeftRadius: 16, borderTopRightRadius: 16}}></View>
-                    <Pressable onPress={onChangePFP} style={{padding: 15}}>
-                        <Image
-                            source={pfps[user.profile_selection]}
+        <View style={{height: "100%", width: '100%'}}>
+            <ScrollView scrollEnabled={!modalVisible} style={styles.container} contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
+                <View style={styles.profileContainer}>
+                    {!loadingUser? ( 
+                    <View style={{borderRadius: 16, paddingBottom: 20}}>
+                        <View style={{position: 'absolute', height: 130, width: '100%', backgroundColor: Colors.primary.MINT, borderTopLeftRadius: 16, borderTopRightRadius: 16}}></View>
+                        <Text
                             style={{
-                                height: 100,
-                                width: 100,
-                                alignSelf: 'center',
-                                justifyContent: 'center',
-                                borderColor: 'black',
+                                color: 'white',
+                                textAlign: 'center',
+                                fontSize: 22,
                             }}
-                        />
-                    </Pressable>
-                    <Text
-                        style={{
-                            paddingBottom: 20,
-                            textAlign: 'center',
-                            fontSize: 22,
-                            fontWeight: 'bold'
-                        }}
-                    >
-                        Username: {user.email}
-                    </Text>
-                </View>
-                ) : (
-                    <View style={{borderRadius: 16, height: 40}}>
-                        <LoadingIndicator loading={loadingUser}/>
+                        >
+                            Carbon User
+                        </Text>
+                        <Text
+                            style={{
+                                color: 'white',
+                                textAlign: 'center',
+                                fontSize: 22,
+                                fontWeight: 'bold'
+                            }}
+                        >
+                            {user.username}
+                        </Text>
+                        <Pressable onPress={onChangePFP} style={{padding: 15}}>
+                            <Image
+                                source={pfps[user.profile_selection]}
+                                style={{
+                                    height: 100,
+                                    width: 100,
+                                    alignSelf: 'center',
+                                    justifyContent: 'center',
+                                    borderColor: 'black',
+                                }}
+                            />
+                        </Pressable>
+                        <Text
+                            style={{
+                                textAlign: 'center',
+                                fontSize: 22,
+                                fontWeight: 'bold'
+                            }}
+                        >
+                            Email: {user.email}
+                        </Text>
                     </View>
-                )}
-            </View>
+                    ) : (
+                        <View style={{borderRadius: 16, height: 40}}>
+                            <LoadingIndicator loading={loadingUser}/>
+                        </View>
+                    )}
+                </View>
 
-            {/* Change username */}
-            <View style={styles.content}>
-                <Text style={styles.generalText}>Change username</Text>
-                <UsernameInput testID="usernameInput" onChangeText={un => setUsername(un)} />
-            </View>
-            <ChangeUsernameButton onPress={async () => await handleUsernameChange()} />
+                {/* Change username */}
+                <View style={styles.content}>
+                    <Text style={styles.generalText}>Change username</Text>
+                    <UsernameInput testID="usernameInput" onChangeText={un => setUsername(un)} />
+                </View>
+                <ChangeUsernameButton onPress={async () => await handleUsernameChange()} />
 
-            {/* Change password */}
-            <View style={styles.content}>
-                <Text style={styles.generalText}>Change password</Text>
-                {/* Change below line to use new api call to check if old password matches */}
-                <PasswordInput text="Old Password" testID="OldPassword" onChangeText={pw => setOldPassword(pw)} />
-                <PasswordInput text="New Password" testID="NewPassword" onChangeText={pw => setNewPassword(pw)} />
-            </View>
-            <ChangePasswordButton onPress={async () => await handlePasswordChange()} />
+                {/* Change password */}
+                <View style={styles.content}>
+                    <Text style={styles.generalText}>Change password</Text>
+                    {/* Change below line to use new api call to check if old password matches */}
+                    <PasswordInput text="Old Password" testID="OldPassword" onChangeText={pw => setOldPassword(pw)} />
+                    <PasswordInput text="New Password" testID="NewPassword" onChangeText={pw => setNewPassword(pw)} />
+                </View>
+                <ChangePasswordButton onPress={async () => await handlePasswordChange()} />
 
-            {/* Logout */}
-            <View style={styles.content}>
-                <Button title='logout' onPress={() => { logout() }} />
-            </View>
+                {/* Logout */}
+                <View style={styles.content}>
+                    <Button title='logout' onPress={() => { logout() }} />
+                </View>
 
+            </ScrollView>
             {modalVisible && (
-            <View style={{position: 'absolute', height: '100%', width: '100%'}}>
-                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{alignSelf: 'center', paddingBottom: 60}}>
+            <View style={{position: 'absolute', bottom: 0, left: 0, right: 0, top: 0, backgroundColor: 'rgba(0,0,0,0.4)'}}>
+                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{alignSelf: 'center', paddingVertical: 40}}>
                     {pfps.map((item, index) => {
                         return(
                         <TouchableOpacity key={index} onPress={() => {onSetPFP(index)}}>
@@ -142,7 +164,7 @@ const SettingsScreen = ({ navigation }) => {
                 </ScrollView>
             </View>
             )}
-        </ScrollView>
+        </View>
     )
 }
 
