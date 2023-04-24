@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { StyleSheet, Text, View, Switch, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {Colors} from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
@@ -110,7 +110,7 @@ const RecordTransportation = ({ navigation, route }) => {
   }, [milesTraveled, selectedValue])
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.funfact}>
         <Text style={styles.header}>Did you know?</Text>
         <Text style={styles.label} testID='fun-fact'>{memoizedFunFact}</Text>
@@ -163,7 +163,7 @@ const RecordTransportation = ({ navigation, route }) => {
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
         <Text style={styles.buttonText}>Save & Return</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
