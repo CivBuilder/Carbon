@@ -77,7 +77,8 @@ const RecordFood = ({ navigation, route }) => {
   }, [totalConsumption])
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView >
+    <View style={styles.container}>
       <View style={styles.funfact}>
         <Text style={styles.header}>Did you know?</Text>
         <Text style={styles.label}>{memoizedFunFact}</Text>
@@ -156,6 +157,7 @@ const RecordFood = ({ navigation, route }) => {
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
         <Text style={styles.buttonText}>Save & Return</Text>
       </TouchableOpacity>
+    </View>
     </View>
     </ScrollView>
   );
