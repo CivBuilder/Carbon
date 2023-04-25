@@ -1,8 +1,12 @@
 //This file will predict input from 
+
 import { API_URL } from "../config/Api";
+import regression from 'regression';
+import MLR from "ml-regression-multivariate-linear";
+
 const PredictInput = async() => {
     try {
-        const user_id = 1; //needs to be not hard coded
+        const user_id = 323; //needs to be not hard coded
         //const url = "http://{YOURLOCALIPHERE}:3000/api/userEmissions?user_id="+ user_id; //for local hosting and testing 
 
         const url = API_URL + `userEmissions/${user_id}`; //for the database n
@@ -14,7 +18,6 @@ const PredictInput = async() => {
         predictData = []
         for(const obj of data)
         {   
-            console.log(obj)
             newValues = [0, 0, 0, 0, 0, 0]
             const value = obj.date;
             checkMonth =value.substring(5, 7);
@@ -38,7 +41,6 @@ const PredictInput = async() => {
             {
                 newValues[0] = 3;
             }
-            console.log(calcDate)
             dayOfWeek = calcDate.getUTCDay();
             newValues[1] = dayOfWeek
             newValues[2] = obj.transport_emissions;
@@ -46,7 +48,6 @@ const PredictInput = async() => {
             newValues[4] = obj.lifestyle_emissions;
             newValues[5] = obj.home_emissions;
             count+=1;
-            console.log(newValues)
             predictData.push(newValues)
 
             if(count >= 200) //safety
@@ -55,17 +56,69 @@ const PredictInput = async() => {
             }
             
         }
-        console.log(predictData)
-        if (count <= 10)
+        const dateToday = new Date();
+        const thisMonth = dateToday.getMonth()+1;
+        x1Today = 0
+        x2Today = dateToday.getDay();
+        if (thisMonth <= 3)
+        {
+            x1Today = 0;
+        }
+        else if(thisMonth <= 6)
+        {
+           x1Today = 1;
+        }
+        else if(thisMonth <= 9)
+        {
+           x1Today = 2;
+        }
+        else
+        {
+            x1Today = 3;
+        }
+        const xValues = predictData.map(row => [row[0], row[1]]);
+        const yTransport = predictData.map(row => [row[2]]);
+        const yDiet = predictData.map(row => [row[3]]);
+        const yLifestyle = predictData.map(row => [row[4]]);
+        const yHome = predictData.map(row => [row[5]]);
+
+        //Get predictions then make it 
+        const result = new MLR(xValues, yTransport);
+        const result2 = new MLR(xValues, yDiet);
+        const result3 = new MLR(xValues, yLifestyle)
+        const result4 = new MLR(xValues, yHome)
+
+        predictedTransport = parseInt(result.predict([x1Today, x2Today]))
+        predictedDiet = parseInt(result2.predict([x1Today, x2Today]))
+        predictedLifestyle = parseInt(result3.predict([x1Today, x2Today]))
+        predictedHome = parseInt(result4.predict([x1Today, x2Today])) 
+        predictedTotal = predictedTransport + predictedDiet + predictedLifestyle + predictedHome
+    
+        const retData = [predictedTransport, predictedDiet, predictedLifestyle,predictedHome,predictedTotal]
+        console.log(retData)
+
+      
+        if (count <= 5 || hasNegative(retData) )
         {
             console.log("returning");
-            return [0,0,0,0];
+            return [0,0,0,0, 0];
         }
 
-        return data
+        return retData
     }
     catch (error) { 
         console.log(error); //error check
     }
 }
+
+function hasNegative(numbers) {
+    for (let i = 0; i < numbers.length; i++) {
+      if (numbers[i] < 0) {
+        return true; // Return true if a negative number is found
+      }
+    }
+    return false; // Return false if no negative number is found
+  }
+  
+
 export default PredictInput;

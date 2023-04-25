@@ -17,7 +17,7 @@ const windowHeight = Dimensions.get("window").height;
 
 
 export default function Log({ navigation }) {
-    PredictInput();
+   // PredictInput(); //for testing purposes only
     const whichLog = ["Today's", "Yesterday's", "Weekly", "Monthly"]; //String list for displaying
     const [number, setNumber] = useState(0);  //A state hook to set which area we are time frame we look at. 
     //0 = "Today", 1= "Yesterday's" etc etc.
