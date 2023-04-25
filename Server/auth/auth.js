@@ -15,7 +15,7 @@ passport.use(
             try {
                 return done(null, token.user);
             } catch (error) {
-                done(error);
+                return done(error);
             }
         }
     )
@@ -25,13 +25,18 @@ passport.use(
     'signup',
     new localStrategy(
         {
-            usernameField: 'email',
+            usernameField: 'username',
+            emailField: 'email',
             passwordField: 'password'
         },
-        async (email, password, done) => {
+        async (username, email, password, done) => {
+            console.log('username :>> ', username);
+            console.log('email :>> ', email);
+            console.log('password :>> ', password);
+            console.log('done :>> ', done);
             try {
                 const user = await User.create({
-                    username: email, 
+                    username: username,
                     email: email,
                     password: password,
                     sustainability_score: 0,
@@ -40,7 +45,7 @@ passport.use(
 
                 return done(null, user);
             } catch (error) {
-                done(error);
+                return done(error);
             }
         }
     )
@@ -55,12 +60,12 @@ passport.use(
         },
         async (email, password, done) => {
             try {
-                const user = await User.findOne({ where: { email: email }})
+                const user = await User.findOne({ where: { email: email } })
                 if (!user) {
                     console.log("User not found");
                     return done(null, false, { message: "User not found" })
                 }
-                
+
                 const validate = await bcrypt.compare(password, user.password);
                 if (!validate) {
                     console.log("Bad password");
