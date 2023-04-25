@@ -265,8 +265,10 @@ export default function MainContainer({navigation}){
                 console.error('Error while checking questionnaire:', error);
             }
         }
-        checkQuestionnaire();
-    }, []);
+        if (isSignedIn) {
+            checkQuestionnaire();
+        }
+    }, [isSignedIn]);
 
     return(
         <SafeAreaView style={{ flex: 1 }}>
