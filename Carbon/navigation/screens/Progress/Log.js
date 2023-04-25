@@ -17,7 +17,7 @@ const windowHeight = Dimensions.get("window").height;
 
 
 export default function Log({ navigation }) {
-    //  PredictInput();
+    PredictInput();
     const whichLog = ["Today's", "Yesterday's", "Weekly", "Monthly"]; //String list for displaying
     const [number, setNumber] = useState(0);  //A state hook to set which area we are time frame we look at. 
     //0 = "Today", 1= "Yesterday's" etc etc.
@@ -39,9 +39,12 @@ export default function Log({ navigation }) {
         callGetData(); //Call the getdata through callGetData
     }, []);
     if (!data) {
+        //ESSENTIALLY if it isnt loaded we return null
         return (
-            <Text style={{ fontSize: 40 }}>LOADING......</Text> //ESSENTIALLY if it isnt loaded we return null
-        )
+            <View style={{  backgroundColor: "white",  borderRadius: 16, height: windowHeight / 2, padding: 10 }} >
+            <Text style={{ fontSize: 40 }}>LOADING......</Text> 
+            </View>
+            )
     }
     //function to handle the change to the right (aka today -> yesterday)
     const handleChangeRight = () => {

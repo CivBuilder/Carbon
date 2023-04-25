@@ -10,9 +10,15 @@ const PredictInput = async() => {
     
         const response = await fetch(url); //wait for response
         const data = await response.json(); //get the data we need
+        let count = 0;
         for(const obj of data)
+        {   
+            count+=1;
+        }
+        if (count <= 10)
         {
-            console.log(obj);
+            console.log("returning");
+            return [0,0,0,0];
         }
 
         return data

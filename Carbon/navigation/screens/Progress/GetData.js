@@ -9,7 +9,7 @@ const GetData = async() => {
       //const url = "http://{YOURLOCALIPHERE}:3000/api/userEmissions?user_id="+ user_id; //for local hosting and testing 
 
       const url = API_URL + `userEmissions?user_id=${user_id}`; //for the database n
-      console.log("fetching data from " + url); //log to see if if it works
+      //console.log("fetching data from " + url); //log to see if if it works
     
       const response = await fetch(url); //wait for response
       const data = await response.json(); //get the data we need
