@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var QuizModel = require('../models/ArticleModel.js');
+var ArticleModel = require('../models/ArticleModel.js');
 
 // GET 
 router.get('/:id', async function(req, res, next) {

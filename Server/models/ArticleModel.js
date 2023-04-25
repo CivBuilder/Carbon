@@ -14,6 +14,7 @@ const ArticleModel = sequelize.define('articlemodel', {
     },
 },{
     freezeTableName: true,
+    timestamps: false,
 }
 );
 
