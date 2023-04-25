@@ -11,21 +11,12 @@ import { EmissionCategory as ec } from './EmissionScoreCateogory';
 
 export default function RankCategoryOverlay({navigation}){
  
-  const [modalVisible, setVisibility] = useState(false);
+  const [modalVisible, setVisibility] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
     return (
         <View>
             {/* <TouchableOpacity onPress={() => {navigation.navigate(ScreenNames.RANKING)}}> */}
-            <TouchableOpacity onPress={() => {setVisibility(true)}}>
-            <Ionicons
-                name={"list-outline"}
-                size={26}
-                color={Colors.primary.RAISIN_BLACK}
-                style={{ marginRight: 16 }}
-            />
-            </TouchableOpacity>
-
             <Modal 
                 transparent = {true}
                 animationType='slide'
@@ -121,8 +112,10 @@ export default function RankCategoryOverlay({navigation}){
                         <Pressable 
                             style = {styles.button} 
                             onPress = {() => {
-                                setVisibility(!modalVisible); 
-                                // navigation.navigate(ScreenNames.RANKING, {emission_category : selectedCategory});
+                                // setVisibility(!modalVisible); 
+                                // navigation.navigate(ScreenNames.RANKING, {emission_category : "1"});
+                                navigation.goBack();
+                                // navigation.navigate(ScreenNames.RANKING, {poop : 'loop'})
                             }}
                         >
                             <Text> Return </Text>

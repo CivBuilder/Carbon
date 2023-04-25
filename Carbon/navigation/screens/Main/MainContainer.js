@@ -144,10 +144,28 @@ const RankingStack = ({ navigation }) => {
                     // },
                     headerTitleAlign: 'center',
                     headerRight: () => (
-                        <RankCategoryOverlay navigation={navigation}/>
+                        <TouchableOpacity onPress={() => {navigation.navigate(ScreenNames.RANKING_CATEGORIES)}}>
+                        <Ionicons
+                            name={"list-outline"}
+                            size={26}
+                            color={Colors.primary.RAISIN_BLACK}
+                            style={{ marginRight: 16 }}
+                        />
+                        </TouchableOpacity>
                     ),
+                    
+                    
                 }}
             />
+            <Stack.Group 
+                screenOptions={{   
+                    transparentCard : true,
+                    cardStyle : {backgroundColor : 'transparent'},
+                    presentation : 'transparentModal', headerShown : false,
+                }} 
+                cardStyle = {{backgroundColor : 'transparent'}}>
+                <Stack.Screen name={ScreenNames.RANKING_CATEGORIES} component={RankCategoryOverlay} />
+            </Stack.Group>
         </Stack.Navigator>
     );
 };
