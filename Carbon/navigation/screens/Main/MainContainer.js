@@ -60,7 +60,11 @@ const QuestionnaireStack = ({route,navigation}) =>{
         <Stack.Screen name="q4c" component={PublicTransportScreen}/>
         <Stack.Screen name="q5" component={RecycleScreen}/>
         <Stack.Screen name="q5a" component={RecycleAmountScreen}/>
-        <Stack.Screen name="finished" component={FinishedScreen}/>
+        <Stack.Screen name="finished" component={FinishedScreen}
+        initialParams={{
+        confirmQuestionnaire: route.params?.setIsSignedIn,
+        }}
+        />
     </Stack.Navigator>
     )
 }
