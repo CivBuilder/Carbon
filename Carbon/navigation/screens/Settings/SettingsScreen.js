@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView, Image, Pressable } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, Button, StyleSheet, ScrollView, Image, Pressable, Animated } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import UsernameInput from '../../../components/UsernameInput';
 import PasswordInput from '../../../components/PasswordInput';
@@ -35,6 +35,7 @@ const SettingsScreen = ({ navigation }) => {
 
     // Change pfp modal
     const [modalVisible, setModalVisible] = useState(false);
+    const fadeAnimation = useRef(new Animated.Value(0)).current;
 
     async function handleUsernameChange() {
         await changeUsername(username);
@@ -71,11 +72,20 @@ const SettingsScreen = ({ navigation }) => {
 
     function onChangePFP() {
         setModalVisible(true);
+        Animated.timing(fadeAnimation, {
+            toValue: 1,
+            duration: 400,
+            useNativeDriver: true,
+        }).start();
     }
 
-    function hideModal() {
-        setModalVisible(false);
-    }
+    const hideModal = () => {
+        Animated.timing(fadeAnimation, {
+            toValue: 0,
+            duration: 400,
+            useNativeDriver: true,
+        }).start(() => setModalVisible(false));
+    };
 
     async function onSetPFP(index) {
         await changePFP(index);
@@ -179,33 +189,44 @@ const SettingsScreen = ({ navigation }) => {
 
                 </KeyboardAwareScrollView>
                 {modalVisible && (
-                    <View
-                        style={{
-                            position: 'absolute',
-                            bottom: 0, left: 0, right: 0, top: 0,
-                            backgroundColor: "rgba(0,0,0,0.5)",
-                            justifyContent: 'flex-end'
-                        }}
-                    >
-                        <View
-                            style={{
-                                position: 'absolute',
-                                bottom: 0, left: 0, right: 0, top: '40%',
-                                backgroundColor: "white",
-                                borderTopLeftRadius: 16,
-                                borderTopRightRadius: 16
-                            }}
-                        >
-                            <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', padding: 24}}>
-                                {pfps.map((item, index) => {
-                                    return(
-                                    <TouchableOpacity key={index} onPress={() => {onSetPFP(index)}}>
-                                        <Image source={item} style={{height: 90, width: 90, margin: 12}}/>
+                    <View style={{ position: 'absolute',  bottom: 0, left: 0, right: 0, top: 0 }}>
+                        <Animated.View style={{flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', opacity: fadeAnimation}}/>
+                        <Animated.View style={{position: 'absolute', bottom: 0, left: 0, right: 0, top: 0, transform: [{translateY: fadeAnimation.interpolate({inputRange: [0, 1], outputRange: [500, 0],})}]}}>
+                            <View
+                                style={{
+                                    position: 'absolute',
+                                    bottom: 0, left: 0, right: 0, top: '25%',
+                                    backgroundColor: "white",
+                                    borderTopLeftRadius: 16,
+                                    borderTopRightRadius: 16
+                                }}
+                            >
+                                <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', paddingTop: 24}}>
+                                    {pfps.map((item, index) => {
+                                        return(
+                                        <TouchableOpacity key={index} onPress={() => {onSetPFP(index)}}>
+                                            <Image source={item} style={{height: 90, width: 90, margin: 12}}/>
+                                        </TouchableOpacity>
+                                        )
+                                    })}
+                                </View>
+                                <View style={{flex: 1, justifyContent: 'center', alignContent:'center', marginBottom: 12}}>
+                                    <TouchableOpacity onPress={hideModal}
+                                        style={{
+                                            backgroundColor: "white",
+                                            borderRadius: 12,
+                                            borderWidth: 2,
+                                            borderColor: "gray",
+                                            padding: 6,
+                                            width: '50%',
+                                            alignSelf: 'center'
+                                        }}
+                                    >
+                                        <Text style={{fontSize: 20, color: "gray", textAlign: 'center'}}>Cancel</Text>
                                     </TouchableOpacity>
-                                    )
-                                })}
+                                </View>
                             </View>
-                        </View>
+                        </Animated.View>
                     </View>
                 )}
             </View>
