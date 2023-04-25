@@ -13,6 +13,7 @@ import { ScreenNames } from './ScreenNames';
 import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen, FoodScreen, TransportationScreen, RecyclingScreen, RecordEmissionScreen} from '../../screens';
 import { getToken, setRenderCallback } from '../../../util/LoginManager';
 import { PopUpMenu } from '../../../components/PopUpMenu';
+import RankCategoryOverlay from '../Ranking/RankCategoryOverlay';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -134,50 +135,16 @@ const RankingStack = ({ navigation }) => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name={'Ranking'}
+                name={'Rankings '}
                 component={RankingScreen}
-                // options={{
-                //     headerShown: true, // Set to false for now until we need to implement headers for this screen
-                //     headerStyle : {
-                //         height : Dimensions.get('window').height *0.12
-                //     },
-                //     // headerRight : () => {
-                //     //     <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.SETTINGS)}>
-                //     //         <Ionicons
-                //     //             name={IconNames.SETTINGS}
-                //     //             size={24}
-                //     //             color={Colors.primary.RAISIN_BLACK}
-                //     //             style={{ marginRight: 16 }}
-                //     //         />
-                //     //     </TouchableOpacity>
-                //     // }
-                    
-                // }}
                 options={{
                     headerShown: true,
                     // headerStyle: {
                     //     height: Platform.OS === 'ios' ? 48 : 72,
                     // },
                     headerTitleAlign: 'center',
-                    // headerTitle: () => (
-                    //     <Image
-                    //         source={require('../../../assets/Carbon_Logo.png')}
-                    //         style={{
-                    //             //TODO: 1080x356 is the current dimension. Find a better way to scale this properly.
-                    //             width: 1080 / 12,
-                    //             height: 356 / 12,
-                    //         }}
-                    //     />
-                    // ),
                     headerRight: () => (
-                        <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.SETTINGS)}>
-                            <Ionicons
-                                name={"list-outline"}
-                                size={24}
-                                color={Colors.primary.RAISIN_BLACK}
-                                style={{ marginRight: 16 }}
-                            />
-                        </TouchableOpacity>
+                        <RankCategoryOverlay navigation={navigation}/>
                     ),
                 }}
             />
