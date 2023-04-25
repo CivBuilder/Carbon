@@ -13,6 +13,12 @@ const ForumContent = sequelize.define('forumcontent', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    title: {
+        type: DataTypes.STRING,
+    },
+    category: {
+        type: DataTypes.STRING,
+    },
 }, {
     // Optional model properties
     tableName: 'forumcontent',

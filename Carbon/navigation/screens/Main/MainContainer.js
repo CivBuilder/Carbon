@@ -10,7 +10,7 @@ import { IconNames } from './IconNames';
 
 import { ScreenNames } from './ScreenNames';
 
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, AddProgress, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen, FoodScreen, TransportationScreen, RecyclingScreen, RecordEmissionScreen} from '../../screens';
+import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen, FoodScreen, TransportationScreen, RecyclingScreen, RecordEmissionScreen} from '../../screens';
 import { getToken, setRenderCallback } from '../../../util/LoginManager';
 import { PopUpMenu } from '../../../components/PopUpMenu';
 
@@ -40,9 +40,9 @@ const HomeStack = ({ navigation }) => {
                 component={HomeScreen}
                 options={{
                     headerShown: true,
-                    headerStyle: {
-                        height: Platform.OS === 'ios' ? 48 : 72,
-                    },
+                    // headerStyle: {
+                    //     height: Platform.OS === 'ios' ? 48 : 72,
+                    // },
                     headerTitleAlign: 'center',
                     headerTitle: () => (
                         <Image
@@ -67,7 +67,6 @@ const HomeStack = ({ navigation }) => {
                 }}
             />
             <Stack.Screen name={ScreenNames.SETTINGS} component={SettingsScreen} />
-            {/* TODO: Change this to Record Emissions */}
             <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={RecordEmissionScreen} />
         </Stack.Navigator>
     );
@@ -82,9 +81,9 @@ const ProgressStack = ({ navigation }) => {
                 component={ProgressScreen}
                 options={{
                     headerShown: true,
-                    headerStyle: {
-                        height: Platform.OS === 'ios' ? 48 : 72,
-                    },
+                    // headerStyle: {
+                    //     height: Platform.OS === 'ios' ? 48 : 72,
+                    // },
                     headerTitleAlign: 'center',
                     headerRight: () => (
                         <PopUpMenu navigation={navigation}/>
@@ -96,7 +95,6 @@ const ProgressStack = ({ navigation }) => {
             <Stack.Screen name={ScreenNames.FOOD} component={FoodScreen} />
             <Stack.Screen name={ScreenNames.TRANSPORTATION} component={TransportationScreen} />
             <Stack.Screen name={ScreenNames.RECYCLING} component={RecyclingScreen} />
-
         </Stack.Navigator>
     );
 };
@@ -106,25 +104,24 @@ const ForumStack = ({ navigation }) => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name={' '}
+                name={'Education'}
                 component={ForumScreen}
                 options={{
-                    headerShown: false, // Set to false for now until we need to implement headers for this screen
+                    headerShown: true,
+                    headerTitleAlign: 'center',
                 }}
             />
             <Stack.Screen
                 name={'Quiz'}
                 component={QuizScreen}
                 options={{
-                    // headerShown: false, // Set to false for now until we need to implement headers for this screen
-                    headerShown: true,
+                    headerShown: false,
                 }}
             />
             <Stack.Screen
                 name={'Browser'}
                 component={BrowserScreen}
                 options={{
-                    // headerShown: false, // Set to false for now until we need to implement headers for this screen
                     headerShown: true,
                 }}
             />
@@ -143,8 +140,6 @@ const RankingStack = ({ navigation }) => {
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
                 }}
             />
-            {/* Add stack screens down here */}
-            {/* <Stack.Screen name={"NAME_OF_SCREEN"} component={"THE_SCREEN_FUNCTION_IMPORTED"} /> */}
         </Stack.Navigator>
     );
 };

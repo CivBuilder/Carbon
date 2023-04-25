@@ -1,7 +1,7 @@
 //Angel Quintanilla -
 
 import { ActivityIndicator } from 'react-native';
-import {Colors} from '../colors/Colors'
+import { Colors } from '../styling/Colors';
 
 /**
  * 
