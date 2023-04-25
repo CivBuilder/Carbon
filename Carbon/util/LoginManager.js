@@ -56,8 +56,8 @@ export async function login(username, password) {
     }
 }
 
-export async function signup(username, password, confirm) {
-    if (password != confirm || username === "" || password === "") {
+export async function signup(username, email, password, confirm) {
+    if (password != confirm || username === "" || email === "" || password === "") {
         alert("Passwords do not match, or fields are empty.");
         return false;
     }
@@ -82,7 +82,8 @@ export async function signup(username, password, confirm) {
     }
 
     var details = {
-        'email': username,
+        'username': username,
+        'email': email,
         'password': password
     };
 
@@ -94,6 +95,8 @@ export async function signup(username, password, confirm) {
     }
     formBody = formBody.join("&");
 
+    console.log('formBody :>> ', formBody);
+
     var response = await fetch(API_URL + 'user/auth/signup',
         {
             method: 'POST',
@@ -103,6 +106,7 @@ export async function signup(username, password, confirm) {
             body: formBody
         }
     );
+    console.log('response :>> ', response);
 }
 
 export async function logout() {
