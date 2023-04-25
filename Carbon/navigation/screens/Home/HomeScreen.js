@@ -86,10 +86,11 @@ export default function HomeScreen({ navigation }) {
                             >
                                 <View>
                                     <Card containerStyle={styles.card}>
-                                        <Card.Title>Card Title 1</Card.Title>
-                                        <Text style={{ marginBottom: 10 }}>
-                                            The idea with React Native Elements is more about component structure than actual design.
+                                        <Card.Title>Want to reduce your emissions?</Card.Title>
+                                        <Text style={{ marginBottom: 10, textAlign: 'center' }}>
+                                            Learn how to reduce your impact using guidelines set out by the EPA
                                         </Text>
+
                                     </Card>
                                 </View>
                                 <View>
