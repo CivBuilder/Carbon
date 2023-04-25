@@ -1,3 +1,4 @@
+//Score is mapped in descending order (higher is bad, lower is good)
 const mapScore = (userPerformance) => {
     if(userPerformance>=0 && userPerformance <= .1){
         return 1;
