@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import {ActivityIndicator, ScrollView, StyleSheet, Text, View, RefreshControl, TouchableOpacity, FlatList} from 'react-native';
+import {ActivityIndicator, ScrollView, StyleSheet, Text, View, RefreshControl, Pressable, FlatList} from 'react-native';
 import ServerErrorScreen from '../../../components/ServerErrorScreen';
 import LoadingIndicator from "../../../components/LoadingIndicator";
 import {Colors} from "../../../styling/Colors";
@@ -10,7 +10,7 @@ import { getAuthHeader } from '../../../util/LoginManager';
 import getUserScores from './getUserScores';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MiniRanking from './RankingMiniView';
-
+import SwitchSelector from "react-native-switch-selector";
 
 const PAGE_SIZE = 15;
 const API_Entry_RANK_URL = API_URL + "user/rank/";
@@ -48,111 +48,111 @@ export default function RankingScreen({navigation}){
 
 
     /***************************************Server Requests***************************************/
-    //Get's User Rank - Any Response other than 200 will cause page to show Error Screen
-    const fetchUserRank = async () => {
-      setLoading(true);
-      console.log(`Fetching from ${API_Entry_RANK_URL+KEY}`);
+    // //Get's User Rank - Any Response other than 200 will cause page to show Error Screen
+    // const fetchUserRank = async () => {
+    //   setLoading(true);
+    //   console.log(`Fetching from ${API_Entry_RANK_URL+KEY}`);
 
-      //Get result from Server via Fetch
-      try { 
+    //   //Get result from Server via Fetch
+    //   try { 
 
-        // Changing rank to use the new JWT
-        const response = await fetch(API_Entry_RANK_URL, await getAuthHeader());
+    //     // Changing rank to use the new JWT
+    //     const response = await fetch(API_Entry_RANK_URL, await getAuthHeader());
 
-        //Set Rank and first table to load on the "Like You" page for the table
-        if(response.status === 200) {
-          const response_content = await response.json(); 
-          console.log(response_content);
+    //     //Set Rank and first table to load on the "Like You" page for the table
+    //     if(response.status === 200) {
+    //       const response_content = await response.json(); 
+    //       console.log(response_content);
           
-          setRank(response_content.ranking);
-          setSustainabilityScore(response_content.sustainability_score);
-          setErrorMessage(null);          
-          setLikeYouRange([Math.floor(response_content.ranking/PAGE_SIZE), Math.floor(response_content.ranking/PAGE_SIZE)]);
-          setLikeYouFirstPageFlag(true);
+    //       setRank(response_content.ranking);
+    //       setSustainabilityScore(response_content.sustainability_score);
+    //       setErrorMessage(null);          
+    //       setLikeYouRange([Math.floor(response_content.ranking/PAGE_SIZE), Math.floor(response_content.ranking/PAGE_SIZE)]);
+    //       setLikeYouFirstPageFlag(true);
 
-          console.log(`Fetch from ${API_Entry_RANK_URL+KEY} was a success!`);
-        }
-        //Handle Error thrown from Server
-        else if (response.status === 404) {
-          setRank(null);
-          setSustainabilityScore(null);
-          setErrorMessage(`Error: ${response.status} : ${response.statusText}`);
-          console.log(`Fetch from ${API_Entry_RANK_URL+KEY} Failed, 404: bad ID`);
-        }
-      } 
-      //Handle any other errors not necessarily from Server
-      catch(err) {
-        setRank(null);
-        setSustainabilityScore(null);
-        setErrorMessage(`Error: ${err.message}`);
-        console.log(`Fetch from ${API_Entry_RANK_URL+KEY} Failed: ${err.message}`);
-      }
-      setLoading(false);
-    }
+    //       console.log(`Fetch from ${API_Entry_RANK_URL+KEY} was a success!`);
+    //     }
+    //     //Handle Error thrown from Server
+    //     else if (response.status === 404) {
+    //       setRank(null);
+    //       setSustainabilityScore(null);
+    //       setErrorMessage(`Error: ${response.status} : ${response.statusText}`);
+    //       console.log(`Fetch from ${API_Entry_RANK_URL+KEY} Failed, 404: bad ID`);
+    //     }
+    //   } 
+    //   //Handle any other errors not necessarily from Server
+    //   catch(err) {
+    //     setRank(null);
+    //     setSustainabilityScore(null);
+    //     setErrorMessage(`Error: ${err.message}`);
+    //     console.log(`Fetch from ${API_Entry_RANK_URL+KEY} Failed: ${err.message}`);
+    //   }
+    //   setLoading(false);
+    // }
     
 
 
-    /* Get the next page from the global table 200/204 OK*/ 
-    const fetchAndUpdateGlobalTable = async () => {
-      setLoading(true);
-      try{
-        const response = await fetch(API_Entry_LEADERBOARD_URL+global_table_page_counter.toString());
+    // /* Get the next page from the global table 200/204 OK*/ 
+    // const fetchAndUpdateGlobalTable = async () => {
+    //   setLoading(true);
+    //   try{
+    //     const response = await fetch(API_Entry_LEADERBOARD_URL+global_table_page_counter.toString());
         
-        //Add to our list on a successful get request
-        if(response.status === 200) {
-          const response_content = await response.json();
-          setGlobalTable(global_table.concat(response_content));
-          setGlobalTableCounter(global_table_page_counter+1);
-          setErrorMessage(null);
-        }
-        //Server Response if you have a page with no elements in it - No Content
-        else if(response.status === 204) {
-          alert("No More users to load");
-        }
-        //Set error if we go out of bounds on the server request
-        else if(response.status === 400) {
-          alert("Error: Couldn't Fetch User Data : Bad Request");
-          setGlobalTableCounter(global_table_page_counter-1)
-          setErrorMessage(`Error: ${err.message}`);
-        }
-        //Set Error on any server failure
-      } catch (err) {
-          setGlobalTableCounter(global_table_page_counter-1);
-          setErrorMessage(`Error: ${err.message}`);
-      }
-      setLoading(false);
-    }
+    //     //Add to our list on a successful get request
+    //     if(response.status === 200) {
+    //       const response_content = await response.json();
+    //       setGlobalTable(global_table.concat(response_content));
+    //       setGlobalTableCounter(global_table_page_counter+1);
+    //       setErrorMessage(null);
+    //     }
+    //     //Server Response if you have a page with no elements in it - No Content
+    //     else if(response.status === 204) {
+    //       alert("No More users to load");
+    //     }
+    //     //Set error if we go out of bounds on the server request
+    //     else if(response.status === 400) {
+    //       alert("Error: Couldn't Fetch User Data : Bad Request");
+    //       setGlobalTableCounter(global_table_page_counter-1)
+    //       setErrorMessage(`Error: ${err.message}`);
+    //     }
+    //     //Set Error on any server failure
+    //   } catch (err) {
+    //       setGlobalTableCounter(global_table_page_counter-1);
+    //       setErrorMessage(`Error: ${err.message}`);
+    //   }
+    //   setLoading(false);
+    // }
 
 
     /**********************State Dependant Helper Functions *****************************/
     /* Handle Button Presses */
     /* These are here so that the table isn't constantly updated everytime the tab is switched*/
     /* When the Ends of the Lists are met, the direct calls to the update functions are called*/
-    const HandlePressedButton = (buttonID) => {
-      switch(buttonID){
-        case 1 :
-          setPressedButton(1);
-          if(like_you_table.length === 0) fetchAndUpdatePlayersLikeYouTable(false);  
-          break;
-        case 2  :
-          setPressedButton(2);
-          if(global_table.length === 0) fetchAndUpdateGlobalTable();
-          break;
-        case 3 :
-          //TODO : Social Feature for Ranking System
-          setPressedButton(3);
-          break;
-      }
-    }
+    // const HandlePressedButton = (buttonID) => {
+    //   switch(buttonID){
+    //     case 1 :
+    //       setPressedButton(1);
+    //       if(like_you_table.length === 0) fetchAndUpdatePlayersLikeYouTable(false);  
+    //       break;
+    //     case 2  :
+    //       setPressedButton(2);
+    //       if(global_table.length === 0) fetchAndUpdateGlobalTable();
+    //       break;
+    //     case 3 :
+    //       //TODO : Social Feature for Ranking System
+    //       setPressedButton(3);
+    //       break;
+    //   }
+    // }
 
 
 
-    //Default fetch as this tab starts on the Local Score Tab
+    // //Default fetch as this tab starts on the Local Score Tab
     useEffect( () => {getUserScores(setUserScores, setLoading, setErrorMessage)}, []);   
-    useEffect( () => {
+    // useEffect( () => {
       
-    })
-    useEffect( () => {fetchAndUpdatePlayersLikeYouTable(false)}, [initial_page_loaded]);
+    // })
+    // useEffect( () => {fetchAndUpdatePlayersLikeYouTable(false)}, [initial_page_loaded]);
     
 
 
@@ -171,7 +171,14 @@ export default function RankingScreen({navigation}){
           }}/> 
         </View>
         <View style = {styles.ListContentContainer}>
+          <View style = {styles.buttonContainer}>
+          <SwitchSelector
+            initial={0}
+            textColor = {}
+            backgroundColor = {Colors.secondary.NON_PHOTO_BLUE}
 
+          />
+          </View>
         </View>
 
       </View>
@@ -186,14 +193,14 @@ export default function RankingScreen({navigation}){
 
   const styles = StyleSheet.create({
     MiniRankContainer : { 
-      height : 160,
+      height : 170,
       backgroundColor : Colors.secondary.NYANZA,
-      justifyContent : 'center',
-      alignContent : 'center',
+      padding : 12,
     },
     ListContentContainer : {
       flex : 1,
       backgroundColor : "black",
+      paddingTop : 5,
     },
     HeaderText : {
       alignItems: 'center',
@@ -223,27 +230,42 @@ export default function RankingScreen({navigation}){
       borderColor : Colors.primary.RAISIN_BLACK,
       borderWidth : 0,
     },
-  
-    buttonContainer: {
-      overflow : 'hidden',
-      flexDirection: 'row',
-      borderRadius: 30,
-      borderColor : "#219df4",
-      borderWidth : 3,
-      backgroundColor : "#219df4",
-      width : 'auto',
-      justifyContent : 'center',
-      alignItems : 'center',
-      padding : 0,
-      
+
+    buttonContainer : {
+      flex : 0.04,
+      backgroundColor : Colors.secondary.RED,
+      width : '90%',
+      alignSelf : 'center',
+      borderRadius : 7,
+      flexDirection : 'row',
     },
-    button: {
-      flex : 1,
-      backgroundColor: '#219df4',
-      padding: 2,
-      marginHorizontal: 6,
-      borderRadius: 25,
+    
+    button : {
+      flex : 1/3,
+      backgroundColor : Colors.secondary.NON_PHOTO_BLUE,
+      marginLeft : 5, 
+      marginRight : 5,
+      borderRadius : 7,
     },
+    // buttonContainer: {
+    //   flex : 0.1,
+    //   overflow : 'hidden',
+    //   flexDirection: 'row',
+    //   borderRadius: 30,
+    //   borderColor : "#219df4",
+    //   borderWidth : 3,
+    //   backgroundColor : "#219df4",
+    //   width : 'auto',
+    //   justifyContent : 'center',
+    //   alignItems : 'center',
+    // },
+    // button: {
+    //   flex : 1,
+    //   backgroundColor: '#219df4',
+    //   padding: 2,
+    //   marginHorizontal: 6,
+    //   borderRadius: 25,
+    // },
     pressedButton : {
       backgroundColor : "#FFFFFF",
     },
@@ -366,7 +388,7 @@ export default function RankingScreen({navigation}){
 //   />}
 
 /* Update the player Table - Takes in param saying which direction we are extending*/
-async function fetchAndUpdatePlayersLikeYouTable (like_you_range, setLikeYouRange, ExtendUpwards, setLoading) {
+async function fetchAndUpdatePlayersLikeYouTable (like_you_range, setLikeYouRange, ExtendUpwards, setLoading, setErrorMessage) {
  
   if(like_you_range === null) return;           //Do nothing with no bounds
   if(ExtendUpwards === false) setLoading(true); //Don't have two loading screens at once

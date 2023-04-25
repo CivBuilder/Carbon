@@ -65,6 +65,8 @@ const styles = StyleSheet.create({
       flex : 1,
       flexDirection : 'row',
       justifyContent : 'center',
+      backgroundColor : 'white',
+      borderRadius : 16,
     },
   
     profileImageContainer :{
