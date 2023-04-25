@@ -20,6 +20,8 @@ import VehicleTypeScreen from '../Questionnaire/QuestionVehicleType';
 import MileageScreen from '../Questionnaire/QuestionMileage';
 import PublicTransportScreen from '../Questionnaire/QuestionPublicTransport';
 import FinishedScreen from '../Questionnaire/Finished';
+import RecycleScreen from '../Questionnaire/QuestionRecycling';
+import RecycleAmountScreen from '../Questionnaire/QuestionRecycleAmount';
 
 import { getToken, setRenderCallback } from '../../../util/LoginManager';
 import { PopUpMenu } from '../../../components/PopUpMenu';
@@ -54,6 +56,8 @@ const QuestionnaireStack = ({route,navigation}) =>{
         <Stack.Screen name="q4a" component={VehicleTypeScreen}/>
         <Stack.Screen name="q4b" component={MileageScreen}/>
         <Stack.Screen name="q4c" component={PublicTransportScreen}/>
+        <Stack.Screen name="q5" component={RecycleScreen}/>
+        <Stack.Screen name="q5a" component={RecycleAmountScreen}/>
         <Stack.Screen name="finished" component={FinishedScreen} initialParams={{confirmQuestionnaire: route.params?.setIsSignedIn}}/>
     </Stack.Navigator>
     )

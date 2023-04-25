@@ -8,7 +8,7 @@ TODO: Improve UI
 TODO: Improve transferring of data between pages
 */
 
-export default function MileageScreen({navigation,route}) {
+export default function RecycleAmountScreen({navigation,route}) {
     //Values from previous pages
     const dietScore = route.params?.dietScore;
     const homePowerScore = route.params?.homePowerScore;
@@ -27,7 +27,7 @@ export default function MileageScreen({navigation,route}) {
         top:0,
         height:30,
         borderRadius: 6,
-        width:"75%",
+        width:"95%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>
@@ -51,17 +51,16 @@ export default function MileageScreen({navigation,route}) {
             paddingLeft:"6%",
             paddingRight:"6%",
         }}>
-        (Optional) Fuel efficiency makes a big impact on your
-         Carbon footprint. What is the fuel efficiency on your vehicle?
+        (Optional) Approximately How many pounds of material do you recycle per week? Respond in pounds
         </Text>
         <View>
         <Text style={{
             fontSize: 20,
             fontWeight: "400",
             marginBottom: 5,
-        }}> Miles Per Gallon (MPG) </Text>
+        }}> Recycle Amount </Text>
         <TextInput
-        placeholder="Ex: 33"
+        placeholder="Pounds (lbs) Ex: 33"
         style={{
         backgroundColor:Colors.secondary.NYANZA,
         height: 32,
@@ -89,7 +88,7 @@ export default function MileageScreen({navigation,route}) {
             title="Next Question"
             color={Colors.primary.MINT}
             onPress={() =>
-                navigation.navigate('q5',{
+                navigation.navigate('finished',{
                     transportScore:transportScore,
                     dietScore:dietScore,
                     homePowerScore:homePowerScore,

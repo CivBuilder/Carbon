@@ -28,7 +28,7 @@ export default function BillScreen({navigation,route}) {
         top:0,
         height:30,
         borderRadius: 6,
-        width:"28%",
+        width:"22%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>

@@ -38,7 +38,7 @@ export default function PublicTransportScreen({navigation,route}) {
         top:0,
         height:30,
         borderRadius: 6,
-        width:"80%",
+        width:"70%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>
@@ -126,7 +126,7 @@ export default function PublicTransportScreen({navigation,route}) {
             title="Next Question"
             color={Colors.primary.MINT}
             onPress={() =>
-                navigation.navigate('finished',{
+                navigation.navigate('q5',{
                     dietScore:dietScore,
                     homePowerScore:homePowerScore,
                     annualPower:annualPower,

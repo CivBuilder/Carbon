@@ -46,7 +46,7 @@ export default function VehicleTypeScreen({navigation,route}) {
         top:0,
         height:30,
         borderRadius: 6,
-        width:"66%",
+        width:"62%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>
@@ -108,7 +108,7 @@ export default function VehicleTypeScreen({navigation,route}) {
                 onPress={()=>{
                 disableButton(8);
                 setButtonIndex(2);
-                setNextPage("finished");
+                setNextPage("q5");
                 }}
                 color={buttonIndex==2 ? Colors.primary.MINT: Colors.primary.GRAY}
             />

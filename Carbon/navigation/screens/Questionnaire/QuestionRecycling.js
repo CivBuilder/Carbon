@@ -7,13 +7,7 @@ TODO: Find a better way to transfer values to the last screen(instead of transfe
 TODO: Improve UI
 */
 
-export default function TransportScreen({navigation, route}) {
-
-    //Carry Scores and values from previous pages
-    const dietScore = route.params?.dietScore;
-    const homePowerScore = route.params?.homePowerScore;
-    const annualPower = route.params?.annualPower;
-
+export default function RecycleScreen({navigation, route}) {
     //Updating progress bar (a.k.a the header)
     useEffect(()=>{
         navigation.setOptions({
@@ -23,7 +17,7 @@ export default function TransportScreen({navigation, route}) {
         top:0,
         height:30,
         borderRadius: 6,
-        width:"33%",
+        width:"80%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>
@@ -47,9 +41,7 @@ export default function TransportScreen({navigation, route}) {
                 paddingLeft:"8%",
                 paddingRight:"6%",
             }}>
-            In 2020, passenger vehicles accounted for 38% of greenhouse
-            gases emitted by the transportation industry. Do you own or drive
-            a passenger vehicle?
+            Do you Recycle?
             </Text>
             <View style={{
                 width:"60%",
@@ -61,11 +53,7 @@ export default function TransportScreen({navigation, route}) {
             <Button
                 title="Yes"
                 onPress={()=>{
-                    navigation.navigate("q4a",{
-                    dietScore:dietScore,
-                    homePowerScore:homePowerScore,
-                    annualPower:annualPower,
-                    });
+                    navigation.navigate("q5a",{});
                 }}
                 color={Colors.secondary.LIGHT_MINT}
             />
@@ -76,11 +64,7 @@ export default function TransportScreen({navigation, route}) {
             <Button
                 title ="No"
                 onPress={()=>{
-                    navigation.navigate("q4c",{
-                    dietScore:dietScore,
-                    homePowerScore:homePowerScore,
-                    annualPower:annualPower,
-                    });
+                    navigation.navigate("finished",{});
                 }}
                 color={Colors.secondary.LIGHT_MINT}
             />

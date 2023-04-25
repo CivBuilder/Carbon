@@ -37,7 +37,7 @@ export default function HouseholdScreen({navigation,route}) {
         top:0,
         height:30,
         borderRadius: 6,
-        width:"14%",
+        width:"11%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>
