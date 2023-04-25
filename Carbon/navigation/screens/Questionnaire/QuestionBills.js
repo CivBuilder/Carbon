@@ -1,10 +1,12 @@
 import React, {useState,useEffect} from 'react';
 import {View, Text,Button,TextInput } from 'react-native';
 import { Colors } from '../../../styling/Colors';
+import {aveAnnualHomeEmissions} from '../../../calculations/home_calculations/aveHomeEmissions';
+import homeElec from '../../../calculations/home_calculations/homeElec'
+import mapScore from '../../../calculations/questionnaireMapScore';
+
 /*
 Bills Screen
-
-TODO: Make better calculation (Based on research)
 TODO: Improve UI
 TODO: Improve transfer of points between pages
 */
@@ -12,8 +14,8 @@ TODO: Improve transfer of points between pages
 export default function BillScreen({navigation,route}) {
 
     //Transfer Scores from previous pages
-    const dietScore = route.params?.dietScore;
-    const powerScore = route.params?.powerSourceScore;
+    const foodScore = route.params?.foodScore;
+    const[homeScore,setHomeScore] = useState(route.params?.homeScore);
 
     //Bill values (not calculated until the end)
     const [bill,setBill] = useState(0);
@@ -33,8 +35,23 @@ export default function BillScreen({navigation,route}) {
         }}>
         </View>
         ),
-        })
+        });
+        calculateHomeScore();
     });
+
+    const calculateHomeScore=() =>{
+        //Electricity bill (in dollars)
+        //Power Rate (dollar/KWh)
+        let userPerformance = 0;
+        if(rate<= 0 || bill <=0){
+            userPerformance = 0
+        }else{
+            //homeElec is calculated in mW, so we divide by 1000
+            let userScore=homeElec(bill/rate/1000)
+            userPerformance = userScore/aveAnnualHomeEmissions.homePowerEmissions
+        }
+        setHomeScore(mapScore(userPerformance))
+    }
 
     return (
     <>
@@ -72,7 +89,7 @@ export default function BillScreen({navigation,route}) {
         marginBottom:12,
         }}
         keyboardType="decimal-pad"
-        onChangeText={text=>setBill(text)}
+        onChangeText={text=>text ? setBill(text): 0}
         />
 
         <Text style={{
@@ -88,8 +105,7 @@ export default function BillScreen({navigation,route}) {
         height:32,
         marginBottom:12,
         }}
-        onChangeText={text=>
-        setRate(text)}
+        onChangeText={text=>text?setRate(text): 0}
         />
         </View>
         </View>
@@ -112,9 +128,8 @@ export default function BillScreen({navigation,route}) {
         color={Colors.primary.MINT}
         onPress={() =>
         navigation.navigate('q4',{
-        dietScore: dietScore,
-        homePowerScore:powerScore,
-        annualPower:bill/rate,
+            foodScore:foodScore,
+            homeScore:homeScore,
         })
         }
         />

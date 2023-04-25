@@ -11,21 +11,7 @@ TODO: Improve transferring of data between pages
 TODO: Connect finished to signup page(?)
 */
 
-export default function FinishedScreen({navigation,route}) {
-    //Values from previous pages
-    const dietScore = 0;
-    const homePowerScore = 0;
-    const annualPower = 0;
-    const transportScore=0;
-    const miles = 0;
-
-
-    //Final scores!!
-    const transScore = (miles!=0) ? transportScore*miles/200000: transportScore;
-    const powerScore = annualPower/10632;
-    const foodScore = dietScore;
-    const homeScore = homePowerScore;
-    const awarenessScore= (miles!=0) ? transportScore*miles/200000: transportScore
+export default function FinishedScreen({navigation, route}) {
 
     useEffect(()=>{
         navigation.setOptions({
@@ -55,11 +41,11 @@ export default function FinishedScreen({navigation,route}) {
             <Text>
             Final Data:
             </Text>
-            <Text>Transport Score: {transScore}</Text>
-            <Text>Lifestyle Score: {powerScore}</Text>
-            <Text>Food Score: {dietScore}</Text>
-            <Text>Home Score: {homePowerScore}</Text>
-            <Text>Awareness Score: {transScore}</Text>
+            <Text>Transport Score: {route.params?.transportScore}</Text>
+            <Text>Lifestyle Score: {route.params?.lifestyleScore}</Text>
+            <Text>Food Score: {route.params?.foodScore}</Text>
+            <Text>Home Score: {route.params?.homeScore}</Text>
+            <Text>Awareness Score: {route.params?.awarenessScore}</Text>
             </View>
             <View style={{
                 flex:0,

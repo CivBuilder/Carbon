@@ -12,16 +12,11 @@ TODO: Better handling of max points per question
 export default function VehicleTypeScreen({navigation,route}) {
 
     //Transferred Scores from previous pages
-    const dietScore = route.params?.dietScore;
-    const homePowerScore = route.params?.homePowerScore;
-    const annualPower = route.params?.annualPower;
-
-    //Setting max points for this question
-    const maxPoints = 10.0;
+    const foodScore = route.params?.foodScore;
+    const homeScore= route.params?.homeScore;
+    const [transportScore,setTransportScore] = useState(0);
 
     //Single Choice Question, so we only need one button value
-    const [isDisabled,setIsDisabled] = useState(false);
-    const [pointPercent,setPointPercent] = useState(0);
     const [buttonIndex, setButtonIndex] = useState(-1);
 
     //Change page depending on the answer:
@@ -31,12 +26,7 @@ export default function VehicleTypeScreen({navigation,route}) {
     const changeIndex=(index)=>{
         setButtonIndex(previousState=>index);
     }
-    //Disables/Enables "Next Question" button
-    const disableButton=(points)=> {
-            setIsDisabled(previousState=>true);
-            setPointPercent(previousState=>points/maxPoints);
-    }
-
+    const  calculateTransportScore = 0;
     //Updating progress bar (a.k.a the header)
     useEffect(()=>{
         navigation.setOptions({
@@ -78,7 +68,6 @@ export default function VehicleTypeScreen({navigation,route}) {
             <Button
                 title="Gas-Based"
                 onPress={()=>{
-                disableButton(3);
                 setButtonIndex(0);
                 setNextPage("q4b");
                 }}
@@ -92,7 +81,6 @@ export default function VehicleTypeScreen({navigation,route}) {
             <Button
                 title ="Diesel-Based"
                 onPress={()=>{
-                disableButton(4);
                 setButtonIndex(1);
                 setNextPage("q4b");
                 }}
@@ -106,9 +94,9 @@ export default function VehicleTypeScreen({navigation,route}) {
             <Button
                 title="Electric"
                 onPress={()=>{
-                disableButton(8);
                 setButtonIndex(2);
                 setNextPage("q5");
+
                 }}
                 color={buttonIndex==2 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
@@ -134,13 +122,9 @@ export default function VehicleTypeScreen({navigation,route}) {
             color={Colors.primary.MINT}
             onPress={() =>
                 navigation.navigate(nextPage,{
-                    transportScore:pointPercent,
-                    dietScore:dietScore,
-                    homePowerScore:homePowerScore,
-                    annualPower:annualPower,
                 })
             }
-            disabled ={isDisabled ? false: true}
+            disabled ={buttonIndex>=0 ? false: true}
             />
             </View>
             </View>

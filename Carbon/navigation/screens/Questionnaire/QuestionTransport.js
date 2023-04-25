@@ -10,9 +10,8 @@ TODO: Improve UI
 export default function TransportScreen({navigation, route}) {
 
     //Carry Scores and values from previous pages
-    const dietScore = route.params?.dietScore;
-    const homePowerScore = route.params?.homePowerScore;
-    const annualPower = route.params?.annualPower;
+    const foodScore = route.params?.foodScore;
+    const homeScore = route.params?.homeScore;
 
     //Updating progress bar (a.k.a the header)
     useEffect(()=>{
@@ -62,9 +61,8 @@ export default function TransportScreen({navigation, route}) {
                 title="Yes"
                 onPress={()=>{
                     navigation.navigate("q4a",{
-                    dietScore:dietScore,
-                    homePowerScore:homePowerScore,
-                    annualPower:annualPower,
+                    homeScore:homeScore,
+                    foodScore:foodScore,
                     });
                 }}
                 color={Colors.secondary.LIGHT_MINT}
@@ -77,9 +75,8 @@ export default function TransportScreen({navigation, route}) {
                 title ="No"
                 onPress={()=>{
                     navigation.navigate("q4c",{
-                    dietScore:dietScore,
-                    homePowerScore:homePowerScore,
-                    annualPower:annualPower,
+                    homeScore:homeScore,
+                    foodScore:foodScore,
                     });
                 }}
                 color={Colors.secondary.LIGHT_MINT}

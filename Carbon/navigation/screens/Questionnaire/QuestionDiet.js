@@ -7,6 +7,7 @@ Question 1 Screen
 */
 
 export default function DietScreen({navigation}) {
+    //Manages progress bar
     useEffect(()=>{
             navigation.setOptions({
             header: ()=>(
@@ -20,16 +21,19 @@ export default function DietScreen({navigation}) {
                 }}>
                 </View>
             ),
-            })
+            });
+
+            setFoodScoreCalc(nextPage=="q2" ? 1: 0)
     });
 
-    //Maximum points -- Can be set to a different value
-    const maxPoints = 10.0;
-
-
+    //Disables "next" button
     const [isDisabled,setIsDisabled] = useState(false);
-    const [pointPercent,setPointPercent] = useState(0);
+    //Changes button colors based on index
     const [buttonIndex, setButtonIndex] = useState(-1);
+    //Set next page depending on button pressed:
+    const [nextPage,setNextPage] = useState("q2");
+    //Calculate food Score on temp variable
+    const [foodScoreCalc,setFoodScoreCalc] = useState(0);
 
     //Changes the color based on the buttonIndex (Only useful for single-choice questions)
     const changeIndex=(index)=>{
@@ -40,7 +44,6 @@ export default function DietScreen({navigation}) {
     //then calculate the score (equal to points/maxPoints)
     const disableButton=(points)=> {
             setIsDisabled(previousState=>true);
-            setPointPercent(previousState=>points/maxPoints);
     }
 
     return (
@@ -57,7 +60,7 @@ export default function DietScreen({navigation}) {
                 fontWeight:"400",
                 marginBottom:40,
             }}
-            >What is your diet?</Text>
+            > What is your diet?</Text>
 
             <View style={{
                 width:"60%",
@@ -71,6 +74,7 @@ export default function DietScreen({navigation}) {
                 onPress={()=>{
                 disableButton(3);
                 setButtonIndex(0);
+                setNextPage("q1a");
                 }}
                 color={buttonIndex==0 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
@@ -83,6 +87,7 @@ export default function DietScreen({navigation}) {
                 onPress={()=>{
                 disableButton(4);
                 setButtonIndex(1);
+                setNextPage("q2");
                 }}
                 color={buttonIndex==1 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
@@ -95,6 +100,7 @@ export default function DietScreen({navigation}) {
                 onPress={()=>{
                 disableButton(6);
                 setButtonIndex(2);
+                setNextPage("q2");
                 }}
                 color={buttonIndex==2 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
@@ -107,6 +113,7 @@ export default function DietScreen({navigation}) {
                 onPress={()=>{
                 disableButton(10);
                 setButtonIndex(3);
+                setNextPage("q2");
                 }}
                 color={buttonIndex==3 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
@@ -130,9 +137,11 @@ export default function DietScreen({navigation}) {
             <Button
             title="Next Question"
             color={Colors.primary.MINT}
-            onPress={() =>
-                navigation.navigate('q2',{dietScore:pointPercent})
-            }
+            onPress={() =>{
+                navigation.navigate(nextPage,{
+                foodScore:foodScoreCalc,
+                });
+            }}
             disabled={isDisabled ? false: true}
             />
             </View>
