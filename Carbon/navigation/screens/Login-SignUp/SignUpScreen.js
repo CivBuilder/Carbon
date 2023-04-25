@@ -31,12 +31,12 @@ const SignUpScreen = ({navigation}) => {
         <EmailInput testID="emailInput" onChangeText={(un) => setUsername(un)}/>
         <PasswordInput text="Password" testID="passwordInput" onChangeText={(pw) => setPassword(pw)}/>
         <PasswordInput text="Confirm Password" testID="confirmPasswordInput" onChangeText={(cf) => setConfirm(cf)}/>
+        <SignUpButton onPress={() => handleSignUp()} />
+        <View style={styles.loginTextWrapper}>
+          <Text style={styles.loginText}>Already have an account?</Text>
+          <LoginNavButton onPress={() => {navigation.navigate(ScreenNames.LOGIN)}} />
+        </View>
       </KeyboardAvoidingView>
-      <SignUpButton onPress={() => handleSignUp()} />
-      <View style={styles.loginTextWrapper}>
-        <Text style={styles.loginText}>Already have an account?</Text>
-        <LoginNavButton onPress={() => {navigation.navigate(ScreenNames.LOGIN)}} />
-      </View>
     </View>
   )
 }
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     content: {
-      width: 300,
+      width: '80%',
     },
     loginTextWrapper: {
       alignItems: 'center',
