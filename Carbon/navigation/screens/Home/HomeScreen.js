@@ -11,7 +11,7 @@ import HomeScreenRanking from '../Ranking/HomeScreenRanking'
 // =====================
 export default function HomeScreen({ navigation }) {
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ backgroundColor: '#F7FCF8', height: '100%' }}>
             <ScrollView
                 showsHorizontalScrollIndicator={false}
                 style={{ flexGrow: 1 }}

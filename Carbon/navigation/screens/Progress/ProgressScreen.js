@@ -12,7 +12,7 @@ const margin = 12;
 
 export default function ProgressScreen({ navigation }) {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: '#F7FCF8', height: '100%' }}>
       <ScrollView
         showsHorizontalScrollIndicator={false}
         style={{ flexGrow: 1 }}
