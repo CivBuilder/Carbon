@@ -149,7 +149,7 @@ const SettingsScreen = ({ navigation }) => {
                             </View>
                         </View>
                         ) : (
-                            <View style={{borderRadius: 16, height: 40}}>
+                            <View style={{borderRadius: 16, height: 242}}>
                                 <LoadingIndicator loading={loadingUser}/>
                             </View>
                         )}
