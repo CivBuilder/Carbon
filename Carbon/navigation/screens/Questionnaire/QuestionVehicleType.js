@@ -40,7 +40,7 @@ export default function VehicleTypeScreen({navigation,route}) {
         top:0,
         height:30,
         borderRadius: 6,
-        width:"62%",
+        width:"50%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>

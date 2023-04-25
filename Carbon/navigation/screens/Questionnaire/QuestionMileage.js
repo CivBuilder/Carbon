@@ -30,7 +30,7 @@ export default function MileageScreen({navigation,route}) {
         top:0,
         height:30,
         borderRadius: 6,
-        width:"75%",
+        width:"60%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>

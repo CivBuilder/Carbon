@@ -30,7 +30,7 @@ export default function BillScreen({navigation,route}) {
         top:0,
         height:30,
         borderRadius: 6,
-        width:"22%",
+        width:"30%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>

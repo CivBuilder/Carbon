@@ -22,7 +22,7 @@ export default function TransportScreen({navigation, route}) {
         top:0,
         height:30,
         borderRadius: 6,
-        width:"33%",
+        width:"40%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>

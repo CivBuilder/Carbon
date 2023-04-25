@@ -36,7 +36,7 @@ export default function AnimalDietScreen({navigation,route}) {
         top:0,
         height:30,
         borderRadius: 6,
-        width:"22%",
+        width:"10%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>

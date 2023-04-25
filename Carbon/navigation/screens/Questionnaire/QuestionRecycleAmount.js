@@ -29,7 +29,7 @@ export default function RecycleAmountScreen({navigation,route}) {
         top:0,
         height:30,
         borderRadius: 6,
-        width:"95%",
+        width:"90%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>
