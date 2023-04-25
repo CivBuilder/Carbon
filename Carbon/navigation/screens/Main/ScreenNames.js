@@ -5,7 +5,7 @@ export const ScreenNames = {
     RANKING: 'Ranking',
     SETTINGS: 'Settings',
     ADD_PROGRESS: 'AddProgress',
-    ADD_GOAL: 'Add Your Monthly Goal',
+    ADD_GOAL: 'Add a Monthly Goal',
     BROWSER: 'Browser',
     QUIZ: 'Quiz',
     LOGIN: 'Login',
