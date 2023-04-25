@@ -1,15 +1,16 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import {ActivityIndicator, ScrollView, StyleSheet, Text, View, RefreshControl, Pressable, FlatList} from 'react-native';
+import {ActivityIndicator, ScrollView, StyleSheet, Text, View, RefreshControl, TouchableOpacity, FlatList} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import ServerErrorScreen from '../../../components/ServerErrorScreen';
 import LoadingIndicator from "../../../components/LoadingIndicator";
+import { ScreenNames } from '../Main/ScreenNames.js';
 
 import {Colors} from "../../../styling/Colors";
 import ListPlayers from './ListPlayers';
 import { API_URL } from '../../../config/Api';
 import { getAuthHeader } from '../../../util/LoginManager';
 import getUserScores from './getUserScores';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import MiniRanking from './RankingMiniView';
 import SwitchSelector from "react-native-switch-selector";
 
@@ -56,14 +57,6 @@ export default function RankingScreen({navigation, route}){
       const [like_you_range, setLikeYouRange] = useState(null); //[0] = earliest page, [1] = last page
       const [initial_page_loaded, setLikeYouFirstPageFlag] = useState(false);
 
-
-useEffect(() => { 
-    alert("poop")
-    if(route.params?.emission_category && route.params !== null){
-      alert(route.params.emission_category)
-      console.log(route.params.emission_category)
-    }
-  }, [route.params]);
 
     /***************************************Server Requests***************************************/
     // //Get's User Rank - Any Response other than 200 will cause page to show Error Screen
@@ -177,8 +170,17 @@ useEffect(() => {
     return (
       // <SafeAreaView backgroundColor = {Colors.secondary.NON_PHOTO_BLUE} style = {{ flexGrow : 1, flex : 1}} testID = "rankingComponent">
         
-    <View>
-      <View style = {{flex : 1, backgroundColor : 'white'}}>
+    <View style = {{flex : 1, backgroundColor : 'white'}}>
+
+      {/* Header with Toggling Overlay */}
+      <View style = {{height : 100, backgroundColor : 'white', flexDirection : 'row-reverse'}}>
+        <View style = {{flex : 0.10, marginRight : 10, justifyContent : 'flex-end', paddingBottom: 15}}>
+          <RankingCategoryOverlay setEmissionCategory={setEmissionCategory}/>
+        </View>
+      </View>
+
+
+      <View style = {{backgroundColor : 'cyan'}}>
         <View style = {styles.MiniRankContainer}>
           {/* Replace with the  */}
           <MiniRanking userScores={{
@@ -189,7 +191,7 @@ useEffect(() => {
           }}/> 
         </View>
         
-        <View style = {{margin : 5,}}>
+        <View style = {{margin : 5}}>
           <SwitchSelector
             initial={0}
             // onPress={value => this.setState({ gender: value })}
@@ -210,8 +212,11 @@ useEffect(() => {
             height = {36}
           />
         </View>
+      </View> 
+
+      <View style={styles.ListContainer}>
+
       </View>
-      
     </View>);
 
     //   {/* </SafeAreaView> */}
@@ -248,19 +253,6 @@ useEffect(() => {
       fontSize : 45,
     },
   
-    // CategoryHighlights : {
-    //   backgroundColor: Colors.secondary.NON_PHOTO_BLUE,
-    //   borderRadius: 10,
-    //   borderBottomEndRadius : 10,
-    //   borderBottomStartRadius : 10,
-    //   // borderTopEndRadius : 50,
-    //   // borderTopStartRadius : 50,
-    //   padding: 15,
-    //   overflow : 'hidden',
-    //   borderColor : Colors.primary.RAISIN_BLACK,
-    //   borderWidth : 0,
-    // },
-
     buttonContainer : {
       flex : 0.04,
       backgroundColor : Colors.secondary.RED,

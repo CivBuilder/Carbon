@@ -138,34 +138,13 @@ const RankingStack = ({ navigation }) => {
                 name={'Rankings '}
                 component={RankingScreen}
                 options={{
-                    headerShown: true,
+                    headerShown: false,
                     // headerStyle: {
                     //     height: Platform.OS === 'ios' ? 48 : 72,
                     // },
                     headerTitleAlign: 'center',
-                    headerRight: () => (
-                        <TouchableOpacity onPress={() => {navigation.navigate(ScreenNames.RANKING_CATEGORIES)}}>
-                        <Ionicons
-                            name={"list-outline"}
-                            size={26}
-                            color={Colors.primary.RAISIN_BLACK}
-                            style={{ marginRight: 16 }}
-                        />
-                        </TouchableOpacity>
-                    ),
-                    
-                    
                 }}
             />
-            <Stack.Group 
-                screenOptions={{   
-                    transparentCard : true,
-                    cardStyle : {backgroundColor : 'transparent'},
-                    presentation : 'transparentModal', headerShown : false,
-                }} 
-                cardStyle = {{backgroundColor : 'transparent'}}>
-                <Stack.Screen name={ScreenNames.RANKING_CATEGORIES} component={RankCategoryOverlay} />
-            </Stack.Group>
         </Stack.Navigator>
     );
 };
