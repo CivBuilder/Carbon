@@ -8,7 +8,7 @@ import { Section } from '../../../components/Section';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
-const margin = 10;
+const margin = 12;
 
 export default function ProgressScreen({ navigation }) {
   return (
@@ -17,13 +17,11 @@ export default function ProgressScreen({ navigation }) {
         showsHorizontalScrollIndicator={false}
         style={{ flexGrow: 1 }}
       >
-        {/* <View>
-                    <RecordEmission />
-                </View> */}
         {/* Category Breakdown */}
         <Section title="Category Breakdown">
           <CategoryBreakdown navigation={navigation} />
         </Section>
+
         {/* Log -- Will update styling and other things for this component soon :) */}
         <View style={styles.container}>
           <View style={{ backgroundColor: "white", borderRadius: 16, height: windowHeight / 2, padding: 10 }}>
