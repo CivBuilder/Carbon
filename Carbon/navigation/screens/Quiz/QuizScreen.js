@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Dimensions, SafeAreaView, Text, TouchableOpacity, View, StyleSheet, Modal } from 'react-native';
+import { Dimensions, SafeAreaView, Text, TouchableOpacity, View, StyleSheet, Modal, StatusBar } from 'react-native';
 import {useState, useEffect} from 'react';
 import { getToken } from '../../../util/LoginManager';
 import { API_URL } from '../../../config/Api';
@@ -112,6 +112,8 @@ const QuizScreen = ({navigation, route}) => {
     //RENDER FUNCTIONS
     const renderQuestion = () => {
         return (
+            <>
+            <StatusBar backgroundColor="#e3f7ff" />
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12, }}>
                     {/* Question Counter */}
@@ -137,6 +139,7 @@ const QuizScreen = ({navigation, route}) => {
                     </Text>
                 </View>
             </View>
+            </>
         )
     }
 
