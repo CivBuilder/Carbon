@@ -1,6 +1,10 @@
 import React, {useState,useEffect} from 'react';
 import {View, Text,Button,TextInput } from 'react-native';
 import { Colors } from '../../../styling/Colors';
+
+import {averageGasCarMPG} from '../../../calculations/travel_calculations/averageGasCarMPG';
+import mapScoreReverse from '../../../calculations/questionnaireMapScoreReverse';
+
 /*
 Mileage Screen
 
@@ -10,13 +14,12 @@ TODO: Improve transferring of data between pages
 
 export default function MileageScreen({navigation,route}) {
     //Values from previous pages
-    const dietScore = route.params?.dietScore;
-    const homePowerScore = route.params?.homePowerScore;
-    const annualPower = route.params?.annualPower;
-    const transportScore= route.params?.transportScore;
+    const foodScore = route.params?.foodScore;
+    const homeScore = route.params?.homeScore;
+    const [transportScore,setTransportScore] = useState(route.params?.transportScore);
 
     //Value to calculate & transfer at the "finished" screen
-    const [miles,setMiles] = useState(0);
+    const [mpg,setmpg] = useState(0);
 
     //Updating progress bar (a.k.a the header)
     useEffect(()=>{
@@ -34,6 +37,16 @@ export default function MileageScreen({navigation,route}) {
         ),
         })
     });
+
+    const calculateTransportScore=() =>{
+        //User performance = userMPG / aveMPG
+        //transport score = mapped(userPerformance)
+        console.log(averageGasCarMPG.MPG)
+        console.log(mpg)
+        let userPerformance = mpg / averageGasCarMPG.MPG;
+        setTransportScore(mapScoreReverse(userPerformance));
+    }
+
     return (
     <>
     <View
@@ -67,7 +80,10 @@ export default function MileageScreen({navigation,route}) {
         height: 32,
         }}
         keyboardType="decimal-pad"
-        onChangeText={text=>setMiles(text)}
+        onChangeText={text=>{
+        text? setmpg(text):setmpg(0);
+        calculateTransportScore();
+        }}
         />
         </View>
         </View>
@@ -91,10 +107,8 @@ export default function MileageScreen({navigation,route}) {
             onPress={() =>
                 navigation.navigate('q5',{
                     transportScore:transportScore,
-                    dietScore:dietScore,
-                    homePowerScore:homePowerScore,
-                    annualPower:annualPower,
-                    miles:miles,
+                    foodScore: foodScore,
+                    homeScore:homeScore,
                     })
             }
             />

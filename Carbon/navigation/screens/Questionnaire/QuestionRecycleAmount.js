@@ -1,6 +1,8 @@
 import React, {useState,useEffect} from 'react';
 import {View, Text,Button,TextInput } from 'react-native';
 import { Colors } from '../../../styling/Colors';
+import {aveRecyclingPerWeek} from '../../../calculations/recycling_calculations/aveRecycling';
+import mapScore from '../../../calculations/questionnaireMapScore';
 /*
 Mileage Screen
 
@@ -10,13 +12,13 @@ TODO: Improve transferring of data between pages
 
 export default function RecycleAmountScreen({navigation,route}) {
     //Values from previous pages
-    const dietScore = route.params?.dietScore;
-    const homePowerScore = route.params?.homePowerScore;
-    const annualPower = route.params?.annualPower;
+    const homeScore = route.params?.homeScore;
+    const lifestyleScore = route.params?.lifestyleScore;
+    const foodScore = route.params?.foodScore;
     const transportScore= route.params?.transportScore;
 
     //Value to calculate & transfer at the "finished" screen
-    const [miles,setMiles] = useState(0);
+    const [recycleAmt,setRecycleAmt] = useState(0);
 
     //Updating progress bar (a.k.a the header)
     useEffect(()=>{
@@ -34,6 +36,13 @@ export default function RecycleAmountScreen({navigation,route}) {
         ),
         })
     });
+
+    const calculateRecycleAmount=() =>{
+        //More recycling is better
+        let userPerformance = recycleAmt/aveRecyclingPerWeek.average;
+        setFoodScore(mapScore(userPerformance));
+    }
+
     return (
     <>
     <View
@@ -66,7 +75,7 @@ export default function RecycleAmountScreen({navigation,route}) {
         height: 32,
         }}
         keyboardType="decimal-pad"
-        onChangeText={text=>setMiles(text)}
+        onChangeText={text=>setRecycleAmt(text)}
         />
         </View>
         </View>
@@ -90,11 +99,10 @@ export default function RecycleAmountScreen({navigation,route}) {
             onPress={() =>
                 navigation.navigate('finished',{
                     transportScore:transportScore,
-                    dietScore:dietScore,
-                    homePowerScore:homePowerScore,
-                    annualPower:annualPower,
-                    miles:miles,
-                    })
+                    homeScore:homeScore,
+                    foodScore:foodScore,
+                    lifestyleScore:lifestyleScore,
+                })
             }
             />
             </View>

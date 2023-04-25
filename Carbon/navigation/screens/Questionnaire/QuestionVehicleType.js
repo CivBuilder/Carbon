@@ -1,6 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import {View, Text,Button } from 'react-native';
-import { Colors } from '../../../styling/Colors';/*
+import { Colors } from '../../../styling/Colors';
+/*
 Vehicle Type Screen
 
 TODO: Improve UI
@@ -18,15 +19,18 @@ export default function VehicleTypeScreen({navigation,route}) {
 
     //Single Choice Question, so we only need one button value
     const [buttonIndex, setButtonIndex] = useState(-1);
-
     //Change page depending on the answer:
     const [nextPage,setNextPage] = useState("q4b");
 
-    //Changes the button index for UI/points change
-    const changeIndex=(index)=>{
-        setButtonIndex(previousState=>index);
+    const calculateTransportScore=() =>{
+        //Electric Vehicle => Automatic 1 (0 carbon emissions)
+        //Others => Automatic 0 (recalculate when given MPG in next page)
+        let userPerformance = 0;
+        if(buttonIndex == 2){
+            userPerformance=1;
+        }
+        setTransportScore(userPerformance)
     }
-    const  calculateTransportScore = 0;
     //Updating progress bar (a.k.a the header)
     useEffect(()=>{
         navigation.setOptions({
@@ -42,6 +46,7 @@ export default function VehicleTypeScreen({navigation,route}) {
         </View>
         ),
         })
+        calculateTransportScore();
     });
     return (
             <>
@@ -66,7 +71,7 @@ export default function VehicleTypeScreen({navigation,route}) {
             }}
             >
             <Button
-                title="Gas-Based"
+                title="Gas or Diesel Based"
                 onPress={()=>{
                 setButtonIndex(0);
                 setNextPage("q4b");
@@ -79,24 +84,10 @@ export default function VehicleTypeScreen({navigation,route}) {
             }}
             >
             <Button
-                title ="Diesel-Based"
-                onPress={()=>{
-                setButtonIndex(1);
-                setNextPage("q4b");
-                }}
-                color={buttonIndex==1 ? Colors.primary.MINT: Colors.primary.GRAY}
-            />
-            </View>
-            <View style={{
-                marginBottom:20,
-            }}
-            >
-            <Button
                 title="Electric"
                 onPress={()=>{
                 setButtonIndex(2);
                 setNextPage("q5");
-
                 }}
                 color={buttonIndex==2 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
@@ -122,6 +113,9 @@ export default function VehicleTypeScreen({navigation,route}) {
             color={Colors.primary.MINT}
             onPress={() =>
                 navigation.navigate(nextPage,{
+                    homeScore:homeScore,
+                    foodScore:foodScore,
+                    transportScore:transportScore,
                 })
             }
             disabled ={buttonIndex>=0 ? false: true}

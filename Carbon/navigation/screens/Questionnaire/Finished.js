@@ -12,6 +12,13 @@ TODO: Connect finished to signup page(?)
 */
 
 export default function FinishedScreen({navigation, route}) {
+    //Final Calculations
+    const transportScore = route.params?.transportScore;
+    const foodScore = route.params?.foodScore;
+    const homeScore = route.params?.homeScore;
+    const lifestyleScore = route.params?.lifestyleScore;
+    const awarenessScore = (transportScore+foodScore+homeScore+lifestyleScore)/4;
+
 
     useEffect(()=>{
         navigation.setOptions({
@@ -41,11 +48,11 @@ export default function FinishedScreen({navigation, route}) {
             <Text>
             Final Data:
             </Text>
-            <Text>Transport Score: {route.params?.transportScore}</Text>
-            <Text>Lifestyle Score: {route.params?.lifestyleScore}</Text>
-            <Text>Food Score: {route.params?.foodScore}</Text>
-            <Text>Home Score: {route.params?.homeScore}</Text>
-            <Text>Awareness Score: {route.params?.awarenessScore}</Text>
+            <Text>Transport Score: {transportScore}</Text>
+            <Text>Lifestyle Score: {lifestyleScore}</Text>
+            <Text>Food Score: {foodScore}</Text>
+            <Text>Home Score: {homeScore}</Text>
+            <Text>Awareness Score: {awarenessScore}</Text>
             </View>
             <View style={{
                 flex:0,

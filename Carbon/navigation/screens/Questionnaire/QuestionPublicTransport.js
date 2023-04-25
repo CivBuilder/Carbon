@@ -10,24 +10,21 @@ TODO: Improve transferring of data between pages
 
 export default function PublicTransportScreen({navigation,route}) {
     //Data transfered from previous pages
-    const dietScore = route.params?.dietScore;
-    const homePowerScore = route.params?.homePowerScore;
-    const annualPower = route.params?.annualPower;
-
-    //Max score for public transport
-    const maxPoints = 10.0;
-
+    const foodScore = route.params?.foodScore;
+    const homeScore = route.params?.homeScore;
+    const [transportScore,setTransportScore] = useState(0)
     //"Select all that apply" state variables
     const [isDisabled,setIsDisabled] = useState(false);
-    const [pointPercent,setPointPercent] = useState(0);
     const [buttonOn0, setButtonOn0] = useState(false);
     const [buttonOn1, setButtonOn1] =  useState(false);
 
     //Calculates score (scales from 0 to 1)
     const calculatePoints=() =>{
-        let numerator = buttonOn0*6 + buttonOn1*10;
-        let denominator = (buttonOn0+buttonOn1)*maxPoints;
-        setPointPercent(previousState=>numerator/denominator);
+        if(!buttonOn0 && !buttonOn1){
+            setTransportScore(0)
+        }else{
+            setTransportScore((buttonOn0*.5 + buttonOn1)/(buttonOn1+buttonOn0));
+        }
     }
     //Ensure that points is synchronous
     useEffect(()=>{
@@ -127,10 +124,9 @@ export default function PublicTransportScreen({navigation,route}) {
             color={Colors.primary.MINT}
             onPress={() =>
                 navigation.navigate('q5',{
-                    dietScore:dietScore,
-                    homePowerScore:homePowerScore,
-                    annualPower:annualPower,
-                    transportScore:pointPercent,
+                    homeScore:homeScore,
+                    foodScore:foodScore,
+                    transportScore:transportScore,
                     })
             }
             disabled ={(buttonOn0||buttonOn1) ? false: true}
