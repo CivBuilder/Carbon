@@ -3,7 +3,6 @@ export const ScreenNames = {
     PROGRESS: 'Progress',
     FORUM: 'Forum',
     RANKING: 'Ranking',
-    RANKING_CATEGORIES : 'RankingCategories',
     SETTINGS: 'Settings',
     ADD_PROGRESS: 'AddProgress',
     ADD_GOAL: 'AddGoal',

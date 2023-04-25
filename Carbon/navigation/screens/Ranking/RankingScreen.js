@@ -1,20 +1,16 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import {ActivityIndicator, ScrollView, StyleSheet, Text, View, RefreshControl, TouchableOpacity, FlatList} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import ServerErrorScreen from '../../../components/ServerErrorScreen';
 import LoadingIndicator from "../../../components/LoadingIndicator";
-import { ScreenNames } from '../Main/ScreenNames.js';
-
 import {Colors} from "../../../styling/Colors";
 import ListPlayers from './ListPlayers';
 import { API_URL } from '../../../config/Api';
-import { getAuthHeader } from '../../../util/LoginManager';
 import getUserScores from './getUserScores';
 import MiniRanking from './RankingMiniView';
 import SwitchSelector from "react-native-switch-selector";
-
 import RankingCategoryOverlay from './RankCategoryOverlay';
+import { EmissionCategory as EC } from './EmissionScoreCateogory';
 
 
 const PAGE_SIZE = 15;
@@ -42,10 +38,9 @@ export default function RankingScreen({navigation, route}){
     // const [sustainability_score, setSustainabilityScore] = useState(null);
     const [userScores, setUserScores] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
-    const [buttonPressed, setPressedButton] = useState(1);
-    const [emission_category, setEmissionCategory] = useState(null);
+    const [emission_category, setEmissionCategory] = useState(EC.GLOBAL);
     const [loading, setLoading] = useState(false);
-
+    const [leaderboardTables, setLeaderboardTables] = useState()
 
 
     //Lists and indexes for fetching lists from the database
@@ -55,7 +50,6 @@ export default function RankingScreen({navigation, route}){
       //For "Players Like You" page
       const [like_you_table, setPlayersLikeYouTable] = useState([]); //Empty array of entries 
       const [like_you_range, setLikeYouRange] = useState(null); //[0] = earliest page, [1] = last page
-      const [initial_page_loaded, setLikeYouFirstPageFlag] = useState(false);
 
 
     /***************************************Server Requests***************************************/
@@ -166,11 +160,16 @@ export default function RankingScreen({navigation, route}){
     // useEffect( () => {fetchAndUpdatePlayersLikeYouTable(false)}, [initial_page_loaded]);
     
 
+    if(userScores === null) return (
+      <LoadingIndicator loading={loading}/>
+    );
+
+    if(errorMessage !== null) return (
+      <ServerErrorScreen onRefresh={() =>{getUserScores(setUserScores, setLoading, setErrorMessage)}}/>
+    );
 
     return (
-      // <SafeAreaView backgroundColor = {Colors.secondary.NON_PHOTO_BLUE} style = {{ flexGrow : 1, flex : 1}} testID = "rankingComponent">
-        
-    <View style = {{flex : 1, backgroundColor : 'white'}}>
+    <View style = {{flex : 1}}>
 
       {/* Header with Toggling Overlay */}
       <View style = {{height : 100, backgroundColor : 'white', flexDirection : 'row-reverse'}}>
@@ -180,15 +179,10 @@ export default function RankingScreen({navigation, route}){
       </View>
 
 
-      <View style = {{backgroundColor : 'cyan'}}>
+      <View>
         <View style = {styles.MiniRankContainer}>
           {/* Replace with the  */}
-          <MiniRanking userScores={{
-            ranking : 1, 
-            sustainability_score : 10,
-            global_score : 500,
-            nextRankScore : 1000,
-          }}/> 
+          <MiniRanking userScores={userScores} rankCategory={emission_category}/> 
         </View>
         
         <View style = {{margin : 5}}>
@@ -214,21 +208,18 @@ export default function RankingScreen({navigation, route}){
         </View>
       </View> 
 
-      <View style={styles.ListContainer}>
-
+      <View style={styles.ListContentContainer}>
+          <Text> Poop</Text>
       </View>
+
     </View>);
-
-    //   {/* </SafeAreaView> */}
-    // );
-
-  }
+}
 
 
 
   const styles = StyleSheet.create({
     MiniRankContainer : { 
-      height : 170,
+      height : 180,
       // backgroundColor : Colors.secondary.NYANZA,
       padding : 12,
     },
@@ -261,33 +252,7 @@ export default function RankingScreen({navigation, route}){
       borderRadius : 7,
       flexDirection : 'row',
     },
-    
-    // button : {
-    //   flex : 1/3,
-    //   backgroundColor : Colors.secondary.NON_PHOTO_BLUE,
-    //   marginLeft : 5, 
-    //   marginRight : 5,
-    //   borderRadius : 7,
-    // },
-    // buttonContainer: {
-    //   flex : 0.1,
-    //   overflow : 'hidden',
-    //   flexDirection: 'row',
-    //   borderRadius: 30,
-    //   borderColor : "#219df4",
-    //   borderWidth : 3,
-    //   backgroundColor : "#219df4",
-    //   width : 'auto',
-    //   justifyContent : 'center',
-    //   alignItems : 'center',
-    // },
-    // button: {
-    //   flex : 1,
-    //   backgroundColor: '#219df4',
-    //   padding: 2,
-    //   marginHorizontal: 6,
-    //   borderRadius: 25,
-    // },
+  
     buttonText: {
       color: '#FFFFFF',
       textAlign: 'center',
@@ -330,32 +295,6 @@ export default function RankingScreen({navigation, route}){
 //         </View>
 
 
-//       {/*Display the USERS RANK*/}
-//       { buttonPressed === 1 &&
-//         <View>
-//         <Text style = {styles.HeaderText}>
-
-//           {/* TODO : Hash title from the sustainability score retrieved from fetch request*/}
-//           As A [Title]....{"\n"}
-//           Your Rank is
-//         </Text>
-// {/* 
-//         <Text style = {styles.RankText}>
-//           {rank}
-//         </Text> */}
-//       </View>
-//       }
-
-//       {/* TODO: Display the Top users */}
-//       {buttonPressed === 2}
-
-
-//       {/* Display a list of you and your friends */}
-//       {buttonPressed === 3 &&
-//         <Text style = {styles.HeaderText}>
-//           Coming Soon!
-//         </Text>               
-//       }
 
 //     </View>
 

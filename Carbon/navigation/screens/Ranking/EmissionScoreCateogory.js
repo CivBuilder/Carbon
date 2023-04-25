@@ -1,7 +1,7 @@
 export const EmissionCategory = {
-    GLOBAL : 1,
-    TRANSPORT : 2,
-    LIFESTYLE : 3,
-    DIET : 4,
-    HOME : 5
+    GLOBAL : 'global_',
+    TRANSPORT : 'transport_',
+    LIFESTYLE : 'lifestyle_',
+    DIET : 'diet_',
+    HOME : 'home_'
 }
