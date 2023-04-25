@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, ScrollView, Image, Pressable } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import UsernameInput from '../../../components/UsernameInput';
 import PasswordInput from '../../../components/PasswordInput';
 import { Colors } from '../../../styling/Colors';
@@ -29,6 +30,8 @@ const SettingsScreen = ({ navigation }) => {
     const [username, setUsername] = useState('');
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordMatch, setPasswordMatch] = useState(false);
 
     // Change pfp modal
     const [modalVisible, setModalVisible] = useState(false);
@@ -40,6 +43,11 @@ const SettingsScreen = ({ navigation }) => {
     async function handlePasswordChange() {
         await changePassword(oldPassword, newPassword);
         await fetchUser();
+    }
+
+    function handlePasswordMatch(pw){
+        setConfirmPassword(pw);
+        setPasswordMatch(pw === newPassword);
     }
 
     useEffect(() => {
@@ -76,95 +84,131 @@ const SettingsScreen = ({ navigation }) => {
     }
 
     return (
-        <View style={{height: "100%", width: '100%'}}>
-            <ScrollView scrollEnabled={!modalVisible} style={styles.container} contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
-                <View style={styles.profileContainer}>
-                    {!loadingUser? ( 
-                    <View style={{borderRadius: 16, paddingBottom: 20}}>
-                        <View style={{position: 'absolute', height: 130, width: '100%', backgroundColor: Colors.primary.MINT, borderTopLeftRadius: 16, borderTopRightRadius: 16}}></View>
-                        <Text
-                            style={{
-                                color: 'white',
-                                textAlign: 'center',
-                                fontSize: 22,
-                            }}
-                        >
-                            Carbon User
-                        </Text>
-                        <Text
-                            style={{
-                                color: 'white',
-                                textAlign: 'center',
-                                fontSize: 22,
-                                fontWeight: 'bold'
-                            }}
-                        >
-                            {user.username}
-                        </Text>
-                        <Pressable onPress={onChangePFP} style={{padding: 15}}>
-                            <Image
-                                source={pfps[user.profile_selection]}
-                                style={{
-                                    height: 100,
-                                    width: 100,
-                                    alignSelf: 'center',
-                                    justifyContent: 'center',
-                                    borderColor: 'black',
-                                }}
-                            />
-                        </Pressable>
-                        <Text
-                            style={{
-                                textAlign: 'center',
-                                fontSize: 22,
-                                fontWeight: 'bold'
-                            }}
-                        >
-                            Email: {user.email}
-                        </Text>
-                    </View>
-                    ) : (
-                        <View style={{borderRadius: 16, height: 40}}>
-                            <LoadingIndicator loading={loadingUser}/>
+            <View style={{height: "100%", width: '100%'}}>
+                <KeyboardAwareScrollView scrollEnabled={!modalVisible} style={styles.container} contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
+                    <View style={styles.profileContainer}>
+                        {!loadingUser? (
+                        <View style={{borderRadius: 16, padding: 20}}>
+                            <View>
+                                <Image
+                                    source={pfps[user.profile_selection]}
+                                    style={{
+                                        height: 100,
+                                        width: 100,
+                                        alignSelf: 'center',
+                                        justifyContent: 'center',
+                                    }}
+                                />
+                                <View style={{justifyContent: 'center', alignSelf: 'center'}}>
+                                    <Pressable onPress={onChangePFP}>
+                                        <Text style={{fontSize: 16, color: Colors.primary.MINT}}>Edit</Text>
+                                    </Pressable>
+                                </View>
+                            </View>
+
+                            {/* Container for username and email */}
+                            <View style={{marginTop: 20}}>
+
+                                {/* Username */}
+                                <View style={{marginBottom: 6}}>
+                                    <Text
+                                        style={{
+                                            color: 'black',
+                                            textAlign: 'center',
+                                            //Default font size 22. If username length > 20, make font size 18
+                                            fontSize: user.username.length > 22 ? 16 : 22,
+                                            fontWeight: '600'
+                                        }}
+                                    >
+                                        @{user.username}
+                                    </Text>
+                                </View>
+
+                                {/* Email */}
+                                <View>
+                                    <Text
+                                        style={{
+                                            textAlign: 'center',
+                                            fontSize: user.username.length > 22 ? 14 : 18,
+                                            fontWeight: '400'
+                                        }}
+                                    >
+                                        {user.email}
+                                    </Text>
+                                </View>
+                            </View>
                         </View>
-                    )}
-                </View>
+                        ) : (
+                            <View style={{borderRadius: 16, height: 40}}>
+                                <LoadingIndicator loading={loadingUser}/>
+                            </View>
+                        )}
+                    </View>
 
-                {/* Change username */}
-                <View style={styles.content}>
-                    <Text style={styles.generalText}>Change username</Text>
-                    <UsernameInput testID="usernameInput" onChangeText={un => setUsername(un)} />
-                </View>
-                <ChangeUsernameButton onPress={async () => await handleUsernameChange()} />
+                    {/* Change username */}
+                    <View style={styles.content}>
+                        <Text style={{...styles.generalText, textAlign:'left'}}>Change Username</Text>
+                        <UsernameInput testID="usernameInput" onChangeText={un => setUsername(un)}/>
+                    </View>
+                    <ChangeUsernameButton onPress={async () => await handleUsernameChange()} disabled={!username || username===user.username}/>
 
-                {/* Change password */}
-                <View style={styles.content}>
-                    <Text style={styles.generalText}>Change password</Text>
-                    {/* Change below line to use new api call to check if old password matches */}
-                    <PasswordInput text="Old Password" testID="OldPassword" onChangeText={pw => setOldPassword(pw)} />
-                    <PasswordInput text="New Password" testID="NewPassword" onChangeText={pw => setNewPassword(pw)} />
-                </View>
-                <ChangePasswordButton onPress={async () => await handlePasswordChange()} />
+                    {/* Change password */}
+                    <View style={styles.content}>
+                        <Text style={{...styles.generalText, textAlign:'left'}}>Change Password</Text>
+                        {/* Change below line to use new api call to check if old password matches */}
+                        <PasswordInput text="Old Password" testID="OldPassword" onChangeText={pw => setOldPassword(pw)}/>
+                        <PasswordInput text="New Password" testID="NewPassword" onChangeText={pw => setNewPassword(pw)}/>
+                        <PasswordInput text="Confirm Password" testID="ConfirmPassword" onChangeText={pw => handlePasswordMatch(pw)}/>
+                    </View>
+                    <ChangePasswordButton onPress={async () => await handlePasswordChange()} disabled={(!oldPassword || !newPassword || !confirmPassword || !passwordMatch)}/>
 
-                {/* Logout */}
-                <View style={styles.content}>
-                    <Button title='logout' onPress={() => { logout() }} />
-                </View>
-
-            </ScrollView>
-            {modalVisible && (
-            <View style={{position: 'absolute', bottom: 0, left: 0, right: 0, top: 0, backgroundColor: 'rgba(0,0,0,0.4)'}}>
-                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{alignSelf: 'center', paddingVertical: 40}}>
-                    {pfps.map((item, index) => {
-                        return(
-                        <TouchableOpacity key={index} onPress={() => {onSetPFP(index)}}>
-                            <Image source={item} style={{height: 120, width: 120, margin: 8}}/>
+                    {/* Logout */}
+                    <View style={styles.content}>
+                        <TouchableOpacity
+                            style={{
+                                borderWidth: 2,
+                                borderRadius: 12,
+                                borderColor: Colors.secondary.RED,
+                                backgroundColor: 'white',
+                            }}
+                            onPress={() => { logout() }}
+                        >
+                            <Text style={{color: Colors.secondary.RED, padding: 6, fontSize: 18, textAlign: 'center'}}>Logout</Text>
                         </TouchableOpacity>
-                    )})}
-                </ScrollView>
+                    </View>
+
+                </KeyboardAwareScrollView>
+                {modalVisible && (
+                    <View
+                        style={{
+                            position: 'absolute',
+                            bottom: 0, left: 0, right: 0, top: 0,
+                            backgroundColor: "rgba(0,0,0,0.5)",
+                            justifyContent: 'flex-end'
+                        }}
+                    >
+                        <View
+                            style={{
+                                position: 'absolute',
+                                bottom: 0, left: 0, right: 0, top: '40%',
+                                backgroundColor: "white",
+                                borderTopLeftRadius: 16,
+                                borderTopRightRadius: 16
+                            }}
+                        >
+                            <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', padding: 24}}>
+                                {pfps.map((item, index) => {
+                                    return(
+                                    <TouchableOpacity key={index} onPress={() => {onSetPFP(index)}}>
+                                        <Image source={item} style={{height: 90, width: 90, margin: 12}}/>
+                                    </TouchableOpacity>
+                                    )
+                                })}
+                            </View>
+                        </View>
+                    </View>
+                )}
             </View>
-            )}
-        </View>
     )
 }
 
@@ -183,6 +227,7 @@ const styles = StyleSheet.create({
 
     content: {
         width: 300,
+        marginTop: 36,
         marginBottom: 10,
     },
 

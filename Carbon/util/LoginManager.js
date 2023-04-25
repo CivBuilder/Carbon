@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { API_URL } from '../config/Api';
 
+import { profanities } from '../components/Profanities';
+
 function renderCallback() {
     console.log("renderCallback not assigned in LoginManager.js, signin signout won't rerender.");
 };
@@ -114,4 +116,34 @@ export async function logout() {
 export function validatePassword(password) {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$,%,&,*,@,!])[A-Za-z\d$,%,&,*,@,!]{8,}$/;
     return regex.test(password);
+}
+
+export function validateUsername(username) {
+    // Check for bad words/slurs
+    for (const profanity of profanities) {
+        if (username.toLowerCase().includes(profanity.toLowerCase())) {
+            return false; // username contains a bad word/slur
+        }
+    }
+
+    // Check for SQL injection attacks
+    const sqlKeywords = ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'DROP', 'ALTER', 'CREATE', 'TRUNCATE'];
+    for (const keyword of sqlKeywords) {
+        if (username.toUpperCase().includes(keyword)) {
+            return false; // username contains a SQL keyword
+        }
+    }
+
+    // Check for special characters except '_', '-', and '.'
+    const regex = /^[a-zA-Z0-9_.-]*$/;
+    if (!regex.test(username)) {
+        return false;
+    }
+
+    // Check for length (minimum 3 characters, maximum 30)
+    if (username.length < 3 || username.length > 30) {
+        return false;
+    }
+
+    return true; // username is valid
 }
