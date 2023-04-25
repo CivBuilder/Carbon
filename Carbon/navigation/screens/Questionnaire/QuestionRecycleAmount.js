@@ -13,7 +13,7 @@ TODO: Improve transferring of data between pages
 export default function RecycleAmountScreen({navigation,route}) {
     //Values from previous pages
     const homeScore = route.params?.homeScore;
-    const lifestyleScore = route.params?.lifestyleScore;
+    const [lifestyleScore,setLifestyleScore] = useState(route.params?.lifestyleScore);
     const foodScore = route.params?.foodScore;
     const transportScore= route.params?.transportScore;
 
@@ -40,7 +40,7 @@ export default function RecycleAmountScreen({navigation,route}) {
     const calculateRecycleAmount=() =>{
         //More recycling is better
         let userPerformance = recycleAmt/aveRecyclingPerWeek.average;
-        setFoodScore(mapScore(userPerformance));
+        setLifestyleScore(mapScore(userPerformance));
     }
 
     return (
@@ -69,13 +69,16 @@ export default function RecycleAmountScreen({navigation,route}) {
             marginBottom: 5,
         }}> Recycle Amount </Text>
         <TextInput
-        placeholder="Pounds (lbs) Ex: 33"
+        placeholder="Pounds (lbs) Ex: 3"
         style={{
         backgroundColor:Colors.secondary.NYANZA,
         height: 32,
         }}
         keyboardType="decimal-pad"
-        onChangeText={text=>setRecycleAmt(text)}
+        onChangeText={text=>{
+        setRecycleAmt(text);
+        calculateRecycleAmount();
+        }}
         />
         </View>
         </View>

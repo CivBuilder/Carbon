@@ -13,6 +13,10 @@ TODO: Connect finished to signup page(?)
 
 export default function FinishedScreen({navigation, route}) {
     //Final Calculations
+    //Food Score is calculated in animaldiet and diet
+    //Home score is calculated in household and bills
+    //Transport Score is calculated in Public transport, mileage, vehicleType
+    //Lifestyle score is calculated in recycling
     const transportScore = route.params?.transportScore;
     const foodScore = route.params?.foodScore;
     const homeScore = route.params?.homeScore;
