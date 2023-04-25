@@ -22,6 +22,7 @@ import PublicTransportScreen from '../Questionnaire/QuestionPublicTransport';
 import FinishedScreen from '../Questionnaire/Finished';
 import RecycleScreen from '../Questionnaire/QuestionRecycling';
 import RecycleAmountScreen from '../Questionnaire/QuestionRecycleAmount';
+import AnimalDietScreen from '../Questionnaire/QuestionAnimalDiet';
 
 import { getToken, setRenderCallback } from '../../../util/LoginManager';
 import { PopUpMenu } from '../../../components/PopUpMenu';
@@ -49,16 +50,17 @@ const QuestionnaireStack = ({route,navigation}) =>{
     initialRouteName="GetStarted"
     >
         <Stack.Screen name = "GetStarted" component={StartScreen}/>
-        <Stack.Screen name="q1" component={DietScreen}/>
-        <Stack.Screen name="q2" component={HouseholdScreen}/>
-        <Stack.Screen name="q3" component={BillScreen}/>
+        <Stack.Screen name="q1" component={DietScreen} />
+        <Stack.Screen name="q1a" component={AnimalDietScreen}/>
+        <Stack.Screen name="q2" component={HouseholdScreen} />
+        <Stack.Screen name="q2a" component={BillScreen}/>
         <Stack.Screen name="q4" component={TransportScreen}/>
         <Stack.Screen name="q4a" component={VehicleTypeScreen}/>
         <Stack.Screen name="q4b" component={MileageScreen}/>
         <Stack.Screen name="q4c" component={PublicTransportScreen}/>
         <Stack.Screen name="q5" component={RecycleScreen}/>
         <Stack.Screen name="q5a" component={RecycleAmountScreen}/>
-        <Stack.Screen name="finished" component={FinishedScreen} initialParams={{confirmQuestionnaire: route.params?.setIsSignedIn}}/>
+        <Stack.Screen name="finished" component={FinishedScreen}/>
     </Stack.Navigator>
     )
 }
