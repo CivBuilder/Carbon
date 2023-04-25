@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import {ActivityIndicator, ScrollView, StyleSheet, Text, View, RefreshControl, Pressable, FlatList} from 'react-native';
 import ServerErrorScreen from '../../../components/ServerErrorScreen';
 import LoadingIndicator from "../../../components/LoadingIndicator";
+
 import {Colors} from "../../../styling/Colors";
 import ListPlayers from './ListPlayers';
 import { API_URL } from '../../../config/Api';
@@ -11,6 +12,11 @@ import getUserScores from './getUserScores';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MiniRanking from './RankingMiniView';
 import SwitchSelector from "react-native-switch-selector";
+import { Ionicons } from '@expo/vector-icons';
+
+import RankingCategoryOverlay from './RankCategoryOverlay';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
 
 const PAGE_SIZE = 15;
 const API_Entry_RANK_URL = API_URL + "user/rank/";
@@ -33,6 +39,9 @@ export default function RankingScreen({navigation}){
     const [buttonPressed, setPressedButton] = useState(1);
     const [loading, setLoading] = useState(false);
 
+    const entries = [
+      {}
+    ]
     //Lists and indexes for fetching lists from the database
 
       //For "Top Players" page
@@ -46,104 +55,14 @@ export default function RankingScreen({navigation}){
 
 
 
-
-    /***************************************Server Requests***************************************/
-    // //Get's User Rank - Any Response other than 200 will cause page to show Error Screen
-    // const fetchUserRank = async () => {
-    //   setLoading(true);
-    //   console.log(`Fetching from ${API_Entry_RANK_URL+KEY}`);
-
-    //   //Get result from Server via Fetch
-    //   try { 
-
-    //     // Changing rank to use the new JWT
-    //     const response = await fetch(API_Entry_RANK_URL, await getAuthHeader());
-
-    //     //Set Rank and first table to load on the "Like You" page for the table
-    //     if(response.status === 200) {
-    //       const response_content = await response.json(); 
-    //       console.log(response_content);
-          
-    //       setRank(response_content.ranking);
-    //       setSustainabilityScore(response_content.sustainability_score);
-    //       setErrorMessage(null);          
-    //       setLikeYouRange([Math.floor(response_content.ranking/PAGE_SIZE), Math.floor(response_content.ranking/PAGE_SIZE)]);
-    //       setLikeYouFirstPageFlag(true);
-
-    //       console.log(`Fetch from ${API_Entry_RANK_URL+KEY} was a success!`);
-    //     }
-    //     //Handle Error thrown from Server
-    //     else if (response.status === 404) {
-    //       setRank(null);
-    //       setSustainabilityScore(null);
-    //       setErrorMessage(`Error: ${response.status} : ${response.statusText}`);
-    //       console.log(`Fetch from ${API_Entry_RANK_URL+KEY} Failed, 404: bad ID`);
-    //     }
-    //   } 
-    //   //Handle any other errors not necessarily from Server
-    //   catch(err) {
-    //     setRank(null);
-    //     setSustainabilityScore(null);
-    //     setErrorMessage(`Error: ${err.message}`);
-    //     console.log(`Fetch from ${API_Entry_RANK_URL+KEY} Failed: ${err.message}`);
-    //   }
-    //   setLoading(false);
-    // }
-    
+      //Delete
+      const [visible, setVisible] = useState(false);
+      const toggleOverlay = () => {
+          setVisible(!visible);
+      };
+  
 
 
-    // /* Get the next page from the global table 200/204 OK*/ 
-    // const fetchAndUpdateGlobalTable = async () => {
-    //   setLoading(true);
-    //   try{
-    //     const response = await fetch(API_Entry_LEADERBOARD_URL+global_table_page_counter.toString());
-        
-    //     //Add to our list on a successful get request
-    //     if(response.status === 200) {
-    //       const response_content = await response.json();
-    //       setGlobalTable(global_table.concat(response_content));
-    //       setGlobalTableCounter(global_table_page_counter+1);
-    //       setErrorMessage(null);
-    //     }
-    //     //Server Response if you have a page with no elements in it - No Content
-    //     else if(response.status === 204) {
-    //       alert("No More users to load");
-    //     }
-    //     //Set error if we go out of bounds on the server request
-    //     else if(response.status === 400) {
-    //       alert("Error: Couldn't Fetch User Data : Bad Request");
-    //       setGlobalTableCounter(global_table_page_counter-1)
-    //       setErrorMessage(`Error: ${err.message}`);
-    //     }
-    //     //Set Error on any server failure
-    //   } catch (err) {
-    //       setGlobalTableCounter(global_table_page_counter-1);
-    //       setErrorMessage(`Error: ${err.message}`);
-    //   }
-    //   setLoading(false);
-    // }
-
-
-    /**********************State Dependant Helper Functions *****************************/
-    /* Handle Button Presses */
-    /* These are here so that the table isn't constantly updated everytime the tab is switched*/
-    /* When the Ends of the Lists are met, the direct calls to the update functions are called*/
-    // const HandlePressedButton = (buttonID) => {
-    //   switch(buttonID){
-    //     case 1 :
-    //       setPressedButton(1);
-    //       if(like_you_table.length === 0) fetchAndUpdatePlayersLikeYouTable(false);  
-    //       break;
-    //     case 2  :
-    //       setPressedButton(2);
-    //       if(global_table.length === 0) fetchAndUpdateGlobalTable();
-    //       break;
-    //     case 3 :
-    //       //TODO : Social Feature for Ranking System
-    //       setPressedButton(3);
-    //       break;
-    //   }
-    // }
 
 
 
@@ -157,10 +76,10 @@ export default function RankingScreen({navigation}){
 
 
     return (
-      <SafeAreaView backgroundColor = {Colors.secondary.NON_PHOTO_BLUE} style = {{ flexGrow : 1, flex : 1}} testID = "rankingComponent">
-
-      
-      <View style = {{flex : 1, backgroundColor : 'blue'}}>
+      // <SafeAreaView backgroundColor = {Colors.secondary.NON_PHOTO_BLUE} style = {{ flexGrow : 1, flex : 1}} testID = "rankingComponent">
+        
+    <View style = {{flex : 1}}>
+      <View style = {{flex : 1, backgroundColor : 'white'}}>
         <View style = {styles.MiniRankContainer}>
           {/* Replace with the  */}
           <MiniRanking userScores={{
@@ -170,22 +89,38 @@ export default function RankingScreen({navigation}){
             nextRankScore : 1000,
           }}/> 
         </View>
-        <View style = {styles.ListContentContainer}>
-          <View style = {styles.buttonContainer}>
+        
+        <View style = {{margin : 5,}}>
           <SwitchSelector
             initial={0}
-            textColor = {}
-            backgroundColor = {Colors.secondary.NON_PHOTO_BLUE}
-
+            // onPress={value => this.setState({ gender: value })}
+            textColor={"white"} //'#7a44cf'
+            selectedColor={"black"}
+            buttonColor={"white"}
+            borderColor={Colors.secondary.DARK_MINT}
+            backgroundColor={"#0096FF"} //Bright blue
+            hasPadding={true}
+            options={[
+              { label: "Players Like You", value: 1 }, //images.feminino = require('./path_to/assets/img/feminino.png')
+              { label: "Top Players", value: 2}, //images.masculino = require('./path_to/assets/img/masculino.png')
+              { label: "Worst Players", value : 3}
+            ]}
+            testID="gender-switch-selector"
+            accessibilityLabel="gender-switch-selector"
+            animationDuration = {150}
+            height = {36}
           />
-          </View>
         </View>
-
       </View>
 
+      <TouchableOpacity onPress={toggleOverlay}>
+          <Text>hello</Text>
+      </TouchableOpacity>
+      <RankingCategoryOverlay toggleOverlay={toggleOverlay} visible={visible}/>
+    </View>);
 
-      </SafeAreaView>
-    );
+    //   {/* </SafeAreaView> */}
+    // );
 
   }
 
@@ -194,7 +129,7 @@ export default function RankingScreen({navigation}){
   const styles = StyleSheet.create({
     MiniRankContainer : { 
       height : 170,
-      backgroundColor : Colors.secondary.NYANZA,
+      // backgroundColor : Colors.secondary.NYANZA,
       padding : 12,
     },
     ListContentContainer : {
@@ -218,18 +153,18 @@ export default function RankingScreen({navigation}){
       fontSize : 45,
     },
   
-    CategoryHighlights : {
-      backgroundColor: Colors.secondary.NON_PHOTO_BLUE,
-      borderRadius: 10,
-      borderBottomEndRadius : 10,
-      borderBottomStartRadius : 10,
-      // borderTopEndRadius : 50,
-      // borderTopStartRadius : 50,
-      padding: 15,
-      overflow : 'hidden',
-      borderColor : Colors.primary.RAISIN_BLACK,
-      borderWidth : 0,
-    },
+    // CategoryHighlights : {
+    //   backgroundColor: Colors.secondary.NON_PHOTO_BLUE,
+    //   borderRadius: 10,
+    //   borderBottomEndRadius : 10,
+    //   borderBottomStartRadius : 10,
+    //   // borderTopEndRadius : 50,
+    //   // borderTopStartRadius : 50,
+    //   padding: 15,
+    //   overflow : 'hidden',
+    //   borderColor : Colors.primary.RAISIN_BLACK,
+    //   borderWidth : 0,
+    // },
 
     buttonContainer : {
       flex : 0.04,
@@ -240,13 +175,13 @@ export default function RankingScreen({navigation}){
       flexDirection : 'row',
     },
     
-    button : {
-      flex : 1/3,
-      backgroundColor : Colors.secondary.NON_PHOTO_BLUE,
-      marginLeft : 5, 
-      marginRight : 5,
-      borderRadius : 7,
-    },
+    // button : {
+    //   flex : 1/3,
+    //   backgroundColor : Colors.secondary.NON_PHOTO_BLUE,
+    //   marginLeft : 5, 
+    //   marginRight : 5,
+    //   borderRadius : 7,
+    // },
     // buttonContainer: {
     //   flex : 0.1,
     //   overflow : 'hidden',
@@ -266,17 +201,11 @@ export default function RankingScreen({navigation}){
     //   marginHorizontal: 6,
     //   borderRadius: 25,
     // },
-    pressedButton : {
-      backgroundColor : "#FFFFFF",
-    },
     buttonText: {
       color: '#FFFFFF',
       textAlign: 'center',
     },
-    pressedButtonText : {
-      color : "#219df4",
-      textAlign : 'center',
-    },
+
   
   });
   
@@ -469,3 +398,100 @@ async function fetchAndUpdatePlayersLikeYouTable (like_you_range, setLikeYouRang
 
 
 
+    /***************************************Server Requests***************************************/
+    // //Get's User Rank - Any Response other than 200 will cause page to show Error Screen
+    // const fetchUserRank = async () => {
+    //   setLoading(true);
+    //   console.log(`Fetching from ${API_Entry_RANK_URL+KEY}`);
+
+    //   //Get result from Server via Fetch
+    //   try { 
+
+    //     // Changing rank to use the new JWT
+    //     const response = await fetch(API_Entry_RANK_URL, await getAuthHeader());
+
+    //     //Set Rank and first table to load on the "Like You" page for the table
+    //     if(response.status === 200) {
+    //       const response_content = await response.json(); 
+    //       console.log(response_content);
+          
+    //       setRank(response_content.ranking);
+    //       setSustainabilityScore(response_content.sustainability_score);
+    //       setErrorMessage(null);          
+    //       setLikeYouRange([Math.floor(response_content.ranking/PAGE_SIZE), Math.floor(response_content.ranking/PAGE_SIZE)]);
+    //       setLikeYouFirstPageFlag(true);
+
+    //       console.log(`Fetch from ${API_Entry_RANK_URL+KEY} was a success!`);
+    //     }
+    //     //Handle Error thrown from Server
+    //     else if (response.status === 404) {
+    //       setRank(null);
+    //       setSustainabilityScore(null);
+    //       setErrorMessage(`Error: ${response.status} : ${response.statusText}`);
+    //       console.log(`Fetch from ${API_Entry_RANK_URL+KEY} Failed, 404: bad ID`);
+    //     }
+    //   } 
+    //   //Handle any other errors not necessarily from Server
+    //   catch(err) {
+    //     setRank(null);
+    //     setSustainabilityScore(null);
+    //     setErrorMessage(`Error: ${err.message}`);
+    //     console.log(`Fetch from ${API_Entry_RANK_URL+KEY} Failed: ${err.message}`);
+    //   }
+    //   setLoading(false);
+    // }
+    
+
+
+    // /* Get the next page from the global table 200/204 OK*/ 
+    // const fetchAndUpdateGlobalTable = async () => {
+    //   setLoading(true);
+    //   try{
+    //     const response = await fetch(API_Entry_LEADERBOARD_URL+global_table_page_counter.toString());
+        
+    //     //Add to our list on a successful get request
+    //     if(response.status === 200) {
+    //       const response_content = await response.json();
+    //       setGlobalTable(global_table.concat(response_content));
+    //       setGlobalTableCounter(global_table_page_counter+1);
+    //       setErrorMessage(null);
+    //     }
+    //     //Server Response if you have a page with no elements in it - No Content
+    //     else if(response.status === 204) {
+    //       alert("No More users to load");
+    //     }
+    //     //Set error if we go out of bounds on the server request
+    //     else if(response.status === 400) {
+    //       alert("Error: Couldn't Fetch User Data : Bad Request");
+    //       setGlobalTableCounter(global_table_page_counter-1)
+    //       setErrorMessage(`Error: ${err.message}`);
+    //     }
+    //     //Set Error on any server failure
+    //   } catch (err) {
+    //       setGlobalTableCounter(global_table_page_counter-1);
+    //       setErrorMessage(`Error: ${err.message}`);
+    //   }
+    //   setLoading(false);
+    // }
+
+
+    /**********************State Dependant Helper Functions *****************************/
+    /* Handle Button Presses */
+    /* These are here so that the table isn't constantly updated everytime the tab is switched*/
+    /* When the Ends of the Lists are met, the direct calls to the update functions are called*/
+    // const HandlePressedButton = (buttonID) => {
+    //   switch(buttonID){
+    //     case 1 :
+    //       setPressedButton(1);
+    //       if(like_you_table.length === 0) fetchAndUpdatePlayersLikeYouTable(false);  
+    //       break;
+    //     case 2  :
+    //       setPressedButton(2);
+    //       if(global_table.length === 0) fetchAndUpdateGlobalTable();
+    //       break;
+    //     case 3 :
+    //       //TODO : Social Feature for Ranking System
+    //       setPressedButton(3);
+    //       break;
+    //   }
+    // }

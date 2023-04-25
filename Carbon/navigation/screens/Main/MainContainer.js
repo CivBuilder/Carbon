@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { StatusBar, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StatusBar, Image, TouchableOpacity, SafeAreaView, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -134,10 +134,51 @@ const RankingStack = ({ navigation }) => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name={' '}
+                name={'Ranking'}
                 component={RankingScreen}
+                // options={{
+                //     headerShown: true, // Set to false for now until we need to implement headers for this screen
+                //     headerStyle : {
+                //         height : Dimensions.get('window').height *0.12
+                //     },
+                //     // headerRight : () => {
+                //     //     <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.SETTINGS)}>
+                //     //         <Ionicons
+                //     //             name={IconNames.SETTINGS}
+                //     //             size={24}
+                //     //             color={Colors.primary.RAISIN_BLACK}
+                //     //             style={{ marginRight: 16 }}
+                //     //         />
+                //     //     </TouchableOpacity>
+                //     // }
+                    
+                // }}
                 options={{
-                    headerShown: false, // Set to false for now until we need to implement headers for this screen
+                    headerShown: true,
+                    // headerStyle: {
+                    //     height: Platform.OS === 'ios' ? 48 : 72,
+                    // },
+                    headerTitleAlign: 'center',
+                    // headerTitle: () => (
+                    //     <Image
+                    //         source={require('../../../assets/Carbon_Logo.png')}
+                    //         style={{
+                    //             //TODO: 1080x356 is the current dimension. Find a better way to scale this properly.
+                    //             width: 1080 / 12,
+                    //             height: 356 / 12,
+                    //         }}
+                    //     />
+                    // ),
+                    headerRight: () => (
+                        <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.SETTINGS)}>
+                            <Ionicons
+                                name={"list-outline"}
+                                size={24}
+                                color={Colors.primary.RAISIN_BLACK}
+                                style={{ marginRight: 16 }}
+                            />
+                        </TouchableOpacity>
+                    ),
                 }}
             />
         </Stack.Navigator>
