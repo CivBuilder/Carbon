@@ -26,9 +26,9 @@ export default function BillScreen({navigation,route}) {
         <View style={{
         position: "absolute",
         top:0,
-        height:40,
+        height:30,
         borderRadius: 6,
-        width:"42%",
+        width:"28%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>
@@ -46,29 +46,47 @@ export default function BillScreen({navigation,route}) {
     width: "100%"
     }}
     >
-        <Text>
+        <Text style={{
+            fontSize:18,
+            fontWeight:"400",
+            marginBottom:40,
+            paddingLeft:"12%",
+            paddingRight:"6%",
+        }}>
         (Optional) Heating and Cooling in a household
         accounts for 43% of energy usage in U.S. homes. Provide
         your average electricity bill over the past year along with
         your electricity rates.
         </Text>
         <View>
-        <Text> Bills (In Dollars) </Text>
+        <Text style={{
+            fontSize:20,
+            fontWeight:"400",
+            marginBottom:5,
+        }}> Electricity Bill </Text>
         <TextInput
-        placeholder="Ex: 99.99"
+        placeholder="(Dollar Amount) Ex: 99.99"
         style={{
         backgroundColor:Colors.secondary.NYANZA,
+        height:32,
+        marginBottom:12,
         }}
         keyboardType="decimal-pad"
         onChangeText={text=>setBill(text)}
         />
 
-        <Text> Rates (In Dollars /kWh) </Text>
+        <Text style={{
+              fontSize:20,
+              fontWeight:"400",
+              marginBottom:5,
+        }}> Power Rates </Text>
         <TextInput
-        placeholder="Ex: .98"
+        placeholder="(Dollars per Killowatt-Hour) Ex: .98"
         keyboardType="decimal-pad"
         style={{
         backgroundColor:Colors.secondary.NYANZA,
+        height:32,
+        marginBottom:12,
         }}
         onChangeText={text=>
         setRate(text)}

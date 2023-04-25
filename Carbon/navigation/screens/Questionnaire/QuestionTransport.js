@@ -21,9 +21,9 @@ export default function TransportScreen({navigation, route}) {
         <View style={{
         position: "absolute",
         top:0,
-        height:40,
+        height:30,
         borderRadius: 6,
-        width:"56%",
+        width:"42%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>
@@ -40,15 +40,24 @@ export default function TransportScreen({navigation, route}) {
                     justifyContent: 'center',
                 }}
             >
-            <Text>
+            <Text style={{
+                fontSize:20,
+                fontWeight:"400",
+                marginBottom:40,
+                paddingLeft:"8%",
+                paddingRight:"6%",
+            }}>
             In 2020, passenger vehicles accounted for 38% of greenhouse
             gases emitted by the transportation industry. Do you own or drive
             a passenger vehicle?
             </Text>
             <View style={{
-                width:"100%",
+                width:"60%",
             }}
             >
+            <View style={{
+                marginBottom:12,
+            }}>
             <Button
                 title="Yes"
                 onPress={()=>{
@@ -60,6 +69,10 @@ export default function TransportScreen({navigation, route}) {
                 }}
                 color={Colors.secondary.LIGHT_MINT}
             />
+            </View>
+            <View style={{
+                            marginBottom:12,
+            }}>
             <Button
                 title ="No"
                 onPress={()=>{
@@ -71,6 +84,7 @@ export default function TransportScreen({navigation, route}) {
                 }}
                 color={Colors.secondary.LIGHT_MINT}
             />
+            </View>
             </View>
             </View>
             <View style={{

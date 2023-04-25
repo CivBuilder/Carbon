@@ -1,6 +1,8 @@
 import React,{useEffect} from 'react';
 import {View, Text,Button} from 'react-native';
 import { Colors } from '../../../styling/Colors';
+import { API_URL } from '../../../config/Api';
+
 /*
 Finished Screen
 
@@ -31,7 +33,7 @@ export default function FinishedScreen({navigation,route}) {
         <View style={{
         position: "absolute",
         top:0,
-        height:40,
+        height:30,
         borderRadius: 6,
         width:"100%",
         backgroundColor: Colors.secondary.CELADON,

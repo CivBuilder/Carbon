@@ -36,9 +36,9 @@ export default function PublicTransportScreen({navigation,route}) {
         <View style={{
         position: "absolute",
         top:0,
-        height:40,
+        height:30,
         borderRadius: 6,
-        width:"95%",
+        width:"80%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>
@@ -71,9 +71,19 @@ export default function PublicTransportScreen({navigation,route}) {
                     justifyContent: 'center',
                 }}
             >
-            <Text>What form of transportation do you use?(Check All the Apply)</Text>
+            <Text style={{
+                fontSize:20,
+                fontWeight:"400",
+                marginBottom:40,
+                paddingLeft:"6%",
+                paddingRight:"6%",
+            }}>What form of transportation do you use?(Check All the Apply)</Text>
             <View style={{
-                width:"100%",
+                width:"60%",
+            }}
+            >
+            <View style={{
+                marginBottom:20,
             }}
             >
             <Button
@@ -81,15 +91,21 @@ export default function PublicTransportScreen({navigation,route}) {
                 onPress={()=>{
                     toggleButton(0);
                 }}
-                color={buttonOn0 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+                color={buttonOn0 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
+            </View>
+            <View style={{
+                marginBottom:20,
+            }}
+            >
             <Button
                 title ="Other (Bicycle,walking,etc...)"
                 onPress={()=>{
                     toggleButton(1);
                 }}
-                color={buttonOn1 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+                color={buttonOn1 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
+            </View>
             </View>
             </View>
             <View style={{

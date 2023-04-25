@@ -25,9 +25,9 @@ export default function MileageScreen({navigation,route}) {
         <View style={{
         position: "absolute",
         top:0,
-        height:40,
+        height:30,
         borderRadius: 6,
-        width:"95%",
+        width:"83%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>
@@ -44,15 +44,27 @@ export default function MileageScreen({navigation,route}) {
     width: "100%"
     }}
     >
-        <Text>
-        (Optional) What are the miles per gallon (MPG) on your vehicle?
+        <Text style={{
+            fontSize:20,
+            fontWeight:"400",
+            marginBottom:40,
+            paddingLeft:"6%",
+            paddingRight:"6%",
+        }}>
+        (Optional) Fuel efficiency makes a big impact on your
+         Carbon footprint. What is the fuel efficiency on your vehicle?
         </Text>
         <View>
-        <Text> MPG </Text>
+        <Text style={{
+            fontSize: 20,
+            fontWeight: "400",
+            marginBottom: 5,
+        }}> Miles Per Gallon (MPG) </Text>
         <TextInput
         placeholder="Ex: 33"
         style={{
         backgroundColor:Colors.secondary.NYANZA,
+        height: 32,
         }}
         keyboardType="decimal-pad"
         onChangeText={text=>setMiles(text)}

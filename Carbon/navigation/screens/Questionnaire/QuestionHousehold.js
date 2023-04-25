@@ -35,9 +35,9 @@ export default function HouseholdScreen({navigation,route}) {
         <View style={{
         position: "absolute",
         top:0,
-        height:40,
+        height:30,
         borderRadius: 6,
-        width:"28%",
+        width:"14%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>
@@ -76,9 +76,20 @@ export default function HouseholdScreen({navigation,route}) {
                     justifyContent: 'center',
                 }}
             >
-            <Text>How is your household powered?(Check All the Apply)</Text>
+            <Text style={{
+                fontSize:20,
+                fontWeight:"400",
+                marginBottom: 40,
+                textAlign:"center",
+            }}>
+            How is your household powered? (Check All the Apply)
+            </Text>
             <View style={{
-                width:"100%",
+                width:"60%",
+            }}
+            >
+            <View style={{
+                marginBottom:12,
             }}
             >
             <Button
@@ -86,29 +97,45 @@ export default function HouseholdScreen({navigation,route}) {
                 onPress={()=>{
                     toggleButton(0);
                 }}
-                color={buttonOn0 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+                color={buttonOn0 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
+            </View>
+            <View style={{
+                marginBottom:12,
+            }}
+            >
             <Button
                 title ="Petroleum"
                 onPress={()=>{
                     toggleButton(1);
                 }}
-                color={buttonOn1 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+                color={buttonOn1 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
+            </View>
+            <View style={{
+                marginBottom:12,
+            }}
+            >
             <Button
                 title="Natural Gas"
                 onPress={()=>{
                     toggleButton(2);
                 }}
-                color={buttonOn2 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+                color={buttonOn2 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
+            </View>
+            <View style={{
+                marginBottom:12,
+            }}
+            >
             <Button
                 title ="Renewable Energy (Solar, Wind, etc...)"
                 onPress={()=>{
                     toggleButton(3);
                 }}
-                color={buttonOn3 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+                color={buttonOn3 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
+            </View>
             </View>
             </View>
             <View style={{

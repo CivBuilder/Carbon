@@ -4,8 +4,6 @@ import { Colors } from '../../../styling/Colors';
 
 /*
 Question 1 Screen
-
-TODO: Update UI
 */
 
 export default function DietScreen({navigation}) {
@@ -17,7 +15,7 @@ export default function DietScreen({navigation}) {
                 top:0,
                 height:40,
                 borderRadius: 6,
-                width:"14.3%",
+                width:0,
                 backgroundColor: Colors.secondary.CELADON,
                 }}>
                 </View>
@@ -54,43 +52,65 @@ export default function DietScreen({navigation}) {
                     justifyContent: 'center',
                 }}
             >
-            <Text>What is your diet?</Text>
+            <Text style={{
+                fontSize:20,
+                fontWeight:"400",
+                marginBottom:40,
+            }}
+            >What is your diet?</Text>
+
             <View style={{
-                width:"100%",
+                width:"60%",
             }}
             >
+            <View style={{
+                marginBottom:12,
+            }}>
             <Button
                 title="No Restrictions"
                 onPress={()=>{
                 disableButton(3);
                 setButtonIndex(0);
                 }}
-                color={buttonIndex==0 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+                color={buttonIndex==0 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
+            </View>
+            <View style={{
+                marginBottom:12,
+            }}>
             <Button
                 title ="Pescatarian"
                 onPress={()=>{
                 disableButton(4);
                 setButtonIndex(1);
                 }}
-                color={buttonIndex==1 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+                color={buttonIndex==1 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
+            </View>
+            <View style={{
+                marginBottom:12,
+            }}>
             <Button
                 title="Vegetarian"
                 onPress={()=>{
                 disableButton(6);
                 setButtonIndex(2);
                 }}
-                color={buttonIndex==2 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+                color={buttonIndex==2 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
+            </View>
+            <View style={{
+                marginBottom:12,
+            }}>
             <Button
                 title ="Vegan/Plant-Based"
                 onPress={()=>{
                 disableButton(10);
                 setButtonIndex(3);
                 }}
-                color={buttonIndex==3 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+                color={buttonIndex==3 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
+            </View>
             </View>
             </View>
             <View style={{
@@ -113,7 +133,7 @@ export default function DietScreen({navigation}) {
             onPress={() =>
                 navigation.navigate('q2',{dietScore:pointPercent})
             }
-            disabled ={isDisabled ? false: true}
+            disabled={isDisabled ? false: true}
             />
             </View>
             </View>
