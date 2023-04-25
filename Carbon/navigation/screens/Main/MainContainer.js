@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { Colors } from '../../../styling/Colors';
 import { IconNames } from './IconNames';
+import { API_URL } from '../../../config/Api';
 
 import { ScreenNames } from './ScreenNames';
 
@@ -24,7 +25,7 @@ import MileageScreen from '../Questionnaire/QuestionMileage';
 import PublicTransportScreen from '../Questionnaire/QuestionPublicTransport';
 import FinishedScreen from '../Questionnaire/Finished';
 
-import { getToken, setRenderCallback } from '../../../util/LoginManager';
+import { getAuthHeader, getToken, setRenderCallback } from '../../../util/LoginManager';
 import { PopUpMenu } from '../../../components/PopUpMenu';
 
 const Stack = createStackNavigator();
@@ -57,7 +58,44 @@ const QuestionnaireStack = (props,{navigation}) =>{
         <Stack.Screen name="q4a" component={VehicleTypeScreen}/>
         <Stack.Screen name="q4b" component={MileageScreen}/>
         <Stack.Screen name="q4c" component={PublicTransportScreen}/>
-        <Stack.Screen name="finished" component={FinishedScreen} initialParams={{confirmQuestionnaire: props.confirmQuestionnaire}}/>
+        <Stack.Screen
+            name="finished"
+            component={FinishedScreen}
+            initialParams={{ confirmQuestionnaire: props.confirmQuestionnaire }}
+            navigation={navigation} // pass navigation prop to FinishedScreen
+        />
+        <Stack.Screen
+            name={'Home'}
+            component={HomeScreen}
+            options={{
+                headerShown: true,
+                // headerStyle: {
+                //     height: Platform.OS === 'ios' ? 48 : 72,
+                // },
+                headerLeft: null,
+                headerTitleAlign: 'center',
+                headerTitle: () => (
+                    <Image
+                        source={require('../../../assets/Carbon_Logo.png')}
+                        style={{
+                            //TODO: 1080x356 is the current dimension. Find a better way to scale this properly.
+                            width: 1080 / 12,
+                            height: 356 / 12,
+                        }}
+                    />
+                ),
+                headerRight: () => (
+                    <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.SETTINGS)}>
+                        <Ionicons
+                            name={IconNames.SETTINGS}
+                            size={24}
+                            color={Colors.primary.RAISIN_BLACK}
+                            style={{ marginRight: 16 }}
+                        />
+                    </TouchableOpacity>
+                ),
+            }}
+        />
     </Stack.Navigator>
     )
 }
@@ -199,11 +237,10 @@ const LoginStack = ({ navigation}) => {
     );
 };
 
-export default function MainContainer(){
+export default function MainContainer({navigation}){
     const [isSignedIn, setIsSignedIn] = useState(false);
-    //TODO: CHECK CACHE FOR QUESTIONNAIRE DATA?
-    //TODO: ADD FINAL DATA TO BACKEND
-    const [hasQuestionnaireData,setHasQuestionnaireData] = useState(false);
+    const [finishedQuestionnaire, setFinishedQuestionnaire] = useState(true);
+
     // In order to rerender the maincontainer on signin, we gotta callback and update the state
     setRenderCallback(setIsSignedIn);
 
@@ -215,11 +252,28 @@ export default function MainContainer(){
         checkSignin();
     }, []);
 
+    useEffect(() => {
+        async function checkQuestionnaire() {
+            try {
+                const url = API_URL + 'user/check-questionnaire/';
+                const response = await fetch(url, await getAuthHeader());
+                // console.log("checkQuestionnaire (response): " + JSON.stringify(response));
+                const data = await response.json();
+                console.log("checkQuestionnaire (data): " + JSON.stringify(data));
+                setFinishedQuestionnaire(data);
+            } catch (error) {
+                console.error('Error while checking questionnaire:', error);
+            }
+        }
+        checkQuestionnaire();
+    }, []);
+
     return(
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar barStyle={'dark-content'} backgroundColor="transparent" translucent={true}/>
             <NavigationContainer>
             {isSignedIn ? (
+                finishedQuestionnaire ? (
                     <>
                         <Tab.Navigator //Sets the default screen for the bottom nav bar (in this case, Home Screen)
                         initialRouteName={ScreenNames.HOME}
@@ -256,9 +310,12 @@ export default function MainContainer(){
                             />
                         </Tab.Navigator>
                     </>
-            ) : hasQuestionnaireData ? (
-                <LoginStack></LoginStack>
-            ) : (<QuestionnaireStack confirmQuestionnaire={setHasQuestionnaireData}></QuestionnaireStack>)}
+                ) : (
+                    <QuestionnaireStack navigation={navigation}/>
+                )
+            ) : (
+                <LoginStack/>
+            )}
             </NavigationContainer>
         </SafeAreaView>
     );

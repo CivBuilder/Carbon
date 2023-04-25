@@ -2,7 +2,7 @@ import React,{useEffect} from 'react';
 import {View, Text,Button} from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { API_URL } from '../../../config/Api';
-import { getAuthHeader } from '../../../util/LoginManager';
+import { getToken } from '../../../util/LoginManager';
 
 /*
 Finished Screen
@@ -13,16 +13,25 @@ TODO: Connect finished to signup page(?)
 */
 
 const finishedQuestionnaire = async () => {
-    try {
-        const url = API_URL + '/user/finish-questionnaire/';
-        const response = await fetch(url, getAuthHeader());
-        const result = await response.json();
-        //stringify json
-        console.log(JSON.stringify(result));
-    } catch (error) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'secrettoken': await getToken(),
+        }
+    };
 
+    try {
+        const response = await fetch(API_URL + 'user/finish-questionnaire/', requestOptions);
+        // console.log(JSON.stringify(response));
+        if (response.status === 200) {
+            console.log("Finished Questionnaire");
+        } else {
+            console.log("Failed to finish questionnaire");
+        }
+    } catch (error) {
+        console.error(error);
     }
-}
+};
 
 export default function FinishedScreen({navigation,route}) {
     //Values from previous pages
@@ -79,12 +88,14 @@ export default function FinishedScreen({navigation,route}) {
                 justifyContent:'center',
             }}>
             <Button
-            title="Signup or Login"
+            title="Exit"
             color={Colors.primary.MINT}
-            onPress={() =>
+            onPress={() => {
                 //TODO: Need to add relevant data to confirm questionnaire AND handle data in Main Container function
-                route.params.confirmQuestionnaire(true)
-            }
+                    // route.params.confirmQuestionnaire(true)
+                    finishedQuestionnaire()
+                    navigation.navigate('Home')
+            }}
             />
             </View>
             </>
