@@ -3,6 +3,7 @@ export const Colors = {
     MINT: "#74C69D",
     RAISIN_BLACK: "#201B1B",
     MINT_CREAM: "#F7FCF8",
+    GRAY: "#BFBFBF",
   },
   secondary: {
     CELADON: "#B1E7B9",

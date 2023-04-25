@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { StyleSheet, Text, View, Switch, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {Colors} from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
@@ -8,7 +8,7 @@ import calcCar from '../../../calculations/travel_calculations/calcCar';
 import calcElecCar from '../../../calculations/travel_calculations/calcElecCar';
 import calcPlane from '../../../calculations/travel_calculations/calcPlane';
 import calcPublic from '../../../calculations/travel_calculations/calcPublic';
-
+import calcBike from '../../../calculations/travel_calculations/calcBike';
 const RecordTransportation = ({ navigation, route }) => {
   
   const [emissionsEntry, setEmissionsEntry] = useState({});
@@ -22,7 +22,11 @@ const RecordTransportation = ({ navigation, route }) => {
     "Walking, biking, or taking public transit can significantly reduce individual carbon footprints compared to driving a car.",
     "Shipping and trucking are responsible for transporting the vast majority of goods worldwide, and their emissions are a significant contributor to overall transportation-related emissions."
   ];
-  const miles = [  
+  const miles = [
+    { "label": "1 mile", "value": 1 },
+    { "label": "2 miles", "value": 2 },
+    { "label": "3 miles", "value": 3 },
+    { "label": "4 miles", "value": 4 },
     { "label": "5 miles", "value": 5 },
     { "label": "10 miles", "value": 10 },
     { "label": "15 miles", "value": 15 },
@@ -72,6 +76,9 @@ const RecordTransportation = ({ navigation, route }) => {
       } 
       else if(selectedValue === "ElecCar") {
         transport_emissions = calcElecCar(milesTraveled);
+      }
+      else if(selectedValue === "Bike") {
+        transport_emissions = calcBike(milesTraveled);
       } 
       else if(selectedValue === "Plane") {
         transport_emissions = calcPlane(milesTraveled);
@@ -103,10 +110,11 @@ const RecordTransportation = ({ navigation, route }) => {
   }, [milesTraveled, selectedValue])
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       <View style={styles.funfact}>
         <Text style={styles.header}>Did you know?</Text>
-        <Text style={styles.label}>{memoizedFunFact}</Text>
+        <Text style={styles.label} testID='fun-fact'>{memoizedFunFact}</Text>
       </View>
 
       <Text style={styles.header}>Log your travel for today</Text>
@@ -114,12 +122,14 @@ const RecordTransportation = ({ navigation, route }) => {
         selectedValue={milesTraveled}
         onValueChange={(value) => setmilesTraveled(value)}
         style={styles.picker}
+        testID='miles-traveled'
       >
         {miles.map((mile) => (
             <Picker.Item
               key={mile.value}
               label={mile.label}
               value={mile.value}
+              testID={`miles-${mile.value}`}
             />
           ))}
       </Picker>
@@ -134,6 +144,10 @@ const RecordTransportation = ({ navigation, route }) => {
           <RadioButton value="ElecCar" />
         </View>
         <View style={styles.switchContainer}>
+          <Text style={styles.radioButtonText}>Bike</Text>
+          <RadioButton value="Bike" />
+        </View>
+        <View style={styles.switchContainer}>
           <Text style={styles.radioButtonText}>Bus</Text>
           <RadioButton value="Bus" />
         </View>
@@ -145,13 +159,13 @@ const RecordTransportation = ({ navigation, route }) => {
           <Text style={styles.radioButtonText}>Plane</Text>
           <RadioButton value="Plane" />
         </View>
-
       </RadioButton.Group>
 
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
-        <Text style={styles.buttonText}>Save</Text>
+        <Text style={styles.buttonText}>Save & Return</Text>
       </TouchableOpacity>
     </View>
+    </ScrollView>
   );
 };
 
@@ -169,14 +183,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   picker: {
-    width: '100%',
-    marginBottom: 20,
+    width: '50%',
+    marginBottom: 10,
     color: Colors.primary.RAISIN_BLACK,
   },
   switchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 5,
     padding: 5,
   },
   button: {
