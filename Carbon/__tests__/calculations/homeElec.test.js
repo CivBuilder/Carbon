@@ -1,4 +1,4 @@
-import homeElec from "../../calculations/homeElec.js"
+import homeElec from "../../calculations/home_calculations/homeElec.js"
 
 test("homeElec", () =>
 {
