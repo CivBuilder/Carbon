@@ -5,6 +5,7 @@ import { Colors } from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import { MonthlyFootprintLineChart } from '../../../components/MonthlyFootprintLineChart';
 import HomeScreenRanking from '../Ranking/HomeScreenRanking'
+import * as thumbnails from '../../../assets/Forum';
 
 // =====================
 //     Home Screen
@@ -87,17 +88,20 @@ export default function HomeScreen({ navigation }) {
                                 <View>
                                     <Card containerStyle={styles.card}>
                                         <Card.Title>Want to reduce your emissions?</Card.Title>
-                                        <Text style={{ marginBottom: 10, textAlign: 'center' }}>
+                                        <Card.Image style={{borderRadius: 15}} source={thumbnails.waterThumbnail}/>
+                                        <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.FORUM)}>
+                                        <Text style={{ marginBottom: 10, textAlign: 'center'}}>
                                             Learn how to reduce your impact using guidelines set out by the EPA
                                         </Text>
+                                        </TouchableOpacity>
 
                                     </Card>
                                 </View>
                                 <View>
                                     <Card containerStyle={styles.card}>
-                                        <Card.Title>Card Title 2</Card.Title>
-                                        <Text style={{ marginBottom: 10 }}>
-                                            The idea with React Native Elements is more about component structure than actual design.
+                                        <Card.Title>Think you know renewable energy ?</Card.Title>
+                                        <Text style={{ marginBottom: 10, textAlign: 'center'}}>
+                                            Take a quiz and improve your rank!
                                         </Text>
                                     </Card>
                                 </View>
