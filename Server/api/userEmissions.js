@@ -211,6 +211,25 @@ router.get('/yearMonth/:yearMonth', passport.authenticate('jwt', { session: fals
   return res.status(200).json(records);
 });
 
+// GET recent emission records for all categories (author: Adam V.)
+// router.get('/recentRecords', passport.authenticate('jwt', { session: false }), async function (req, res) {
+//   const userID = req.user.id;
+
+//   const user = await user_table.findByPk(userID);
+//   if (!user) return res.status(400).send(`user_id ${userID} not found.`);
+
+//   const records = await UserEmissions.findAll({
+//     where: {
+//       user_id: ID
+//     },
+//     order: [['date', 'DESC']]
+//   });
+
+//   if (records.length === 0) return res.status(204).send();
+
+//   return res.status(200).json(records);
+// });
+
 /**********************
           POST
 ***********************/

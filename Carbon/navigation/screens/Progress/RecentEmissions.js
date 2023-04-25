@@ -1,14 +1,13 @@
 import { View, Text } from "react-native";
 import { RecentEmissionsCSS as styling } from "../../../styling/RecentEmissionsCSS";
+import getRecentEmissions from "../../../util/getRecentEmissions";
 
 const RecentEmissions = ({category}) => {
-  const dummyData = [];
-
-
+  const data = [];
 
   return (
     <View style={styling.recentEmissions}>
-      {dummyData.length !== 0 ? dummyData.map((entry, index) => (
+      {data.length !== 0 ? data.map((entry, index) => (
         <View key={index} style={styling.entry}>
           {/* Emission recorded date */}
           <View style={styling.date}>
