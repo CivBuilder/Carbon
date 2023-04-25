@@ -1,6 +1,9 @@
 import React,{useEffect} from 'react';
 import {View, Text,Button} from 'react-native';
 import { Colors } from '../../../styling/Colors';
+import { API_URL } from '../../../config/Api';
+import { getAuthHeader } from '../../../util/LoginManager';
+
 /*
 Finished Screen
 
@@ -8,6 +11,18 @@ TODO: Improve UI
 TODO: Improve transferring of data between pages
 TODO: Connect finished to signup page(?)
 */
+
+const finishedQuestionnaire = async () => {
+    try {
+        const url = API_URL + '/user/finish-questionnaire/';
+        const response = await fetch(url, getAuthHeader());
+        const result = await response.json();
+        //stringify json
+        console.log(JSON.stringify(result));
+    } catch (error) {
+
+    }
+}
 
 export default function FinishedScreen({navigation,route}) {
     //Values from previous pages
