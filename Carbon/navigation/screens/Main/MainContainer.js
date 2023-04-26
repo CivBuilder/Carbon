@@ -1,9 +1,10 @@
 import React, { useState, useEffect} from 'react';
-import { StatusBar, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StatusBar, Image, TouchableOpacity, SafeAreaView, Text} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+import { StackActions } from '@react-navigation/native';
 
 import { Colors } from '../../../styling/Colors';
 import { IconNames } from './IconNames';
