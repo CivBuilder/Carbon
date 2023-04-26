@@ -36,6 +36,7 @@ export default function RecycleScreen({navigation, route}) {
                     flex: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
+                    backgroundColor: Colors.secondary.LIGHT_GREEN,
                 }}
             >
             <Text style={{
@@ -45,7 +46,7 @@ export default function RecycleScreen({navigation, route}) {
                 paddingLeft:"8%",
                 paddingRight:"6%",
             }}>
-            Do you Recycle?
+            Do you recycle?
             </Text>
             <View style={{
                 width:"60%",

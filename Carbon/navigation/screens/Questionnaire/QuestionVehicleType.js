@@ -55,6 +55,7 @@ export default function VehicleTypeScreen({navigation,route}) {
                     flex: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
+                    backgroundColor: Colors.secondary.LIGHT_GREEN
                 }}
             >
             <Text style={{

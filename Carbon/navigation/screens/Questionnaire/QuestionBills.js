@@ -60,7 +60,8 @@ export default function BillScreen({navigation,route}) {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    width: "100%"
+    width: "100%",
+    backgroundColor: Colors.secondary.LIGHT_GREEN,
     }}
     >
         <Text style={{
@@ -82,7 +83,7 @@ export default function BillScreen({navigation,route}) {
             marginBottom:5,
         }}> Electricity Bill </Text>
         <TextInput
-        placeholder="(Dollar Amount) Ex: 99.99"
+        placeholder="Ex: $99.99"
         style={{
         backgroundColor:Colors.secondary.NYANZA,
         height:32,
@@ -98,7 +99,7 @@ export default function BillScreen({navigation,route}) {
               marginBottom:5,
         }}> Power Rates </Text>
         <TextInput
-        placeholder="(Dollars per Killowatt-Hour) Ex: .98"
+        placeholder="(Dollars/KWh) Ex: .98"
         keyboardType="decimal-pad"
         style={{
         backgroundColor:Colors.secondary.NYANZA,

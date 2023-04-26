@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, Modal, Text, StyleSheet, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
 import { IconNames } from '../navigation/screens/Main/IconNames';
 import { ScreenNames } from '../navigation/screens/Main/ScreenNames';
 import { Colors } from '../styling/Colors';
@@ -20,7 +19,14 @@ export const PopUpMenu = ({navigation}) => {
             icon: 'checkmark-circle-outline',
             action: () => {
                 navigation.navigate(ScreenNames.RECORD_EMISSION)
-            }
+            },
+        },
+        {
+            title: 'Predict Emissions',
+            icon: 'rocket-outline',
+            action: () => {
+                navigation.navigate(ScreenNames.PREDICT)
+            },
         },
         {
             title: 'Add Goal',

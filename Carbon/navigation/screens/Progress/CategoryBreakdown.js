@@ -48,13 +48,11 @@ export async function getData(yearMonth, setError) {
 
         // Add up each individual data based on categories
         let transportTotal = 0;
-        let lifestyleTotal = 0;
         let homeTotal = 0;
         let dietTotal = 0;
 
         fetched_data.forEach((data) => {
             transportTotal += data.transport_emissions;
-            lifestyleTotal += data.lifestyle_emissions;
             homeTotal += data.home_emissions;
             dietTotal += data.diet_emissions;
         });
@@ -62,7 +60,6 @@ export async function getData(yearMonth, setError) {
         // Return with all the fetched data added up within their respective categories
         const emissionsData = [
             { x: "Transport", y: transportTotal },
-            { x: "Lifestyle", y: lifestyleTotal },
             { x: "Home", y: homeTotal },
             { x: "Diet", y: dietTotal },
         ];
