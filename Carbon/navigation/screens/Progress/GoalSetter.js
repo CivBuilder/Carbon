@@ -12,15 +12,16 @@ export default function GoalSetter({ navigation }) {
   const [goal, setGoal] = useState(0);
   const [previousMonthEmissions, setPreviousMonthEmissions] = useState(0);
 
-  useEffect(() => {
-    async function fetchLastMonthEmissions() {
-      const lastMonthEmissions = await getPreviousMonthEmissions();
-      const factor = goal / 100;
-      const newEmissions = lastMonthEmissions * factor;
-      setPreviousMonthEmissions(newEmissions.toFixed(1));
-    }
-    fetchLastMonthEmissions();
+  const fetchLastMonthEmissions = useCallback(async () => {
+    const lastMonthEmissions = await getPreviousMonthEmissions();
+    const factor = goal / 100;
+    const newEmissions = lastMonthEmissions * factor;
+    setPreviousMonthEmissions(newEmissions.toFixed(1));
   }, [goal]);
+
+  useEffect(() => {
+    fetchLastMonthEmissions();
+  }, [fetchLastMonthEmissions]);
 
   const handleValueChange = (value) => {
     const roundedValue = Math.round(value);
