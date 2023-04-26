@@ -326,7 +326,7 @@ router.post('/finish-questionnaire/', passport.authenticate('jwt', { session: fa
 router.post(
     '/auth/signup',
     passport.authenticate('signup', { session: false }),
-    async (req, res, next) => {
+    async (req, res) => {
         res.json({
             message: 'Signup successful',
             user: req.user
