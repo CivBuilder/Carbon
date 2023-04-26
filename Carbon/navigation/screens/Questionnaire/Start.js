@@ -4,7 +4,6 @@ import { Colors } from '../../../styling/Colors';
 
 /*
 Start Screen -> Leads to the first question for questionnaire.js
-TODO: Add UI to align the aesthetic with the rest of the app
 */
 export default function StartScreen({navigation}){
     useEffect(()=>{
@@ -32,7 +31,11 @@ export default function StartScreen({navigation}){
                 justifyContent: 'center',
             }}
         >
-        <Text>Tell us about yourself</Text>
+        <Text style={{
+            fontSize:20,
+            fontWeight: "400",
+            marginBottom:40,
+        }}>Tell us about yourself</Text>
         </View>
         <View style={{
             flex: 0,

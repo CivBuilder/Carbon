@@ -42,20 +42,13 @@ export default function FinishedScreen({navigation,route}) {
     const miles = (route.params?.miles) ? route.params?.miles : 0;
 
 
-    //Final scores!!
-    const transScore = (miles!=0) ? transportScore*miles/200000: transportScore;
-    const powerScore = annualPower/10632;
-    const foodScore = dietScore;
-    const homeScore = homePowerScore;
-    const awarenessScore= (miles!=0) ? transportScore*miles/200000: transportScore
-
     useEffect(()=>{
         navigation.setOptions({
         header: ()=>(
         <View style={{
         position: "absolute",
         top:0,
-        height:40,
+        height:30,
         borderRadius: 6,
         width:"100%",
         backgroundColor: Colors.secondary.CELADON,
@@ -77,11 +70,11 @@ export default function FinishedScreen({navigation,route}) {
             <Text>
             Final Data:
             </Text>
-            <Text>Transport Score: {transScore}</Text>
-            <Text>Lifestyle Score: {powerScore}</Text>
-            <Text>Food Score: {dietScore}</Text>
-            <Text>Home Score: {homePowerScore}</Text>
-            <Text>Awareness Score: {transScore}</Text>
+            <Text>Transport Score: {transportScore}</Text>
+            <Text>Lifestyle Score: {lifestyleScore}</Text>
+            <Text>Food Score: {foodScore}</Text>
+            <Text>Home Score: {homeScore}</Text>
+            <Text>Awareness Score: {awarenessScore}</Text>
             </View>
             <View style={{
                 flex:0,
@@ -92,7 +85,7 @@ export default function FinishedScreen({navigation,route}) {
             color={Colors.primary.MINT}
             onPress={() => {
                 //TODO: Need to add relevant data to confirm questionnaire AND handle data in Main Container function
-                    // route.params.confirmQuestionnaire(true)
+                    route.params.confirmQuestionnaire(true)
                     finishedQuestionnaire()
                     navigation.navigate('Home')
             }}

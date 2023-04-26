@@ -22,7 +22,7 @@ const LoginScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.logo} >
-        <Image source={{ uri: 'https://i.ibb.co/s9Kfh8p/carbon-logo.png'}} style={{width: 200, height: 100}} testID="logo" />
+        <Image source={require('../../../assets/Carbon_Logo.png')} style={{width: 300, height: 100}} testID="logo" />
       </View>
       <View style={styles.content}>
         <KeyboardAvoidingView behavior= 'height'>
