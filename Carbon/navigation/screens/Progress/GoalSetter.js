@@ -25,11 +25,6 @@ export default function GoalSetter({ navigation }) {
     fetchLastMonthEmissions();
   }, [goal]);
 
-  useEffect(() => {
-    (async () => {
-      await fetchLastMonthEmissions();
-    })();
-  }, []);
 
   const handleValueChange = (value) => {
     const roundedValue = Math.round(value);
@@ -57,7 +52,10 @@ export default function GoalSetter({ navigation }) {
         <NonBreakingSpace />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={() => { saveGoalToDatabase(goal); navigation.navigate(ScreenNames.PROGRESS); }}>
+        <TouchableOpacity onPress={() => {
+            saveGoalToDatabase(goal);
+            navigation.goBack();
+            }}>
           <View style={styles.button} testID="set-goal-button">
             <Text style={styles.buttonText}>Set Goal</Text>
           </View>
