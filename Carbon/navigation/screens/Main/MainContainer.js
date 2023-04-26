@@ -12,6 +12,19 @@ import { IconNames } from './IconNames';
 import { ScreenNames } from './ScreenNames';
 
 import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen, FoodScreen, TransportationScreen, RecyclingScreen, RecordEmissionScreen} from '../../screens';
+import StartScreen from '../Questionnaire/Start';
+import DietScreen from '../Questionnaire/QuestionDiet';
+import HouseholdScreen from '../Questionnaire/QuestionHousehold';
+import BillScreen from '../Questionnaire/QuestionBills';
+import TransportScreen from '../Questionnaire/QuestionTransport';
+import VehicleTypeScreen from '../Questionnaire/QuestionVehicleType';
+import MileageScreen from '../Questionnaire/QuestionMileage';
+import PublicTransportScreen from '../Questionnaire/QuestionPublicTransport';
+import FinishedScreen from '../Questionnaire/Finished';
+import RecycleScreen from '../Questionnaire/QuestionRecycling';
+import RecycleAmountScreen from '../Questionnaire/QuestionRecycleAmount';
+import AnimalDietScreen from '../Questionnaire/QuestionAnimalDiet';
+
 import { getToken, setRenderCallback } from '../../../util/LoginManager';
 import { PopUpMenu } from '../../../components/PopUpMenu';
 
@@ -31,6 +44,32 @@ const Tab = createBottomTabNavigator();
     Also it's best to add the screen function inside the index.js so it reduces the lines needed to import screens.
     Just add the function name on the import on top.
 */
+
+const QuestionnaireStack = ({route,navigation}) =>{
+    return(
+    <Stack.Navigator
+    initialRouteName="GetStarted"
+    >
+        <Stack.Screen name = "GetStarted" component={StartScreen}/>
+        <Stack.Screen name="q1" component={DietScreen} />
+        <Stack.Screen name="q1a" component={AnimalDietScreen}/>
+        <Stack.Screen name="q2" component={HouseholdScreen} />
+        <Stack.Screen name="q2a" component={BillScreen}/>
+        <Stack.Screen name="q4" component={TransportScreen}/>
+        <Stack.Screen name="q4a" component={VehicleTypeScreen}/>
+        <Stack.Screen name="q4b" component={MileageScreen}/>
+        <Stack.Screen name="q4c" component={PublicTransportScreen}/>
+        <Stack.Screen name="q5" component={RecycleScreen}/>
+        <Stack.Screen name="q5a" component={RecycleAmountScreen}/>
+        <Stack.Screen name="finished" component={FinishedScreen}
+        initialParams={{
+        confirmQuestionnaire: route.params?.setIsSignedIn,
+        }}
+        />
+    </Stack.Navigator>
+    )
+}
+
 
 // Home screen stack navigation & header
 const HomeStack = ({ navigation }) => {
@@ -147,7 +186,8 @@ const RankingStack = ({ navigation }) => {
 
 
 // Login screen stack navigation & header
-const LoginStack = ({ navigation}) => {
+const LoginStack = (props,{navigation}) => {
+
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -155,6 +195,9 @@ const LoginStack = ({ navigation}) => {
                 component={LoginScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
+                }}
+                initialParams={{
+                    setIsSignedIn:props.confirmSignup
                 }}
             />
             <Stack.Screen
@@ -164,13 +207,22 @@ const LoginStack = ({ navigation}) => {
                     headerShown: false,
                 }}
             />
+            <Stack.Screen
+                name={ScreenNames.QUESTIONNAIRE}
+                component={QuestionnaireStack}
+                options={{
+                    headerShown:false,
+                }}
+                initialParams={{
+                    setIsSignedIn:props.confirmSignup
+                }}
+            />
         </Stack.Navigator>
     );
 };
 
 export default function MainContainer(){
     const [isSignedIn, setIsSignedIn] = useState(false);
-
     // In order to rerender the maincontainer on signin, we gotta callback and update the state
     setRenderCallback(setIsSignedIn);
 
@@ -185,47 +237,46 @@ export default function MainContainer(){
     return(
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar barStyle={'dark-content'} backgroundColor="transparent" translucent={true}/>
-                <NavigationContainer>
-        {isSignedIn ? (
-                <>
-                    <Tab.Navigator //Sets the default screen for the bottom nav bar (in this case, Home Screen)
-                    initialRouteName={ScreenNames.HOME}
-                    screenOptions={{
-                        headerShown: false, // Hides the default header
-                        tabBarLabelStyle: { display: 'none' }, // Hides label text
-                        tabBarActiveTintColor: Colors.primary.MINT,
-                        tabBarHideOnKeyboard: true,
-                    }}
-                    >
-                        <Tab.Screen
-                            name={ScreenNames.HOME}
-                            component={HomeStack}
-                            options={{
-                                tabBarIcon: ({ color, size }) => (
-                                    <Ionicons name={IconNames.HOME} size={size} color={color} />
-                                ),
-                            }}
-                        />
-                        <Tab.Screen
-                            name={ScreenNames.PROGRESS}
-                            component={ProgressStack}
-                            options={screenOptions}
-                        />
-                        <Tab.Screen
-                            name={ScreenNames.FORUM}
-                            component={ForumStack}
-                            options={screenOptions}
-                        />
-                        <Tab.Screen
-                            name={ScreenNames.RANKING}
-                            component={RankingStack}
-                            options={screenOptions}
-                        />
-                    </Tab.Navigator>
-                </>
-        ) : (
-            <LoginStack></LoginStack>
-        )}
+            <NavigationContainer>
+            {isSignedIn ? (
+                    <>
+                        <Tab.Navigator //Sets the default screen for the bottom nav bar (in this case, Home Screen)
+                        initialRouteName={ScreenNames.HOME}
+                        screenOptions={{
+                            headerShown: false, // Hides the default header
+                            tabBarLabelStyle: { display: 'none' }, // Hides label text
+                            tabBarActiveTintColor: Colors.primary.MINT,
+                            tabBarHideOnKeyboard: true,
+                        }}
+                        >
+                            <Tab.Screen
+                                name={ScreenNames.HOME}
+                                component={HomeStack}
+                                options={{
+                                    tabBarIcon: ({ color, size }) => (
+                                        <Ionicons name={IconNames.HOME} size={size} color={color} />
+                                    ),
+                                }}
+                            />
+                            <Tab.Screen
+                                name={ScreenNames.PROGRESS}
+                                component={ProgressStack}
+                                options={screenOptions}
+                            />
+                            <Tab.Screen
+                                name={ScreenNames.FORUM}
+                                component={ForumStack}
+                                options={screenOptions}
+                            />
+                            <Tab.Screen
+                                name={ScreenNames.RANKING}
+                                component={RankingStack}
+                                options={screenOptions}
+                            />
+                        </Tab.Navigator>
+                    </>
+            ) : (<LoginStack confirmSignup={setIsSignedIn}></LoginStack>)
+            }
             </NavigationContainer>
         </SafeAreaView>
     );

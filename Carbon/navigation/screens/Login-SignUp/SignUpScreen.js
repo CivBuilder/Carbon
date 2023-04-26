@@ -15,20 +15,23 @@ const SignUpScreen = ({navigation}) => {
 
   async function handleSignUp() {
     await signup(username, password, confirm)
-    navigation.goBack();
+    //navigation.goBack();
   }
   
   return (
     <View style={styles.container}>
       <View style={styles.logo} >
-        <Image source={{ uri: 'https://i.ibb.co/s9Kfh8p/carbon-logo.png'}} style={{width: 200, height: 100}} testID="image"/>
+        <Image source={require('../../../assets/Carbon_Logo.png')} style={{width: 300, height: 100}} testID="image"/>
       </View>
       <KeyboardAvoidingView behavior= 'height' style={styles.content}>
         <EmailInput testID="emailInput" onChangeText={(un) => setUsername(un)}/>
         <PasswordInput text="Password" testID="passwordInput" onChangeText={(pw) => setPassword(pw)}/>
         <PasswordInput text="Confirm Password" testID="confirmPasswordInput" onChangeText={(cf) => setConfirm(cf)}/>
       </KeyboardAvoidingView>
-      <SignUpButton onPress={() => handleSignUp()} />
+      <SignUpButton onPress={() =>{
+      handleSignUp();
+      navigation.navigate("Questionnaire");
+      } }/>
       <View style={styles.loginTextWrapper}>
         <Text style={styles.loginText}>Already have an account?</Text>
         <LoginNavButton onPress={() => console.log("login pressed")} />
