@@ -83,15 +83,9 @@ router.get('/leaderboard', async function (req, res, next) {
     //Nothing in this page, return 'No Content'
     if (leaderboard.length == 0) return res.status(204).json([])
 
-    let prevScore = null;
-    let prevRank = null;
+
     leaderboard.forEach((user, i, leaderboard) => {
-        if (user.global_score !== prevScore) {
-            user.dataValues.rank = OFFSET + i + 1;
-            prevRank = user.rank;
-        }
-        else user.dataValues.rank = prevRank;
-        prevScore = user.global_score;
+        user.dataValues.rank =  OFFSET + i + 1;
     });
     res.status(200).json(leaderboard);
 })

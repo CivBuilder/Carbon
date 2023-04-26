@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const DEFAULT_USERNAME = "sellen7"; //This is for testing purposes to get better code coverage 
 const USERNAME = "anon1234" // This is to replaced by the actual username acquired from the session
 
-export default function ListPlayers ({table, onRefresh, onEndReached, state}) {
+export default function ListPlayers ({table, onRefresh, onEndReached}) {
     
     // useEffect()
     return(
@@ -19,7 +19,6 @@ export default function ListPlayers ({table, onRefresh, onEndReached, state}) {
             style = {{
             }}
             testID="flatlist"
-            extraData={state}
         ></FlatList>
         
     )
@@ -33,7 +32,7 @@ function renderListEntry({ item }) {
     return(
       <View testID="list-entry" style = {styles.ListEntryContainer }>
       <Text>
-          {item.global_rank} -  {item.username} - {item.home_score}
+          {item.rank} -  {item.username} - {item.home_score}
       </Text>
       </View>
     );
@@ -59,5 +58,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 15,
         marginVertical : 8,
         height : 50,
+        flexDirection : 'column'
     }
 });
