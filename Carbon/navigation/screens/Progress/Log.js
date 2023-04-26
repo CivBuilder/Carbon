@@ -44,6 +44,12 @@ export default function Log({ navigation }) {
             </View>
             )
     }
+    const Refresh =() =>{
+        console.log("refresh")
+        callGetData()
+        myRef.current = Math.random()
+    }
+    
     //function to handle the change to the right (aka today -> yesterday)
     const handleChangeRight = () => {
         if (number < 3) {
@@ -58,10 +64,7 @@ export default function Log({ navigation }) {
             setNumber(number - 1);
         }
         else
-        {
-            console.log("refreshing")
-            myRef.current = Math.random();
-        }
+       
         changeArrayLeft();
     };
 
@@ -141,6 +144,18 @@ export default function Log({ navigation }) {
                     {/* more button formatting*/}
                     <Text style={{ justifyContent: 'center', color: 'white', fontSize: 26 }}>{' ->'}</Text>
                 </TouchableOpacity>
+                
+                <TouchableOpacity onPress={Refresh}    
+                        style ={{
+                        backgroundColor: Colors.primary.MINT,
+                        borderRadius: 5,
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        margin: margin,
+                    }}
+                    testID="left-click"></TouchableOpacity>
+
             </View>
         </View>
     )

@@ -21,10 +21,10 @@ const dummyData = [
     The daily log function, this takens in a data array and maps it into a bar chart based on its values
  */
 export function DailyLog ({dataArray}) {
-
+    dataArray = dataArray.slice(0,1).concat(dataArray.slice(2))
     //Our data for bar styling the bar chart
     const barChartData = {
-        labels: ['Transportation', 'Diet', 'Lifestyle', 'Home', 'Overall'],
+        labels: ['Transportation', 'Diet', 'Home', 'Overall'],
         datasets:[
             {
             data: dataArray,
