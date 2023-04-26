@@ -14,7 +14,7 @@ const QuizScreen = ({navigation, route}) => {
 
     //gets all content from quizcontent
     const fetchData = async() => {
-        console.log("Fetching data for quizcontent");
+        console.log("Fetching data for quizcontent with id:", route.params.id);
         try{
         const response = await fetch(API_URL + "quiz/" + route.params.id)
         const responsedata = await response.json();
@@ -148,7 +148,7 @@ const QuizScreen = ({navigation, route}) => {
             <View>
                 {data.questions[currentQuestion].answers.map((answer) => (
                     <TouchableOpacity
-                        key={answer}
+                        key={answer.ansid}
                         style={{
                             ...styles.answer_button,
                             backgroundColor:

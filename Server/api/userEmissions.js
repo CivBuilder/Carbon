@@ -262,6 +262,37 @@ router.post('/previousMonthEmissions', passport.authenticate('jwt', { session: f
   return res.status(200).json(records);
 });
 
+/**
+  Retrieves a user's total emissions for the previous month for goal setting.
+**/
+router.post('/previousMonthLifestyleEmissions', passport.authenticate('jwt', { session: false }), async function (req, res) {
+  const userId = req.user.id;
+
+  // set up the date range from a month ago to today
+  const now = new Date();
+  const lastMonth = moment(now).subtract(1, 'month').format('YYYY-MM-DD');
+  const today = moment(now).format('YYYY-MM-DD');
+
+  // Find data based on user_id and given month
+  const records = await UserEmissions.findAll({
+    where: {
+      [Op.and]: [
+        { user_id: userId },
+        { date: { [Op.between]: [lastMonth, today] } }
+      ]
+    },
+    attributes: ['lifestyle_emissions'] // Only select the total_emissions column
+  });
+
+  // means this is a new user, show 0 pounds of CO2
+  if (records.length === 0) {
+    const records = [{ lifestyle_emissions: 0 }];  // create a new array with the total_emissions column
+    return res.status(200).json(records);
+  }
+
+  return res.status(200).json(records);
+});
+
 /**********************
           POST
 ***********************/
