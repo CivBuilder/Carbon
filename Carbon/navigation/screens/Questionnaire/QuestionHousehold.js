@@ -1,59 +1,48 @@
 import React, {useState,useEffect} from 'react';
 import {View, Text,Switch,Button} from 'react-native';
-import { Colors } from '../../../colors/Colors';
+import { Colors } from '../../../styling/Colors';
 
 /*
 Household Screen
-TODO: Managing scores in a better way (instead of passing them through pages)
-TODO: using less state variables
 TODO: Improving UI
 */
 
 export default function HouseholdScreen({navigation,route}) {
-    //Carry Over Score from previous page
-    const dietScore = route.params?.dietScore;
-    const maxPoints = 10.0;
+    //Previous food score calculation [0,1]
+    const foodScore = route.params?.foodScore;
+    const[homeScore, setHomeScore] = useState(0);
 
-    const [isDisabled,setIsDisabled] = useState(false);//Activates "Next Question" Button
-    const [pointPercent,setPointPercent] = useState(0);//Calculate points
-
-    //Use Multiple Buttons to change colors/values activated.
-    const [buttonOn0, setButtonOn0] = useState(false);
-    const [buttonOn1, setButtonOn1] =  useState(false);
-    const [buttonOn2, setButtonOn2] = useState(false);
-    const [buttonOn3, setButtonOn3] = useState(false);
+    const [nextPage, setNextPage] = useState("q4")
+    const [buttonIndex, setButtonIndex] = useState(-1)
 
     //Calculate points across several buttons (For CHECK ALL THAT APPLY choice only)
     const calculatePoints=() =>{
-        let numerator = buttonOn0*1 + buttonOn1*2 + buttonOn2*3 + buttonOn3*10;
-        let denominator = (buttonOn0+buttonOn1+buttonOn2+buttonOn3)*maxPoints;
-        setPointPercent(previousState=>numerator/denominator);
-    }
-    //Ensure points are synchronous
-    useEffect(()=>{
-        calculatePoints();
-    });
-
-    const toggleButton = (index) => {
-        const flip = false;
-        //Toggle specific button depending on input
-        switch(index){
-            case 0:
-                setButtonOn0(!buttonOn0);
-                break;
-            case 1:
-                setButtonOn1(!buttonOn1);
-                break;
-            case 2:
-                setButtonOn2(!buttonOn2);
-                break;
-            case 3:
-                setButtonOn3(!buttonOn3);
-                break;
-            default:
-                break;
+        //Solely Renewable energy has no carbon emissions:
+        if(buttonIndex==1){
+            setHomeScore(1);
+        }
+        //Score is determined by bills page, keep it at 0!
+        else{
+            setHomeScore(0);
         }
     }
+    //Ensure points are synchronous & updating progress bar
+    useEffect(()=>{
+        navigation.setOptions({
+        header: ()=>(
+        <View style={{
+        position: "absolute",
+        top:0,
+        height:30,
+        borderRadius: 6,
+        width:"20%",
+        backgroundColor: Colors.secondary.CELADON,
+        }}>
+        </View>
+        ),
+        })
+        calculatePoints();
+    });
 
     return (
             <>
@@ -64,39 +53,44 @@ export default function HouseholdScreen({navigation,route}) {
                     justifyContent: 'center',
                 }}
             >
-            <Text>How is your household powered?(Check All the Apply)</Text>
+            <Text style={{
+                fontSize:20,
+                fontWeight:"400",
+                marginBottom: 40,
+                textAlign:"center",
+            }}>
+            How is your household powered?
+            </Text>
             <View style={{
-                width:"100%",
+                width:"60%",
+            }}
+            >
+            <View style={{
+                marginBottom:12,
             }}
             >
             <Button
-                title="Coal"
+                title="Fossil Fuels (Coal, Natural Gas, etc..)"
                 onPress={()=>{
-                    toggleButton(0);
+                    setButtonIndex(0)
+                    setNextPage("q2a")
                 }}
-                color={buttonOn0 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+                color={buttonIndex==0 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
-            <Button
-                title ="Petroleum"
-                onPress={()=>{
-                    toggleButton(1);
-                }}
-                color={buttonOn1 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
-            />
-            <Button
-                title="Natural Gas"
-                onPress={()=>{
-                    toggleButton(2);
-                }}
-                color={buttonOn2 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
-            />
+            </View>
+            <View style={{
+                marginBottom:12,
+            }}
+            >
             <Button
                 title ="Renewable Energy (Solar, Wind, etc...)"
                 onPress={()=>{
-                    toggleButton(3);
+                    setButtonIndex(1)
+                    setNextPage("q4")
                 }}
-                color={buttonOn3 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+                color={buttonIndex==1 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
+            </View>
             </View>
             </View>
             <View style={{
@@ -117,11 +111,12 @@ export default function HouseholdScreen({navigation,route}) {
             title="Next Question"
             color={Colors.primary.MINT}
             onPress={() =>
-                navigation.navigate('q3',{dietScore:dietScore,
-                powerSourceScore:pointPercent,
+                navigation.navigate(nextPage, {
+                homeScore:homeScore,
+                foodScore:foodScore,
                 })
             }
-            disabled ={(buttonOn0||buttonOn1||buttonOn2||buttonOn3) ? false: true}
+            disabled ={buttonIndex>=0 ? false: true}
             />
             </View>
             </View>

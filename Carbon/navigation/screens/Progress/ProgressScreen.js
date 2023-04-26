@@ -24,9 +24,7 @@ export default function ProgressScreen({ navigation }) {
 
         {/* Log -- Will update styling and other things for this component soon :) */}
         <View style={styles.container}>
-          <View style={{ backgroundColor: "white", borderRadius: 16, height: windowHeight / 2, padding: 10 }}>
             <Log></Log>
-          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
