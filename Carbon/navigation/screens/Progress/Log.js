@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import { DailyLog } from "../../../components/ChartData";
+import { ScreenNames } from "../Main/ScreenNames";
 import React, { useState, useRef, useEffect } from 'react';
 import { Colors } from '../../../styling/Colors';
 import GetData from "../Home/GetData";

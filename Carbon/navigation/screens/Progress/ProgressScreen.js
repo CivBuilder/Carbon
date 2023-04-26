@@ -27,7 +27,7 @@ export default function ProgressScreen({ navigation }) {
         {/* Log -- Will update styling and other things for this component soon :) */}
         
         <View style={styles.container}>
-            <Log></Log>
+            <Log navigation={navigation}></Log>
         </View>
       </ScrollView>
     </SafeAreaView>

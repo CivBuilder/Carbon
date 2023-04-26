@@ -9,7 +9,7 @@ const GetData = async () => {
     //const url = "http://{YOURLOCALIPHERE}:3000/api/userEmissions?user_id="+ user_id; //for local hosting and testing 
 
 
-    const response = await fetch(`http://192.168.0.6:3000/api/userEmissions`, {
+    const response = await fetch(`${API_URL}userEmissions`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

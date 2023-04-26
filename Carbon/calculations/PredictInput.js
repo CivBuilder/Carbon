@@ -9,13 +9,12 @@ const PredictInput = async () => {
         const user_id = 323; //needs to be not hard coded
         //const url = "http://{YOURLOCALIPHERE}:3000/api/userEmissions?user_id="+ user_id; //for local hosting and testing 
 
-        const url = API_URL + `userEmissions/id}`; //for the database n
         //console.log("fetching data to predict from " + url); //log to see if if it works
 
 
         let count = 0;
-        console.log("predicting")
-        const response = await fetch(`http://192.168.0.6:3000/api/userEmissions/getAll`, {
+        //console.log("predicting")
+        const response = await fetch(`${API_URL}userEmissions/id`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

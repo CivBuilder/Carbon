@@ -154,7 +154,7 @@ router.get('/getAll',passport.authenticate('jwt', { session: false }), async fun
   const user_entry = await UserEmissions.findAll({
     where: {
       user_id: req.user.id
-      //user_id: 323
+     // user_id: 323 // for testing
     }
   });
   if (!user_entry || user_entry.length === 0) {
