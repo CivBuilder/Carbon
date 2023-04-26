@@ -18,7 +18,7 @@ const Category = (props) => {
   const value = { expand, toggleExpand };
 
   function organizeRecords(records) {
-    const categories = ["Transport", "Lifestyle", "Home", "Diet"];
+    const categories = ["Transport", "Home", "Diet"];
     let recordSet = [];
     for (var entry of records) {
       var record = {};
@@ -63,8 +63,8 @@ const Category = (props) => {
 };
 
 const CategoryHeader = (props) => {
-  const { expand, toggleExpand } = useContext(CategoryContext);
-  const { id, title, emission, percentage } = props;
+  const {expand, toggleExpand} = useContext(CategoryContext);
+  const {id, title, emission, percentage} = props;
 
   return (
     <TouchableOpacity onPress={toggleExpand} style={styling.category}>
@@ -86,8 +86,8 @@ const CategoryHeader = (props) => {
       {/* Recent emissions */}
       <View style={styling.expand}>
         <ExpandIcon
-          iconActive={<Ionicons name="chevron-forward" size={13} />}
-          iconInactive={<Ionicons name="chevron-down" size={13} />}
+          iconActive={<Ionicons name="chevron-forward" size={13}/>}
+          iconInactive={<Ionicons name="chevron-down" size={13}/>}
         />
       </View>
     </TouchableOpacity>
