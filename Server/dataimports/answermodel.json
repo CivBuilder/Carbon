@@ -1,0 +1,1835 @@
+[
+    {
+         "ansid": "6",
+         "quesid": "3",
+         "answer": "To reduce the negative impact of transportation on the environment",
+         "iscorrect": "1"
+    },
+    {
+         "ansid": "7",
+         "quesid": "3",
+         "answer": "To improve the efficiency of transportation for economic growth",
+         "iscorrect": "0"
+    },
+    {
+         "ansid": "8",
+         "quesid": "3",
+         "answer": "To increase the speed of transportation for people and goods",
+         "iscorrect": "0"
+    },
+    {
+         "ansid": "9",
+         "quesid": "3",
+         "answer": "To decrease the accessibility of transportation to remote areas",
+         "iscorrect": "0"
+    },
+    {
+         "ansid": "10",
+         "quesid": "4",
+         "answer": "Road transport",
+         "iscorrect": "0"
+    },
+    {
+         "ansid": "11",
+         "quesid": "4",
+         "answer": "Rail transport",
+         "iscorrect": "0"
+           },
+    {
+         "ansid": "12",
+         "quesid": "4",
+         "answer": "Air transport",
+         "iscorrect": "1" 
+          },
+    
+    {
+         "ansid": "13",
+         "quesid": "4",
+         "answer": "Water transport",
+         "iscorrect": "0"   
+        },
+    {
+         "ansid": "14",
+         "quesid": "5",
+         "answer": "Reducing traffic congestion",
+         "iscorrect": "0"
+        },
+    {
+         "ansid": "15",
+         "quesid": "5",
+         "answer": "Improving public health",
+         "iscorrect": "0"
+           },
+    {
+         "ansid": "16",
+         "quesid": "5",
+         "answer": "Reducing greenhouse gas emissions",
+         "iscorrect": "0"
+           },
+    
+    {
+         "ansid": "17",
+         "quesid": "5",
+         "answer": "All of the above",
+         "iscorrect": "1"
+           },
+    {
+         "ansid": "18",
+         "quesid": "6",
+         "answer": "Hydrogen fuel cell vehicles",
+         "iscorrect": "0"
+        },
+    {
+         "ansid": "19",
+         "quesid": "6",
+         "answer": "Electric vehicles",
+         "iscorrect": "1"   
+        },
+    {
+         "ansid": "20",
+         "quesid": "6",
+         "answer": "Biofuels",
+         "iscorrect": "0"   
+        },
+    
+    {
+         "ansid": "21",
+         "quesid": "6",
+         "answer": "Natural gas vehicles",
+         "iscorrect": "0"
+           },
+    {
+         "ansid": "22",
+         "quesid": "7",
+         "answer": "To provide financial incentives for sustainable transport options",
+         "iscorrect": "0"
+        },
+    {
+         "ansid": "22",
+         "quesid": "7",
+         "answer": "To regulate and reduce the use of fossil fuel-based transportation",
+         "iscorrect": "0"
+           },
+    {
+         "ansid": "23",
+         "quesid": "7",
+         "answer": "To improve public transport infrastructure",
+         "iscorrect": "0"
+           },
+    
+    {
+         "ansid": "24",
+         "quesid": "7",
+         "answer": "All of the above",
+         "iscorrect": "1"  
+         },
+    {
+         "ansid": "25",
+         "quesid": "8",
+         "answer": "Reducing emissions from vehicles",
+         "iscorrect": "0"
+        },
+    {
+         "ansid": "26",
+         "quesid": "8",
+         "answer": "Electrification of vehicles",
+         "iscorrect": "0"
+           },
+    {
+         "ansid": "27",
+         "quesid": "8",
+         "answer": "Developing more efficient vehicles",
+         "iscorrect": "0"
+           },
+    
+    {
+         "ansid": "28",
+         "quesid": "8",
+         "answer": "All of the above",
+         "iscorrect": "1"
+           },
+    {
+         "ansid": "29",
+         "quesid": "9",
+         "answer": "Lack of charging infrastructure",
+         "iscorrect": "0"
+        },
+    {
+         "ansid": "30",
+         "quesid": "9",
+         "answer": "High cost of electric vehicles",
+         "iscorrect": "0"
+           },
+    {
+         "ansid": "31",
+         "quesid": "9",
+         "answer": "Limited range of electric vehicles",
+         "iscorrect": "0"  
+         },
+    
+    {
+         "ansid": "32",
+         "quesid": "9",
+         "answer": "All of the above",
+         "iscorrect": "1"  
+         },
+    {
+         "ansid": "33",
+         "quesid": "10",
+         "answer": "Electrification of vehicles",
+         "iscorrect": "0"
+        },
+    {
+         "ansid": "34",
+         "quesid": "10",
+         "answer": "Developing more efficient vehicles",
+         "iscorrect": "0"
+           },
+    {
+         "ansid": "35",
+         "quesid": "10",
+         "answer": "Encouraging the use of public transport",
+         "iscorrect": "0"
+           },
+    
+    {
+         "ansid": "36",
+         "quesid": "10",
+         "answer": "All of the above",
+         "iscorrect": "1"
+           },
+    {
+         "ansid": "37",
+         "quesid": "11",
+         "answer": "It reduces emissions from individual vehicles",
+         "iscorrect": "0"
+        },
+    {
+         "ansid": "38",
+         "quesid": "11",
+         "answer": "It reduces traffic congestion",
+         "iscorrect": "0"
+           },
+    {
+         "ansid": "39",
+         "quesid": "11",
+         "answer": "It provides affordable transportation options",
+         "iscorrect": "0"
+           },
+    
+    {
+         "ansid": "40",
+         "quesid": "11",
+         "answer": "All of the above",
+         "iscorrect": "1"
+           },
+    {
+         "ansid": "41",
+         "quesid": "12",
+         "answer": "Government regulations",
+         "iscorrect": "0"
+        },
+    {
+         "ansid": "42",
+         "quesid": "12",
+         "answer": "Individual choices",
+         "iscorrect": "0"
+           },
+    {
+         "ansid": "43",
+         "quesid": "12",
+         "answer": "Technological advancements",
+         "iscorrect": "0"
+           },
+    
+    {
+         "ansid": "44",
+         "quesid": "12",
+         "answer": "All of the above",
+         "iscorrect": "1"
+           },
+    {
+         "ansid": "45",
+         "quesid": "13",
+         "answer": "Transportation that only uses electric vehicles",
+         "iscorrect": "0"
+        },
+    {
+         "ansid": "46",
+         "quesid": "13",
+         "answer": "Transportation that minimizes environmental impact while meeting mobility needs",
+         "iscorrect": "1"   
+        },
+    {
+         "ansid": "47",
+         "quesid": "13",
+         "answer": "Transportation that reduces traffic congestion",
+         "iscorrect": "0"
+           },
+    
+    {
+         "ansid": "48",
+         "quesid": "13",
+         "answer": "Transportation that uses only renewable energy sources",
+         "iscorrect": "0"
+       },
+    {
+         "ansid": "49",
+         "quesid": "14",
+         "answer": "Reduced air pollution",
+         "iscorrect": "0"
+    },
+    {
+         "ansid": "50",
+         "quesid": "14",
+         "answer": "Reduced greenhouse gas emissions",
+         "iscorrect": "0"
+       },
+    {
+         "ansid": "51",
+         "quesid": "14",
+         "answer": "Increased traffic congestion",
+         "iscorrect": "1"
+       },
+    
+    {
+         "ansid": "52",
+         "quesid": "14",
+         "answer": "Improved public health",
+         "iscorrect": "0"
+       },
+    {
+         "ansid": "53",
+         "quesid": "15",
+         "answer": "A car with low fuel efficiency",
+         "iscorrect": "0"
+    },
+    {
+         "ansid": "54",
+         "quesid": "15",
+         "answer": "A bus powered by diesel fuel",
+         "iscorrect": "0"
+       },
+    {
+         "ansid": "55",
+         "quesid": "15",
+         "answer": "A bike lane on a city street",
+         "iscorrect": "1"
+       },
+    
+    {
+         "ansid": "56",
+         "quesid": "15",
+         "answer": "A plane that runs on fossil fuels",
+         "iscorrect": "0"
+       },
+    {
+         "ansid": "57",
+         "quesid": "16",
+         "answer": "Building more highways and expanding roads",
+         "iscorrect": "0"
+    },
+    {
+         "ansid": "58",
+         "quesid": "16",
+         "answer": "Offering tax breaks for purchasing gas-guzzling vehicles",
+         "iscorrect": "0"
+       },
+    {
+         "ansid": "59",
+         "quesid": "16",
+         "answer": "Providing incentives for purchasing electric vehicles",
+         "iscorrect": "1"
+       },
+    
+    {
+         "ansid": "60",
+         "quesid": "16",
+         "answer": "Encouraging the use of single-occupancy vehicles",
+         "iscorrect": "0"
+       },
+    {
+         "ansid": "61",
+         "quesid": "17",
+         "answer": "Agriculture",
+         "iscorrect": "0"
+    },
+    {
+         "ansid": "62",
+         "quesid": "17",
+         "answer": "Residential",
+         "iscorrect": "0"
+       },
+    {
+         "ansid": "63",
+         "quesid": "17",
+         "answer": "Industrial",
+         "iscorrect": "0"
+       },
+    
+    {
+         "ansid": "64",
+         "quesid": "17",
+         "answer": "Transportation",
+         "iscorrect": "1"
+       },
+    {
+         "ansid": "65",
+         "quesid": "18",
+         "answer": "The ability to maintain or support something over the long-term without causing harm.",
+         "iscorrect": "1"
+    },
+    {
+         "ansid": "66",
+         "quesid": "18",
+         "answer": "The ability to use resources without any consideration for the environment.",
+         "iscorrect": "0"
+       },
+    {
+         "ansid": "67",
+         "quesid": "18",
+         "answer": "The ability to use resources in a way that benefits the economy, regardless of environmental impact.",
+         "iscorrect": "0"
+       },
+    
+    {
+         "ansid": "68",
+         "quesid": "18",
+         "answer": "The ability to use resources without any regard for the long-term consequences.",
+         "iscorrect": "0"
+       },
+    {
+         "ansid": "69",
+         "quesid": "19",
+         "answer": "Foods that are in season and grown locally.",
+         "iscorrect": "1"
+    },
+    {
+         "ansid": "70",
+         "quesid": "19",
+         "answer": " Foods that are heavily processed and packaged.",
+         "iscorrect": "0"
+       },
+    {
+         "ansid": "71",
+         "quesid": "19",
+         "answer": "Foods that require a lot of energy and water to produce.",
+         "iscorrect": "0"
+       },
+    
+    {
+         "ansid": "72",
+         "quesid": "19",
+         "answer": "Foods that are imported from other countries.",
+         "iscorrect": "0"
+       },
+       {
+        "ansid": "73",
+        "quesid": "20",
+        "answer": "It has no impact on the environment.",
+        "iscorrect": "0"
+    },
+    {
+        "ansid": "74",
+        "quesid": "20",
+        "answer": "It has a minimal impact on the environment.",
+        "iscorrect": "0"
+      },
+    {
+        "ansid": "75",
+        "quesid": "20",
+        "answer": "It has a significant impact on the environment.",
+        "iscorrect": "1"
+      },
+    
+    {
+        "ansid": "76",
+        "quesid": "20",
+        "answer": "It has a positive impact on the environment.",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "77",
+        "quesid": "21",
+        "answer": "Agriculture",
+        "iscorrect": "1"
+    },
+    {
+        "ansid": "78",
+        "quesid": "21",
+        "answer": "Urbanization",
+        "iscorrect": "0"
+      },
+    {
+        "ansid": "79",
+        "quesid": "21",
+        "answer": "Mining",
+        "iscorrect": "0"
+      },
+    
+    {
+        "ansid": "80",
+        "quesid": "21",
+        "answer": "Tourism",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "81",
+        "quesid": "22",
+        "answer": "Reduced environmental impact",
+        "iscorrect": "0"
+    },
+    {
+        "ansid": "82",
+        "quesid": "22",
+        "answer": "Improved public health",
+        "iscorrect": "0"
+      },
+    {
+        "ansid": "83",
+        "quesid": "22",
+        "answer": "Increased economic growth",
+        "iscorrect": "0"
+      },
+    
+    {
+        "ansid": "84",
+        "quesid": "22",
+        "answer": "All of the above",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "85",
+        "quesid": "23",
+        "answer": "Food that is grown without the use of pesticides",
+        "iscorrect": "0"
+    },
+    {
+        "ansid": "86",
+        "quesid": "23",
+        "answer": "Food that is locally sourced",
+        "iscorrect": "0"
+      },
+    {
+        "ansid": "87",
+        "quesid": "23",
+        "answer": "Food that is produced in a way that minimizes harm to the environment and supports social and economic sustainability",
+        "iscorrect": "1"
+      },
+    
+    {
+        "ansid": "88",
+        "quesid": "23",
+        "answer": "Food that is low in calories",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "89",
+        "quesid": "24",
+        "answer": "It reduces greenhouse gas emissions",
+        "iscorrect": "0"
+    },
+    {
+        "ansid": "90",
+        "quesid": "24",
+        "answer": "It supports local farmers and communities",
+        "iscorrect": "0"
+      },
+    {
+        "ansid": "91",
+        "quesid": "24",
+        "answer": "It promotes biodiversity",
+        "iscorrect": "0"
+      },
+    
+    {
+        "ansid": "92",
+        "quesid": "24",
+        "answer": "All of the above",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "93",
+        "quesid": "25",
+        "answer": "Eat meat and dairy products with every meal",
+        "iscorrect": "0"
+    },
+    {
+        "ansid": "94",
+        "quesid": "25",
+        "answer": "Buy only imported produce",
+        "iscorrect": "0"
+      },
+    {
+        "ansid": "95",
+        "quesid": "25",
+        "answer": "Choose whole, plant-based foods",
+        "iscorrect": "1"
+      },
+    
+    {
+        "ansid": "96",
+        "quesid": "25",
+        "answer": "Eat only packaged and processed foods",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "97",
+        "quesid": "26",
+        "answer": "Food that is leftover and thrown away, which contributes to landfills and greenhouse gas emissions",
+        "iscorrect": "1"
+    },
+    {
+        "ansid": "98",
+        "quesid": "26",
+        "answer": "Food that is not organic and contains harmful chemicals",
+        "iscorrect": "0"
+      },
+    {
+        "ansid": "99",
+        "quesid": "26",
+        "answer": "Food that is produced in a way that harms wildlife and ecosystems",
+        "iscorrect": "0"
+      },
+    
+    {
+        "ansid": "100",
+        "quesid": "26",
+        "answer": "Food that is imported and contributes to air pollution",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "101",
+        "quesid": "27",
+        "answer": "Buy only what you need and plan meals in advance",
+        "iscorrect": "1"
+    },
+    {
+        "ansid": "102",
+        "quesid": "27",
+        "answer": "Throw away any food that is past its expiration date",
+        "iscorrect": "0"
+      },
+    {
+        "ansid": "103",
+        "quesid": "27",
+        "answer": "Stock up on canned and processed foods",
+        "iscorrect": "0"
+      },
+    
+    {
+        "ansid": "104",
+        "quesid": "27",
+        "answer": "Purchase ready-made meals from restaurants",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "105",
+        "quesid": "28",
+        "answer": "To save money",
+        "iscorrect": "0"
+    },
+    {
+        "ansid": "106",
+        "quesid": "28",
+        "answer": "To reduce carbon footprint",
+        "iscorrect": "1"
+      },
+    {
+        "ansid": "107",
+        "quesid": "28",
+        "answer": "To follow a trend",
+        "iscorrect": "0"
+      },
+    
+    {
+        "ansid": "108",
+        "quesid": "28",
+        "answer": "To eat healthier",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "109",
+        "quesid": "29",
+        "answer": "Buying organic products",
+        "iscorrect": "0"
+    },
+    {
+        "ansid": "110",
+        "quesid": "29",
+        "answer": "Buying products with sustainable certifications",
+        "iscorrect": "0"
+      },
+    {
+        "ansid": "111",
+        "quesid": "29",
+        "answer": "Buying local products",
+        "iscorrect": "0"
+      },
+    
+    {
+        "ansid": "112",
+        "quesid": "29",
+        "answer": "All of the above",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "113",
+        "quesid": "30",
+        "answer": "They are always more sustainable than animal-based meals",
+        "iscorrect": "1"
+    },
+    {
+        "ansid": "114",
+        "quesid": "30",
+        "answer": "They are more affordable than animal-based meals",
+        "iscorrect": "0"
+      },
+    {
+        "ansid": "115",
+        "quesid": "30",
+        "answer": "They are always healthier than animal-based meals",
+        "iscorrect": "0"
+      },
+    
+    {
+        "ansid": "116",
+        "quesid": "30",
+        "answer": "None of the above",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "117",
+        "quesid": "31",
+        "answer": "It increases greenhouse gas emissions",
+        "iscorrect": "0"
+    },
+    {
+        "ansid": "118",
+        "quesid": "31",
+        "answer": "It decreases the availability of food for those in need",
+        "iscorrect": "0"
+      },
+    {
+        "ansid": "119",
+        "quesid": "31",
+        "answer": "It wastes resources such as water and energy",
+        "iscorrect": "0"
+      },
+    
+    {
+        "ansid": "120",
+        "quesid": "31",
+        "answer": "All of the above",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "121",
+        "quesid": "32",
+        "answer": "Plan meals ahead of time and only buy necessary ingredients",
+        "iscorrect": "0"
+    },
+    {
+        "ansid": "122",
+        "quesid": "32",
+        "answer": "Store food properly to prolong its lifespan",
+        "iscorrect": "0"
+      },
+    {
+        "ansid": "123",
+        "quesid": "32",
+        "answer": "Use leftovers creatively",
+        "iscorrect": "0"
+      },
+    
+    {
+        "ansid": "124",
+        "quesid": "32",
+        "answer": "All of the above",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "125",
+        "quesid": "33",
+        "answer": "To reduce the amount of waste generated",
+        "iscorrect": "1"
+    },
+    {
+        "ansid": "126",
+        "quesid": "33",
+        "answer": "To increase the amount of waste generated",
+        "iscorrect": "0"
+      },
+    {
+        "ansid": "127",
+        "quesid": "33",
+        "answer": "To make waste management more expensive",
+        "iscorrect": "0"
+      },
+    
+    {
+        "ansid": "128",
+        "quesid": "33",
+        "answer": "To make waste management more difficult",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "129",
+        "quesid": "34",
+        "answer": "Recycling",
+        "iscorrect": "0"
+    },
+    {
+        "ansid": "130",
+        "quesid": "34",
+        "answer": "Reusing",
+        "iscorrect": "1"
+      },
+    {
+        "ansid": "131",
+        "quesid": "34",
+        "answer": "Composting",
+        "iscorrect": "0"
+      },
+    
+    {
+        "ansid": "132",
+        "quesid": "34",
+        "answer": "All of the above",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "133",
+        "quesid": "35",
+        "answer": "Reducing means using less of a product, while reusing means using the same product again",
+        "iscorrect": "1"
+    },
+    {
+        "ansid": "134",
+        "quesid": "35",
+        "answer": "Reducing means throwing away products, while reusing means keeping products indefinitely",
+        "iscorrect": "0"
+      },
+    {
+        "ansid": "135",
+        "quesid": "35",
+        "answer": "Reducing and reusing are the same thing",
+        "iscorrect": "0"
+      },
+    
+    {
+        "ansid": "136",
+        "quesid": "35",
+        "answer": "None of the above",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "137",
+        "quesid": "36",
+        "answer": "Buying a new product every time you need it",
+        "iscorrect": "0"
+    },
+    {
+        "ansid": "138",
+        "quesid": "36",
+        "answer": "Throwing away old clothes",
+        "iscorrect": "0"
+      },
+    {
+        "ansid": "139",
+        "quesid": "36",
+        "answer": "Donating old clothes to a thrift store",
+        "iscorrect": "1"
+      },
+    
+    {
+        "ansid": "140",
+        "quesid": "36",
+        "answer": "Using a disposable water bottle",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "141",
+        "quesid": "37",
+        "answer": "Reducing greenhouse gas emissions",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "142",
+        "quesid": "37",
+        "answer": "Conserving natural resources",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "143",
+        "quesid": "37",
+        "answer": "Saving energy",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "144",
+        "quesid": "37",
+        "answer": "All of the above",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "145",
+        "quesid": "38",
+        "answer": "A process to turn waste into new products",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "146",
+        "quesid": "38",
+        "answer": "A process to dispose of waste in landfills",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "147",
+        "quesid": "38",
+        "answer": "A process to burn waste for energy",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "148",
+        "quesid": "38",
+        "answer": "A process to export waste to other countries",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "149",
+        "quesid": "39",
+        "answer": "It helps reduce the use of raw materials",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "150",
+        "quesid": "39",
+        "answer": "It helps reduce greenhouse gas emissions",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "151",
+        "quesid": "39",
+        "answer": "It helps conserve natural resources",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "152",
+        "quesid": "39",
+        "answer": "All of the above",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "153",
+        "quesid": "40",
+        "answer": "It helps save energy",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "154",
+        "quesid": "40",
+        "answer": "It helps reduce water pollution",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "155",
+        "quesid": "40",
+        "answer": "It helps create jobs",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "156",
+        "quesid": "40",
+        "answer": "All of the above",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "157",
+        "quesid": "41",
+        "answer": "Increased greenhouse gas emissions",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "158",
+        "quesid": "41",
+        "answer": "Increased air pollution",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "159",
+        "quesid": "41",
+        "answer": "Increased landfills",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "160",
+        "quesid": "41",
+        "answer": "All of the above",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "161",
+        "quesid": "42",
+        "answer": "Plastic",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "162",
+        "quesid": "42",
+        "answer": "Glass",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "163",
+        "quesid": "42",
+        "answer": "Paper",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "164",
+        "quesid": "42",
+        "answer": "All of the above",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "165",
+        "quesid": "43",
+        "answer": "10%",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "166",
+        "quesid": "43",
+        "answer": "25%",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "167",
+        "quesid": "43",
+        "answer": "50%",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "168",
+        "quesid": "43",
+        "answer": "75%",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "169",
+        "quesid": "44",
+        "answer": "Aluminum cans",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "170",
+        "quesid": "44",
+        "answer": "Glass bottles",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "171",
+        "quesid": "44",
+        "answer": "Styrofoam cups",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "172",
+        "quesid": "44",
+        "answer": "Paper",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "173",
+        "quesid": "45",
+        "answer": "The whole box",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "174",
+        "quesid": "45",
+        "answer": "The top half of the box",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "175",
+        "quesid": "45",
+        "answer": "The bottom half of the box",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "176",
+        "quesid": "45",
+        "answer": "None of the above",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "177",
+        "quesid": "46",
+        "answer": "Plastic bags",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "178",
+        "quesid": "46",
+        "answer": "Soda cans",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "179",
+        "quesid": "46",
+        "answer": "Cardboard boxes",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "180",
+        "quesid": "46",
+        "answer": "Used tissues",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "181",
+        "quesid": "47",
+        "answer": "Rinse it out",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "182",
+        "quesid": "47",
+        "answer": "Leave it as is",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "183",
+        "quesid": "47",
+        "answer": "Crush it",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "184",
+        "quesid": "47",
+        "answer": "Throw it away with the cap on",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "185",
+        "quesid": "48",
+        "answer": "Global warming",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "186",
+        "quesid": "48",
+        "answer": "Human activities",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "187",
+        "quesid": "48",
+        "answer": "Natural disasters",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "188",
+        "quesid": "48",
+        "answer": "Depletion of underground water sources",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "189",
+        "quesid": "49",
+        "answer": "To reduce water usage in the U.S.",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "190",
+        "quesid": "49",
+        "answer": "To promote the use of bottled water",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "191",
+        "quesid": "49",
+        "answer": "To increase water prices for consumers",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "192",
+        "quesid": "49",
+        "answer": "To encourage the use of irrigation systems",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "193",
+        "quesid": "50",
+        "answer": "Fixing leaks promptly",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "194",
+        "quesid": "50",
+        "answer": "Using a dishwasher instead of hand-washing dishes",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "195",
+        "quesid": "50",
+        "answer": "Installing water-efficient fixtures and appliances",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "196",
+        "quesid": "50",
+        "answer": "Watering the lawn during the hottest part of the day",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "197",
+        "quesid": "51",
+        "answer": "10%",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "198",
+        "quesid": "51",
+        "answer": "20%",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "199",
+        "quesid": "51",
+        "answer": "30%",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "200",
+        "quesid": "51",
+        "answer": "40%",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "201",
+        "quesid": "52",
+        "answer": "A hissing sound",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "202",
+        "quesid": "52",
+        "answer": "A gurgling sound",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "203",
+        "quesid": "52",
+        "answer": "Water pooling around the base of the toilet",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "204",
+        "quesid": "52",
+        "answer": "All of the above",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "205",
+        "quesid": "53",
+        "answer": "Insufficient water sources",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "206",
+        "quesid": "53",
+        "answer": "Inadequate water treatment facilities",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "207",
+        "quesid": "53",
+        "answer": "Overuse and wastage of water",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "208",
+        "quesid": "53",
+        "answer": "Pollution of water sources",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "209",
+        "quesid": "54",
+        "answer": "Irrigation using flood systems",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "210",
+        "quesid": "54",
+        "answer": "Drip irrigation",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "211",
+        "quesid": "54",
+        "answer": "Use of pesticides and fertilizers",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "212",
+        "quesid": "54",
+        "answer": "Overhead irrigation",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "213",
+        "quesid": "55",
+        "answer": "Water scarcity",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "214",
+        "quesid": "55",
+        "answer": "Drought",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "215",
+        "quesid": "55",
+        "answer": "Water stress",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "216",
+        "quesid": "55",
+        "answer": "Water crisis",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "217",
+        "quesid": "56",
+        "answer": "Agricultural runoff",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "218",
+        "quesid": "56",
+        "answer": "Energy production",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "219",
+        "quesid": "56",
+        "answer": "Industrial waste",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "220",
+        "quesid": "56",
+        "answer": "All of the above",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "221",
+        "quesid": "57",
+        "answer": "Increased access to education",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "222",
+        "quesid": "57",
+        "answer": "Increased economic opportunities",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "223",
+        "quesid": "57",
+        "answer": "Increased burden of collecting water",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "224",
+        "quesid": "57",
+        "answer": "Improved health and wellbeing",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "225",
+        "quesid": "58",
+        "answer": "Climate change",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "226",
+        "quesid": "58",
+        "answer": "Sustainable water systems",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "227",
+        "quesid": "58",
+        "answer": "Renewable energy",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "228",
+        "quesid": "58",
+        "answer": "Urban planning",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "229",
+        "quesid": "59",
+        "answer": "Reduced energy consumption",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "230",
+        "quesid": "59",
+        "answer": "Increased pollution",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "231",
+        "quesid": "59",
+        "answer": "Higher water bills",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "231",
+        "quesid": "59",
+        "answer": "Lower water quality",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "232",
+        "quesid": "60",
+        "answer": "Greywater recycling",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "233",
+        "quesid": "60",
+        "answer": "Rainwater harvesting",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "234",
+        "quesid": "60",
+        "answer": "Desalination",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "235",
+        "quesid": "60",
+        "answer": "Wastewater disposal",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "236",
+        "quesid": "61",
+        "answer": "Overuse of water resources",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "237",
+        "quesid": "61",
+        "answer": "Lack of rainfall",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "238",
+        "quesid": "61",
+        "answer": "Inefficient water systems",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "239",
+        "quesid": "61",
+        "answer": "Climate change",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "240",
+        "quesid": "62",
+        "answer": "To reduce energy consumption",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "241",
+        "quesid": "62",
+        "answer": "To increase water usage",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "242",
+        "quesid": "62",
+        "answer": "To improve water quality",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "243",
+        "quesid": "62",
+        "answer": "To increase pollution",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "244",
+        "quesid": "63",
+        "answer": "Fossil fuels",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "245",
+        "quesid": "63",
+        "answer": "Solar energy",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "246",
+        "quesid": "63",
+        "answer": "Nuclear energy",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "247",
+        "quesid": "63",
+        "answer": "Hydroelectric power",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "248",
+        "quesid": "64",
+        "answer": "Coal",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "249",
+        "quesid": "64",
+        "answer": "Natural gas",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "250",
+        "quesid": "64",
+        "answer": "Wind",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "251",
+        "quesid": "64",
+        "answer": "Petroleum",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "252",
+        "quesid": "65",
+        "answer": "Air pollution",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "253",
+        "quesid": "65",
+        "answer": "Water pollution",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "254",
+        "quesid": "65",
+        "answer": "Soil erosion",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "255",
+        "quesid": "65",
+        "answer": "Deforestation",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "256",
+        "quesid": "66",
+        "answer": "Solar energy",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "257",
+        "quesid": "66",
+        "answer": "Nuclear energy",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "258",
+        "quesid": "66",
+        "answer": "Natural gas",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "259",
+        "quesid": "66",
+        "answer": "Coal",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "260",
+        "quesid": "67",
+        "answer": "Reduced greenhouse gas emissions",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "261",
+        "quesid": "67",
+        "answer": "Reduced dependence on foreign oil",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "262",
+        "quesid": "67",
+        "answer": "Increased air pollution",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "263",
+        "quesid": "67",
+        "answer": "Job creation in the renewable energy sector",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "264",
+        "quesid": "68",
+        "answer": "It has no impact on wildlife",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "265",
+        "quesid": "68",
+        "answer": "It can disrupt migration patterns",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "266",
+        "quesid": "68",
+        "answer": "It can cause birds to fly into the panels",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "267",
+        "quesid": "68",
+        "answer": "It can cause fish to avoid areas with solar panels",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "268",
+        "quesid": "69",
+        "answer": "It has no impact on the environment",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "269",
+        "quesid": "69",
+        "answer": "It can lead to land-use changes",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "270",
+        "quesid": "69",
+        "answer": "It releases harmful chemicals into the air",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "271",
+        "quesid": "69",
+        "answer": "It causes water pollution",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "272",
+        "quesid": "70",
+        "answer": "Removing solar panels from affected areas",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "273",
+        "quesid": "70",
+        "answer": "Installing acoustic deterrents",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "274",
+        "quesid": "70",
+        "answer": "Implementing bird-friendly designs for solar panels",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "275",
+        "quesid": "70",
+        "answer": "Increasing the amount of artificial lighting in the area",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "276",
+        "quesid": "71",
+        "answer": "It reduces greenhouse gas emissions",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "277",
+        "quesid": "71",
+        "answer": "It causes air pollution",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "278",
+        "quesid": "71",
+        "answer": "It increases water pollution",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "279",
+        "quesid": "71",
+        "answer": "It leads to deforestation",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "280",
+        "quesid": "72",
+        "answer": "It provides food and shelter for animals",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "281",
+        "quesid": "72",
+        "answer": "It has no impact on wildlife",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "282",
+        "quesid": "72",
+        "answer": "It provides a stable energy source for animals",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "283",
+        "quesid": "72",
+        "answer": "It increases the risk of wildfires",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "284",
+        "quesid": "73",
+        "answer": "10%",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "285",
+        "quesid": "73",
+        "answer": "20%",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "286",
+        "quesid": "73",
+        "answer": "30%",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "287",
+        "quesid": "73",
+        "answer": "40%",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "288",
+        "quesid": "74",
+        "answer": "Government policies",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "289",
+        "quesid": "74",
+        "answer": "Technological advancements",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "290",
+        "quesid": "74",
+        "answer": "Corporate social responsibility",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "291",
+        "quesid": "74",
+        "answer": "Consumer demand",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "292",
+        "quesid": "75",
+        "answer": "China",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "293",
+        "quesid": "75",
+        "answer": "United States",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "294",
+        "quesid": "75",
+        "answer": "Germany",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "295",
+        "quesid": "75",
+        "answer": "India",
+        "iscorrect": "0"
+      },{
+        "ansid": "296",
+        "quesid": "76",
+        "answer": "High cost",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "297",
+        "quesid": "76",
+        "answer": "Lack of technical expertise",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "298",
+        "quesid": "76",
+        "answer": "Inadequate infrastructure",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "299",
+        "quesid": "76",
+        "answer": "Limited natural resources",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "300",
+        "quesid": "77",
+        "answer": "Solar",
+        "iscorrect": "1"
+      },
+      {
+        "ansid": "301",
+        "quesid": "77",
+        "answer": "Wind",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "302",
+        "quesid": "77",
+        "answer": "Hydroelectric",
+        "iscorrect": "0"
+      },
+      {
+        "ansid": "303",
+        "quesid": "77",
+        "answer": "Geothermal",
+        "iscorrect": "0"
+      }
+    ]
+    

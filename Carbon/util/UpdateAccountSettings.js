@@ -4,6 +4,7 @@ import { getToken } from "./LoginManager";
 
 const API_CHANGE_USERNAME_URL = API_URL + 'user/changeUsername/';
 const API_CHANGE_PASSWORD_URL = API_URL + 'user/changePassword/';
+const API_CHANGE_PFP_URL = API_URL + 'user/changePFP/';
 
 export async function changeUsername(username) {
     await fetch(API_CHANGE_USERNAME_URL, {
@@ -53,4 +54,15 @@ export async function changePassword(oldPassword, newPassword) {
         .then(response => response.text())
         .then(data => console.log(data))
         .catch(error => alert(error));
+}
+
+export async function changePFP(selection) {
+    const res = await fetch(API_CHANGE_PFP_URL, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'secrettoken': await getToken(),
+        },
+        body: JSON.stringify({ profile_selection: selection })
+    });
 }

@@ -11,7 +11,7 @@ import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import { Colors } from '../../../styling/Colors';
 
 // Using my test AWS node server for now
-export default function ForumScreen({navigation}) {
+export default function ForumScreen({navigation, params}) {
     const [forumData, setForumData] = useState([]);
     const [selectedData, setSelectedData] = useState([]);
     const [filter, setFilter] = useState('all');
@@ -59,12 +59,42 @@ export default function ForumScreen({navigation}) {
         updateSelected();
     }, [filter, forumData]);
 
+    // Hardcoding images to ids because im out of time, too bad!
     const thumbnails = {
-        'electricity': images.electricityThumbnail,
-        'recycle': images.recycleThumbnail,
-        'food': images.foodThumbnail,
-        'water': images.waterThumbnail,
-        'transport': images.transportThumbnail
+        38: images.electricity2,
+        39: images.electricity2,
+        40: images.electricity3,
+        41: images.electricity3,
+        42: images.electricity1,
+        43: images.electricity1,
+
+        20: images.food1,
+        21: images.food1,
+        22: images.food2,
+        23: images.food2,
+        24: images.food3,
+        25: images.food3,
+
+        26: images.recycle1,
+        27: images.recycle1,
+        28: images.recycle2,
+        29: images.recycle2,
+        30: images.recycle3,
+        31: images.recycle3,
+
+        14: images.transport1,
+        15: images.transport1,
+        16: images.transport2,
+        17: images.transport2,
+        18: images.transport3,
+        19: images.transport3,
+
+        32: images.water1,
+        33: images.water1,
+        34: images.water2,
+        35: images.water2,
+        36: images.water3,
+        37: images.water3,
     }
 
     const renderContent = ({item}) => {
@@ -97,7 +127,7 @@ export default function ForumScreen({navigation}) {
                         }
                     }}
                 >
-                    <Image source={thumbnails[item.category]} style={{width: '100%', height: '100%', borderRadius: 10}}/>
+                    <Image source={thumbnails[item.id_forumcontent]} style={{width: '100%', height: '100%', borderRadius: 10}}/>
                     <Svg height="100%" width="100%" style={StyleSheet.absoluteFillObject}>
                         <Defs>
                             <LinearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">

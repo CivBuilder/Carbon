@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Switch} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {Colors} from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
@@ -104,6 +104,7 @@ const RecordRecycling = ({ navigation, route }) => {
   }, [recycledAmount])
   
   return (
+    <ScrollView>
     <View style={styles.container}>
       <View style={styles.funfact}>
         <Text style={styles.header}>Did you know?</Text>
@@ -169,8 +170,9 @@ const RecordRecycling = ({ navigation, route }) => {
       
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
         <Text style={styles.buttonText}>Save & Return</Text>
-      </TouchableOpacity>      
+      </TouchableOpacity>   
     </View>
+    </ScrollView>
   );
 };
 
