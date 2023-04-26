@@ -25,12 +25,12 @@ export default function ProgressScreen({ navigation }) {
 
         {/* Log -- Will update styling and other things for this component soon :) */}
         <View style={styles.container}>
-            <Log></Log>
+          <Log></Log>
         </View>
-            
-            <Section title="Net Emissions">
-              <NetEmissions />
-            </Section>
+
+        <Section title="Net Emissions">
+          <NetEmissions />
+        </Section>
       </ScrollView>
     </SafeAreaView>
   )

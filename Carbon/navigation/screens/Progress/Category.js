@@ -39,16 +39,16 @@ const CategoryHeader = (props) => {
       {/* Emission Category Title */}
       <View style={styling.title}>
         <Ionicons name={"ellipse"} size={13} style={{ marginEnd: 7, marginTop: 1, color: colorScale[id] }} />
-        <Text>{title}</Text>
+        <Text style={styling.text}>{title}</Text>
       </View>
       {/* Emission Quantity */}
       <View style={styling.emission}>
-        <Text>{emission}</Text>
+        <Text style={styling.text}>{emission}</Text>
         <Text style={styling.units}>{` lbs CO\u2082`}</Text>
       </View>
       {/* Percentage of total emissions */}
       <View style={styling.percentage}>
-        <Text>{percentage}</Text>
+        <Text style={styling.text}>{percentage}</Text>
         <Text style={styling.units}>%</Text>
       </View>
       {/* Recent emissions */}

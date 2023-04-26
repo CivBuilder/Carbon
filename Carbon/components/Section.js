@@ -3,7 +3,8 @@ import { useNavigation } from "@react-navigation/native";
 import { SectionCSS as styling } from "../styling/SectionCSS";
 
 export const Section = (props) => {
-  const {children, title, shortcutURL, shortcutTitle} = props;
+  const {children, height, title, shortcutURL, shortcutTitle} = props;
+  let bodyHeight = (!height || !Number.isInteger(height)) ? 50 : height;
 
   return (
     <>
@@ -12,7 +13,7 @@ export const Section = (props) => {
         {(shortcutURL && shortcutTitle) && <Shortcut screenName={shortcutURL} text={shortcutTitle}/>}
       </View>
       <View style={styling.container}>
-        <View style={styling.body}>
+        <View style={[styling.body, {minHeight: bodyHeight}]}>
           <View style={styling.content}>{children}</View>
         </View>
       </View>
