@@ -73,6 +73,11 @@ const User = sequelize.define('user', {
         type : DataTypes.INTEGER.UNSIGNED,
         allowNull : false, 
         defaultValue: 0 
+    },
+    finished_questionnaire : {
+        type : DataTypes.TINYINT.UNSIGNED,
+        allowNull : false,
+        defaultValue : 0
     }
 }, {
     hooks: {

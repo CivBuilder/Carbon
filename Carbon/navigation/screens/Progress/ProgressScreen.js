@@ -4,6 +4,7 @@ import { Colors } from '../../../styling/Colors';
 import { CategoryBreakdown } from './CategoryBreakdown';
 import RecordEmission from './RecordEmission';
 import Log from '../Progress/Log';
+import NetEmissions from './NetEmissions';
 import { Section } from '../../../components/Section';
 
 const windowWidth = Dimensions.get("window").width;
@@ -25,9 +26,14 @@ export default function ProgressScreen({ navigation }) {
           <CategoryBreakdown navigation={navigation} />
         </Section>
         {/* Log -- Will update styling and other things for this component soon :) */}
+        
         <View style={styles.container}>
-            <Log></Log>
+            <Log navigation={navigation}></Log>
         </View>
+            
+            <Section title="Net Emissions">
+              <NetEmissions />
+            </Section>
       </ScrollView>
     </SafeAreaView>
   )
