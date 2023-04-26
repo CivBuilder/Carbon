@@ -21,7 +21,7 @@ const SignUpScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.logo} >
-        <Image source={{ uri: 'https://i.ibb.co/s9Kfh8p/carbon-logo.png'}} style={{width: 200, height: 100}} testID="image"/>
+        <Image source={require('../../../assets/Carbon_Logo.png')} style={{width: 300, height: 100}} testID="image"/>
       </View>
       <KeyboardAvoidingView behavior= 'height' style={styles.content}>
         <EmailInput testID="emailInput" onChangeText={(un) => setUsername(un)}/>
