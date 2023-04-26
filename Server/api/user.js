@@ -58,22 +58,22 @@ router.get('/leaderboard', async function (req, res, next) {
     const {page, category, worst} = req.query;
     console.log(page, category, worst);
     const PAGE_SIZE = 15;
-    const OFFSET = req.params.page * PAGE_SIZE;
+    const OFFSET = page * PAGE_SIZE;
 
-    return res.status(200).send();
+    
     //Error checking if the page is out of bounds
-    if (req.params.page < 0 || req.params.page > 100_000) {
+    if (page < 0 || page > 100_000) {
         return res.status(400).send("Bad Request : Page out of bounds");
     }
 
     //get the leaderboard for this page.
     const leaderboard = await user_table.findAll({
-        order: [['global_score', 'DESC'], ['id', 'ASC']],
+        order: [[category, 'DESC'], ['id', 'ASC']],
         offset: OFFSET,
         attributes: [
             'username',
-            'global_score',
-            'sustainability_score'
+            category,
+            'avatar_index'
         ],
         limit: PAGE_SIZE
     });

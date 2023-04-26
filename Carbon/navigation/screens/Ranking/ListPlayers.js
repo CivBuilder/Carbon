@@ -11,7 +11,6 @@ export default function ListPlayers ({table, onRefresh, onEndReached}) {
             onRefresh = {onRefresh}
             refreshing={false}
             onEndReached={onEndReached}
-            onEndReachedThreshold={0}
             style = {{
             flex : 1
             }}
@@ -25,12 +24,12 @@ export default function ListPlayers ({table, onRefresh, onEndReached}) {
 function renderListEntry({ item }) {
     //Check if this is the client - if so highlight the entry
     let ClientEntry = false;  
-    if(item.username === USERNAME || item.username === DEFAULT_USERNAME) ClientEntry = true;
+    // if(item.username === USERNAME || item.username === DEFAULT_USERNAME) ClientEntry = true;
     return(
       <View testID="list-entry" style = {[styles.ListEntryContainer, ClientEntry && {backgroundColor : "#FFD700"}]}>
-      {/* // <View> */}
       <Text>
-          {item.rank} -  {item.username} - {item.global_score}
+          {/* {item.rank} -  {item.username} - {item.global_score} */}
+            {item.username}
       </Text>
       </View>
     );
@@ -54,6 +53,7 @@ styles = {
         borderRadius : 15,
         padding : 8,
         marginHorizontal: 15,
-        marginVertical : 8
+        marginVertical : 8,
+        height : 50,
     }
 }

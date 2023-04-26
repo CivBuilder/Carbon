@@ -45,78 +45,60 @@ async function updateTable(setLeaderboardTables, leaderboardTables, currentCateg
   // console.log(table);
   // console.log(JSON.stringify(leaderboardTables, null, 2));
   // console.log(JSON.stringify(leaderboardTables[2],null,2));
+  let AllItems = [...leaderboardTables]
+  let categoryItems = [...AllItems[currentCategory.id]];
+  let categoryItem = {...categoryItems[currentTab]};
 
-  let table = leaderboardTables[currentCategory.id][currentTab];
-  let page = fresh_start !== null ? fresh_start : ExtendUpwards ? table.indices[0] : table.indices[1];
+  // let table = [...(leaderboardTables[currentCategory.id][currentTab])];
+  let page = fresh_start !== null ? fresh_start : ExtendUpwards ? categoryItem.indices[0] : categoryItem.indices[1];
   if(ExtendUpwards === false) setLoading(true); //Don't have two loading screens at once
 
-  console.log(JSON.stringify(table, null, 2));
+  console.log(JSON.stringify(categoryItem, null, 2));
   console.log(page);
   
   //Get the category and if we are in the worst tab to send has headers
   let category = currentCategory.title+"score";
   let worstList = (currentTab === ListTabIDs.WORST_PLAYERS); 
 
+
+
   try {
     const response = await fetch(API_Entry_LEADERBOARD_URL+`?page=${page}&category=${category}&worst=${worstList}`)
-    console.log(response.status);
-  }
-  //for any other server errors, just set the error screen
-  catch(err) {
-    setErrorMessage(`Error: ${err.message}`);
-  }
-  setLoading(false);
-  return;
-
-
-
-  //Display Error if we try to grow upwards when we're at the very first page
-  if(currentPageToLoad < 0 && ExtendUpwards===true){
-    alert("No More Users to load - We're at the top!")
-    return; 
-  }
-
-  console.log("Fetching Players Like you Table with URL "+API_Entry_LEADERBOARD_URL+currentPageToLoad);
-  
-
-  //Get and handle the response from server
-  try{
-    const response = await fetch(API_Entry_LEADERBOARD_URL+currentPageToLoad.toString());
-
-    //Update table and indices for pages on a successful request
     if(response.status === 200) {
 
-      //If the beginning and ending indices are the same, move them both apart
-      if(like_you_range[0] === like_you_range[1]){
-        setLikeYouRange([like_you_range[0]-1, like_you_range[1]+1])
-      }
-      //Otherwise just move in which direction we updated the table
-      else{
-        ExtendUpwards? setLikeYouRange([like_you_range[0]-1, like_you_range[1]]) : setLikeYouRange([like_you_range[0], like_you_range[1]+1]);  
-      }
-      
-      //Merge arrays
+      //get the package
       const response_content = await response.json();
-      if(ExtendUpwards)
-        setPlayersLikeYouTable(response_content.concat(like_you_table));
-      else 
-        setPlayersLikeYouTable(like_you_table.concat(response_content));
 
-      setErrorMessage(null);
+      //Concat to the end of our array if we refresh by reaching the end of the list, otherwise prepend the array
+      if(fresh_start !== null || ExtendUpwards === false){
+        categoryItem.entries = categoryItem.entries.concat(response_content);
+      }
+      else categoryItem.entries = response_content.concat(categoryItem.entries);
+
+      //Start of a new list ,move both beginning and ending indices
+      if(fresh_start !== null) {
+        categoryItem.indices[0] = fresh_start-1; 
+        categoryItem.indices[1] = fresh_start+1; 
+      }
+      else if(ExtendUpwards) {
+        categoryItem.indices[0]--;
+      }
+      else categoryItem.indices[1]++;
+
+      console.log(categoryItem.entries);
+      categoryItems[currentTab] = categoryItem;
+      AllItems[currentCategory.id] = categoryItems;
+      setLeaderboardTables(AllItems);
     }
-
-    //Just alert the users if we have no more content to retrieve
-    if(response.status === 204) {
-      setErrorMessage(null);
-      alert("No More Further Users.")
-    } 
+    else if (response.status === 404){
+      throw new Error(`Error: ${response.status} : ${response.statusText}`);
+    }
   }
   //for any other server errors, just set the error screen
   catch(err) {
     setErrorMessage(`Error: ${err.message}`);
   }
   setLoading(false);
-  
   return;
 }
 
@@ -161,7 +143,7 @@ export default function RankingScreen({navigation, route}){
     );
 
     if(errorMessage !== null) return (
-      <ServerErrorScreen onRefresh={() =>{getUserScores(setUserScores, setErrorMessage)}}/>
+      <ServerErrorScreen onRefresh={() =>{getUserScores(setUserScores, setErrorMessage)}} errorMessage={errorMessage}/>
     );
 
     return (
@@ -204,8 +186,12 @@ export default function RankingScreen({navigation, route}){
         </View>
       </View> 
 
-      <View style={styles.ListContentContainer}>
-          <Text> Poop</Text>
+      <View style = {{flex : 1}}>
+            <ListPlayers 
+              // onRefresh={updateTable(setLeaderboardTables, leaderboardTables, emission_category, currentTab, null, true, setLoading, setErrorMessage)}
+              // onEndReached={updateTable(setLeaderboardTables, leaderboardTables, emission_category, currentTab, null, false, setLoading, setErrorMessage)}
+              table={leaderboardTables[emission_category.id][currentTab].entries}
+            />
       </View>
 
       <LoadingIndicator loading={loading}/>
@@ -259,162 +245,6 @@ export default function RankingScreen({navigation, route}){
   });
   
   
-
-// {!errorMessage && 
-//   <View style = {{flex : 1}}>
-
-//     {/* Houses Buttons and the Category Highlights */}
-//     <View style = {styles.CategoryHighlights}>              
-    
-//         {/* Buttons to Switch Tabs */}
-//         <View style = {styles.buttonContainer}> 
-//           <TouchableOpacity style={[styles.button, buttonPressed === 1 && styles.pressedButton]}
-//               onPress={() => {HandlePressedButton(1)}}
-//               testID = "likeYouButton"
-//           >
-//             <Text style={[styles.buttonText, buttonPressed === 1 && styles.pressedButtonText]}>Players Like You</Text>
-//           </TouchableOpacity>
-
-//           <TouchableOpacity style={[styles.button, buttonPressed === 2 && styles.pressedButton]}
-//             onPress={() => {HandlePressedButton(2)}}
-//             testID = "globalButton"
-//           >
-//             <Text style={[styles.buttonText, buttonPressed === 2 && styles.pressedButtonText ]}>Top Scorers</Text>
-//           </TouchableOpacity>
-
-
-//           <TouchableOpacity style={[styles.button, buttonPressed === 3 && styles.pressedButton]}
-//             onPress={() => {HandlePressedButton(3)}}
-//             testID = "socialButton"
-//           >
-//             <Text style={[styles.buttonText, buttonPressed === 3 && styles.pressedButtonText ]}>Social</Text>
-//           </TouchableOpacity>
-//         </View>
-
-
-
-//     </View>
-
-//     {/*Display the Ranks in a list view in a lower container*/}
-//     <View style = {{backgroundColor : Colors.secondary.NYANZA, flex : 1}}>
-
-//       {/*Like You Table Display*/}
-//       {buttonPressed === 1 && 
-//       <ListPlayers
-//         table = {like_you_table}
-//         onRefresh ={() =>{fetchAndUpdatePlayersLikeYouTable(true);}}
-//         onEndReached = {() => {fetchAndUpdatePlayersLikeYouTable(false)}}
-//       />}
-
-//       {/*Global Table Display*/}
-//       {buttonPressed === 2 &&
-//         <ListPlayers
-//         table = {like_you_table}
-//         onRefresh = {null}
-//         onEndReached = {() => {fetchAndUpdateGlobalTable()}}
-//       />
-//       }
-
-//       {/*Social Table Display*/}
-//       {buttonPressed === 3 && <View></View>}
-
-//     </View>
-
-//   </View>
-// }
-
-
-// {/* Loading Screen*/}
-// <LoadingIndicator loading = {loading}/>
-
-
-/* Update the player Table - Takes in param saying which direction we are extending*/
-async function fetchAndUpdatePlayersLikeYouTable (like_you_range, setLikeYouRange, ExtendUpwards, setLoading, setErrorMessage) {
- 
-  
-}
-
-    /***************************************Server Requests***************************************/
-    // //Get's User Rank - Any Response other than 200 will cause page to show Error Screen
-    // const fetchUserRank = async () => {
-    //   setLoading(true);
-    //   console.log(`Fetching from ${API_Entry_RANK_URL+KEY}`);
-
-    //   //Get result from Server via Fetch
-    //   try { 
-
-    //     // Changing rank to use the new JWT
-    //     const response = await fetch(API_Entry_RANK_URL, await getAuthHeader());
-
-    //     //Set Rank and first table to load on the "Like You" page for the table
-    //     if(response.status === 200) {
-    //       const response_content = await response.json(); 
-    //       console.log(response_content);
-          
-    //       setRank(response_content.ranking);
-    //       setSustainabilityScore(response_content.sustainability_score);
-    //       setErrorMessage(null);          
-    //       setLikeYouRange([Math.floor(response_content.ranking/PAGE_SIZE), Math.floor(response_content.ranking/PAGE_SIZE)]);
-    //       setLikeYouFirstPageFlag(true);
-
-    //       console.log(`Fetch from ${API_Entry_RANK_URL+KEY} was a success!`);
-    //     }
-    //     //Handle Error thrown from Server
-    //     else if (response.status === 404) {
-    //       setRank(null);
-    //       setSustainabilityScore(null);
-    //       setErrorMessage(`Error: ${response.status} : ${response.statusText}`);
-    //       console.log(`Fetch from ${API_Entry_RANK_URL+KEY} Failed, 404: bad ID`);
-    //     }
-    //   } 
-    //   //Handle any other errors not necessarily from Server
-    //   catch(err) {
-    //     setRank(null);
-    //     setSustainabilityScore(null);
-    //     setErrorMessage(`Error: ${err.message}`);
-    //     console.log(`Fetch from ${API_Entry_RANK_URL+KEY} Failed: ${err.message}`);
-    //   }
-    //   setLoading(false);
-    // }
-    
-
-
-    // /* Get the next page from the global table 200/204 OK*/ 
-    // const fetchAndUpdateGlobalTable = async () => {
-    //   setLoading(true);
-    //   try{
-    //     const response = await fetch(API_Entry_LEADERBOARD_URL+global_table_page_counter.toString());
-        
-    //     //Add to our list on a successful get request
-    //     if(response.status === 200) {
-    //       const response_content = await response.json();
-    //       setGlobalTable(global_table.concat(response_content));
-    //       setGlobalTableCounter(global_table_page_counter+1);
-    //       setErrorMessage(null);
-    //     }
-    //     //Server Response if you have a page with no elements in it - No Content
-    //     else if(response.status === 204) {
-    //       alert("No More users to load");
-    //     }
-    //     //Set error if we go out of bounds on the server request
-    //     else if(response.status === 400) {
-    //       alert("Error: Couldn't Fetch User Data : Bad Request");
-    //       setGlobalTableCounter(global_table_page_counter-1)
-    //       setErrorMessage(`Error: ${err.message}`);
-    //     }
-    //     //Set Error on any server failure
-    //   } catch (err) {
-    //       setGlobalTableCounter(global_table_page_counter-1);
-    //       setErrorMessage(`Error: ${err.message}`);
-    //   }
-    //   setLoading(false);
-    // }
-
-
-
-
-
-
 
 
 
