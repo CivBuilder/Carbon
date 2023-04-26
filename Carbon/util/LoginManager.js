@@ -45,6 +45,7 @@ export async function login(username, password) {
         );
 
         if (response.status != 200) {
+            console.log(response.status);
             alert('Login failed, please try again.');
             return false;
         }
@@ -114,7 +115,6 @@ export async function signup(username, email, password, confirm) {
             body: formBody
         }
     );
-    await login(username, password);
 
     await login(email, password);
 
