@@ -7,7 +7,11 @@ import { saveGoalToDatabase, getPreviousMonthEmissions } from '../../../util/Goa
 
 const margin = 10;
 const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
-const lastMonthEmissions = await getPreviousMonthEmissions();
+async function getEmissionsFromDb() {
+  const emissions = await getPreviousMonthEmissions();
+  return emissions;
+}
+const lastMonthEmissions = getEmissionsFromDb();
 
 export default function GoalSetter({ navigation }) {
   const [goal, setGoal] = useState(0);
