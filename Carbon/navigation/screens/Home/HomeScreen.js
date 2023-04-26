@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView, TouchableOpacity, Platform, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { Card } from 'react-native-elements';
 import { Colors } from '../../../styling/Colors';
@@ -85,17 +85,8 @@ export default function HomeScreen({ navigation }) {
                                 autplay={false}
                                 loop={false}
                             >
-                                <View>
-                                    <Card containerStyle={styles.card}>
-                                        <Card.Title>Want to reduce your emissions?</Card.Title>
-                                        <Card.Image style={{borderRadius: 15}} source={thumbnails.waterThumbnail}/>
-                                        <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.FORUM)}>
-                                        <Text style={{ marginBottom: 10, textAlign: 'center'}}>
-                                            Learn how to reduce your impact using guidelines set out by the EPA
-                                        </Text>
-                                        </TouchableOpacity>
-
-                                    </Card>
+                                <View style={styles.card}>
+                                    <Image style={{width: '100%', height: '100%', borderRadius: 16}} source={thumbnails.waterThumbnail}/>
                                 </View>
                                 <View>
                                     <Card containerStyle={styles.card}>
@@ -159,6 +150,8 @@ const styles = StyleSheet.create({
     card: {
         height: 300,
         borderRadius: 16,
+        padding: 0,
+        margin: 10,
     },
     link: {
         color: Colors.primary.MINT,
