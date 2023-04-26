@@ -65,11 +65,11 @@ export default function HomeScreen({ navigation }) {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={styles.container}>
-                        <View style={{ height: 400 }}>
+                    {/* <View style={styles.container}> */}
+                        <View style={{ height: 350 }}>
                             <ForumCards navigation={navigation}/>
                         </View>
-                    </View>
+                    {/* </View> */}
                 </View>
             </ScrollView>
         </SafeAreaView>
