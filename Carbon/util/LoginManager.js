@@ -63,8 +63,13 @@ export async function signup(username, email, password, confirm) {
         return false;
     }
 
-    if(username === "" || email === "" || password === "" || confirm === "") {
+    if (username === "" || email === "" || password === "" || confirm === "") {
         alert("Please fill out all fields.");
+        return false;
+    }
+
+    if(!validateEmail(email)) {
+        alert("Please enter a valid email.");
         return false;
     }
 
@@ -123,4 +128,9 @@ export async function logout() {
 export function validatePassword(password) {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$,%,&,*,@,!])[A-Za-z\d$,%,&,*,@,!]{8,}$/;
     return regex.test(password);
+}
+
+export function validateEmail(email) {
+    const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    return regex.test(email);
 }
