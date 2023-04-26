@@ -214,6 +214,7 @@ router.get('/rank', passport.authenticate('jwt', { session: false }), async func
             "lifestyle_score", 
             "diet_score",  
             "home_score",
+            "username"
         ],
         
     });

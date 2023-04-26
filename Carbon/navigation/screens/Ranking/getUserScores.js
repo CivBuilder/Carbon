@@ -24,6 +24,7 @@ export default async function getUserScores(setUserScores, setLoading, setErrorM
         const response_content = await response.json(); 
         setUserScores(response_content);      
         console.log(`Fetch from ${API_Entry_RANK_URL} was a success!`);
+        setErrorMessage(null);
       }
       //Handle Error thrown from Server
       else if (response.status === 404) {
