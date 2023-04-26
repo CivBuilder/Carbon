@@ -28,6 +28,10 @@
   },
   "dependencies": {
     "@expo/ngrok": "^4.1.0",
+    "@fortawesome/free-regular-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@fortawesome/react-native-fontawesome": "^0.3.0",
     "@react-native-async-storage/async-storage": "~1.17.3",
     "@react-native-community/netinfo": "9.3.5",
     "@react-native-community/slider": "4.2.4",

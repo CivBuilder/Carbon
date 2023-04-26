@@ -35,11 +35,9 @@ const styles = {
       },
       pickerRow: {
         display: 'flex',
-        borderWidth: 2,
         backgroundColor: Colors.primary.MINT_CREAM,
-        borderColor: Colors.primary.MINT,
         borderRadius: 8,
-        margin: 5,
+        margin: 8,
         width: '50%',
       },
 };
