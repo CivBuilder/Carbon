@@ -3,6 +3,7 @@ import Swiper from 'react-native-swiper';
 import React from 'react'
 import { StackActions } from '@react-navigation/native';
 
+import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import * as thumbnails from '../assets/Forum';
 import { Colors } from '../styling/Colors';
 import { ScreenNames } from '../navigation/screens/Main/ScreenNames';
@@ -27,13 +28,22 @@ const ForumCards = ({navigation}) => {
         >
             <View style={styles.card}>
                 <TouchableOpacity onPress={() => {
-                    navigation.push(ScreenNames.FORUM, {
+                    navigation.navigate(ScreenNames.FORUM, {
                         screen: ScreenNames.BROWSER,
                         initial: false,
                         params: {id: 24}
                     });
                 }}>
                     <Image style={{width: '100%', height: '100%', borderRadius: 16}} source={thumbnails.food3}/>
+                    <Svg height="100%" width="100%" style={StyleSheet.absoluteFillObject}>
+                        <Defs>
+                            <LinearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <Stop offset='0.7' stopOpacity={0}/>
+                                <Stop offset='1' stopOpacity={1.0} stopColor={'black'}/>
+                            </LinearGradient>
+                        </Defs>
+                        <Rect width="100%" height="100%" fill="url(#grad)" rx={10}/>
+                    </Svg>
                     <Text style={{position: 'absolute', color: 'white', fontWeight: 'bold', fontSize: 24, bottom: 20, left: 20, right: 20}}>
                         <Text style={{
                             position: 'absolute',
@@ -47,15 +57,24 @@ const ForumCards = ({navigation}) => {
                         </Text>
                     </Text>
                 </TouchableOpacity>
-            </View>
+            </View> 
             <View style={styles.card}>
                 <TouchableOpacity onPress={() => {
                     navigation.navigate(ScreenNames.FORUM, {
-                        screen: ScreenNames.BROWSER,
+                        screen: ScreenNames.QUIZ,
                         params: {id: 19}
                     });
                 }}>
                     <Image style={{width: '100%', height: '100%', borderRadius: 16}} source={thumbnails.transport3}/>
+                    <Svg height="100%" width="100%" style={StyleSheet.absoluteFillObject}>
+                        <Defs>
+                            <LinearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <Stop offset='0.7' stopOpacity={0}/>
+                                <Stop offset='1' stopOpacity={1.0} stopColor={'black'}/>
+                            </LinearGradient>
+                        </Defs>
+                        <Rect width="100%" height="100%" fill="url(#grad)" rx={10}/>
+                    </Svg>
                     <Text style={{position: 'absolute', color: 'white', fontWeight: 'bold', fontSize: 24, bottom: 20, left: 20, right: 20}}>
                         <Text style={{
                             position: 'absolute',
@@ -72,12 +91,21 @@ const ForumCards = ({navigation}) => {
             </View>
             <View style={styles.card}>
                 <TouchableOpacity onPress={() => {
-                    navigation.navigate(ScreenNames.BROWSER, {
+                    navigation.navigate(ScreenNames.FORUM, {
                         screen: ScreenNames.BROWSER,
                         params: {id: 36}
                     });
                 }}>
                     <Image style={{width: '100%', height: '100%', borderRadius: 16}} source={thumbnails.water3}/>
+                    <Svg height="100%" width="100%" style={StyleSheet.absoluteFillObject}>
+                        <Defs>
+                            <LinearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <Stop offset='0.7' stopOpacity={0}/>
+                                <Stop offset='1' stopOpacity={1.0} stopColor={'black'}/>
+                            </LinearGradient>
+                        </Defs>
+                        <Rect width="100%" height="100%" fill="url(#grad)" rx={10}/>
+                    </Svg>
                     <Text style={{position: 'absolute', color: 'white', fontWeight: 'bold', fontSize: 24, bottom: 20, left: 20, right: 20}}>
                         <Text style={{
                             position: 'absolute',
@@ -94,12 +122,21 @@ const ForumCards = ({navigation}) => {
             </View>
             <View style={styles.card}>
                 <TouchableOpacity onPress={() => {
-                    navigation.navigate(ScreenNames.BROWSER, {
+                    navigation.navigate(ScreenNames.FORUM, {
                         screen: ScreenNames.QUIZ,
-                        params: {id: 19}
+                        params: {id: 31}
                     });
                 }}>
-                    <Image style={{width: '100%', height: '100%', borderRadius: 16}} source={thumbnails.water3}/>
+                    <Image style={{width: '100%', height: '100%', borderRadius: 16}} source={thumbnails.recycle3}/>
+                    <Svg height="100%" width="100%" style={StyleSheet.absoluteFillObject}>
+                        <Defs>
+                            <LinearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <Stop offset='0.7' stopOpacity={0}/>
+                                <Stop offset='1' stopOpacity={1.0} stopColor={'black'}/>
+                            </LinearGradient>
+                        </Defs>
+                        <Rect width="100%" height="100%" fill="url(#grad)" rx={10}/>
+                    </Svg>
                     <Text style={{position: 'absolute', color: 'white', fontWeight: 'bold', fontSize: 24, bottom: 20, left: 20, right: 20}}>
                         <Text style={{
                             position: 'absolute',
@@ -109,7 +146,7 @@ const ForumCards = ({navigation}) => {
                             color: Colors.primary.MINT_CREAM,
                             bottom: 10
                         }}>
-                            Learn more about sustainable water systems
+                            Test your recycling knowledge
                         </Text>
                     </Text>
                 </TouchableOpacity>
