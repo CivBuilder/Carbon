@@ -49,7 +49,7 @@ export default function GoalSetter({ navigation }) {
         <NonBreakingSpace />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={() => { saveGoalToDatabase(); navigation.navigate(ScreenNames.PROGRESS); }}>
+        <TouchableOpacity onPress={() => { saveGoalToDatabase(goal); navigation.navigate(ScreenNames.PROGRESS); }}>
           <View style={styles.button} testID="set-goal-button">
             <Text style={styles.buttonText}>Set Goal</Text>
           </View>
