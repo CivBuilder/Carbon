@@ -11,23 +11,21 @@ const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
 export default function GoalSetter({ navigation }) {
   const [goal, setGoal] = useState(0);
   const [previousMonthEmissions, setPreviousMonthEmissions] = useState(0);
-
-  // call getPreviousMonthEmissions() once when component is mounted
-  async function fetchPreviousMonthEmissions() {
-    const emissions = await getPreviousMonthEmissions();
-    return emissions;
-  }
-
-  const lastMonthEmissions = fetchPreviousMonthEmissions();
+  const [lastMonthEmissions, setLastMonthEmissions] = useState(0);
 
   useEffect(() => {
-    async function emissionGoalComparison() {
-      const factor = goal / 100;
-      const newEmissions = lastMonthEmissions * factor;
-      setPreviousMonthEmissions(newEmissions.toFixed(1));
+    async function fetchPreviousMonthEmissions() {
+      const emissions = await getPreviousMonthEmissions();
+      setLastMonthEmissions(emissions);
     }
-    emissionGoalComparison();
-  }, [goal]);
+    fetchPreviousMonthEmissions();
+  }, []);
+
+  useEffect(() => {
+    const factor = goal / 100;
+    const newEmissions = lastMonthEmissions * factor;
+    setPreviousMonthEmissions(newEmissions.toFixed(1));
+  }, [goal, lastMonthEmissions]);
 
   const handleValueChange = (value) => {
     const roundedValue = Math.round(value);
