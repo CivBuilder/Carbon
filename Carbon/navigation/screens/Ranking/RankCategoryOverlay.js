@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
-import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
+import {useState} from 'react';
+import {Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../../../styling/Colors';
-import { ScreenNames } from '../Main/ScreenNames';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { RadioButton } from 'react-native-paper';
 import { EmissionCategory as ec } from './EmissionScoreCateogory';
 
@@ -44,7 +44,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                                 color = {Colors.secondary.DARK_MINT}
                             />
                             <Ionicons
-                                name={"earth-outline"}
+                                name={"earth"}
                                 size={26}
                                 color={Colors.primary.RAISIN_BLACK}
                                 style={{ marginRight: 16, marginLeft: 40 }}
@@ -60,7 +60,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                                 color = {Colors.secondary.DARK_MINT}
                             />
                             <Ionicons
-                                name={"car-sport-outline"}
+                                name={"car-sport"}
                                 size={26}
                                 color={Colors.primary.RAISIN_BLACK}
                                 style={{ marginRight: 16, marginLeft: 40 }}
@@ -75,9 +75,9 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                                 onPress={() => setSelectedCategory(ec.LIFESTYLE)}
                                 color = {Colors.secondary.DARK_MINT}
                             />
-                            <Ionicons
-                                name={"wallet-outline"}
-                                size={26}
+                            <Icon 
+                                name = "recycle"
+                                size = {26}
                                 color={Colors.primary.RAISIN_BLACK}
                                 style={{ marginRight: 16, marginLeft: 40 }}
                             />
@@ -92,7 +92,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                                 color = {Colors.secondary.DARK_MINT}
                             />
                             <Ionicons
-                                name={"restaurant-outline"}
+                                name={"restaurant"}
                                 size={26}
                                 color={Colors.primary.RAISIN_BLACK}
                                 style={{ marginRight: 16, marginLeft: 40 }}
@@ -108,7 +108,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                                 color = {Colors.secondary.DARK_MINT}
                             />
                             <Ionicons
-                                name={"home-outline"}
+                                name={"home"}
                                 size={26}
                                 color={Colors.primary.RAISIN_BLACK}
                                 style={{ marginRight: 16, marginLeft: 40 }}

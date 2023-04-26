@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import {ActivityIndicator, ScrollView, StyleSheet, Text, View, RefreshControl, TouchableOpacity, FlatList} from 'react-native';
+import { StyleSheet, View} from 'react-native';
 import ServerErrorScreen from '../../../components/ServerErrorScreen';
 import LoadingIndicator from "../../../components/LoadingIndicator";
 import {Colors} from "../../../styling/Colors";
@@ -14,7 +14,7 @@ import { EmissionCategory as EC, EmissionCategory } from './EmissionScoreCateogo
 import RankingList from './RankingTableClass';
 
 const PAGE_SIZE = 15;
-const API_Entry_RANK_URL = API_URL + "user/rank/";
+
 const API_Entry_LEADERBOARD_URL = API_URL + "user/leaderboard";
 
 
@@ -59,16 +59,21 @@ async function updateTable(setLeaderboardTables, leaderboardTables, currentCateg
   }
   
   try {
-    const response = await fetch(API_Entry_LEADERBOARD_URL+`?page=${page}&category=${category}&worst=${worstList}`)
+    
+    if(page < 0 && ExtendUpwards === true ){
+      throw new Error(`No more players to load ~ We're at the top ${topMessage}!`);
+    }
+      const response = await fetch(API_Entry_LEADERBOARD_URL+`?page=${page}&category=${category}&worst=${worstList}`)
+
     if(response.status === 200) {
 
       //get the package
       const response_content = await response.json();
 
-      //Concat to the end of our array if we refresh by reaching the end of the list, otherwise prepend the array
-      if(fresh_start !== null || ExtendUpwards === false){
+      // //Concat to the end of our array if we refresh by reaching the end of the list, otherwise prepend the array
+      if(fresh_start !== null) categoryItem.entries = response_content;
+      else if (ExtendUpwards === false)  
         categoryItem.entries = categoryItem.entries.concat(response_content);
-      }
       else categoryItem.entries = response_content.concat(categoryItem.entries);
 
       //Start of a new list ,move both beginning and ending indices
@@ -136,16 +141,6 @@ export default function RankingScreen({navigation, route}){
     }, [leaderboardTables])
     
 
-    useEffect( () => {
-      console.log("Done Initializing");
-      // console.log(JSON.stringify(leaderboardTables[0][0], null, 2));
-      for(let a of leaderboardTables){
-        for(let b of a)
-          console.log(JSON.stringify(b.entries,null,2));
-      }
-      
-    }, [doneInit]);
-
 
     if(userScores === null) return (
       <LoadingIndicator loading={loading}/>
@@ -153,7 +148,7 @@ export default function RankingScreen({navigation, route}){
 
     if(errorMessage !== null) return (
       <View>
-        <ServerErrorScreen onRefresh={() =>{getUserScores(setUserScores, setErrorMessage)}} errorMessage={errorMessage}/>
+        <ServerErrorScreen onRefresh={() =>{getUserScores(setUserScores, setLoading, setErrorMessage)}} errorMessage={errorMessage}/>
         <LoadingIndicator loading={loading}/>
       </View>
     );
@@ -203,8 +198,8 @@ export default function RankingScreen({navigation, route}){
         onRefresh={()=>{updateTable(setLeaderboardTables, leaderboardTables, emission_category, currentTab, null, true, setLoading, setErrorMessage)}}
         onEndReached={() =>{updateTable(setLeaderboardTables, leaderboardTables, emission_category, currentTab, null, false, setLoading, setErrorMessage)}}
         table={leaderboardTables[emission_category.id][currentTab].entries}
-        state={loading}
-        // table={[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]}
+        category = {emission_category}
+        username={userScores.username}
       />
 
       <LoadingIndicator loading={loading}/>
