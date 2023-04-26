@@ -5,7 +5,7 @@ const API_GOAL_URL = API_URL + 'goal';
 const API_GET_PREVIOUS_MONTH_EMISSIONS = API_URL + 'userEmissions/previousMonthEmissions/';
 const API_GET_PREVIOUS_MONTH_LIFESTYLE_EMISSIONS = API_URL + 'userEmissions/previousMonthLifestyleEmissions/';
 
-export const saveGoalToDatabase = async () => {
+export const saveGoalToDatabase = async (goal) => {
     fetch(API_GOAL_URL, {
         method: 'PUT',
         headers: {
