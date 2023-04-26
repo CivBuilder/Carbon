@@ -27,7 +27,9 @@ export default function GoalSetter({ navigation }) {
   }, [goal]);
 
   useEffect(() => {
-    fetchLastMonthEmissions();
+    (async () => {
+      await fetchLastMonthEmissions();
+    })();
   }, []);
 
   const handleValueChange = (value) => {
