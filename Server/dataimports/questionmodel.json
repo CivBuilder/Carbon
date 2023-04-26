@@ -1,0 +1,378 @@
+[
+    {
+      "quesid": "3",
+      "quizid": "15",
+      "question": "What is the aim of sustainable transport?"
+    },
+    {
+      "quesid": "4",
+      "quizid": "15",
+      "question": "To reduce the negative impact of transportation on the environment which mode of transportation has the highest greenhouse gas emissions?"
+    },
+    {
+      "quesid": "5",
+      "quizid": "15",
+      "question": "What are the benefits of active transport?"
+    },
+    {
+      "quesid": "6",
+      "quizid": "15",
+      "question": "What is the most promising technology for decarbonizing the transport sector?"
+    },
+    {
+      "quesid": "7",
+      "quizid": "15",
+      "question": "What is the role of policy in promoting sustainable transport?"
+    },
+    {
+      "quesid": "8",
+      "quizid": "17",
+      "question": "According to the article, sustainable transport is about:"
+    },
+    {
+      "quesid": "9",
+      "quizid": "17",
+      "question": "What is the main issue with relying solely on electrification of vehicles?"
+    },
+    {
+      "quesid": "10",
+      "quizid": "17",
+      "question": "What does the author suggest is the key to sustainable transport?"
+    },
+    {
+      "quesid": "11",
+      "quizid": "17",
+      "question": "What role does public transport play in sustainable transport?"
+    },
+    {
+      "quesid": "12",
+      "quizid": "17",
+      "question": "According to the article, what is an important factor in achieving sustainable transport?"
+    },
+    {
+      "quesid": "13",
+      "quizid": "19",
+      "question": "Which of the following best defines sustainable transportation?"
+    },
+    {
+      "quesid": "14",
+      "quizid": "10",
+      "question": "Which of the following is NOT a benefit of sustainable transportation?"
+    },
+    {
+      "quesid": "15",
+      "quizid": "19",
+      "question": "Which of the following is an example of sustainable transportation?"
+    },
+    {
+      "quesid": "16",
+      "quizid": "19",
+      "question": "Which of the following is a policy solution to encourage sustainable transportation?"
+    },
+    {
+      "quesid": "17",
+      "quizid": "19",
+      "question": "Which of the following sectors contributes the most to greenhouse gas emissions in the United States?"
+    },
+    {
+      "quesid": "18",
+      "quizid": "21",
+      "question": "What is sustainability?"
+    },
+    {
+      "quesid": "19",
+      "quizid": "21",
+      "question": "What are some sustainable food choices?"
+    },
+    {
+      "quesid": "20",
+      "quizid": "21",
+      "question": "What is the impact of meat production on the environment?"
+    },
+    {
+      "quesid": "21",
+      "quizid": "21",
+      "question": "What is the main driver of deforestation?"
+    },
+    {
+      "quesid": "22",
+      "quizid": "21",
+      "question": " What are some benefits of sustainable food choices?"
+    },
+    {
+      "quesid": "23",
+      "quizid": "23",
+      "question": "What is the definition of sustainable food?"
+    },
+    {
+      "quesid": "24",
+      "quizid": "23",
+      "question": "What are some benefits of eating sustainably?"
+    },
+    {
+      "quesid": "25",
+      "quizid": "23",
+      "question": "What is one way to eat sustainably?"
+    },
+    {
+      "quesid": "26",
+      "quizid": "23",
+      "question": "What is food waste, and how does it contribute to environmental problems?"
+    },
+    {
+      "quesid": "27",
+      "quizid": "23",
+      "question": "What is one way to reduce food waste?"
+    },
+    {
+    "quesid": "28",
+    "quizid": "25",
+    "question": "According to the article, what is the primary reason to choose sustainable eating?"
+    },
+    {
+    "quesid": "29",
+    "quizid": "25",
+    "question": "How can consumers reduce their environmental impact when shopping for groceries?"
+    },
+    {
+    "quesid": "30",
+    "quizid": "25",
+    "question": "What is a benefit of eating plant-based meals?"
+    },
+    {
+    "quesid": "31",
+    "quizid": "25",
+    "question": "What is the significance of food waste in terms of sustainability?"
+    },
+    {
+    "quesid": "32",
+    "quizid": "25",
+    "question": "What can consumers do to reduce food waste?"
+    },
+    {
+    "quesid": "33",
+    "quizid": "27",
+    "question": "What is the goal of reducing and reusing in waste management?"
+    },
+    {
+    "quesid": "34",
+    "quizid": "27",
+    "question": "What is one way to reduce waste?"
+    },
+    {
+    "quesid": "35",
+    "quizid": "27",
+    "question": "What is the difference between reducing and reusing?"
+    },
+    {
+    "quesid": "36",
+    "quizid": "27",
+    "question": "What is an example of reusing?"
+    },
+    {
+    "quesid": "37",
+    "quizid": "27",
+    "question": "What are some benefits of reducing and reusing?"
+    },
+    {
+    "quesid": "38",
+    "quizid": "29",
+    "question": "What is recycling?"
+    },
+    {
+    "quesid": "39",
+    "quizid": "29",
+    "question": "What is the importance of recycling?"
+    },
+    {
+    "quesid": "40",
+    "quizid": "29",
+    "question": "What are the benefits of recycling?"
+    },
+    {
+    "quesid": "41",
+    "quizid": "29",
+    "question": "What are the environmental impacts of not recycling?"
+    },
+    {
+    "quesid": "42",
+    "quizid": "29",
+    "question": "Which materials can be recycled?"
+    },
+    {
+    "quesid": "43",
+    "quizid": "31",
+    "question": "What percentage of plastic waste is recycled globally?"
+    },
+    {
+    "quesid": "44",
+    "quizid": "31",
+    "question": "Which of the following is NOT a commonly recycled material?"
+    },
+    {
+    "quesid": "45",
+    "quizid": "31",
+    "question": "What can be recycled from pizza boxes?"
+    },
+    {
+    "quesid": "46",
+    "quizid": "31",
+    "question": "Which of the following should NOT be placed in the recycling bin?"
+    },
+    {
+    "quesid": "47",
+    "quizid": "31",
+    "question": "What should you do before recycling a plastic bottle?"
+    },
+    {
+    "quesid": "48",
+    "quizid": "33",
+    "question": "According to the article, what is the main reason for water scarcity?"
+    },
+    {
+    "quesid": "49",
+    "quizid": "33",
+    "question": "What is the goal of the WaterSense program mentioned in the article?"
+    },
+    {
+    "quesid": "50",
+    "quizid": "33",
+    "question": "Which of the following is NOT a recommended WaterSense practice?"
+    },
+    {
+    "quesid": "51",
+    "quizid": "33",
+    "question": "What percentage of household water use is attributed to outdoor water use?"
+    },
+    {
+    "quesid": "52",
+    "quizid": "33",
+    "question": "According to the article, which of the following is a sign of a leaky toilet?"
+    },
+    {
+    "quesid": "53",
+    "quizid": "35",
+    "question": "What is the primary reason for water scarcity in many parts of the world?"
+    },
+    {
+    "quesid": "54",
+    "quizid": "35",
+    "question": "Which of the following is a recommended solution to reduce water wastage in agriculture?"
+    },
+    {
+    "quesid": "55",
+    "quizid": "35",
+    "question": "What is the term used to describe the phenomenon of water scarcity caused by increasing global temperatures?"
+    },
+    {
+    "quesid": "56",
+    "quizid": "35",
+    "question": "Which of the following is a major contributor to water pollution?"
+    },
+    {
+    "quesid": "57",
+    "quizid": "35",
+    "question": "What is the impact of water scarcity on women in many parts of the world?"
+    },
+    {
+    "quesid": "58",
+    "quizid": "37",
+    "question": "What is the focus of the article published in the Sustainable Water Systems collection by BioMed Central?"
+    },
+    {
+    "quesid": "59",
+    "quizid": "37",
+    "question": "What is one of the main benefits of implementing sustainable water systems?"
+    },
+    {
+    "quesid": "60",
+    "quizid": "37",
+    "question": "Which of the following is not a sustainable water management technique?"
+    },
+    {
+    "quesid": "61",
+    "quizid": "37",
+    "question": "What is the primary cause of water scarcity?"
+    },
+    {
+    "quesid": "62",
+    "quizid": "37",
+    "question": "What is the role of green infrastructure in sustainable water systems?"
+    },
+    {
+    "quesid": "63",
+    "quizid": "39",
+    "question": "What is the primary source of energy for the Earth?"
+    },
+    {
+    "quesid": "64",
+    "quizid": "39",
+    "question": "Which of the following is a renewable energy source?"
+    },
+    {
+    "quesid": "65",
+    "quizid": "39",
+    "question": "What is the main environmental impact of burning fossil fuels?"
+    },
+    {
+    "quesid": "66",
+    "quizid": "39",
+    "question": "Which energy source is responsible for the highest greenhouse gas emissions in the United States?"
+    },
+    {
+    "quesid": "67",
+    "quizid": "39",
+    "question": "Which of the following is NOT a benefit of using renewable energy sources?"
+    },
+    {
+    "quesid": "68",
+    "quizid": "41",
+    "question": "How does solar energy impact wildlife?"
+    },
+    {
+    "quesid": "69",
+    "quizid": "41",
+    "question": "How does solar energy impact the environment?"
+    },
+    {
+    "quesid": "70",
+    "quizid": "41",
+    "question": "What is a potential solution to mitigate the impact of solar energy on wildlife?"
+    },
+    {
+    "quesid": "71",
+    "quizid": "41",
+    "question": "How can solar energy be beneficial for the environment?"
+    },
+    {
+    "quesid": "72",
+    "quizid": "41",
+    "question": "How can solar energy be beneficial for wildlife?"
+    },
+    {
+    "quesid": "73",
+    "quizid": "43",
+    "question": "What percentage of the world's primary energy supply is currently provided by renewable energy sources?"
+    },
+    {
+    "quesid": "74",
+    "quizid": "43",
+    "question": "According to the article, what is the most significant driver of renewable energy deployment worldwide?"
+    },
+    {
+    "quesid": "75",
+    "quizid": "43",
+    "question": "Which country has the highest renewable energy capacity?"
+    },
+    {
+    "quesid": "76",
+    "quizid": "43",
+    "question": "What is the primary barrier to increasing renewable energy deployment in many developing countries?"
+    },
+    {
+    "quesid": "77",
+    "quizid": "43",
+    "question": "What renewable energy source has the highest growth rate in terms of global capacity additions?"
+    }
+    ]
+    
