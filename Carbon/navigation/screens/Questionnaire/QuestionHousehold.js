@@ -1,48 +1,59 @@
 import React, {useState,useEffect} from 'react';
 import {View, Text,Switch,Button} from 'react-native';
-import { Colors } from '../../../styling/Colors';
+import { Colors } from '../../../colors/Colors';
 
 /*
 Household Screen
+TODO: Managing scores in a better way (instead of passing them through pages)
+TODO: using less state variables
 TODO: Improving UI
 */
 
 export default function HouseholdScreen({navigation,route}) {
-    //Previous food score calculation [0,1]
-    const foodScore = route.params?.foodScore;
-    const[homeScore, setHomeScore] = useState(0);
+    //Carry Over Score from previous page
+    const dietScore = route.params?.dietScore;
+    const maxPoints = 10.0;
 
-    const [nextPage, setNextPage] = useState("q4")
-    const [buttonIndex, setButtonIndex] = useState(-1)
+    const [isDisabled,setIsDisabled] = useState(false);//Activates "Next Question" Button
+    const [pointPercent,setPointPercent] = useState(0);//Calculate points
+
+    //Use Multiple Buttons to change colors/values activated.
+    const [buttonOn0, setButtonOn0] = useState(false);
+    const [buttonOn1, setButtonOn1] =  useState(false);
+    const [buttonOn2, setButtonOn2] = useState(false);
+    const [buttonOn3, setButtonOn3] = useState(false);
 
     //Calculate points across several buttons (For CHECK ALL THAT APPLY choice only)
     const calculatePoints=() =>{
-        //Solely Renewable energy has no carbon emissions:
-        if(buttonIndex==1){
-            setHomeScore(1);
-        }
-        //Score is determined by bills page, keep it at 0!
-        else{
-            setHomeScore(0);
-        }
+        let numerator = buttonOn0*1 + buttonOn1*2 + buttonOn2*3 + buttonOn3*10;
+        let denominator = (buttonOn0+buttonOn1+buttonOn2+buttonOn3)*maxPoints;
+        setPointPercent(previousState=>numerator/denominator);
     }
-    //Ensure points are synchronous & updating progress bar
+    //Ensure points are synchronous
     useEffect(()=>{
-        navigation.setOptions({
-        header: ()=>(
-        <View style={{
-        position: "absolute",
-        top:0,
-        height:30,
-        borderRadius: 6,
-        width:"20%",
-        backgroundColor: Colors.secondary.CELADON,
-        }}>
-        </View>
-        ),
-        })
         calculatePoints();
     });
+
+    const toggleButton = (index) => {
+        const flip = false;
+        //Toggle specific button depending on input
+        switch(index){
+            case 0:
+                setButtonOn0(!buttonOn0);
+                break;
+            case 1:
+                setButtonOn1(!buttonOn1);
+                break;
+            case 2:
+                setButtonOn2(!buttonOn2);
+                break;
+            case 3:
+                setButtonOn3(!buttonOn3);
+                break;
+            default:
+                break;
+        }
+    }
 
     return (
             <>
@@ -51,47 +62,41 @@ export default function HouseholdScreen({navigation,route}) {
                     flex: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundColor: Colors.secondary.LIGHT_GREEN,
                 }}
             >
-            <Text style={{
-                fontSize:20,
-                fontWeight:"400",
-                marginBottom: 40,
-                textAlign:"center",
-            }}>
-            How is your household powered?
-            </Text>
+            <Text>How is your household powered?(Check All the Apply)</Text>
             <View style={{
-                width:"60%",
-            }}
-            >
-            <View style={{
-                marginBottom:12,
+                width:"100%",
             }}
             >
             <Button
-                title={`Fossil Fuels\n(Coal, Natural Gas, etc...)`}
+                title="Coal"
                 onPress={()=>{
-                    setButtonIndex(0)
-                    setNextPage("q2a")
+                    toggleButton(0);
                 }}
-                color={buttonIndex==0 ? Colors.primary.MINT: Colors.primary.GRAY}
+                color={buttonOn0 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
             />
-            </View>
-            <View style={{
-                marginBottom:12,
-            }}
-            >
             <Button
-                title ={`Renewable Energy \n(Solar, Wind, etc...)`}
+                title ="Petroleum"
                 onPress={()=>{
-                    setButtonIndex(1)
-                    setNextPage("q4")
+                    toggleButton(1);
                 }}
-                color={buttonIndex==1 ? Colors.primary.MINT: Colors.primary.GRAY}
+                color={buttonOn1 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
             />
-            </View>
+            <Button
+                title="Natural Gas"
+                onPress={()=>{
+                    toggleButton(2);
+                }}
+                color={buttonOn2 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+            />
+            <Button
+                title ="Renewable Energy (Solar, Wind, etc...)"
+                onPress={()=>{
+                    toggleButton(3);
+                }}
+                color={buttonOn3 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+            />
             </View>
             </View>
             <View style={{
@@ -112,12 +117,11 @@ export default function HouseholdScreen({navigation,route}) {
             title="Next Question"
             color={Colors.primary.MINT}
             onPress={() =>
-                navigation.navigate(nextPage, {
-                homeScore:homeScore,
-                foodScore:foodScore,
+                navigation.navigate('q3',{dietScore:dietScore,
+                powerSourceScore:pointPercent,
                 })
             }
-            disabled ={buttonIndex>=0 ? false: true}
+            disabled ={(buttonOn0||buttonOn1||buttonOn2||buttonOn3) ? false: true}
             />
             </View>
             </View>

@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView, TouchableOpacity, Platform, Image } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView, TouchableOpacity, Platform } from 'react-native';
+import Swiper from 'react-native-swiper';
+import { Card } from 'react-native-elements';
 import { Colors } from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import { MonthlyFootprintLineChart } from '../../../components/MonthlyFootprintLineChart';
 import HomeScreenRanking from '../Ranking/HomeScreenRanking'
-import ForumCards from '../../../components/ForumCards';
 
 // =====================
 //     Home Screen
@@ -68,7 +69,46 @@ export default function HomeScreen({ navigation }) {
                             </View>
                         </View>
                         <View style={{ height: 400 }}>
-                            <ForumCards navigation={navigation}/>
+                            <Swiper
+                                horizontal={true}
+                                showsPagination={true}
+                                paginationStyle={{ bottom: 10 }}
+                                activeDotStyle={{ backgroundColor: Colors.primary.MINT }}
+
+                                // Autoplay: ON
+                                // autoplay={true}
+                                // autoplayTimeout={3}
+                                // loop={true}
+
+                                // Autoplay: OFF
+                                autplay={false}
+                                loop={false}
+                            >
+                                <View>
+                                    <Card containerStyle={styles.card}>
+                                        <Card.Title>Card Title 1</Card.Title>
+                                        <Text style={{ marginBottom: 10 }}>
+                                            The idea with React Native Elements is more about component structure than actual design.
+                                        </Text>
+                                    </Card>
+                                </View>
+                                <View>
+                                    <Card containerStyle={styles.card}>
+                                        <Card.Title>Card Title 2</Card.Title>
+                                        <Text style={{ marginBottom: 10 }}>
+                                            The idea with React Native Elements is more about component structure than actual design.
+                                        </Text>
+                                    </Card>
+                                </View>
+                                <View>
+                                    <Card containerStyle={styles.card}>
+                                        <Card.Title>Card Title 3</Card.Title>
+                                        <Text style={{ marginBottom: 10 }}>
+                                            The idea with React Native Elements is more about component structure than actual design.
+                                        </Text>
+                                    </Card>
+                                </View>
+                            </Swiper>
                         </View>
                     </View>
                 </View>
@@ -110,6 +150,10 @@ const styles = StyleSheet.create({
     },
     cardContainer: {
         marginBottom: 10,
+    },
+    card: {
+        height: 300,
+        borderRadius: 16,
     },
     link: {
         color: Colors.primary.MINT,

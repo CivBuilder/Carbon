@@ -1,34 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { Colors } from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
-import { saveGoalToDatabase, getPreviousMonthEmissions } from '../../../util/Goals';
+import { API_URL } from '../../../config/Api';
+import { getToken } from '../../../util/LoginManager';
 
 const margin = 10;
-const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>; async function getEmissionsFromDb() {
-  const emissions = await getPreviousMonthEmissions();
-  return emissions;
-}
+const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
+const API_GOAL_URL = API_URL + 'goal';
 
 export default function GoalSetter({ navigation }) {
   const [goal, setGoal] = useState(0);
-  const [previousMonthEmissions, setPreviousMonthEmissions] = useState(0);
-
-  useEffect(() => {
-    async function fetchLastMonthEmissions() {
-      const emissions = await getEmissionsFromDb();
-      const factor = goal / 100;
-      const newEmissions = emissions * factor;
-      setPreviousMonthEmissions(newEmissions.toFixed(1));
-    }
-    fetchLastMonthEmissions();
-  }, [goal]);
-
 
   const handleValueChange = (value) => {
     const roundedValue = Math.round(value);
     setGoal(roundedValue);
+  };
+
+  const saveGoalToDatabase = async () => {
+    await fetch(API_GOAL_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'secrettoken': await getToken(),
+      },
+      body: JSON.stringify({ goal: goal })
+    })
+      .then(response => response.text())
+      .then(data => console.log(data))
+      .catch(error => console.error(error));
   };
 
   return (
@@ -48,14 +49,12 @@ export default function GoalSetter({ navigation }) {
           onValueChange={handleValueChange}
           testID="slider"
         />
-        <Text style={styles.sliderSubText}>That's {previousMonthEmissions} pounds of CO2 compared to last month.</Text>
+        {/* TODO: add in pounds cut per month once Miguel's chart PR is in */}
+        {/* <Text style={styles.sliderSubText}>That's X pounds of CO2 compared to last month.</Text> */}
         <NonBreakingSpace />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={() => {
-            saveGoalToDatabase(goal);
-            navigation.goBack();
-            }}>
+        <TouchableOpacity onPress={() => { saveGoalToDatabase(); navigation.navigate(ScreenNames.PROGRESS); }}>
           <View style={styles.button} testID="set-goal-button">
             <Text style={styles.buttonText}>Set Goal</Text>
           </View>

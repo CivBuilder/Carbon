@@ -1,3 +1,4 @@
+
 var express = require('express');
 const { INTEGER } = require('sequelize');
 const { Op } = require("sequelize"); // This is used for the router that grabs user_id's data based on the current month
@@ -8,42 +9,37 @@ var passport = require('passport');
 var sequelize = require('sequelize');
 const User = require('../models/User.js');
 const UpdateScore = require('../utils/UpdateScore.js')
-const moment = require('moment');
 /*********************
           GET
 **********************/
 
-router.get('/',  passport.authenticate('jwt', { session: false }), async function (req, res) {
+router.get('/', async function (req, res, next) {
+  console.log("test");
   const date = new Date(); //get date
   day = date.getDate(); //grab the day and month
   month = date.getMonth() + 1;
   year = date.getFullYear();
   const todaysDate = new Date(year, month, day);
 
- const userId = req.user.id;
-  //const userId = 323; //for testing
-  //console.log("finding for this ID" + userId);
-  const data = await UserEmissions.findAll({
-    where: {
-      user_id: userId,
-    
-    }
-  });
+  const userId = req.query.user_id;
+  console.log("finding for this ID" + userId);
+  const data = await UserEmissions.findAll(); //waits and then puts the data into content
   const content = data.filter(item => item.user_id == userId);
   // retArr = [[100, 200, 300, 400, 500], [500, 545, 100, 555, 100], [100, 200, 300, 400, 500], [800, 200, 750, 600, 500]]; //Temp array for data
   weekCount = 0;
   monthCount = 0;
   retArr = [[0, 0, 0, 0, 0], // TODAY
-  [0, 0, 0, 0, 0], // YESTERDAY
-  [0, 0, 0, 0, 0], // 7 DAYS (1 WEEK)
-  [0, 0, 0, 0, 0]  // 31 DAYS (1 MONTH)
+            [0, 0, 0, 0, 0], // YESTERDAY
+            [0, 0, 0, 0, 0], // 7 DAYS (1 WEEK)
+            [0, 0, 0, 0, 0]  // 31 DAYS (1 MONTH)
   ]; //Ret array
   count = 0
   for (const obj of content) {
-    if (count >= 100) {
+    if(count >= 100)
+    {
       break;
     }
-    count += 1;
+    count+=1;
     const value = obj.date;
     //grabbing all the necessary values for comapring dates
     checkMonth = value.substring(5, 7);
@@ -57,7 +53,7 @@ router.get('/',  passport.authenticate('jwt', { session: false }), async functio
     total = obj.total_emissions;
     const oldDate = new Date(checkYear, checkMonth, checkDay);
     difference_in_days = (todaysDate.getTime() - oldDate.getTime()) / (1000 * 60 * 60 * 24); //gets diff in ms then converts to days
-
+    
     if (difference_in_days == 0) {
       //Add to the daily array
       retArr[0][0] = transport;
@@ -88,7 +84,7 @@ router.get('/',  passport.authenticate('jwt', { session: false }), async functio
       retArr[1][2] = lifestyle;
       retArr[1][3] = home;
       retArr[1][4] = total;
-
+      
       weekCount += 1;
       retArr[2][0] += transport;
       retArr[2][1] += diet;
@@ -149,12 +145,10 @@ router.get('/',  passport.authenticate('jwt', { session: false }), async functio
 });
 
 /* Finds all Entries where a user posted a submission*/
-router.get('/getAll',passport.authenticate('jwt', { session: false }), async function (req, res)  {
-  console.log("getting by id")
+router.get('/:id', async function (req, res, next) {
   const user_entry = await UserEmissions.findAll({
     where: {
-      user_id: req.user.id
-     // user_id: 323 // for testing
+      user_id: req.params.id
     }
   });
   if (!user_entry || user_entry.length === 0) {
@@ -185,7 +179,7 @@ router.get('/yearMonth/:yearMonth', passport.authenticate('jwt', { session: fals
   // Check if the user exists
   const user = await user_table.findByPk(userId);
   if (!user) {
-    return res.status(400).send(`user_id ${userId} not found.`);
+      return res.status(400).send(`user_id ${userId} not found.`);
   }
 
   // Check if month is valid
@@ -199,13 +193,13 @@ router.get('/yearMonth/:yearMonth', passport.authenticate('jwt', { session: fals
 
   // Find data based on user_id and given month
   const records = await UserEmissions.findAll({
-    where: {
-      user_id: userId,
-      date: {
-        [Op.gte]: startOfMonth,
-        [Op.lte]: endOfMonth
+      where: {
+        user_id: userId,
+        date: {
+            [Op.gte]: startOfMonth,
+            [Op.lte]: endOfMonth
+        }
       }
-    }
   });
 
   // Send a 204 No Content response if records is empty
@@ -214,89 +208,6 @@ router.get('/yearMonth/:yearMonth', passport.authenticate('jwt', { session: fals
   }
 
   // Return the records as a JSON response
-  return res.status(200).json(records);
-});
-
-/**
-  GET recent emission records for all categories (author: Adam V.)
-**/
-router.get('/recentRecords', passport.authenticate('jwt', { session: false }), async function (req, res) {
-  const userID = req.user.id;
-
-  const user = await user_table.findByPk(userID);
-  if (!user) return res.status(400).send(`user_id ${userID} not found.`);
-
-  const records = await UserEmissions.findAll({
-    where: {
-      user_id: ID
-    },
-    order: [['date', 'DESC']]
-  });
-
-  if (records.length === 0) return res.status(204).send();
-
-  return res.status(200).json(records);
-});
-
-/**
-  Retrieves a user's total emissions for the previous month for goal setting.
-**/
-router.post('/previousMonthEmissions', passport.authenticate('jwt', { session: false }), async function (req, res) {
-  const userId = req.user.id;
-
-  // set up the date range from a month ago to today
-  const now = new Date();
-  const lastMonth = moment(now).subtract(1, 'month').format('YYYY-MM-DD');
-  const today = moment(now).format('YYYY-MM-DD');
-
-  // Find data based on user_id and given month
-  const records = await UserEmissions.findAll({
-    where: {
-      [Op.and]: [
-        { user_id: userId },
-        { date: { [Op.between]: [lastMonth, today] } }
-      ]
-    },
-    attributes: ['total_emissions'] // Only select the total_emissions column
-  });
-
-  // means this is a new user, show 0 pounds of CO2
-  if (records.length === 0) {
-    const records = [{ total_emissions: 0 }];  // create a new array with the total_emissions column
-    return res.status(200).json(records);
-  }
-
-  return res.status(200).json(records);
-});
-
-/**
-  Retrieves a user's total emissions for the previous month for goal setting.
-**/
-router.post('/previousMonthLifestyleEmissions', passport.authenticate('jwt', { session: false }), async function (req, res) {
-  const userId = req.user.id;
-
-  // set up the date range from a month ago to today
-  const now = new Date();
-  const lastMonth = moment(now).subtract(1, 'month').format('YYYY-MM-DD');
-  const today = moment(now).format('YYYY-MM-DD');
-
-  // Find data based on user_id and given month
-  const records = await UserEmissions.findAll({
-    where: {
-      [Op.and]: [
-        { user_id: userId },
-        { date: { [Op.between]: [lastMonth, today] } }
-      ]
-    },
-    attributes: ['lifestyle_emissions'] // Only select the total_emissions column
-  });
-
-  // means this is a new user, show 0 pounds of CO2
-  if (records.length === 0) {
-    const records = [{ lifestyle_emissions: 0 }];  // create a new array with the total_emissions column
-    return res.status(200).json(records);
-  }
-
   return res.status(200).json(records);
 });
 
@@ -349,9 +260,9 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
   const nextDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
 
   const todaysEntries = await UserEmissions.findAll({
-    where: {
-      date: {
-        [Op.between]: [todaysDate, nextDay],
+    where : {
+      date : {
+        [Op.between] : [todaysDate, nextDay],
       }
     }
   });
@@ -359,11 +270,11 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
   if (todaysEntries.some((entry) => entry.user_id === req.user.id))
     return res.status(204).send(`User Entry already submitted today.`);
 
-
+  
 
 
   const today = new Date().toISOString().slice(0, 10);
-
+  
   await UserEmissions.create({
     user_id: req.user.id,                                 //Needs to change with sessions states
     date: sequelize.fn('STR_TO_DATE', today, '%Y-%m-%d'),

@@ -35,6 +35,7 @@ export const SectionCSS = StyleSheet.create({
     }),
   },
   content: {
-    margin: 15,
+    marginVertical: 8,
+    marginHorizontal: 10,
   },
 });

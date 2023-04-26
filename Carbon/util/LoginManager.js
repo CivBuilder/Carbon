@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { API_URL } from '../config/Api';
-import { changeUsername } from './UpdateAccountSettings';
 
 function renderCallback() {
     console.log("renderCallback not assigned in LoginManager.js, signin signout won't rerender.");
@@ -45,7 +44,6 @@ export async function login(username, password) {
         );
 
         if (response.status != 200) {
-            console.log(response.status);
             alert('Login failed, please try again.');
             return false;
         }
@@ -58,19 +56,9 @@ export async function login(username, password) {
     }
 }
 
-export async function signup(username, email, password, confirm) {
-    if (password != confirm) {
-        alert("Passwords do not match.");
-        return false;
-    }
-
-    if (username === "" || email === "" || password === "" || confirm === "") {
-        alert("Please fill out all fields.");
-        return false;
-    }
-
-    if(!validateEmail(email)) {
-        alert("Please enter a valid email.");
+export async function signup(username, password, confirm) {
+    if (password != confirm || username === "" || password === "") {
+        alert("Passwords do not match, or fields are empty.");
         return false;
     }
 
@@ -94,7 +82,7 @@ export async function signup(username, email, password, confirm) {
     }
 
     var details = {
-        'email': email,
+        'email': username,
         'password': password
     };
 
@@ -106,7 +94,7 @@ export async function signup(username, email, password, confirm) {
     }
     formBody = formBody.join("&");
 
-    await fetch(API_URL + 'user/auth/signup',
+    var response = await fetch(API_URL + 'user/auth/signup',
         {
             method: 'POST',
             headers: {
@@ -115,10 +103,6 @@ export async function signup(username, email, password, confirm) {
             body: formBody
         }
     );
-
-    await login(email, password);
-
-    await changeUsername(username);
 }
 
 export async function logout() {
@@ -130,9 +114,4 @@ export async function logout() {
 export function validatePassword(password) {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$,%,&,*,@,!])[A-Za-z\d$,%,&,*,@,!]{8,}$/;
     return regex.test(password);
-}
-
-export function validateEmail(email) {
-    const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    return regex.test(email);
 }

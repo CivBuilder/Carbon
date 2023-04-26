@@ -12,5 +12,4 @@ export {default as RecordEmissionScreen} from './Progress/RecordEmission';
 export {default as FoodScreen} from './Progress/RecordFood';
 export {default as TransportationScreen} from './Progress/RecordTransportation';
 export {default as RecyclingScreen} from './Progress/RecordRecycling';
-export {default as PredictScreen} from './Progress/PredictScreen';
 // export {default as AddProgress} from './Progress/AddProgress';
