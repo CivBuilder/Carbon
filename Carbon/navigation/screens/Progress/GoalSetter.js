@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { Colors } from '../../../styling/Colors';
@@ -17,11 +17,11 @@ export default function GoalSetter({ navigation }) {
     const factor = goal / 100;
     const newEmissions = lastMonthEmissions * factor;
     setPreviousMonthEmissions(newEmissions.toFixed(1));
-  }, [goal]);
+  }, []);
 
   useEffect(() => {
     fetchLastMonthEmissions();
-  }, [fetchLastMonthEmissions]);
+  }, []);
 
   const handleValueChange = (value) => {
     const roundedValue = Math.round(value);
