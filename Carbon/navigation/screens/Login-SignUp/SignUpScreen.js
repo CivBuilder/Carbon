@@ -12,12 +12,13 @@ import { signup } from '../../../util/LoginManager'
 
 
 const SignUpScreen = ({ navigation }) => {
+  const [email, setEmail] = useState(''); // [state, setState
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
 
   async function handleSignUp() {
-    await signup(username, password, confirm)
+    await signup(username, email, password, confirm)
     //navigation.goBack();
   }
 
@@ -27,8 +28,8 @@ const SignUpScreen = ({ navigation }) => {
         <Image source={require('../../../assets/Carbon_Logo.png')} style={{ width: 300, height: 100 }} testID="image" />
       </View>
       <KeyboardAvoidingView behavior='height' style={styles.content}>
-        <UsernameInput testID="usernameInput" />
-        <EmailInput testID="emailInput" onChangeText={(un) => setUsername(un)} />
+        <UsernameInput testID="usernameInput" onChangeText={(un) => setUsername(un)} />
+        <EmailInput testID="emailInput" onChangeText={(em) => setEmail(em)} />
         <PasswordInput text="Password" testID="passwordInput" onChangeText={(pw) => setPassword(pw)} />
         <PasswordInput text="Confirm Password" testID="confirmPasswordInput" onChangeText={(cf) => setConfirm(cf)} />
         <SignUpButton onPress={() => handleSignUp()} />
