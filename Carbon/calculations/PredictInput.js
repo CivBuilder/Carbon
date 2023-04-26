@@ -13,16 +13,25 @@ const PredictInput = async () => {
 
 
         let count = 0;
-        //console.log("predicting")
-        const response = await fetch(`${API_URL}userEmissions/id`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'secrettoken': await getToken(),
-            },
-        })
+        console.log("predicting")
+        data = [0,0,0,0,0]
+
+        try {
+            const response = await fetch(`${API_URL}userEmissions/id`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'secrettoken': await getToken(),
+                },
+            })
+            data = await response.json(); //get the data we need
+
+        }
+        catch (error) {
+            console.log(error); //error check
+            return [0, 0, 0, 0, 0]
+        }
         predictData = []
-        const data = await response.json(); //get the data we need
         for (const obj of data) {
             newValues = [0, 0, 0, 0, 0, 0]
             const value = obj.date;
