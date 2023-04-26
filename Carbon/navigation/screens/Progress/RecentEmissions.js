@@ -3,7 +3,6 @@ import { RecentEmissionsCSS as styling } from "../../../styling/RecentEmissionsC
 
 const RecentEmissions = (props) => {
   let {records, category} = props;
-  // console.log(records);
 
   return (
     <View style={styling.recentEmissions}>
@@ -11,7 +10,7 @@ const RecentEmissions = (props) => {
         <View key={index} style={styling.entry}>
           {/* Emission recorded date */}
           <View style={styling.date}>
-            <Text style={styling.value}>{entry[date]}</Text>
+            <Text style={styling.value}>{entry.date}</Text>
           </View>
           {/* Emission amount */}
           <View style={styling.emission}>

@@ -17,24 +17,23 @@ const Category = (props) => {
   const { status: expand, toggleStatus: toggleExpand } = useToggle();
   const value = { expand, toggleExpand };
 
-  function groupRecordsByCategory(records) {
-    // Create an empty object to store the grouped records
-    const groupedRecords = {};
-  
-    // Loop through each record and group it by category
-    records.forEach(record => {
-      if (!groupedRecords[record.category]) {
-        // If the category does not yet exist in the groupedRecords object,
-        // create an empty array for it
-        groupedRecords[record.category] = [];
-      }
-  
-      // Add the record to the array for its category
-      groupedRecords[record.category].push(record);
-    });
-  
-    // Return the grouped records as an array of arrays
-    return Object.values(groupedRecords);
+  function organizeRecords(records) {
+    const categories = ["Transport", "Lifestyle", "Home", "Diet"];
+    let recordSet = [];
+    for (var entry of records) {
+      var record = {};
+      for (var category of categories)
+        record[category] = entry[`${category.toLowerCase()}_emissions`];
+      var date = entry.date;
+      var year = date.substring(0, 4);
+      var month = date.substring(5, 7);
+      var day = date.substring(8);
+      var formattedDate = `${month}/${day}/${year}`;
+      record["date"] = formattedDate;
+      recordSet.push(record);
+    };
+
+    return recordSet;
   }
 
   useEffect(() => {
@@ -45,9 +44,7 @@ const Category = (props) => {
     fetchRecords();
   }, []);
 
-  const groupRecords = groupRecordsByCategory(data);
-
-  console.log(groupRecords);
+  const records = organizeRecords(data);
 
   return (
     <Provider value={value}>
@@ -58,6 +55,7 @@ const Category = (props) => {
         percentage={percentage}
       />
       <CategoryContent
+        records={records}
         category={title}
       />
     </Provider>
@@ -96,10 +94,10 @@ const CategoryHeader = (props) => {
   );
 };
 
-const CategoryContent = ({ category }) => {
+const CategoryContent = ({records, category}) => {
   const { expand } = useContext(CategoryContext);
 
-  return <>{expand && <RecentEmissions records={[]} category={category} />}</>;
+  return <>{expand && <RecentEmissions records={records} category={category} />}</>;
 };
 
 const ExpandIcon = ({ iconActive, iconInactive }) => {
