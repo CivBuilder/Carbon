@@ -91,15 +91,16 @@ export default function RecordEmissionScreen({navigation, route}) {
         }}>
           <Icon name="recycle" size={40} color={Colors.secondary.DARK_MINT} style={styles.icon} testID="recycle-icon" />
           <Text style={styles.categoryText}>Recycling</Text>
-        </TouchableOpacity> 
+        </TouchableOpacity>
         <TouchableOpacity
+          style={styles.saveView}
           onPress={() => {postResults()}}
           testID="save-and-exit-icon"
         >
-          <Icon name="cloud-upload" size={60} color={Colors.secondary.NON_PHOTO_BLUE} style={styles.icon}  />
+          <Icon name="cloud-upload" size={40} style={styles.saveIcon}  />
+          <Text style={styles.saveText}>Save Daily Emissions</Text>
         </TouchableOpacity>
       </View>
-          
     </View>
   )
 }
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
   centeredView: {
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'space-around',
+      justifyContent: 'space-evenly',
       backgroundColor: Colors.primary.MINT_CREAM,
     },
     titleView: {
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
       color: Colors.primary.MINT_CREAM,
     },
     modalView: {
-      backgroundColor: Colors.primary.MINT_CREAM,
+      // backgroundColor: Colors.primary.MINT_CREAM,
       alignItems: 'center',
       justifyContent: 'space-between',
       width: '90%',
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       width: '90%',
       backgroundColor: Colors.primary.MINT_CREAM,
-      margin: 20,
+      margin: 10,
       padding: 20,
       borderColor: Colors.primary.MINT,
       borderWidth: 2,
@@ -142,6 +143,29 @@ const styles = StyleSheet.create({
     },
     icon: {
       marginHorizontal: 20,
+    },
+    saveView: {
+      // flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '90%',
+      backgroundColor: Colors.primary.MINT_CREAM,
+      margin: 20,
+      padding: 10,
+      borderColor: Colors.categories.DIET,
+      borderWidth: 2,
+      borderRadius: 50,
+    },
+    saveIcon: {
+      marginHorizontal: 20,
+      // padding: 10,
+      // backgroundColor: Colors.secondary.NON_PHOTO_BLUE,
+      color: Colors.categories.DIET,
+    },
+    saveText: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: Colors.categories.DIET,
     },
     categoryText: {
       fontSize: 20,
