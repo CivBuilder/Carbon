@@ -7,11 +7,11 @@ import { saveGoalToDatabase, getPreviousMonthEmissions } from '../../../util/Goa
 
 const margin = 10;
 const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
+const lastMonthEmissions = await getPreviousMonthEmissions();
 
 export default function GoalSetter({ navigation }) {
   const [goal, setGoal] = useState(0);
   const [previousMonthEmissions, setPreviousMonthEmissions] = useState(0);
-  const [lastMonthEmissions, setLastMonthEmissions] = useState(0);
 
   useEffect(() => {
     async function fetchLastMonthEmissions() {
@@ -20,15 +20,7 @@ export default function GoalSetter({ navigation }) {
       setPreviousMonthEmissions(newEmissions.toFixed(1));
     }
     fetchLastMonthEmissions();
-  }, [goal, lastMonthEmissions]);
-
-  useEffect(() => {
-    async function fetchPreviousMonthEmissions() {
-      const emissions = await getPreviousMonthEmissions();
-      setLastMonthEmissions(emissions);
-    }
-    fetchPreviousMonthEmissions();
-  }, []);
+  }, [goal]);
 
   const handleValueChange = (value) => {
     const roundedValue = Math.round(value);
