@@ -69,7 +69,7 @@ const StartScreen = ({ navigation }) => {
             Hello!
           </Animated.Text>
           <Animated.Text style={[styles.body, { opacity: bodyFadeAnim }]}>
-            Take the first step to lowering your carbon emissions and a more eco-friendly lifestyle
+            Take the first step to lowering your carbon emissions and a more eco-friendly lifestyle.
           </Animated.Text>
           <Animated.View style={{ opacity: buttonFadeAnim }}>
             <TouchableOpacity
