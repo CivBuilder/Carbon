@@ -1,56 +1,93 @@
-import { View, Text, StyleSheet, Image, ImageBackground,Button } from 'react-native'
-import React, {useEffect} from 'react'
+import { View, Text, StyleSheet, Image, ImageBackground, Animated, TouchableOpacity } from 'react-native'
+import React, {useEffect, useRef} from 'react'
 import { Colors } from '../../../styling/Colors'
 
-//Get Started Screen
-//Taken from Janeen (author of code)
-const StartScreen = ({navigation}) => {
-  useEffect(()=>{
-      navigation.setOptions({
-      header: ()=>(
-          <View style={{
-          position: "absolute",
-          top:0,
-          height:40,
-          borderRadius: 6,
-          width:0,
-          backgroundColor: Colors.secondary.CELADON,
-          }}>
-          </View>
-      ),
+const CarbonLogo = ({ onLogoAnimationFinish }) => {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1500,
+      useNativeDriver: true,
+    }).start(() => {
+      // Call the onLogoAnimationFinish callback when the logo animation is finished
+      onLogoAnimationFinish();
+    });
+  }, [fadeAnim, onLogoAnimationFinish]);
+
+  return (
+    <Animated.View style={[styles.logo, { opacity: fadeAnim }]}>
+      <Image
+        source={{ uri: 'https://i.ibb.co/s9Kfh8p/carbon-logo.png' }}
+        style={{ width: 260, height: 130 }}
+      />
+    </Animated.View>
+  );
+};
+
+// Get Started Screen
+// Taken from Janeen (author of code)
+const StartScreen = ({ navigation }) => {
+  const helloFadeAnim = useRef(new Animated.Value(0)).current;
+  const bodyFadeAnim = useRef(new Animated.Value(0)).current;
+  const buttonFadeAnim = useRef(new Animated.Value(0)).current;
+
+  const handleLogoAnimationFinish = () => {
+    // Trigger the animation of the "Hello!" text
+    Animated.timing(helloFadeAnim, {
+      toValue: 1,
+      duration: 690,
+      useNativeDriver: true,
+    }).start(() => {
+      // Trigger the animation of the body text after the "Hello!" text has finished animating
+      Animated.timing(bodyFadeAnim, {
+        toValue: 1,
+        duration: 1500,
+        useNativeDriver: true,
+      }).start(() => {
+        // Trigger the animation of the button after the body text has finished animating
+        Animated.timing(buttonFadeAnim, {
+          toValue: 1,
+          duration: 690,
+          delay: 690,
+          useNativeDriver: true,
+        }).start();
       });
-  });
+    });
+  };
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={require('../../../assets/get-started-background.png')} style={styles.background}>
-        <View style={styles.logo} >
-          <Image source={{ uri: 'https://i.ibb.co/s9Kfh8p/carbon-logo.png'}} style={{width: 200, height: 100}}/>
-        </View>
+      <ImageBackground
+        source={require('../../../assets/get-started-background.png')}
+        style={styles.background}
+      >
+        <CarbonLogo onLogoAnimationFinish={handleLogoAnimationFinish} />
         <View style={styles.content}>
-          <Text style={styles.helloText}>Hello!</Text>
-          <Text style={styles.body}>
+          <Animated.Text style={[styles.helloText, { opacity: helloFadeAnim }]}>
+            Hello!
+          </Animated.Text>
+          <Animated.Text style={[styles.body, { opacity: bodyFadeAnim }]}>
             Take the first step to lowering your carbon emissions and a more eco-friendly lifestyle
-          </Text>
-        <View style={{
-            justifyContent:'center',
-            flexDirection:"row",
-        }}>
-        <View style={{width:'100%',marginTop:15}}>
-        <Button
-        title="Start Questionnaire"
-        color={Colors.primary.MINT}
-        onPress={() =>{
-            navigation.navigate("q1");
-        }}
-        />
-        </View>
-        </View>
+          </Animated.Text>
+          <Animated.View style={{ opacity: buttonFadeAnim }}>
+            <TouchableOpacity
+              style={styles.button}
+              activeOpacity={0.8}
+              onPress={() => {
+                navigation.navigate('q1');
+              }}
+            >
+              <Text style={styles.buttonText}>Get Started</Text>
+            </TouchableOpacity>
+          </Animated.View>
         </View>
       </ImageBackground>
     </View>
-  )
-}
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -76,7 +113,8 @@ const styles = StyleSheet.create({
   helloText: {
     fontFamily: 'sans-serif',
     fontWeight: 'bold',
-    fontSize: 32,
+    fontSize: 36,
+    marginBottom: 14,
     color: Colors.secondary.DARK_MINT,
   },
   body: {
@@ -89,6 +127,20 @@ const styles = StyleSheet.create({
     fontFamily: 'sans-serif',
     color: Colors.primary.MINT,
 
+  },
+  button: {
+    marginTop: 36,
+    backgroundColor: Colors.primary.MINT,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 6,
+    width: '80%',
+  },
+  buttonText: {
+    fontFamily: 'sans-serif',
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 18,
   },
 })
 
