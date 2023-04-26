@@ -53,11 +53,14 @@ router.get('/rank/:id', async function(req, res, next) {
 
 
 /* Get Leaderboard - 10 above and 10 below */
-router.get('/leaderboard/:page', async function (req, res, next) {
+router.get('/leaderboard', async function (req, res, next) {
     //get 50 users based on the page of entries we're retrieving from the DB
+    const {page, category, worst} = req.query;
+    console.log(page, category, worst);
     const PAGE_SIZE = 15;
     const OFFSET = req.params.page * PAGE_SIZE;
 
+    return res.status(200).send();
     //Error checking if the page is out of bounds
     if (req.params.page < 0 || req.params.page > 100_000) {
         return res.status(400).send("Bad Request : Page out of bounds");
@@ -255,7 +258,6 @@ async function getNextRankScores(categoryName, userScores){
     else {
         userScores.dataValues["next_rank_"+categoryName] = users[0].dataValues[categoryName];
     }
-    console.log(userScores.dataValues);
     return userScores
 }
 

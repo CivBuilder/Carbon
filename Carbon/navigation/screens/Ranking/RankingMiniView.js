@@ -9,10 +9,10 @@ export default function MiniRanking({userScores, rankCategory}) {
     if(userScores != null){ 
         
         //For the sake of removing too much indirection per statement 
-        const rank = userScores[rankCategory+"ranking"];
+        const rank = userScores[rankCategory.title+"ranking"];
         const sustainability_score = userScores.sustainability_score;
-        const currentScore = userScores[rankCategory+"score"];
-        const nextRankScore = userScores["next_rank_"+rankCategory+"score"];
+        const currentScore = userScores[rankCategory.title+"score"];
+        const nextRankScore = userScores["next_rank_"+rankCategory.title+"score"];
 
         return(
             <View style = {styles.miniRankContainer}>
