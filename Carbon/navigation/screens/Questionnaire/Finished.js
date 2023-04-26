@@ -33,14 +33,17 @@ const finishedQuestionnaire = async () => {
     }
 };
 
-export default function FinishedScreen({navigation,route}) {
-    //Values from previous pages
-    const dietScore = route.params?.dietScore;
-    const homePowerScore = route.params?.homePowerScore;
-    const annualPower = route.params?.annualPower;
-    const transportScore=route.params?.transportScore;
-    const miles = (route.params?.miles) ? route.params?.miles : 0;
-
+export default function FinishedScreen({navigation, route}) {
+    //Final Calculations
+    //Food Score is calculated in animaldiet and diet
+    //Home score is calculated in household and bills
+    //Transport Score is calculated in Public transport, mileage, vehicleType
+    //Lifestyle score is calculated in recycling
+    const transportScore = route.params?.transportScore;
+    const foodScore = route.params?.foodScore;
+    const homeScore = route.params?.homeScore;
+    const lifestyleScore = route.params?.lifestyleScore;
+    const awarenessScore = (transportScore+foodScore+homeScore+lifestyleScore)/4;
 
     useEffect(()=>{
         navigation.setOptions({
@@ -83,11 +86,9 @@ export default function FinishedScreen({navigation,route}) {
             <Button
             title="Exit"
             color={Colors.primary.MINT}
-            onPress={() => {
-                //TODO: Need to add relevant data to confirm questionnaire AND handle data in Main Container function
-                    route.params.confirmQuestionnaire(true)
-                    finishedQuestionnaire()
-                    navigation.navigate('Home')
+            onPress={() =>{
+                finishedQuestionnaire()
+                route.params?.setFinishedQuestionnaire(true)
             }}
             />
             </View>

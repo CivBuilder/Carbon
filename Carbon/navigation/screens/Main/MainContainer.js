@@ -26,7 +26,6 @@ import RecycleAmountScreen from '../Questionnaire/QuestionRecycleAmount';
 import AnimalDietScreen from '../Questionnaire/QuestionAnimalDiet';
 
 import { getAuthHeader, getToken, setRenderCallback } from '../../../util/LoginManager';
-import { getToken, setRenderCallback } from '../../../util/LoginManager';
 import { PopUpMenu } from '../../../components/PopUpMenu';
 
 const Stack = createStackNavigator();
@@ -46,7 +45,7 @@ const Tab = createBottomTabNavigator();
     Just add the function name on the import on top.
 */
 
-const QuestionnaireStack = ({route,navigation}) =>{
+const QuestionnaireStack = (props) => {
     return(
     <Stack.Navigator
     initialRouteName="GetStarted"
@@ -63,41 +62,10 @@ const QuestionnaireStack = ({route,navigation}) =>{
         <Stack.Screen name="q5" component={RecycleScreen}/>
         <Stack.Screen name="q5a" component={RecycleAmountScreen}/>
         <Stack.Screen name="finished" component={FinishedScreen}
-            initialParams={{ confirmQuestionnaire: props.confirmQuestionnaire }}
-            navigation={navigation} // pass navigation prop to FinishedScreen
-        />
-        {/* <Stack.Screen
-            name={'Home'}
-            component={HomeScreen}
-            options={{
-                headerShown: true,
-                // headerStyle: {
-                //     height: Platform.OS === 'ios' ? 48 : 72,
-                // },
-                headerLeft: null,
-                headerTitleAlign: 'center',
-                headerTitle: () => (
-                    <Image
-                        source={require('../../../assets/Carbon_Logo.png')}
-                        style={{
-                            //TODO: 1080x356 is the current dimension. Find a better way to scale this properly.
-                            width: 1080 / 12,
-                            height: 356 / 12,
-                        }}
-                    />
-                ),
-                headerRight: () => (
-                    <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.SETTINGS)}>
-                        <Ionicons
-                            name={IconNames.SETTINGS}
-                            size={24}
-                            color={Colors.primary.RAISIN_BLACK}
-                            style={{ marginRight: 16 }}
-                        />
-                    </TouchableOpacity>
-                ),
+            initialParams={{
+                setFinishedQuestionnaire: props.setFinishedQuestionnaire
             }}
-        /> */}
+        />
     </Stack.Navigator>
     )
 }
@@ -255,7 +223,7 @@ const LoginStack = (props,{navigation}) => {
 
 export default function MainContainer({navigation}){
     const [isSignedIn, setIsSignedIn] = useState(false);
-    const [finishedQuestionnaire, setFinishedQuestionnaire] = useState(true);
+    const [finishedQuestionnaire, setFinishedQuestionnaire] = useState(false);
 
     // In order to rerender the maincontainer on signin, we gotta callback and update the state
     setRenderCallback(setIsSignedIn);
@@ -329,7 +297,7 @@ export default function MainContainer({navigation}){
                         </Tab.Navigator>
                     </>
                 ) : (
-                    <QuestionnaireStack navigation={navigation}/>
+                    <QuestionnaireStack setFinishedQuestionnaire={setFinishedQuestionnaire}/>
                 )
             ) : (
                 <LoginStack/>
@@ -338,7 +306,6 @@ export default function MainContainer({navigation}){
         </SafeAreaView>
     );
 };
-
 
 const screenOptions = ({ route }) => ({
     tabBarIcon: ({ color, size }) => {
