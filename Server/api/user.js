@@ -290,6 +290,37 @@ router.put('/changePFP', passport.authenticate('jwt', { session: false }), async
     return res.sendStatus(200);
 });
 
+router.get('/check-questionnaire/', passport.authenticate('jwt', { session: false }), async function(req, res) {
+    const user_entry = await user_table.findOne({
+        where: {
+            id: req.user.id
+        }
+    });
+    if (!user_entry) {
+        console.log("Sending error code 404. No match found");
+        return res.status(404).send(`404: user with ${req.params.id} not found`);
+    }
+    const finished_questionnaire = user_entry.finished_questionnaire;
+    const result = finished_questionnaire ? true : false;
+    res.status(200).json(result);
+});
+
+router.post('/finish-questionnaire/', passport.authenticate('jwt', { session: false }), async function(req, res) {
+    const user_entry = await user_table.findOne({
+        where: {
+            id: req.user.id
+        }
+    });
+    if (!user_entry) {
+        console.log("Sending error code 404. No match found");
+        return res.status(404).send(`404: user with ${req.params.id} not found`);
+    }
+    await user_entry.update({
+        finished_questionnaire: true
+    });
+    res.status(200).send('Questionnaire finished');
+});
+
 
 // AUTHENTICATION
 
