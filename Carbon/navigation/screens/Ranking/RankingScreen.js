@@ -38,13 +38,11 @@ const ListTabIDs = {
  * @param {Bool} ExtendUpwards
  * @returns 
  */
+
+
+
 async function updateTable(setLeaderboardTables, leaderboardTables, currentCategory, currentTab, fresh_start, ExtendUpwards, setLoading, setErrorMessage){
   // console.log(leaderboardTables, currentCategory, currentTab, fresh_start, ExtendUpwards);
-
-  // console.log(typeof table);
-  // console.log(table);
-  // console.log(JSON.stringify(leaderboardTables, null, 2));
-  // console.log(JSON.stringify(leaderboardTables[2],null,2));
   let AllItems = [...leaderboardTables]
   let categoryItems = [...AllItems[currentCategory.id]];
   let categoryItem = {...categoryItems[currentTab]};
@@ -53,8 +51,8 @@ async function updateTable(setLeaderboardTables, leaderboardTables, currentCateg
   let page = fresh_start !== null ? fresh_start : ExtendUpwards ? categoryItem.indices[0] : categoryItem.indices[1];
   if(ExtendUpwards === false) setLoading(true); //Don't have two loading screens at once
 
-  console.log(JSON.stringify(categoryItem, null, 2));
-  console.log(page);
+  // console.log(JSON.stringify(categoryItem, null, 2));
+  // console.log(page);
   
   //Get the category and if we are in the worst tab to send has headers
   let category = currentCategory.title+"score";
@@ -85,7 +83,7 @@ async function updateTable(setLeaderboardTables, leaderboardTables, currentCateg
       }
       else categoryItem.indices[1]++;
 
-      console.log(categoryItem.entries);
+      // console.log(categoryItem.entries);
       categoryItems[currentTab] = categoryItem;
       AllItems[currentCategory.id] = categoryItems;
       setLeaderboardTables(AllItems);
@@ -108,15 +106,13 @@ export default function RankingScreen({navigation, route}){
 
 
     /***************************************State Savers***************************************/
-    // const [rank, setRank] = useState(null);
-    // const [sustainability_score, setSustainabilityScore] = useState(null);
     const [userScores, setUserScores] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const [emission_category, setEmissionCategory] = useState(EC.GLOBAL);
     const [loading, setLoading] = useState(false);
     const [leaderboardTables, setLeaderboardTables] = useState(Array.from({length: 5}, () => Array.from({length: 3}, () => new RankingList())));
     const [currentTab, setCurrentTab] = useState(ListTabIDs.PLAYERS_LIKE_YOU);
-
+    const [doneInit, setInitDone] = useState(null)
 
 
 
@@ -126,19 +122,35 @@ export default function RankingScreen({navigation, route}){
     useEffect( () => {
       if(userScores === null) return;
       
-      console.log(JSON.stringify(userScores, null, 2)); 
+      // console.log(JSON.stringify(userScores, null, 2)); 
       // updateTable(setLeaderboardTables,leaderboardTables);
       //Start at the page based on why 
       Object.values(EC).forEach((Cat)=>{
+        setLoading(true);
         updateTable(setLeaderboardTables, leaderboardTables, Cat, ListTabIDs.PLAYERS_LIKE_YOU, Math.floor(userScores[Cat.title+"ranking"]/PAGE_SIZE), false, setLoading, setErrorMessage);
         updateTable(setLeaderboardTables, leaderboardTables, Cat, ListTabIDs.TOP_PLAYERS, 0, false, setLoading, setErrorMessage); 
         updateTable(setLeaderboardTables, leaderboardTables, Cat, ListTabIDs.WORST_PLAYERS, 0, false, setLoading, setErrorMessage);
+        setLoading(false);
+        setInitDone(true);
       })
     }, [userScores])
 
+
+    useEffect( () => {
+      if(leaderboardTables[0][0].entries.length !== 0){
+        // console.log(JSON.stringify(leaderboardTables[0][0], null, 2));
+      }
+    }, [leaderboardTables])
     
 
-    if(userScores === null) return (
+    useEffect( () => {
+      console.log("Done Initializing");
+      console.log(JSON.stringify(leaderboardTables[0][0], null, 2));
+      
+    }, [doneInit]);
+
+
+    if(userScores === null || loading) return (
       <LoadingIndicator loading={loading}/>
     );
 
@@ -186,13 +198,12 @@ export default function RankingScreen({navigation, route}){
         </View>
       </View> 
 
-      <View style = {{flex : 1}}>
-            <ListPlayers 
-              // onRefresh={updateTable(setLeaderboardTables, leaderboardTables, emission_category, currentTab, null, true, setLoading, setErrorMessage)}
-              // onEndReached={updateTable(setLeaderboardTables, leaderboardTables, emission_category, currentTab, null, false, setLoading, setErrorMessage)}
-              table={leaderboardTables[emission_category.id][currentTab].entries}
-            />
-      </View>
+      <ListPlayers 
+        // onRefresh={updateTable(setLeaderboardTables, leaderboardTables, emission_category, currentTab, null, true, setLoading, setErrorMessage)}
+        // onEndReached={updateTable(setLeaderboardTables, leaderboardTables, emission_category, currentTab, null, false, setLoading, setErrorMessage)}
+        table={leaderboardTables[emission_category.id][currentTab].entries}
+        // table={[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]}
+      />
 
       <LoadingIndicator loading={loading}/>
     </View>);
@@ -243,23 +254,3 @@ export default function RankingScreen({navigation, route}){
 
   
   });
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

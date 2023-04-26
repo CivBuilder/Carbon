@@ -12,7 +12,6 @@ export default function ListPlayers ({table, onRefresh, onEndReached}) {
             refreshing={false}
             onEndReached={onEndReached}
             style = {{
-            flex : 1
             }}
             testID="flatlist"
         ></FlatList>
@@ -28,8 +27,7 @@ function renderListEntry({ item }) {
     return(
       <View testID="list-entry" style = {[styles.ListEntryContainer, ClientEntry && {backgroundColor : "#FFD700"}]}>
       <Text>
-          {/* {item.rank} -  {item.username} - {item.global_score} */}
-            {item.username}
+          {item.rank} -  {item.username} - {item.global_score}
       </Text>
       </View>
     );
