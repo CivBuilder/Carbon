@@ -1,21 +1,17 @@
 import { API_URL } from "../config/Api";
-import { getAuthHeader } from "../util/LoginManager";
+import { getToken } from "./LoginManager";
 
-const TIMEOUT_DURATION = 25000;
-
-const getRecentEmissions = async () => {
+export const getRecentEmissions = async () => {
   console.log(`getRecentEmissions: Fetching recent records`);
   try {
     const url = `${API_URL}userEmissions/recentRecords`;
-
-    console.log(url);
-    const response = await Promise.race([
-      fetch(url, await getAuthHeader()),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Network request timed out')), TIMEOUT_DURATION)
-      )
-    ]);
-    console.log(response);
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'secrettoken': await getToken(),
+      },
+    });
 
     if (response.status === 204) return null;
 
@@ -29,5 +25,3 @@ const getRecentEmissions = async () => {
     throw error;
   }
 };
-
-export default getRecentEmissions;

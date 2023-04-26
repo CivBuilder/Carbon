@@ -211,23 +211,29 @@ router.get('/yearMonth/:yearMonth', passport.authenticate('jwt', { session: fals
 });
 
 /**
-  GET recent emission records for all categories (author: Adam V.)
+  Fetch recent emission records for all categories (author: Adam V.)
 **/
-router.get('/recentRecords', passport.authenticate('jwt', { session: false }), async function (req, res) {
-  const userID = req.user.id;
+router.post('/recentRecords', passport.authenticate('jwt', { session: false }), async function (req, res) {
+  // Grab the user_id from the authenticated user
+  const userId = req.user.id;
 
-  const user = await user_table.findByPk(userID);
-  if (!user) return res.status(400).send(`user_id ${userID} not found.`);
-
+  // Find the 5 most recent records based on user_id
   const records = await UserEmissions.findAll({
     where: {
-      user_id: ID
+      user_id: userId
     },
-    order: [['date', 'DESC']]
+    order: [
+      ['date', 'DESC']
+    ],
+    limit: 5
   });
 
-  if (records.length === 0) return res.status(204).send();
+  // Send a 204 No Content response if records is empty
+  if (records.length === 0) {
+    return res.status(204).send();
+  }
 
+  // Return the records as a JSON response
   return res.status(200).json(records);
 });
 
