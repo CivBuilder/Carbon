@@ -1,9 +1,6 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState} from 'react';
 import {View, Text,Button,TextInput } from 'react-native';
-import { Colors } from '../../../styling/Colors';
-
-import {averageGasCarMPG} from '../../../calculations/travel_calculations/averageGasCarMPG';
-import mapScoreReverse from '../../../calculations/questionnaireMapScoreReverse';
+import { Colors } from '../../../colors/Colors';
 
 /*
 Mileage Screen
@@ -14,38 +11,13 @@ TODO: Improve transferring of data between pages
 
 export default function MileageScreen({navigation,route}) {
     //Values from previous pages
-    const foodScore = route.params?.foodScore;
-    const homeScore = route.params?.homeScore;
-    const [transportScore,setTransportScore] = useState(route.params?.transportScore);
+    const dietScore = route.params?.dietScore;
+    const homePowerScore = route.params?.homePowerScore;
+    const annualPower = route.params?.annualPower;
+    const transportScore= route.params?.transportScore;
 
     //Value to calculate & transfer at the "finished" screen
-    const [mpg,setmpg] = useState(0);
-
-    //Updating progress bar (a.k.a the header)
-    useEffect(()=>{
-        navigation.setOptions({
-        header: ()=>(
-        <View style={{
-        position: "absolute",
-        top:0,
-        height:30,
-        borderRadius: 6,
-        width:"60%",
-        backgroundColor: Colors.secondary.CELADON,
-        }}>
-        </View>
-        ),
-        })
-    });
-
-    const calculateTransportScore=() =>{
-        //User performance = userMPG / aveMPG
-        //transport score = mapped(userPerformance)
-        console.log(averageGasCarMPG.MPG)
-        console.log(mpg)
-        let userPerformance = mpg / averageGasCarMPG.MPG;
-        setTransportScore(mapScoreReverse(userPerformance));
-    }
+    const [miles,setMiles] = useState(0);
 
     return (
     <>
@@ -54,36 +26,21 @@ export default function MileageScreen({navigation,route}) {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.secondary.LIGHT_GREEN,
+    width: "100%"
     }}
     >
-        <Text style={{
-            fontSize:20,
-            fontWeight:"400",
-            marginBottom:40,
-            paddingLeft:"6%",
-            paddingRight:"6%",
-        }}>
-        (Optional) Fuel efficiency makes a big impact on your
-         Carbon footprint. What is the fuel efficiency on your vehicle?
+        <Text>
+        (Optional) What are the miles per gallon (MPG) on your vehicle?
         </Text>
         <View>
-        <Text style={{
-            fontSize: 20,
-            fontWeight: "400",
-            marginBottom: 5,
-        }}> Miles Per Gallon (MPG) </Text>
+        <Text> MPG </Text>
         <TextInput
         placeholder="Ex: 33"
         style={{
         backgroundColor:Colors.secondary.NYANZA,
-        height: 32,
         }}
         keyboardType="decimal-pad"
-        onChangeText={text=>{
-        text? setmpg(text):setmpg(0);
-        calculateTransportScore();
-        }}
+        onChangeText={text=>setMiles(text)}
         />
         </View>
         </View>
@@ -105,10 +62,12 @@ export default function MileageScreen({navigation,route}) {
             title="Next Question"
             color={Colors.primary.MINT}
             onPress={() =>
-                navigation.navigate('q5',{
+                navigation.navigate('finished',{
                     transportScore:transportScore,
-                    foodScore: foodScore,
-                    homeScore:homeScore,
+                    dietScore:dietScore,
+                    homePowerScore:homePowerScore,
+                    annualPower:annualPower,
+                    miles:miles,
                     })
             }
             />

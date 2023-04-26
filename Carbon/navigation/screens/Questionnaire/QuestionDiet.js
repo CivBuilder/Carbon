@@ -1,39 +1,22 @@
-import {useState,useEffect} from 'react';
+import {useState} from 'react';
 import {View, Text,Button} from 'react-native';
-import { Colors } from '../../../styling/Colors';
+import { Colors } from '../../../colors/Colors'; //Chose UI colors from this page
+
 
 /*
 Question 1 Screen
+
+TODO: Update UI
 */
 
 export default function DietScreen({navigation}) {
-    //Manages progress bar
-    useEffect(()=>{
-            navigation.setOptions({
-            header: ()=>(
-                <View style={{
-                position: "absolute",
-                top:0,
-                height:40,
-                borderRadius: 6,
-                width:0,
-                backgroundColor: Colors.secondary.CELADON,
-                }}>
-                </View>
-            ),
-            });
+    //Maximum points -- Can be set to a different value
+    const maxPoints = 10.0;
 
-            setFoodScoreCalc(nextPage=="q2" ? 1: 0)
-    });
 
-    //Disables "next" button
     const [isDisabled,setIsDisabled] = useState(false);
-    //Changes button colors based on index
+    const [pointPercent,setPointPercent] = useState(0);
     const [buttonIndex, setButtonIndex] = useState(-1);
-    //Set next page depending on button pressed:
-    const [nextPage,setNextPage] = useState("q2");
-    //Calculate food Score on temp variable
-    const [foodScoreCalc,setFoodScoreCalc] = useState(0);
 
     //Changes the color based on the buttonIndex (Only useful for single-choice questions)
     const changeIndex=(index)=>{
@@ -44,6 +27,7 @@ export default function DietScreen({navigation}) {
     //then calculate the score (equal to points/maxPoints)
     const disableButton=(points)=> {
             setIsDisabled(previousState=>true);
+            setPointPercent(previousState=>points/maxPoints);
     }
 
     return (
@@ -53,72 +37,45 @@ export default function DietScreen({navigation}) {
                     flex: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundColor: Colors.secondary.LIGHT_GREEN,
                 }}
             >
-            <Text style={{
-                fontSize:20,
-                fontWeight:"400",
-                marginBottom:40,
-            }}
-            > Describe your diet</Text>
-
+            <Text>What is your diet?</Text>
             <View style={{
-                width:"60%",
+                width:"100%",
             }}
             >
-            <View style={{
-                marginBottom:12,
-            }}>
             <Button
                 title="No Restrictions"
                 onPress={()=>{
                 disableButton(3);
                 setButtonIndex(0);
-                setNextPage("q1a");
                 }}
-                color={buttonIndex==0 ? Colors.primary.MINT: Colors.primary.GRAY}
+                color={buttonIndex==0 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
             />
-            </View>
-            <View style={{
-                marginBottom:12,
-            }}>
             <Button
                 title ="Pescatarian"
                 onPress={()=>{
                 disableButton(4);
                 setButtonIndex(1);
-                setNextPage("q2");
                 }}
-                color={buttonIndex==1 ? Colors.primary.MINT: Colors.primary.GRAY}
+                color={buttonIndex==1 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
             />
-            </View>
-            <View style={{
-                marginBottom:12,
-            }}>
             <Button
                 title="Vegetarian"
                 onPress={()=>{
                 disableButton(6);
                 setButtonIndex(2);
-                setNextPage("q2");
                 }}
-                color={buttonIndex==2 ? Colors.primary.MINT: Colors.primary.GRAY}
+                color={buttonIndex==2 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
             />
-            </View>
-            <View style={{
-                marginBottom:12,
-            }}>
             <Button
                 title ="Vegan/Plant-Based"
                 onPress={()=>{
                 disableButton(10);
                 setButtonIndex(3);
-                setNextPage("q2");
                 }}
-                color={buttonIndex==3 ? Colors.primary.MINT: Colors.primary.GRAY}
+                color={buttonIndex==3 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
             />
-            </View>
             </View>
             </View>
             <View style={{
@@ -138,12 +95,10 @@ export default function DietScreen({navigation}) {
             <Button
             title="Next Question"
             color={Colors.primary.MINT}
-            onPress={() =>{
-                navigation.navigate(nextPage,{
-                foodScore:foodScoreCalc,
-                });
-            }}
-            disabled={isDisabled ? false: true}
+            onPress={() =>
+                navigation.navigate('q2',{dietScore:pointPercent})
+            }
+            disabled ={isDisabled ? false: true}
             />
             </View>
             </View>

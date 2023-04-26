@@ -14,7 +14,6 @@ var forumRouter = require('./api/forumContent');
 var quizRouter = require('./api/quiz');
 var userRouter = require('./api/user');
 var goalRouter = require('./api/goal');
-var articlerouter = require('./api/article');
 var user_emissionsRouter = require('./api/userEmissions');
 
 // authorized route
@@ -38,8 +37,7 @@ app.use('/api/forumcontent', forumRouter);
 app.use('/api/quiz', quizRouter);
 app.use('/api/user', userRouter);
 app.use('/api/userEmissions', user_emissionsRouter);
-app.use('/api/goal', goalRouter);
-app.use('/api/article', articlerouter);
+app.use('/api/goal', goalRouter)
 
 app.use('/api/secure', passport.authenticate('jwt', { session: false }), secureRoute);
 

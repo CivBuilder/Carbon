@@ -1,35 +1,19 @@
 import React, { useState, useEffect} from 'react';
-import { StatusBar, Image, TouchableOpacity, SafeAreaView, Text} from 'react-native';
+import { StatusBar, Image, TouchableOpacity, SafeAreaView, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { StackActions } from '@react-navigation/native';
 
 import { Colors } from '../../../styling/Colors';
 import { IconNames } from './IconNames';
-import { API_URL } from '../../../config/Api';
 
 import { ScreenNames } from './ScreenNames';
 
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen, FoodScreen, TransportationScreen, RecyclingScreen, RecordEmissionScreen, PredictScreen} from '../../screens';
-import StartScreen from '../Questionnaire/Start';
-import DietScreen from '../Questionnaire/QuestionDiet';
-import HouseholdScreen from '../Questionnaire/QuestionHousehold';
-import BillScreen from '../Questionnaire/QuestionBills';
-import TransportScreen from '../Questionnaire/QuestionTransport';
-import VehicleTypeScreen from '../Questionnaire/QuestionVehicleType';
-import MileageScreen from '../Questionnaire/QuestionMileage';
-import PublicTransportScreen from '../Questionnaire/QuestionPublicTransport';
-import FinishedScreen from '../Questionnaire/Finished';
-import RecycleScreen from '../Questionnaire/QuestionRecycling';
-import RecycleAmountScreen from '../Questionnaire/QuestionRecycleAmount';
-import AnimalDietScreen from '../Questionnaire/QuestionAnimalDiet';
-
-import { getAuthHeader, getToken, setRenderCallback } from '../../../util/LoginManager';
+import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen, FoodScreen, TransportationScreen, RecyclingScreen, RecordEmissionScreen} from '../../screens';
+import { getToken, setRenderCallback } from '../../../util/LoginManager';
 import { PopUpMenu } from '../../../components/PopUpMenu';
 import RankCategoryOverlay from '../Ranking/RankCategoryOverlay';
-
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -47,32 +31,6 @@ const Tab = createBottomTabNavigator();
     Also it's best to add the screen function inside the index.js so it reduces the lines needed to import screens.
     Just add the function name on the import on top.
 */
-
-const QuestionnaireStack = (props) => {
-    return(
-    <Stack.Navigator
-    initialRouteName="GetStarted"
-    >
-        <Stack.Screen name = "GetStarted" component={StartScreen}/>
-        <Stack.Screen name="q1" component={DietScreen} />
-        <Stack.Screen name="q1a" component={AnimalDietScreen}/>
-        <Stack.Screen name="q2" component={HouseholdScreen} />
-        <Stack.Screen name="q2a" component={BillScreen}/>
-        <Stack.Screen name="q4" component={TransportScreen}/>
-        <Stack.Screen name="q4a" component={VehicleTypeScreen}/>
-        <Stack.Screen name="q4b" component={MileageScreen}/>
-        <Stack.Screen name="q4c" component={PublicTransportScreen}/>
-        <Stack.Screen name="q5" component={RecycleScreen}/>
-        <Stack.Screen name="q5a" component={RecycleAmountScreen}/>
-        <Stack.Screen name="finished" component={FinishedScreen}
-            initialParams={{
-                setFinishedQuestionnaire: props.setFinishedQuestionnaire
-            }}
-        />
-    </Stack.Navigator>
-    )
-}
-
 
 // Home screen stack navigation & header
 const HomeStack = ({ navigation }) => {
@@ -133,10 +91,8 @@ const ProgressStack = ({ navigation }) => {
                     ),
                 }}
             />
-            <Stack.Screen name={ScreenNames.PREDICT} component={PredictScreen} />
             <Stack.Screen name={ScreenNames.ADD_GOAL} component={GoalScreen} />
             <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={RecordEmissionScreen} />
-
             <Stack.Screen name={ScreenNames.FOOD} component={FoodScreen} />
             <Stack.Screen name={ScreenNames.TRANSPORTATION} component={TransportationScreen} />
             <Stack.Screen name={ScreenNames.RECYCLING} component={RecyclingScreen} />
@@ -195,18 +151,14 @@ const RankingStack = ({ navigation }) => {
 
 
 // Login screen stack navigation & header
-const LoginStack = (props,{navigation}) => {
-
+const LoginStack = ({ navigation}) => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name={ScreenNames.LOGIN}
+                name={' '}
                 component={LoginScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
-                }}
-                initialParams={{
-                    setIsSignedIn:props.confirmSignup
                 }}
             />
             <Stack.Screen
@@ -216,23 +168,12 @@ const LoginStack = (props,{navigation}) => {
                     headerShown: false,
                 }}
             />
-            <Stack.Screen
-                name={ScreenNames.QUESTIONNAIRE}
-                component={QuestionnaireStack}
-                options={{
-                    headerShown:false,
-                }}
-                initialParams={{
-                    setIsSignedIn:props.confirmSignup
-                }}
-            />
         </Stack.Navigator>
     );
 };
 
-export default function MainContainer({navigation}){
+export default function MainContainer(){
     const [isSignedIn, setIsSignedIn] = useState(false);
-    const [finishedQuestionnaire, setFinishedQuestionnaire] = useState(false);
 
     // In order to rerender the maincontainer on signin, we gotta callback and update the state
     setRenderCallback(setIsSignedIn);
@@ -245,76 +186,55 @@ export default function MainContainer({navigation}){
         checkSignin();
     }, []);
 
-    useEffect(() => {
-        async function checkQuestionnaire() {
-            try {
-                const url = API_URL + 'user/check-questionnaire/';
-                const response = await fetch(url, await getAuthHeader());
-                // console.log("checkQuestionnaire (response): " + JSON.stringify(response));
-                const data = await response.json();
-                console.log("checkQuestionnaire (data): " + JSON.stringify(data));
-                setFinishedQuestionnaire(data);
-            } catch (error) {
-                console.error('Error while checking questionnaire:', error);
-            }
-        }
-        if (isSignedIn) {
-            checkQuestionnaire();
-        }
-    }, [isSignedIn]);
-
     return(
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar barStyle={'dark-content'} backgroundColor="transparent" translucent={true}/>
-            <NavigationContainer>
-            {isSignedIn ? (
-                finishedQuestionnaire ? (
-                    <>
-                        <Tab.Navigator //Sets the default screen for the bottom nav bar (in this case, Home Screen)
-                        initialRouteName={ScreenNames.HOME}
-                        screenOptions={{
-                            headerShown: false, // Hides the default header
-                            tabBarLabelStyle: { display: 'none' }, // Hides label text
-                            tabBarActiveTintColor: Colors.primary.MINT,
-                            tabBarHideOnKeyboard: true,
-                        }}
-                        >
-                            <Tab.Screen
-                                name={ScreenNames.HOME}
-                                component={HomeStack}
-                                options={{
-                                    tabBarIcon: ({ color, size }) => (
-                                        <Ionicons name={IconNames.HOME} size={size} color={color} />
-                                    ),
-                                }}
-                            />
-                            <Tab.Screen
-                                name={ScreenNames.PROGRESS}
-                                component={ProgressStack}
-                                options={screenOptions}
-                            />
-                            <Tab.Screen
-                                name={ScreenNames.FORUM}
-                                component={ForumStack}
-                                options={screenOptions}
-                            />
-                            <Tab.Screen
-                                name={ScreenNames.RANKING}
-                                component={RankingStack}
-                                options={screenOptions}
-                            />
-                        </Tab.Navigator>
-                    </>
-                ) : (
-                    <QuestionnaireStack setFinishedQuestionnaire={setFinishedQuestionnaire}/>
-                )
-            ) : (
-                <LoginStack/>
-            )}
+                <NavigationContainer>
+        {isSignedIn ? (
+                <>
+                    <Tab.Navigator //Sets the default screen for the bottom nav bar (in this case, Home Screen)
+                    initialRouteName={ScreenNames.HOME}
+                    screenOptions={{
+                        headerShown: false, // Hides the default header
+                        tabBarLabelStyle: { display: 'none' }, // Hides label text
+                        tabBarActiveTintColor: Colors.primary.MINT,
+                        tabBarHideOnKeyboard: true,
+                    }}
+                    >
+                        <Tab.Screen
+                            name={ScreenNames.HOME}
+                            component={HomeStack}
+                            options={{
+                                tabBarIcon: ({ color, size }) => (
+                                    <Ionicons name={IconNames.HOME} size={size} color={color} />
+                                ),
+                            }}
+                        />
+                        <Tab.Screen
+                            name={ScreenNames.PROGRESS}
+                            component={ProgressStack}
+                            options={screenOptions}
+                        />
+                        <Tab.Screen
+                            name={ScreenNames.FORUM}
+                            component={ForumStack}
+                            options={screenOptions}
+                        />
+                        <Tab.Screen
+                            name={ScreenNames.RANKING}
+                            component={RankingStack}
+                            options={screenOptions}
+                        />
+                    </Tab.Navigator>
+                </>
+        ) : (
+            <LoginStack></LoginStack>
+        )}
             </NavigationContainer>
         </SafeAreaView>
     );
 };
+
 
 const screenOptions = ({ route }) => ({
     tabBarIcon: ({ color, size }) => {

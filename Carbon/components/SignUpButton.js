@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 10,
     marginBottom: 30,
-    alignSelf: 'center'
   },
   buttonText: {
     color: 'white',

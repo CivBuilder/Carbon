@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import {View, Text,Button } from 'react-native';
-import { Colors } from '../../../styling/Colors';
+import { Colors } from '../../../colors/Colors';
 /*
 Vehicle Type Screen
 
@@ -13,41 +13,28 @@ TODO: Better handling of max points per question
 export default function VehicleTypeScreen({navigation,route}) {
 
     //Transferred Scores from previous pages
-    const foodScore = route.params?.foodScore;
-    const homeScore= route.params?.homeScore;
-    const [transportScore,setTransportScore] = useState(0);
+    const dietScore = route.params?.dietScore;
+    const homePowerScore = route.params?.homePowerScore;
+    const annualPower = route.params?.annualPower;
+
+    //Setting max points for this question
+    const maxPoints = 10.0;
 
     //Single Choice Question, so we only need one button value
+    const [isDisabled,setIsDisabled] = useState(false);
+    const [pointPercent,setPointPercent] = useState(0);
     const [buttonIndex, setButtonIndex] = useState(-1);
-    //Change page depending on the answer:
-    const [nextPage,setNextPage] = useState("q4b");
 
-    const calculateTransportScore=() =>{
-        //Electric Vehicle => Automatic 1 (0 carbon emissions)
-        //Others => Automatic 0 (recalculate when given MPG in next page)
-        let userPerformance = 0;
-        if(buttonIndex == 2){
-            userPerformance=1;
-        }
-        setTransportScore(userPerformance)
+    //Changes the button index for UI/points change
+    const changeIndex=(index)=>{
+        setButtonIndex(previousState=>index);
     }
-    //Updating progress bar (a.k.a the header)
-    useEffect(()=>{
-        navigation.setOptions({
-        header: ()=>(
-        <View style={{
-        position: "absolute",
-        top:0,
-        height:30,
-        borderRadius: 6,
-        width:"50%",
-        backgroundColor: Colors.secondary.CELADON,
-        }}>
-        </View>
-        ),
-        })
-        calculateTransportScore();
-    });
+    //Disables/Enables "Next Question" button
+    const disableButton=(points)=> {
+            setIsDisabled(previousState=>true);
+            setPointPercent(previousState=>points/maxPoints);
+    }
+
     return (
             <>
             <View
@@ -55,44 +42,37 @@ export default function VehicleTypeScreen({navigation,route}) {
                     flex: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundColor: Colors.secondary.LIGHT_GREEN
                 }}
             >
-            <Text style={{
-                fontSize:20,
-                fontWeight:"400",
-                marginBottom:40,
-            }}>What type of vehicle do you own?</Text>
+            <Text>What type of vehicle do you own?</Text>
             <View style={{
-                width:"60%",
-            }}
-            >
-            <View style={{
-                marginBottom:20,
+                width:"100%",
             }}
             >
             <Button
-                title="Gas or Diesel Based"
+                title="Gas-Based"
                 onPress={()=>{
+                disableButton(3);
                 setButtonIndex(0);
-                setNextPage("q4b");
                 }}
-                color={buttonIndex==0 ? Colors.primary.MINT: Colors.primary.GRAY}
+                color={buttonIndex==0 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
             />
-            </View>
-            <View style={{
-                marginBottom:20,
-            }}
-            >
+            <Button
+                title ="Diesel-Based"
+                onPress={()=>{
+                disableButton(4);
+                setButtonIndex(1);
+                }}
+                color={buttonIndex==1 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
+            />
             <Button
                 title="Electric"
                 onPress={()=>{
+                disableButton(8);
                 setButtonIndex(2);
-                setNextPage("q5");
                 }}
-                color={buttonIndex==2 ? Colors.primary.MINT: Colors.primary.GRAY}
+                color={buttonIndex==2 ? Colors.primary.RAISIN_BLACK: Colors.secondary.LIGHT_MINT}
             />
-            </View>
             </View>
             </View>
             <View style={{
@@ -113,13 +93,14 @@ export default function VehicleTypeScreen({navigation,route}) {
             title="Next Question"
             color={Colors.primary.MINT}
             onPress={() =>
-                navigation.navigate(nextPage,{
-                    homeScore:homeScore,
-                    foodScore:foodScore,
-                    transportScore:transportScore,
-                })
+                navigation.navigate('q4b',{
+                    transportScore:pointPercent,
+                    dietScore:dietScore,
+                    homePowerScore:homePowerScore,
+                    annualPower:annualPower,
+                    })
             }
-            disabled ={buttonIndex>=0 ? false: true}
+            disabled ={isDisabled ? false: true}
             />
             </View>
             </View>
