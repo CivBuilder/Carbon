@@ -46,7 +46,7 @@ export default function RecycleScreen({navigation, route}) {
                 paddingLeft:"8%",
                 paddingRight:"6%",
             }}>
-            Do you Recycle?
+            Do you recycle?
             </Text>
             <View style={{
                 width:"60%",
