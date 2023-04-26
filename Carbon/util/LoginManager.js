@@ -110,6 +110,8 @@ export async function signup(username, email, password, confirm) {
         }
     );
 
+    await login(email, password);
+
     await changeUsername(username);
 }
 
