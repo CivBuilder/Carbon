@@ -59,7 +59,7 @@ export async function login(username, password) {
 
 export async function signup(username, email, password, confirm) {
     if (password != confirm) {
-        alert("Passwords do not match, or fields are empty.");
+        alert("Passwords do not match.");
         return false;
     }
 
@@ -109,6 +109,7 @@ export async function signup(username, email, password, confirm) {
             body: formBody
         }
     );
+    await login(username, password);
 
     await changeUsername(username);
 }
