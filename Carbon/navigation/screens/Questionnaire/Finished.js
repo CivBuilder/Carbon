@@ -1,6 +1,7 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {View, Text,Button} from 'react-native';
-import { Colors } from '../../../colors/Colors';
+import { Colors } from '../../../styling/Colors';
+import { API_URL } from '../../../config/Api';
 
 /*
 Finished Screen
@@ -10,21 +11,34 @@ TODO: Improve transferring of data between pages
 TODO: Connect finished to signup page(?)
 */
 
-export default function FinishedScreen({navigation,route}) {
-    //Values from previous pages
-    const dietScore = route.params?.dietScore;
-    const homePowerScore = route.params?.homePowerScore;
-    const annualPower = route.params?.annualPower;
-    const transportScore=route.params?.transportScore;
-    const miles = (route.params?.miles) ? route.params?.miles : 0;
+export default function FinishedScreen({navigation, route}) {
+    //Final Calculations
+    //Food Score is calculated in animaldiet and diet
+    //Home score is calculated in household and bills
+    //Transport Score is calculated in Public transport, mileage, vehicleType
+    //Lifestyle score is calculated in recycling
+    const transportScore = route.params?.transportScore;
+    const foodScore = route.params?.foodScore;
+    const homeScore = route.params?.homeScore;
+    const lifestyleScore = route.params?.lifestyleScore;
+    const awarenessScore = (transportScore+foodScore+homeScore+lifestyleScore)/4;
 
 
-    //Final scores!!
-    const transScore = (miles!=0) ? transportScore*miles/200000: transportScore;
-    const powerScore = annualPower/10632;
-    const foodScore = dietScore;
-    const homeScore = homePowerScore;
-    const awarenessScore= (miles!=0) ? transportScore*miles/200000: transportScore
+    useEffect(()=>{
+        navigation.setOptions({
+        header: ()=>(
+        <View style={{
+        position: "absolute",
+        top:0,
+        height:30,
+        borderRadius: 6,
+        width:"100%",
+        backgroundColor: Colors.secondary.CELADON,
+        }}>
+        </View>
+        ),
+        })
+    });
 
     return (
             <>
@@ -38,22 +52,22 @@ export default function FinishedScreen({navigation,route}) {
             <Text>
             Final Data:
             </Text>
-            <Text>Transport Score: {transScore}</Text>
-            <Text>Lifestyle Score: {powerScore}</Text>
-            <Text>Food Score: {dietScore}</Text>
-            <Text>Home Score: {homePowerScore}</Text>
-            <Text>Awareness Score: {transScore}</Text>
+            <Text>Transport Score: {transportScore}</Text>
+            <Text>Lifestyle Score: {lifestyleScore}</Text>
+            <Text>Food Score: {foodScore}</Text>
+            <Text>Home Score: {homeScore}</Text>
+            <Text>Awareness Score: {awarenessScore}</Text>
             </View>
             <View style={{
                 flex:0,
                 justifyContent:'center',
             }}>
             <Button
-            title="View your rank!"
+            title="Go to Home!"
             color={Colors.primary.MINT}
-            onPress={() =>
-                navigation.navigate('GetStarted')
-            }
+            onPress={() =>{
+                route.params?.confirmQuestionnaire(true)
+            }}
             />
             </View>
             </>

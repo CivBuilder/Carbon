@@ -15,7 +15,7 @@ const SignUpScreen = ({navigation}) => {
 
   async function handleSignUp() {
     await signup(username, password, confirm)
-    navigation.goBack();
+    //navigation.goBack();
   }
   
   return (
@@ -28,7 +28,10 @@ const SignUpScreen = ({navigation}) => {
         <PasswordInput text="Password" testID="passwordInput" onChangeText={(pw) => setPassword(pw)}/>
         <PasswordInput text="Confirm Password" testID="confirmPasswordInput" onChangeText={(cf) => setConfirm(cf)}/>
       </KeyboardAvoidingView>
-      <SignUpButton onPress={() => handleSignUp()} />
+      <SignUpButton onPress={() =>{
+      handleSignUp();
+      navigation.navigate("Questionnaire");
+      } }/>
       <View style={styles.loginTextWrapper}>
         <Text style={styles.loginText}>Already have an account?</Text>
         <LoginNavButton onPress={() => console.log("login pressed")} />
