@@ -122,8 +122,6 @@ export default function RankingScreen({navigation, route}){
     useEffect( () => {
       if(userScores === null) return;
       
-      // console.log(JSON.stringify(userScores, null, 2)); 
-      // updateTable(setLeaderboardTables,leaderboardTables);
       //Start at the page based on why 
       Object.values(EC).forEach((Cat)=>{
         updateTable(setLeaderboardTables, leaderboardTables, Cat, ListTabIDs.PLAYERS_LIKE_YOU, Math.floor(userScores[Cat.title+"ranking"]/PAGE_SIZE), false, setLoading, setErrorMessage);
@@ -132,15 +130,6 @@ export default function RankingScreen({navigation, route}){
       })
       setInitDone(true);
     }, [userScores])
-
-
-    useEffect( () => {
-      if(leaderboardTables[0][0].entries.length !== 0){
-        // console.log(JSON.stringify(leaderboardTables[0][0], null, 2));
-      }
-    }, [leaderboardTables])
-    
-
 
     if(userScores === null) return (
       <LoadingIndicator loading={loading}/>

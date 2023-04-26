@@ -64,17 +64,16 @@ function RenderListEntry({ item, category, username}) {
 const styles = StyleSheet.create({
     UserListing : {
         backgroundColor : Colors.secondary.DARK_MINT,
-        // width : 'auto',
-        // borderRadius : 35, 
-        // borderWidth : 2, 
-        // padding : 15, 
+        borderTopWidth : 0,
+        borderBottomWidth : 0,
     },
     ListEntryContainer : {
         backgroundColor : "#e4f6f8",
         width : 'auto',
-        borderWidth : 1,
+        borderTopWidth : 1,
+        borderBottomWidth : 1,
         borderColor : Colors.secondary.DARK_MINT,
-        borderRadius : 15,
+        borderRadius : 10,
         padding : 8,
         marginHorizontal: 15,
         marginVertical : 8,
