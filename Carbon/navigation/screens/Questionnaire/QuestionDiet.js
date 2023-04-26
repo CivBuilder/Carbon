@@ -53,6 +53,7 @@ export default function DietScreen({navigation}) {
                     flex: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
+                    backgroundColor: Colors.secondary.LIGHT_GREEN,
                 }}
             >
             <Text style={{
@@ -60,7 +61,7 @@ export default function DietScreen({navigation}) {
                 fontWeight:"400",
                 marginBottom:40,
             }}
-            > What is your diet?</Text>
+            > Describe your diet</Text>
 
             <View style={{
                 width:"60%",
