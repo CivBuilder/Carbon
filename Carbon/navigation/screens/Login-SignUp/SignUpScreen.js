@@ -37,15 +37,7 @@ const SignUpScreen = ({ navigation }) => {
           <LoginNavButton onPress={() => { navigation.navigate(ScreenNames.LOGIN) }} />
         </View>
       </KeyboardAvoidingView>
-      <SignUpButton onPress={() => {
-        handleSignUp();
-        navigation.navigate("Questionnaire");
-      }} />
-      <View style={styles.loginTextWrapper}>
-        <Text style={styles.loginText}>Already have an account?</Text>
-        <LoginNavButton onPress={() => { navigation.navigate(ScreenNames.LOGIN) }} />
-      </View>
-    </View>
+    </View >
   )
 }
 
