@@ -12,7 +12,7 @@ import { API_URL } from '../../../config/Api';
 
 import { ScreenNames } from './ScreenNames';
 
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen, FoodScreen, TransportationScreen, RecyclingScreen, RecordEmissionScreen} from '../../screens';
+import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen, FoodScreen, TransportationScreen, RecyclingScreen, RecordEmissionScreen, PredictScreen} from '../../screens';
 import StartScreen from '../Questionnaire/Start';
 import DietScreen from '../Questionnaire/QuestionDiet';
 import HouseholdScreen from '../Questionnaire/QuestionHousehold';
@@ -28,6 +28,7 @@ import AnimalDietScreen from '../Questionnaire/QuestionAnimalDiet';
 
 import { getAuthHeader, getToken, setRenderCallback } from '../../../util/LoginManager';
 import { PopUpMenu } from '../../../components/PopUpMenu';
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -131,8 +132,10 @@ const ProgressStack = ({ navigation }) => {
                     ),
                 }}
             />
+            <Stack.Screen name={ScreenNames.PREDICT} component={PredictScreen} />
             <Stack.Screen name={ScreenNames.ADD_GOAL} component={GoalScreen} />
             <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={RecordEmissionScreen} />
+
             <Stack.Screen name={ScreenNames.FOOD} component={FoodScreen} />
             <Stack.Screen name={ScreenNames.TRANSPORTATION} component={TransportationScreen} />
             <Stack.Screen name={ScreenNames.RECYCLING} component={RecyclingScreen} />

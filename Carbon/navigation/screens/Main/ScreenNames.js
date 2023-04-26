@@ -15,4 +15,5 @@ export const ScreenNames = {
     RECYCLING: 'Recycling',
     TRANSPORTATION: 'Transportation',
     QUESTIONNAIRE: "Questionnaire",
+    PREDICT: "Predict Emissions",
 };
