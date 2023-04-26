@@ -9,7 +9,7 @@ const GetStartedScreen = () => {
     <View style={styles.container}>
       <ImageBackground source={require('../../../assets/get-started-background.png')} style={styles.background}>
         <View style={styles.logo} >
-          <Image source={{ uri: 'https://i.ibb.co/s9Kfh8p/carbon-logo.png'}} style={{width: 200, height: 100}}/>
+          <Image source={require('../../../assets/Carbon_Logo.png')} style={{width: 300, height: 100}}/>
         </View>
         <View style={styles.content}>
           <Text style={styles.helloText}>Hello!</Text>
