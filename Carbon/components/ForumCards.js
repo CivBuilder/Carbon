@@ -34,7 +34,7 @@ const ForumCards = ({navigation}) => {
                     });
                 }}>
                     <Image style={{width: '100%', height: '100%', borderRadius: 16}} source={thumbnails.food3}/>
-                    <Text style={{position: 'absolute', color: 'white', fontWeight: 'bold', fontSize: 24, bottom: 20, left: 20}}>
+                    <Text style={{position: 'absolute', color: 'white', fontWeight: 'bold', fontSize: 24, bottom: 20, left: 20, right: 20}}>
                         <Text style={{
                             position: 'absolute',
                             fontSize: 22,
@@ -51,7 +51,7 @@ const ForumCards = ({navigation}) => {
             <View style={styles.card}>
                 <TouchableOpacity onPress={() => {
                     navigation.navigate(ScreenNames.FORUM, {
-                        screen: ScreenNames.QUIZ,
+                        screen: ScreenNames.BROWSER,
                         params: {id: 19}
                     });
                 }}>
@@ -66,6 +66,50 @@ const ForumCards = ({navigation}) => {
                             bottom: 10
                         }}>
                             See how much you know about sustainable transportation
+                        </Text>
+                    </Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.card}>
+                <TouchableOpacity onPress={() => {
+                    navigation.navigate(ScreenNames.BROWSER, {
+                        screen: ScreenNames.BROWSER,
+                        params: {id: 36}
+                    });
+                }}>
+                    <Image style={{width: '100%', height: '100%', borderRadius: 16}} source={thumbnails.water3}/>
+                    <Text style={{position: 'absolute', color: 'white', fontWeight: 'bold', fontSize: 24, bottom: 20, left: 20, right: 20}}>
+                        <Text style={{
+                            position: 'absolute',
+                            fontSize: 22,
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                            color: Colors.primary.MINT_CREAM,
+                            bottom: 10
+                        }}>
+                            Learn more about sustainable water systems
+                        </Text>
+                    </Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.card}>
+                <TouchableOpacity onPress={() => {
+                    navigation.navigate(ScreenNames.BROWSER, {
+                        screen: ScreenNames.QUIZ,
+                        params: {id: 19}
+                    });
+                }}>
+                    <Image style={{width: '100%', height: '100%', borderRadius: 16}} source={thumbnails.water3}/>
+                    <Text style={{position: 'absolute', color: 'white', fontWeight: 'bold', fontSize: 24, bottom: 20, left: 20, right: 20}}>
+                        <Text style={{
+                            position: 'absolute',
+                            fontSize: 22,
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                            color: Colors.primary.MINT_CREAM,
+                            bottom: 10
+                        }}>
+                            Learn more about sustainable water systems
                         </Text>
                     </Text>
                 </TouchableOpacity>
