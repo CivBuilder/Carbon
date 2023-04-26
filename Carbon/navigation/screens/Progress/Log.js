@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import { DailyLog } from "../../../components/ChartData";
-import React, { useState, useEffect } from 'react';
+import { ScreenNames } from "../Main/ScreenNames";
+import React, { useState, useRef, useEffect } from 'react';
 import { Colors } from '../../../styling/Colors';
 import GetData from "../Home/GetData";
 /*
@@ -9,12 +10,12 @@ import GetData from "../Home/GetData";
     Currently nothing is passed in or returned except the component itself
 */
 
-import PredictInput from "../../../calculations/PredictInput.js";
 const windowHeight = Dimensions.get("window").height;
 
 
 export default function Log({ navigation }) {
-   // PredictInput(); //for testing purposes only
+    const myRef = useRef();
+
     const whichLog = ["Today's", "Yesterday's", "Weekly", "Monthly"]; //String list for displaying
     const [number, setNumber] = useState(0);  //A state hook to set which area we are time frame we look at. 
     //0 = "Today", 1= "Yesterday's" etc etc.
@@ -34,7 +35,7 @@ export default function Log({ navigation }) {
             }
         }
         callGetData(); //Call the getdata through callGetData
-    }, []);
+    }, [myRef.current]);
     if (!data) {
         //ESSENTIALLY if it isnt loaded we return null
         return (
@@ -55,6 +56,11 @@ export default function Log({ navigation }) {
     const handleChangeLeft = () => {
         if (number > 0) {
             setNumber(number - 1);
+        }
+        else
+        {
+            console.log("refreshing")
+            myRef.current = Math.random();
         }
         changeArrayLeft();
     };
