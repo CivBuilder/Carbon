@@ -4,10 +4,32 @@ import { Colors } from '../../../styling/Colors';
 import { API_URL } from '../../../config/Api';
 import {SustainabilityScoreProfileView} from '../../../util/SustainabilityScoreProfileView';
 import mapScoreCategory from '../../../calculations/mapScoreCategory';
+import { getToken } from '../../../util/LoginManager';
 
 /*
 Finished Screen
 */
+
+const finishedQuestionnaire = async () => {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'secrettoken': await getToken(),
+        }
+    };
+
+    try {
+        const response = await fetch(API_URL + 'user/finish-questionnaire/', requestOptions);
+        // console.log(JSON.stringify(response));
+        if (response.status === 200) {
+            console.log("Finished Questionnaire");
+        } else {
+            console.log("Failed to finish questionnaire");
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
 
 export default function FinishedScreen({navigation, route}) {
     //Final Calculations
@@ -149,6 +171,10 @@ export default function FinishedScreen({navigation, route}) {
             <Button
             title="Continue to Carbon!"
             color={Colors.primary.MINT}
+            onPress={() =>{
+                finishedQuestionnaire()
+                route.params?.setFinishedQuestionnaire(true)
+            }}
             />
             </View>
             </>
