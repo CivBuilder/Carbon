@@ -1,10 +1,8 @@
 import React, {useState,useEffect} from 'react';
 import {View, Text,Button,TextInput } from 'react-native';
 import { Colors } from '../../../styling/Colors';
-
-import {averageGasCarMPG} from '../../../calculations/travel_calculations/averageGasCarMPG';
-import mapScoreReverse from '../../../calculations/questionnaireMapScoreReverse';
-
+import {aveRecyclingPerWeek} from '../../../calculations/recycling_calculations/aveRecycling';
+import mapScore from '../../../calculations/questionnaireMapScore';
 /*
 Mileage Screen
 
@@ -12,14 +10,15 @@ TODO: Improve UI
 TODO: Improve transferring of data between pages
 */
 
-export default function MileageScreen({navigation,route}) {
+export default function RecycleAmountScreen({navigation,route}) {
     //Values from previous pages
-    const foodScore = route.params?.foodScore;
     const homeScore = route.params?.homeScore;
-    const [transportScore,setTransportScore] = useState(route.params?.transportScore);
+    const [lifestyleScore,setLifestyleScore] = useState(route.params?.lifestyleScore);
+    const foodScore = route.params?.foodScore;
+    const transportScore= route.params?.transportScore;
 
     //Value to calculate & transfer at the "finished" screen
-    const [mpg,setmpg] = useState(0);
+    const [recycleAmt,setRecycleAmt] = useState(0);
 
     //Updating progress bar (a.k.a the header)
     useEffect(()=>{
@@ -30,7 +29,7 @@ export default function MileageScreen({navigation,route}) {
         top:0,
         height:30,
         borderRadius: 6,
-        width:"60%",
+        width:"90%",
         backgroundColor: Colors.secondary.CELADON,
         }}>
         </View>
@@ -38,13 +37,10 @@ export default function MileageScreen({navigation,route}) {
         })
     });
 
-    const calculateTransportScore=() =>{
-        //User performance = userMPG / aveMPG
-        //transport score = mapped(userPerformance)
-        console.log(averageGasCarMPG.MPG)
-        console.log(mpg)
-        let userPerformance = mpg / averageGasCarMPG.MPG;
-        setTransportScore(mapScoreReverse(userPerformance));
+    const calculateRecycleAmount=() =>{
+        //More recycling is better
+        let userPerformance = recycleAmt/aveRecyclingPerWeek.average;
+        setLifestyleScore(mapScore(userPerformance));
     }
 
     return (
@@ -64,25 +60,24 @@ export default function MileageScreen({navigation,route}) {
             paddingLeft:"6%",
             paddingRight:"6%",
         }}>
-        (Optional) Fuel efficiency makes a big impact on your
-         Carbon footprint. What is the fuel efficiency on your vehicle?
+        (Optional) Approximately How many pounds of material do you recycle per week? Respond in pounds
         </Text>
         <View>
         <Text style={{
             fontSize: 20,
             fontWeight: "400",
             marginBottom: 5,
-        }}> Miles Per Gallon (MPG) </Text>
+        }}> Recycle Amount </Text>
         <TextInput
-        placeholder="Ex: 33"
+        placeholder="Pounds (lbs) Ex: 3"
         style={{
         backgroundColor:Colors.secondary.NYANZA,
         height: 32,
         }}
         keyboardType="decimal-pad"
         onChangeText={text=>{
-        text? setmpg(text):setmpg(0);
-        calculateTransportScore();
+        setRecycleAmt(text);
+        calculateRecycleAmount();
         }}
         />
         </View>
@@ -105,11 +100,12 @@ export default function MileageScreen({navigation,route}) {
             title="Next Question"
             color={Colors.primary.MINT}
             onPress={() =>
-                navigation.navigate('q5',{
+                navigation.navigate('finished',{
                     transportScore:transportScore,
-                    foodScore: foodScore,
                     homeScore:homeScore,
-                    })
+                    foodScore:foodScore,
+                    lifestyleScore:lifestyleScore,
+                })
             }
             />
             </View>

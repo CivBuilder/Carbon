@@ -5,7 +5,7 @@ import getEdgeIndices from "../../../util/getEdgeIndices";
 import { Colors } from "../../../styling/Colors";
 // import { CategoryChartCSS as styling } from "../styling/CategoryChartCSS";
 
-const chartWidth = Dimensions.get("window").width * 0.9;
+const chartWidth = Dimensions.get("window").width * 0.8;
 const chartHeight = Dimensions.get("window").height * 0.08;
 
 const CategoryChart = (props) => {
@@ -22,7 +22,7 @@ const CategoryChart = (props) => {
   };
 
   return (
-    <View style={{justifyContent: "center", alignItems: "center"}}>
+    <View style={{justifyContent: "center", alignItems: "center", marginBottom: 5}}>
       <VictoryStack
         horizontal
         height={chartHeight}
