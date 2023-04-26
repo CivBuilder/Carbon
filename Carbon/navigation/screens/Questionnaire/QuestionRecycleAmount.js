@@ -50,7 +50,7 @@ export default function RecycleAmountScreen({navigation,route}) {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    width: "100%"
+    backgroundColor: Colors.secondary.LIGHT_GREEN,
     }}
     >
         <Text style={{

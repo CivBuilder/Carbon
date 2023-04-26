@@ -191,7 +191,7 @@ const LoginStack = (props,{navigation}) => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name={' '}
+                name={ScreenNames.LOGIN}
                 component={LoginScreen}
                 options={{
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
