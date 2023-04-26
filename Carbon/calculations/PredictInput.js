@@ -1,43 +1,47 @@
 //This file will predict input from 
 
 import { API_URL } from "../config/Api";
+import { getToken } from "../util/LoginManager";
 import MLR from "ml-regression-multivariate-linear";
 
-const PredictInput = async() => {
+const PredictInput = async () => {
     try {
         const user_id = 323; //needs to be not hard coded
         //const url = "http://{YOURLOCALIPHERE}:3000/api/userEmissions?user_id="+ user_id; //for local hosting and testing 
 
-        const url = API_URL + `userEmissions/${user_id}`; //for the database n
+        const url = API_URL + `userEmissions/id}`; //for the database n
         //console.log("fetching data to predict from " + url); //log to see if if it works
-    
-        const response = await fetch(url); //wait for response
-        const data = await response.json(); //get the data we need
+
+
         let count = 0;
+        console.log("predicting")
+        const response = await fetch(`http://192.168.0.6:3000/api/userEmissions/getAll`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'secrettoken': await getToken(),
+            },
+        })
         predictData = []
-        for(const obj of data)
-        {   
+        const data = await response.json(); //get the data we need
+        for (const obj of data) {
             newValues = [0, 0, 0, 0, 0, 0]
             const value = obj.date;
-            checkMonth =value.substring(5, 7);
+            checkMonth = value.substring(5, 7);
             checkDay = value.substring(8, 11);
             checkYear = value.substring(0, 4);
-            const calcDate = new Date(checkYear, checkMonth-1, checkDay);
+            const calcDate = new Date(checkYear, checkMonth - 1, checkDay);
             checkMonth = parseInt(checkMonth)
-            if (checkMonth <= 3)
-            {
+            if (checkMonth <= 3) {
                 newValues[0] = 0;
             }
-            else if(checkMonth <= 6)
-            {
+            else if (checkMonth <= 6) {
                 newValues[0] = 1;
             }
-            else if(checkMonth <= 9)
-            {
+            else if (checkMonth <= 9) {
                 newValues[0] = 2;
             }
-            else
-            {
+            else {
                 newValues[0] = 3;
             }
             dayOfWeek = calcDate.getUTCDay();
@@ -46,33 +50,29 @@ const PredictInput = async() => {
             newValues[3] = obj.diet_emissions;
             newValues[4] = obj.lifestyle_emissions;
             newValues[5] = obj.home_emissions;
-            count+=1;
+            count += 1;
             predictData.push(newValues)
 
-            if(count >= 200) //safety
+            if (count >= 200) //safety
             {
                 break
             }
-            
+
         }
         const dateToday = new Date();
-        const thisMonth = dateToday.getMonth()+1;
+        const thisMonth = dateToday.getMonth() + 1;
         x1Today = 0
         x2Today = dateToday.getDay();
-        if (thisMonth <= 3)
-        {
+        if (thisMonth <= 3) {
             x1Today = 0;
         }
-        else if(thisMonth <= 6)
-        {
-           x1Today = 1;
+        else if (thisMonth <= 6) {
+            x1Today = 1;
         }
-        else if(thisMonth <= 9)
-        {
-           x1Today = 2;
+        else if (thisMonth <= 9) {
+            x1Today = 2;
         }
-        else
-        {
+        else {
             x1Today = 3;
         }
         const xValues = predictData.map(row => [row[0], row[1]]);
@@ -90,34 +90,31 @@ const PredictInput = async() => {
         predictedTransport = parseInt(result.predict([x1Today, x2Today]))
         predictedDiet = parseInt(result2.predict([x1Today, x2Today]))
         predictedLifestyle = parseInt(result3.predict([x1Today, x2Today]))
-        predictedHome = parseInt(result4.predict([x1Today, x2Today])) 
+        predictedHome = parseInt(result4.predict([x1Today, x2Today]))
         predictedTotal = predictedTransport + predictedDiet + predictedLifestyle + predictedHome
-    
-        const retData = [predictedTransport, predictedDiet, predictedLifestyle,predictedHome,predictedTotal]
-        console.log(retData)
 
-      
-        if (count <= 5 || hasNegative(retData) )
-        {
-            console.log("returning");
-            return [0,0,0,0, 0];
+        const retData = [predictedTransport, predictedDiet, predictedLifestyle, predictedHome, predictedTotal]
+
+
+        if (hasNegative(retData)) {
+            return [0, 0, 0, 0, 0];
         }
 
         return retData
     }
-    catch (error) { 
+    catch (error) {
         console.log(error); //error check
     }
 }
 
 function hasNegative(numbers) {
     for (let i = 0; i < numbers.length; i++) {
-      if (numbers[i] < 0) {
-        return true; // Return true if a negative number is found
-      }
+        if (numbers[i] < 0) {
+            return true; // Return true if a negative number is found
+        }
     }
     return false; // Return false if no negative number is found
-  }
-  
+}
+
 
 export default PredictInput;

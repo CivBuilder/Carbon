@@ -13,17 +13,22 @@ const moment = require('moment');
           GET
 **********************/
 
-router.get('/', async function (req, res, next) {
-  console.log("test");
+router.get('/',  passport.authenticate('jwt', { session: false }), async function (req, res) {
   const date = new Date(); //get date
   day = date.getDate(); //grab the day and month
   month = date.getMonth() + 1;
   year = date.getFullYear();
   const todaysDate = new Date(year, month, day);
 
-  const userId = req.query.user_id;
-  console.log("finding for this ID" + userId);
-  const data = await UserEmissions.findAll(); //waits and then puts the data into content
+ const userId = req.user.id;
+  //const userId = 323; //for testing
+  //console.log("finding for this ID" + userId);
+  const data = await UserEmissions.findAll({
+    where: {
+      user_id: userId,
+    
+    }
+  });
   const content = data.filter(item => item.user_id == userId);
   // retArr = [[100, 200, 300, 400, 500], [500, 545, 100, 555, 100], [100, 200, 300, 400, 500], [800, 200, 750, 600, 500]]; //Temp array for data
   weekCount = 0;
@@ -144,10 +149,12 @@ router.get('/', async function (req, res, next) {
 });
 
 /* Finds all Entries where a user posted a submission*/
-router.get('/:id', async function (req, res, next) {
+router.get('/getAll',passport.authenticate('jwt', { session: false }), async function (req, res)  {
+  console.log("getting by id")
   const user_entry = await UserEmissions.findAll({
     where: {
-      user_id: req.params.id
+      user_id: req.user.id
+      //user_id: 323
     }
   });
   if (!user_entry || user_entry.length === 0) {
