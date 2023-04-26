@@ -55,8 +55,8 @@ const ForumCards = ({navigation}) => {
                         params: {id: 19}
                     });
                 }}>
-                    <Image style={{width: '100%', height: '100%', borderRadius: 16}} source={thumbnails.food3}/>
-                    <Text style={{position: 'absolute', color: 'white', fontWeight: 'bold', fontSize: 24, bottom: 20, left: 20}}>
+                    <Image style={{width: '100%', height: '100%', borderRadius: 16}} source={thumbnails.transport3}/>
+                    <Text style={{position: 'absolute', color: 'white', fontWeight: 'bold', fontSize: 24, bottom: 20, left: 20, right: 20}}>
                         <Text style={{
                             position: 'absolute',
                             fontSize: 22,
