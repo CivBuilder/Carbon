@@ -67,8 +67,10 @@ router.get('/leaderboard', async function (req, res, next) {
     }
 
     //get the leaderboard for this page.
+    const ordering = (worst === "true")? 'ASC' : 'DESC';
+
     const leaderboard = await user_table.findAll({
-        order: [[category, 'DESC'], ['id', 'ASC']],
+        order: [[category, ordering ], ['id', 'ASC']],
         offset: OFFSET,
         attributes: [
             'username',

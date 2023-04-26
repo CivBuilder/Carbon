@@ -1,9 +1,13 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList} from "react-native";
 import {Colors} from "../../../styling/Colors";
+import { StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
 const DEFAULT_USERNAME = "sellen7"; //This is for testing purposes to get better code coverage 
 const USERNAME = "anon1234" // This is to replaced by the actual username acquired from the session
 
-export default function ListPlayers ({table, onRefresh, onEndReached}) {
+export default function ListPlayers ({table, onRefresh, onEndReached, state}) {
+    
+    // useEffect()
     return(
         <FlatList 
             data={table}
@@ -11,9 +15,11 @@ export default function ListPlayers ({table, onRefresh, onEndReached}) {
             onRefresh = {onRefresh}
             refreshing={false}
             onEndReached={onEndReached}
+            onEndReachedThreshold={0.9}
             style = {{
             }}
             testID="flatlist"
+            extraData={state}
         ></FlatList>
         
     )
@@ -25,16 +31,16 @@ function renderListEntry({ item }) {
     let ClientEntry = false;  
     // if(item.username === USERNAME || item.username === DEFAULT_USERNAME) ClientEntry = true;
     return(
-      <View testID="list-entry" style = {[styles.ListEntryContainer, ClientEntry && {backgroundColor : "#FFD700"}]}>
+      <View testID="list-entry" style = {styles.ListEntryContainer }>
       <Text>
-          {item.rank} -  {item.username} - {item.global_score}
+          {item.global_rank} -  {item.username} - {item.home_score}
       </Text>
       </View>
     );
 };
 
 
-styles = {
+const styles = StyleSheet.create({
     UserListing : {
         backgroundColor : Colors.secondary.ALMOND,
         width : 'auto',
@@ -54,4 +60,4 @@ styles = {
         marginVertical : 8,
         height : 50,
     }
-}
+});

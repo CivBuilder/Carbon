@@ -4,8 +4,5 @@ export default class RankingList {
         this.indices = [null,null];
         this.personalRank = null; 
     }
-    updateIndices(initIndices, UpwardMovement){
-
-    }
     
 }
