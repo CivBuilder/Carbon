@@ -7,10 +7,6 @@ import { saveGoalToDatabase, getPreviousMonthEmissions } from '../../../util/Goa
 
 const margin = 10;
 const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
-async function getEmissionsFromDb() {
-  const emissions = await getPreviousMonthEmissions();
-  return emissions;
-}
 
 export default function GoalSetter({ navigation }) {
   const [goal, setGoal] = useState(0);
@@ -18,19 +14,13 @@ export default function GoalSetter({ navigation }) {
 
   useEffect(() => {
     async function fetchLastMonthEmissions() {
-      const emissions = await getEmissionsFromDb();
+      const lastMonthEmissions = await getPreviousMonthEmissions();
       const factor = goal / 100;
-      const newEmissions = emissions * factor;
+      const newEmissions = lastMonthEmissions * factor;
       setPreviousMonthEmissions(newEmissions.toFixed(1));
     }
     fetchLastMonthEmissions();
   }, [goal]);
-
-  useEffect(() => {
-    (async () => {
-      await fetchLastMonthEmissions();
-    })();
-  }, []);
 
   const handleValueChange = (value) => {
     const roundedValue = Math.round(value);
