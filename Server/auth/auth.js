@@ -25,18 +25,14 @@ passport.use(
     'signup',
     new localStrategy(
         {
-            usernameField: 'username',
-            emailField: 'email',
+            usernameField: 'email',
             passwordField: 'password'
         },
-        async (username, email, password, done) => {
-            console.log('username :>> ', username);
-            console.log('email :>> ', email);
-            console.log('password :>> ', password);
-            console.log('done :>> ', done);
+        async (email, password, done) => {
+            console.log(email, password, done);
             try {
                 const user = await User.create({
-                    username: username,
+                    username: email,
                     email: email,
                     password: password,
                     sustainability_score: 0,

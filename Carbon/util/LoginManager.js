@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { API_URL } from '../config/Api';
+import { changeUsername } from './UpdateAccountSettings';
 
 function renderCallback() {
     console.log("renderCallback not assigned in LoginManager.js, signin signout won't rerender.");
@@ -82,7 +83,6 @@ export async function signup(username, email, password, confirm) {
     }
 
     var details = {
-        'username': username,
         'email': email,
         'password': password
     };
@@ -95,9 +95,7 @@ export async function signup(username, email, password, confirm) {
     }
     formBody = formBody.join("&");
 
-    console.log('formBody :>> ', formBody);
-
-    var response = await fetch(API_URL + 'user/auth/signup',
+    await fetch(API_URL + 'user/auth/signup',
         {
             method: 'POST',
             headers: {
@@ -106,7 +104,8 @@ export async function signup(username, email, password, confirm) {
             body: formBody
         }
     );
-    console.log('response :>> ', response);
+
+    await changeUsername(username);
 }
 
 export async function logout() {

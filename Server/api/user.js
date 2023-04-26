@@ -301,7 +301,6 @@ router.post(
             message: 'Signup successful',
             user: req.user
         });
-        console.log('req.user :>> ', req.user);
     }
 );
 
