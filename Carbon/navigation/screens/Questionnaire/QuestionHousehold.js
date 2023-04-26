@@ -71,7 +71,7 @@ export default function HouseholdScreen({navigation,route}) {
             }}
             >
             <Button
-                title="Fossil Fuels (Coal, Natural Gas, etc..)"
+                title={`Fossil Fuels\n(Coal, Natural Gas, etc...)`}
                 onPress={()=>{
                     setButtonIndex(0)
                     setNextPage("q2a")
@@ -84,7 +84,7 @@ export default function HouseholdScreen({navigation,route}) {
             }}
             >
             <Button
-                title ="Renewable Energy (Solar, Wind, etc...)"
+                title ={`Renewable Energy \n(Solar, Wind, etc...)`}
                 onPress={()=>{
                     setButtonIndex(1)
                     setNextPage("q4")
