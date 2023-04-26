@@ -1,11 +1,9 @@
 import { View, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView, TouchableOpacity, Platform, Image } from 'react-native';
-import Swiper from 'react-native-swiper';
-import { Card } from 'react-native-elements';
 import { Colors } from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import { MonthlyFootprintLineChart } from '../../../components/MonthlyFootprintLineChart';
 import HomeScreenRanking from '../Ranking/HomeScreenRanking'
-import * as thumbnails from '../../../assets/Forum';
+import ForumCards from '../../../components/ForumCards';
 
 // =====================
 //     Home Screen
@@ -70,41 +68,7 @@ export default function HomeScreen({ navigation }) {
                             </View>
                         </View>
                         <View style={{ height: 400 }}>
-                            <Swiper
-                                horizontal={true}
-                                showsPagination={true}
-                                paginationStyle={{ bottom: 10 }}
-                                activeDotStyle={{ backgroundColor: Colors.primary.MINT }}
-
-                                // Autoplay: ON
-                                // autoplay={true}
-                                // autoplayTimeout={3}
-                                // loop={true}
-
-                                // Autoplay: OFF
-                                autplay={false}
-                                loop={false}
-                            >
-                                <View style={styles.card}>
-                                    <Image style={{width: '100%', height: '100%', borderRadius: 16}} source={thumbnails.waterThumbnail}/>
-                                </View>
-                                <View>
-                                    <Card containerStyle={styles.card}>
-                                        <Card.Title>Think you know renewable energy ?</Card.Title>
-                                        <Text style={{ marginBottom: 10, textAlign: 'center'}}>
-                                            Take a quiz and improve your rank!
-                                        </Text>
-                                    </Card>
-                                </View>
-                                <View>
-                                    <Card containerStyle={styles.card}>
-                                        <Card.Title>Card Title 3</Card.Title>
-                                        <Text style={{ marginBottom: 10 }}>
-                                            The idea with React Native Elements is more about component structure than actual design.
-                                        </Text>
-                                    </Card>
-                                </View>
-                            </Swiper>
+                            <ForumCards navigation={navigation}/>
                         </View>
                     </View>
                 </View>
@@ -146,12 +110,6 @@ const styles = StyleSheet.create({
     },
     cardContainer: {
         marginBottom: 10,
-    },
-    card: {
-        height: 300,
-        borderRadius: 16,
-        padding: 0,
-        margin: 10,
     },
     link: {
         color: Colors.primary.MINT,
