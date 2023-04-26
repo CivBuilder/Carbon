@@ -146,22 +146,7 @@ const styles = StyleSheet.create({
   picker: {
     marginBottom: 5,
   },
-  pickerLabel: {
-    fontWeight: 'bold',
-    color: Colors.primary.RAISIN_BLACK,
-    fontSize: 14,
-    alignSelf: 'center',
-    marginTop: 5,
-  },
-  pickerRow: {
-    display: 'flex',
-    borderWidth: 2,
-    backgroundColor: Colors.primary.MINT_CREAM,
-    borderColor: Colors.primary.MINT,
-    borderRadius: 8,
-    margin: 5,
-    width: '50%',
-  },
+  
   button: {
     backgroundColor: Colors.secondary.DARK_MINT,
     borderRadius: 8,
