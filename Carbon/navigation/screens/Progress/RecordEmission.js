@@ -33,7 +33,7 @@ export default function RecordEmissionScreen({navigation, route}) {
     try{
       //for conciseness, emissionsEntry total is just the sum of the others
       let e = emissionsEntry; 
-      emissionsEntry.total_emissions = e.diet_emissions + e.home_emissions + e.lifestyle_emissions + e.transport_emissions
+      emissionsEntry.total_emissions = e.diet_emissions + e.home_emissions + e.transport_emissions
 
       //Check if at least one emission was entered
       if(emissionsEntry.total_emissions === 0 ) throw new Error(`Please Upload at least one Emission Category`);
