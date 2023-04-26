@@ -296,7 +296,7 @@ router.put('/changePFP', passport.authenticate('jwt', { session: false }), async
 router.post(
     '/auth/signup',
     passport.authenticate('signup', { session: false }),
-    async (req, res, next) => {
+    async (req, res) => {
         res.json({
             message: 'Signup successful',
             user: req.user

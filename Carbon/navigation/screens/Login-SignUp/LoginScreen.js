@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, Image, KeyboardAvoidingView } from 'react-nativ
 import React from 'react'
 import EmailInput from '../../../components/EmailInput'
 import PasswordInput from '../../../components/PasswordInput'
-import ForgotPasswordNavButton from '../../../components/ForgotPasswordNavButton'
 import LoginButton from '../../../components/LoginButton'
 import SignUpNavButton from '../../../components/SignUpNavButton'
 import { useState } from 'react'
@@ -29,9 +28,6 @@ const LoginScreen = ({navigation}) => {
           <EmailInput testID="emailInput" onChangeText={un => setUsername(un)}/>
           <PasswordInput text="Password" testID="passwordInput" onChangeText={pw => setPassword(pw)} />
         </KeyboardAvoidingView>
-        <View style={styles.forgotPassWrapper}>
-          <ForgotPasswordNavButton />
-        </View>
       </View>
       <LoginButton onPress={() => {handleLogin()}}/>
       <View style={styles.signUpTextWrapper}>
