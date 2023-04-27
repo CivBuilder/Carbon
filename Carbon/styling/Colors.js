@@ -16,8 +16,11 @@ export const Colors = {
   },
   categories: {
     TRANSPORTATION: "#FF8C00",
-    LIFESTYLE: "#5B00BD",
-    HOME: "#EB4269",
+    HOME: "#5B00BD",
     DIET: "#00C3F3",
   },
+  miscellaneous: {
+    BACKGROUND: "#F2F2F2",
+    DISABLED: "#8E8E8E",
+  }
 };

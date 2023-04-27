@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+import CustomPicker from './CustomPicker';
 import {Colors} from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import calcBeef  from '../../../calculations/food_calculations/calcBeef'
@@ -77,7 +77,7 @@ const RecordFood = ({ navigation, route }) => {
   }, [totalConsumption])
 
   return (
-    <ScrollView >
+    <ScrollView contentContainerStyle={styles.scrollview}>
     <View style={styles.container}>
       <View style={styles.funfact}>
         <Text style={styles.header}>Did you know?</Text>
@@ -85,85 +85,47 @@ const RecordFood = ({ navigation, route }) => {
       </View>
       <Text style={styles.header}>Log your food intake for today</Text>
       <View style={styles.pickercontainer}>
-      <View style={styles.pickerRow}>
-        <Text style={styles.pickerLabel}>Red Meat</Text>
-        <Picker
+        <CustomPicker
+          label='Red Meat'
           selectedValue={beefConsumption}
-          onValueChange={(value) => setBeefConsumption(value)}
-          style={styles.picker}
+          onValueChange={setBeefConsumption}
+          items={weights}
           testID='red-meat-picker'
-        >
-          {weights.map((weight) => (
-            <Picker.Item
-              key={weight.value}
-              label={weight.label}
-              value={weight.value}
-            />
-          ))}
-        </Picker>
-      </View>
-      <View style={styles.pickerRow}>
-        <Text style={styles.pickerLabel}>Cheese</Text>
-        <Picker
+        />
+        <CustomPicker
+          label='Cheese'
           selectedValue={cheeseConsumption}
-          onValueChange={(value) => setCheeseConsumption(value)}
-          style={styles.picker}
+          onValueChange={setCheeseConsumption}
+          items={filteredWeights}
           testID='cheese-picker'
-        >
-         {filteredWeights.map((weight) => (
-            <Picker.Item
-              key={weight.value}
-              label={weight.label}
-              value={weight.value}
-              
-            />
-          ))}
-        </Picker>
-      </View>
-      <View style={styles.pickerRow}>
-        <Text style={styles.pickerLabel}>Pork</Text>
-        <Picker
+        />
+        <CustomPicker
+          label='Pork'
           selectedValue={porkConsumption}
-          onValueChange={(value) => setPorkConsumption(value)}
-          style={styles.picker}
+          onValueChange={setPorkConsumption}
+          items={weights}
           testID='pork-picker'
-        >
-          {weights.map((weight) => (
-            <Picker.Item
-              key={weight.value}
-              label={weight.label}
-              value={weight.value}
-            />
-          ))}
-        </Picker>
-      </View>
-      <View style={styles.pickerRow}>
-        <Text style={styles.pickerLabel}>Poultry</Text>
-        <Picker
+        />
+        <CustomPicker
+          label='Poultry'
           selectedValue={poultryConsumption}
-          onValueChange={(value) => setPoultryConsumption(value)}
-          style={styles.picker}
+          onValueChange={setPoultryConsumption}
+          items={weights}
           testID='poultry-picker'
-        >
-          {weights.map((weight) => (
-            <Picker.Item
-              key={weight.value}
-              label={weight.label}
-              value={weight.value}
-            />
-          ))}
-        </Picker>
+        /> 
+        <TouchableOpacity testID ='save-button' style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
+          <Text style={styles.buttonText}>Save & Return</Text>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
-        <Text style={styles.buttonText}>Save & Return</Text>
-      </TouchableOpacity>
-    </View>
     </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollview: {
+    flexGrow: 1,
+  },
   container: {
     flex: 1,
     alignItems: 'center',
@@ -179,27 +141,12 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
-
+    
   },
   picker: {
     marginBottom: 5,
   },
-  pickerLabel: {
-    fontWeight: 'bold',
-    color: Colors.primary.RAISIN_BLACK,
-    fontSize: 14,
-    alignSelf: 'center',
-    marginTop: 5,
-  },
-  pickerRow: {
-    display: 'flex',
-    borderWidth: 2,
-    backgroundColor: Colors.primary.MINT_CREAM,
-    borderColor: Colors.primary.MINT,
-    borderRadius: 8,
-    margin: 5,
-    width: '50%',
-  },
+  
   button: {
     backgroundColor: Colors.secondary.DARK_MINT,
     borderRadius: 8,
