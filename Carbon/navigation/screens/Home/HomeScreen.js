@@ -16,7 +16,7 @@ export default function HomeScreen({ navigation }) {
         style={{ flexGrow: 1 }}
       >
         {/******* CARBON FOOTPRINT SUMMARY *******/}
-        <Section height={300} title="This Month's Footprint" shortcutTitle="See More" shortcutURL={ScreenNames.PROGRESS}>
+        <Section title="This Month's Footprint" shortcutTitle="See More" shortcutURL={ScreenNames.PROGRESS}>
           <MonthlyFootprintLineChart navigation={navigation} />
         </Section>
         {/******* RANKINGS *******/}

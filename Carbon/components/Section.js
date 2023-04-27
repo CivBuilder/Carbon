@@ -3,8 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { SectionCSS as styling } from "../styling/SectionCSS";
 
 export const Section = (props) => {
-  const {children, height, cardView, title, shortcutURL, shortcutTitle} = props;
-  let bodyHeight = (!height || !Number.isInteger(height)) ? 50 : height;
+  const {children, cardView, title, shortcutURL, shortcutTitle} = props;
   let toggleCardView = (cardView === undefined) ? true : cardView;
 
   return (
@@ -14,7 +13,7 @@ export const Section = (props) => {
         {(shortcutURL && shortcutTitle) && <Shortcut screenName={shortcutURL} text={shortcutTitle}/>}
       </View>
       <View style={toggleCardView ? styling.container : null}>
-        <View style={[toggleCardView ? styling.body : null, {minHeight: bodyHeight}]}>
+        <View style={[toggleCardView ? styling.body : null]}>
           <View style={toggleCardView ? styling.content : null}>{children}</View>
         </View>
       </View>
