@@ -8,49 +8,20 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-    res.send('Sample Response - This should never appear outside of testing');
-});
-
-
-/*
-router.get('/:id', async function(req, res, next) {
-
-    const user_entry = await user_table.findOne({
-        where : {
-            id : req.params.id
+router.get('/', passport.authenticate('jwt', { session: false }), async function (req, res, next) {
+    console.log(req.user.email);
+    var val = await user_table.findOne({
+        where: {
+            email: req.user.email
         }
     });
-    if(!user_entry) {
-        console.log("Sending error code 404. No match found");
-        return res.status(404).send(`404 : user with ${req.params.id} not found`);
-    }
-    res.status(200).json(user_entry);
-});
-*/
 
-/* GET User Rank, also their sustainability score is included */
-// This is mainly to be used
-/*
-router.get('/rank/:id', async function(req, res, next) {
-    const rank = await user_table.findOne({
-        where : {
-            id : req.params.id
-        },
-        attributes : [
-            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.global_score > user.global_score) + 1'), 'ranking'],
-            'sustainability_score'
-        ]
-    });
-    if(!rank) {
-        console.log("Sending error code 404. No match found");
-        return res.status(404).send(`404 : user with ${req.params.id} not found`);
-    }
-    res.status(200).json(rank)
+
+    // Simplest way to return everything without returning the password hash
+    delete val.dataValues.password;
+
+    return res.status(200).json(val);
 })
-*/
-
-
 
 /* Get Leaderboard - 10 above and 10 below */
 router.get('/leaderboard', async function (req, res, next) {
@@ -339,12 +310,51 @@ router.put('/changePassword', passport.authenticate('jwt', { session: false }), 
     }
 });
 
+router.put('/changePFP', passport.authenticate('jwt', { session: false }), async function (req, res) {
+    console.log(req.user);
+    const user = await user_table.findOne({ where: { id: req.user.id } });
+    user.profile_selection = req.body.profile_selection;
+    await user.save();
+    return res.sendStatus(200);
+});
+
+router.get('/check-questionnaire/', passport.authenticate('jwt', { session: false }), async function(req, res) {
+    const user_entry = await user_table.findOne({
+        where: {
+            id: req.user.id
+        }
+    });
+    if (!user_entry) {
+        console.log("Sending error code 404. No match found");
+        return res.status(404).send(`404: user with ${req.params.id} not found`);
+    }
+    const finished_questionnaire = user_entry.finished_questionnaire;
+    const result = finished_questionnaire ? true : false;
+    res.status(200).json(result);
+});
+
+router.post('/finish-questionnaire/', passport.authenticate('jwt', { session: false }), async function(req, res) {
+    const user_entry = await user_table.findOne({
+        where: {
+            id: req.user.id
+        }
+    });
+    if (!user_entry) {
+        console.log("Sending error code 404. No match found");
+        return res.status(404).send(`404: user with ${req.params.id} not found`);
+    }
+    await user_entry.update({
+        finished_questionnaire: true
+    });
+    res.status(200).send('Questionnaire finished');
+});
+
 // AUTHENTICATION
 
 router.post(
     '/auth/signup',
     passport.authenticate('signup', { session: false }),
-    async (req, res, next) => {
+    async (req, res) => {
         res.json({
             message: 'Signup successful',
             user: req.user

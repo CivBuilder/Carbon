@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Switch} from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView} from 'react-native';
+import CustomPicker from './CustomPicker';
 import {Colors} from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import calcPaper  from '../../../calculations/recycling_calculations/calcPaper'
@@ -104,73 +104,49 @@ const RecordRecycling = ({ navigation, route }) => {
   }, [recycledAmount])
   
   return (
+    <ScrollView contentContainerStyle={styles.scrollview}>
     <View style={styles.container}>
       <View style={styles.funfact}>
         <Text style={styles.header}>Did you know?</Text>
         <Text style={styles.label}>{memoizedFunFact}</Text>
       </View>
       <Text style={styles.header}>Log the amount of each material you recycled today</Text>
-        <Text style={styles.pickerHeader} >Paper</Text>
-        <Picker
+      <View style={styles.pickercontainer}>
+        <CustomPicker
+          label="Paper"
           selectedValue={paperAmount}
-          onValueChange={(value) => setPaperAmount(value)}
-          style={styles.picker}
-        >
-          {weights.map((weight) => (
-            <Picker.Item
-              key={weight.value}
-              label={weight.label}
-              value={weight.value}
-            />
-          ))}
-        </Picker>
-        <Text style={styles.pickerHeader}>Plastic</Text>
-        <Picker
+          onValueChange={setPaperAmount}
+          items={weights}
+          testID='paper-picker'
+        />
+        <CustomPicker
+          label="Plastic"
           selectedValue={plasticAmount}
-          onValueChange={(value) => setPlasticAmount(value)}
-          style={styles.picker}
-        >
-          {weights.map((weight) => (
-            <Picker.Item
-              key={weight.value}
-              label={weight.label}
-              value={weight.value}
-            />
-          ))}
-        </Picker>
-        <Text style={styles.pickerHeader}>Glass</Text>
-        <Picker
+          onValueChange={setPlasticAmount}
+          items={weights}
+          testID='plastic-picker'
+        />
+        <CustomPicker
+          label="Glass"
           selectedValue={glassAmount}
-          onValueChange={(value) => setGlassAmount(value)}
-          style={styles.picker}
-        >
-          {weights.map((weight) => (
-            <Picker.Item
-              key={weight.value}
-              label={weight.label}
-              value={weight.value}
-            />
-          ))}
-        </Picker>
-        <Text style={styles.pickerHeader}>Metal</Text>
-        <Picker
+          onValueChange={setGlassAmount}
+          items={weights}
+          testID='glass-picker'
+        />
+        <CustomPicker
+          label="Metal"
           selectedValue={metalAmount}
-          onValueChange={(value) => setMetalAmount(value)}
-          style={styles.picker}
-        >
-          {weights.map((weight) => (
-            <Picker.Item
-              key={weight.value}
-              label={weight.label}
-              value={weight.value}
-            />
-          ))}
-        </Picker>
-      
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
+          onValueChange={setMetalAmount}
+          items={weights}
+          testID='metal-picker'
+        />
+       
+      <TouchableOpacity testID='save-button' style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
         <Text style={styles.buttonText}>Save & Return</Text>
-      </TouchableOpacity>      
+      </TouchableOpacity>   
     </View>
+    </View>
+    </ScrollView>
   );
 };
 
@@ -178,6 +154,9 @@ export default RecordRecycling;
 
 
 const styles = StyleSheet.create({
+    scrollview: {
+      flexGrow: 1,
+    },
     container: {
         flex: 1,
         alignItems: 'center',
@@ -188,22 +167,15 @@ const styles = StyleSheet.create({
         color: Colors.primary.RAISIN_BLACK,
         marginBottom: 10,
     },
-    picker: {
-      width: '50%',
-      marginBottom: 20,
-      color: Colors.primary.RAISIN_BLACK,
-    },
-    switchContainer: {
-      flexDirection: 'row',
+    pickercontainer: {
+      width: '100%',
+      padding: 10,
       alignItems: 'center',
-      marginBottom: 5,
-      padding: 5,
+      justifyContent: 'center',
     },
     button: {
-      backgroundColor: Colors.secondary.DARK_MINT,
+      backgroundColor: Colors.secondary.ALMOND,
       borderRadius: 8,
-      borderWidth: 2,
-      borderColor: Colors.primary.MINT_CREAM,
       paddingVertical: 12,
       paddingHorizontal: 12,
       margin: 4,
@@ -211,25 +183,21 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     buttonText: {
-      color: Colors.primary.MINT_CREAM,
+      color: Colors.primary.RAISIN_BLACK,
       fontWeight: 'bold',
       fontSize: 16,
     },
     funfact: {
       backgroundColor: Colors.primary.MINT_CREAM,
-    padding: 10,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginBottom: 20,
-    width: '100%',
+      padding: 10,
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      marginBottom: 20,
+      width: '100%',
     },
     header: {
       fontSize: 20,
       fontWeight: 'bold',
       marginBottom: 10,
-    },
-    pickerHeader: {
-      fontWeight: 'bold',
-      fontSize: 16,
     },
   });

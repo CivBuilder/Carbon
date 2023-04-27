@@ -1,17 +1,24 @@
-import { View, Text, TouchableOpacity, StyleSheet, Pressable } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import { DailyLog } from "../../../components/ChartData";
-import React, { useState, useEffect } from 'react';
+import { ScreenNames } from "../Main/ScreenNames";
+import React, { useState, useRef, useEffect } from 'react';
 import { Colors } from '../../../styling/Colors';
 import GetData from "../Home/GetData";
+import { Ionicons } from '@expo/vector-icons';
+import LoadingIndicator from "../../../components/LoadingIndicator";
+import { faWindowRestore } from "@fortawesome/free-regular-svg-icons";
 /*
     Log function, it can get todays, yesterdays, weekly or monthly data
     It's purpose is to display to the user their relevant data in an easy to see way and let them track their progress
     Currently nothing is passed in or returned except the component itself
 */
 
+const windowHeight = Dimensions.get("window").height;
 
 
-export default function Log() {
+export default function Log({ navigation }) {
+    const myRef = useRef();
+
     const whichLog = ["Today's", "Yesterday's", "Weekly", "Monthly"]; //String list for displaying
     const [number, setNumber] = useState(0);  //A state hook to set which area we are time frame we look at. 
     //0 = "Today", 1= "Yesterday's" etc etc.
@@ -31,12 +38,20 @@ export default function Log() {
             }
         }
         callGetData(); //Call the getdata through callGetData
-    }, []);
+    }, [myRef.current]);
     if (!data) {
+        //ESSENTIALLY if it isnt loaded we return null
         return (
-            <Text style={{ fontSize: 40 }}>LOADING......</Text> //ESSENTIALLY if it isnt loaded we return null
+            <View style={{ backgroundColor: "white", borderRadius: 16, height: windowHeight / 2, padding: 10 }} >
+                    <LoadingIndicator loading={true} ></LoadingIndicator>
+
+            </View>
         )
     }
+    const Refresh = () => {
+        myRef.current = Math.random()
+    }
+
     //function to handle the change to the right (aka today -> yesterday)
     const handleChangeRight = () => {
         if (number < 3) {
@@ -50,7 +65,9 @@ export default function Log() {
         if (number > 0) {
             setNumber(number - 1);
         }
-        changeArrayLeft();
+        else
+
+            changeArrayLeft();
     };
 
     //change array functions update the displayed data as according
@@ -66,62 +83,97 @@ export default function Log() {
     };
     //our rendering
     return (
-        <View>
+        <View style={{ backgroundColor: "white", borderRadius: 16, height: (windowHeight / 2) + windowHeight / 14, padding: 10 }}>
+
             <View style={styles.header}>
-
-                <Text style={styles.title}>{whichLog[number]} Log</Text>
+                <View>
+                <Text style={styles.title}>{whichLog[number]} Log </Text>
+                <Text> Units: lbs/CO2</Text>
+                </View>
                 {/* Will display the log as well as some text next to it*/}
-
-                <Text>Units: lb's CO2e</Text>
                 {/* Displays our units used */}
+                <TouchableOpacity
+                    testID="refresh-click"
+                    style={{
+                        backgroundColor: Colors.primary.MINT,
+                        borderRadius: 5,
+                        alignSelf: "center",
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        margin: margin,
+                        width: windowHeight / 20, // set the width to 50 pixels
+                        height: windowHeight / 20, // 
+                    }}
+                    onPress={Refresh}
+                >{/* Handle right*/}
+                    {/* more button formatting*/}
+                    <Ionicons name="refresh-outline" size={30} color="white"/>
+                </TouchableOpacity>
 
             </View>
-            {/*Align things */}
+            {/* <View style={styles.header}>
+                <Text style={{ alignSelf: 'center' }}>Units: lbs/CO2</Text>
+            </View> */}
+            {/*Align things */ }
 
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15,/*backgroundColor: Colors.primary.MINT*/ }}>
                 {/* Implements the log itself from ChartData.js */}
                 {data.every((num) => num === 0) ? (
-                    <Text style={{ fontSize: 32 }} >ERROR, not enough data for {whichLog[number]} log.
-                    Please click left or right.</Text>
-                ) :(
+                        <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: windowHeight / 10}}>
+                                <Text style={{ fontSize: 18 }}>Not enough data for {whichLog[number]} log.</Text>
+                                <TouchableOpacity testID="record-emission-button" onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION)}>
+                                    <View style={{ backgroundColor: Colors.primary.MINT, padding: 10, marginTop: 12, borderRadius: 12 }}>
+                                        <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 14 }}>Add Emissions</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                
+                   
+                ) : (
                     <DailyLog dataArray={data}></DailyLog>
                 )}
                 {/*Additional formatting for the button */}
-                <View style={{ justifyContent: 'center', flexDirection: 'row', }}>
-                    <TouchableOpacity
-                        style={{
-                            backgroundColor: Colors.primary.MINT,
-                            borderRadius: 5,
-                            flex: 1,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            margin: margin,
-                        }}
-                        testID = "left-click"
-
-                        onPress={handleChangeLeft}
-                    >{/* handle left*/}
-                        {/* More formatting*/}
-                        <Text style={{ color: 'white', fontSize: 26 }}>{' <-'}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                    testID="right-click"
-                        style={{
-                            backgroundColor: Colors.primary.MINT,
-                            borderRadius: 5,
-                            flex: 1,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            margin: margin,
-                        }}
-                        onPress={handleChangeRight}
-                    >{/* Handle right*/}
-                        {/* more button formatting*/}
-                        <Text style={{ justifyContent: 'center', color: 'white', fontSize: 26 }}>{' ->'}</Text>
-                    </TouchableOpacity>
-                </View>
             </View>
-        </View>
+
+            <View style={{ padding: 10, bottom: 0, position: 'absolute', justifyContent: 'center', flexDirection: 'row', alignSelf: "center" }}>
+                <TouchableOpacity
+                    style={{
+                        backgroundColor: Colors.primary.MINT,
+                        borderRadius: 5,
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        margin: margin,
+                    }}
+                    testID="left-click"
+
+                    onPress={handleChangeLeft}
+                >{/* handle left*/}
+                    {/* More formatting*/}
+                    {/* <Text style={{ color: 'white', fontSize: 26 }}>{' <-'}</Text> */}
+                    <Ionicons name="chevron-back" size={30} color='white'></Ionicons>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    testID="right-click"
+                    style={{
+                        backgroundColor: Colors.primary.MINT,
+                        borderRadius: 5,
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        margin: margin,
+                    }}
+                    onPress={handleChangeRight}
+                >{/* Handle right*/}
+                    {/* more button formatting*/}
+                    <Ionicons name="chevron-forward" size={30} color='white'></Ionicons>
+
+                </TouchableOpacity>
+                
+              
+
+            </View>
+        </View >
     )
 }
 
@@ -130,7 +182,8 @@ const margin = 10;
 const styles = StyleSheet.create({
     title: {
         fontSize: 16,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        alignSelf: 'center'
     },
     container: {
         margin: margin,

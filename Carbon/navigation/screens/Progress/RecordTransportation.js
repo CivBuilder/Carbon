@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { StyleSheet, Text, View, Switch, TouchableOpacity } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import CustomPicker from './CustomPicker';
 import {Colors} from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import { RadioButton } from 'react-native-paper';
@@ -12,7 +12,7 @@ import calcBike from '../../../calculations/travel_calculations/calcBike';
 const RecordTransportation = ({ navigation, route }) => {
   
   const [emissionsEntry, setEmissionsEntry] = useState({});
-  const [milesTraveled, setmilesTraveled] = useState(0);
+  const [milesTraveled, setMilesTraveled] = useState(0);
   const [selectedValue, setSelectedValue] = useState(null);
   const [funFact, setFunFact] = useState('');
   const funFacts = [
@@ -110,28 +110,20 @@ const RecordTransportation = ({ navigation, route }) => {
   }, [milesTraveled, selectedValue])
 
   return (
+    <ScrollView contentContainerStyle={styles.scrollview}>
     <View style={styles.container}>
       <View style={styles.funfact}>
         <Text style={styles.header}>Did you know?</Text>
         <Text style={styles.label} testID='fun-fact'>{memoizedFunFact}</Text>
       </View>
-
       <Text style={styles.header}>Log your travel for today</Text>
-      <Picker
+      <CustomPicker
+        label="How many miles did you travel today?"
         selectedValue={milesTraveled}
-        onValueChange={(value) => setmilesTraveled(value)}
-        style={styles.picker}
+        onValueChange={setMilesTraveled}
+        items={miles}
         testID='miles-traveled'
-      >
-        {miles.map((mile) => (
-            <Picker.Item
-              key={mile.value}
-              label={mile.label}
-              value={mile.value}
-              testID={`miles-${mile.value}`}
-            />
-          ))}
-      </Picker>
+      />
       <Text style={styles.header}>What was your mode of transportation?</Text>
       <RadioButton.Group onValueChange={value => setSelectedValue(value)} value={selectedValue}>
         <View style={styles.switchContainer}>
@@ -160,16 +152,20 @@ const RecordTransportation = ({ navigation, route }) => {
         </View>
       </RadioButton.Group>
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
+      <TouchableOpacity testID='save-button' style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
         <Text style={styles.buttonText}>Save & Return</Text>
       </TouchableOpacity>
     </View>
+    </ScrollView>
   );
 };
 
 export default RecordTransportation;
 
 const styles = StyleSheet.create({
+  scrollview: {
+    flexGrow: 1,
+  },
   container: {
     flex: 1,
     alignItems: 'center',
@@ -179,11 +175,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.primary.RAISIN_BLACK,
     marginBottom: 10,
-  },
-  picker: {
-    width: '50%',
-    marginBottom: 10,
-    color: Colors.primary.RAISIN_BLACK,
   },
   switchContainer: {
     flexDirection: 'row',
