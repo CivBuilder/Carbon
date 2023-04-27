@@ -31,8 +31,8 @@ const User = sequelize.define('user', {
     },
     goal : {
         type : DataTypes.DECIMAL(3,0).UNSIGNED,
-        allowNull : true,
-        defaultValue : null
+        allowNull : false,
+        defaultValue : 0
     },
     last_login : {
         type : DataTypes.DATE,
