@@ -14,6 +14,8 @@ import { getToken } from '../../../util/LoginManager';
 import Svg, { Defs, Rect }  from 'react-native-svg';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LoadingIndicator from '../../../components/LoadingIndicator';
+import { Platform } from "react-native";
+
 
 const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
 
