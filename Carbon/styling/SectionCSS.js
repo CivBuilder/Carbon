@@ -16,7 +16,7 @@ export const SectionCSS = StyleSheet.create({
   },
   title: {
     fontSize: 17,
-    fontWeight: '500'
+    fontWeight: '600',
   },
   shortcut: {
     color: Colors.primary.MINT,
