@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,Button,TextInput, TouchableOpacity, ImageBackground } from 'react-native';
+import {View, Text,Button,TextInput, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import {aveAnnualHomeEmissions} from '../../../calculations/home_calculations/aveHomeEmissions';
 import homeElec from '../../../calculations/home_calculations/homeElec'
@@ -56,7 +56,7 @@ export default function BillScreen({navigation,route}) {
     }
 
     return (
-        <>
+        <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
             <ImageBackground
                 source={require('../../../assets/questionnaire-background.png')}
                 style={ q_styles.background }
@@ -109,6 +109,6 @@ export default function BillScreen({navigation,route}) {
                     <Text style={q_styles.cta_text}>Next Question</Text>
                 </TouchableOpacity>
             </View>
-        </>
+        </ScrollView>
     )
 }

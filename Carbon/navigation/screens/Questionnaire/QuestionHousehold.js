@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,Switch,Button, TouchableOpacity, ImageBackground} from 'react-native';
+import {View, Text,Switch,Button, TouchableOpacity, ScrollView, ImageBackground} from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -48,7 +48,7 @@ export default function HouseholdScreen({navigation,route}) {
     });
 
     return (
-        <>
+        <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
             <ImageBackground
                 source={require('../../../assets/questionnaire-background.png')}
                 style={ q_styles.background }
@@ -118,6 +118,6 @@ export default function HouseholdScreen({navigation,route}) {
                     null
                 )}
             </View>
-        </>
+        </ScrollView>
     )
 }

@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,Button,TextInput, TouchableOpacity, ImageBackground } from 'react-native';
+import {View, Text,Button,TextInput, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -55,7 +55,7 @@ export default function AnimalDietScreen({navigation,route}) {
     }
 
     return (
-        <>
+        <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
             <ImageBackground
                 source={require('../../../assets/food-background-2.png')}
                 style={ q_styles.background }
@@ -131,6 +131,6 @@ export default function AnimalDietScreen({navigation,route}) {
                     <Text style={q_styles.cta_text}>Next Question</Text>
                 </TouchableOpacity>
             </View>
-        </>
+        </ScrollView>
     )
 }

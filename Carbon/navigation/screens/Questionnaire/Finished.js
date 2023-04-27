@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react';
-import {View, Text,Button,Image, Dimensions, TouchableOpacity} from 'react-native';
+import {View, Text,Button,Image, Dimensions, TouchableOpacity, ScrollView} from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { API_URL } from '../../../config/Api';
 import {SustainabilityScoreProfileView} from '../../../util/SustainabilityScoreProfileView';
@@ -123,7 +123,7 @@ export default function FinishedScreen({navigation, route}) {
     });
 
     return (
-        <View style={{ flex: 1, backgroundColor: 'rgba(216, 243, 220, 0.4)' }}>
+        <ScrollView showsHorizontalScrollIndicator={false} style={{ flex: 1, backgroundColor: 'rgba(216, 243, 220, 0.4)' }}>
             <View style={{ marginTop:"12%", alignItems: 'center', }}>
                 <Text style={{fontSize:20,}}>...and you're done!</Text>
             </View>
@@ -257,6 +257,6 @@ export default function FinishedScreen({navigation, route}) {
                     <Text style={{...q_styles.cta_text, fontWeight: '600'}}>Take me to the app!</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ScrollView>
     )
 }

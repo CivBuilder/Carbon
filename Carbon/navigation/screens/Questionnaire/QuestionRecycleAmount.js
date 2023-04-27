@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,Button,TextInput, TouchableOpacity, ImageBackground } from 'react-native';
+import {View, Text,Button,TextInput, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import {aveRecyclingPerWeek} from '../../../calculations/recycling_calculations/aveRecycling';
 import mapScore from '../../../calculations/questionnaireMapScore';
@@ -46,7 +46,7 @@ export default function RecycleAmountScreen({navigation,route}) {
     }
 
     return (
-        <>
+        <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
             <ImageBackground
                 source={require('../../../assets/questionnaire-background.png')}
                 style={ q_styles.background }
@@ -94,6 +94,6 @@ export default function RecycleAmountScreen({navigation,route}) {
                     </TouchableOpacity>
                 )}
             </View>
-        </>
+        </ScrollView>
     )
 }
