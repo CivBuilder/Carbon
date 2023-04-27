@@ -17,11 +17,11 @@ const CalculationScreen = () => {
       <Text style={styles.subheading}>Home</Text>
       <Text style={styles.bodyText}>The home value shows the estimated amount of CO2 emissions from your home electricity usage. This includes emissions from the production of electricity, as well as any emissions associated with heating or cooling your home.</Text>
       <Text style={styles.subheading}>Total Emissions</Text>
-      <Text style={styles.bodyText}>The total emissions value shows the total estimated amount of CO2 saved from your home, diet, and transportation emissions. </Text>
+      <Text style={styles.bodyText}>The total emissions value shows the total estimated amount of CO2 emissions saved from your home, diet, and transportation emissions. </Text>
       <Text style={styles.subheading}>Saved Emissions</Text>
-      <Text style={styles.bodyText}>The saved emissions value shows the estimated amount of CO2 saved from recycling. This includes emissions saved from recycling glass, metal, paper, and plastic </Text>
+      <Text style={styles.bodyText}>The saved emissions value shows the estimated amount of CO2 emissions saved from recycling. This includes emissions saved from recycling glass, metal, paper, and plastic </Text>
       <Text style={styles.subheading}>Net Emissions</Text>
-      <Text style={styles.bodyText}>The net emissions value shows your total estimated amount of CO2 minus your saved emissions.</Text>
+      <Text style={styles.bodyText}>The net emissions value shows your total estimated amount of CO2 emissions minus your saved emissions.</Text>
 
       <Text style={styles.generalText}>How we calculate them</Text>
       <Text style={styles.subheading}>Bike</Text>
