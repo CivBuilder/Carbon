@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@expo/ngrok": "^4.1.0",
+    "@expo/vector-icons": "^13.0.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",

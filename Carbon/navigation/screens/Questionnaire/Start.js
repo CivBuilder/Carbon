@@ -138,9 +138,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontFamily: 'sans-serif',
+    fontWeight: '500',
     textAlign: 'center',
     color: 'white',
-    fontSize: 18,
+    fontSize: 20,
   },
 })
 
