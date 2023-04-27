@@ -6,15 +6,17 @@ export const Section = (props) => {
   const {children, title, shortcutURL, shortcutTitle} = props;
 
   return (
-    <View style={styling.container}>
+    <>
       <View style={styling.header}>
         <Text style={styling.title}>{title}</Text>
         {(shortcutURL && shortcutTitle) && <Shortcut screenName={shortcutURL} text={shortcutTitle}/>}
       </View>
-      <View style={styling.body}>
-        <View style={styling.content}>{children}</View>
+      <View style={styling.container}>
+        <View style={styling.body}>
+          <View style={styling.content}>{children}</View>
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 

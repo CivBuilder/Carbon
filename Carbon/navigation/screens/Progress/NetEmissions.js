@@ -19,8 +19,17 @@ const NetEmissions = () => {
 
   return (
     <View>
-      <Text>{`By recycling, you saved ${lifestyleEmissions} pounds of C02 from the atmosphere in the last month.`}</Text>
-      <Text>{`Your net emissions for this month is ${lastMonthEmissions - lifestyleEmissions} pounds of C02`}</Text>
+      <View style={{marginBottom: 12}}>
+        <Text style={{fontSize: 16, fontWeight: '400', textAlign:'center'}}>
+          By recycling, you saved <Text style={{fontSize: 20, fontWeight: '500'}}>{`${lifestyleEmissions}`}</Text> lbs of {`CO\u2082`}
+        </Text>
+        <Text style={{fontSize: 16, fontWeight: '400', textAlign:'center'}}> from the atmosphere last month.</Text>
+      </View>
+      <View>
+        <Text style={{fontSize: 16, fontWeight: '400', textAlign:'center'}}>
+          Your net emissions is <Text style={{fontSize: 20, fontWeight: '500'}}>{`${lastMonthEmissions - lifestyleEmissions}`}</Text> lbs of {`CO\u2082`} this month.
+        </Text>
+      </View>
     </View>
   )
 }

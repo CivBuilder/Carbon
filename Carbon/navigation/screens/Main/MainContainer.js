@@ -53,7 +53,7 @@ const QuestionnaireStack = (props) => {
     <Stack.Navigator
     initialRouteName="GetStarted"
     >
-        <Stack.Screen name = "GetStarted" component={StartScreen}/>
+        <Stack.Screen name = "GetStarted" component={StartScreen} options={{ headerShown: false }} />
         <Stack.Screen name="q1" component={DietScreen} />
         <Stack.Screen name="q1a" component={AnimalDietScreen}/>
         <Stack.Screen name="q2" component={HouseholdScreen} />
@@ -65,6 +65,7 @@ const QuestionnaireStack = (props) => {
         <Stack.Screen name="q5" component={RecycleScreen}/>
         <Stack.Screen name="q5a" component={RecycleAmountScreen}/>
         <Stack.Screen name="finished" component={FinishedScreen}
+            options={{ headerShown: false }}
             initialParams={{
                 setFinishedQuestionnaire: props.setFinishedQuestionnaire
             }}
