@@ -25,10 +25,10 @@ import FinishedScreen from '../Questionnaire/Finished';
 import RecycleScreen from '../Questionnaire/QuestionRecycling';
 import RecycleAmountScreen from '../Questionnaire/QuestionRecycleAmount';
 import AnimalDietScreen from '../Questionnaire/QuestionAnimalDiet';
-
 import { getAuthHeader, getToken, setRenderCallback } from '../../../util/LoginManager';
 import { PopUpMenu } from '../../../components/PopUpMenu';
 import RankCategoryOverlay from '../Ranking/RankCategoryOverlay';
+import CalculationScreen from '../Settings/CalculationScreen';
 
 
 const Stack = createStackNavigator();
@@ -111,6 +111,7 @@ const HomeStack = ({ navigation }) => {
             />
             <Stack.Screen name={ScreenNames.SETTINGS} component={SettingsScreen} />
             <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={RecordEmissionScreen} />
+            <Stack.Screen name={ScreenNames.CALCULATION_DETAILS} component={CalculationScreen} />
         </Stack.Navigator>
     );
 };
