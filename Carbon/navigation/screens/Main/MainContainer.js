@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { StatusBar, Image, TouchableOpacity, SafeAreaView, Text} from 'react-native';
+import { StatusBar, Image, TouchableOpacity, SafeAreaView, Text, ActivityIndicator} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -29,6 +29,7 @@ import { getAuthHeader, getToken, setRenderCallback } from '../../../util/LoginM
 import { PopUpMenu } from '../../../components/PopUpMenu';
 import RankCategoryOverlay from '../Ranking/RankCategoryOverlay';
 import CalculationScreen from '../Settings/CalculationScreen';
+import LoadingIndicator from '../../../components/LoadingIndicator';
 
 
 const Stack = createStackNavigator();
@@ -235,6 +236,7 @@ const LoginStack = (props,{navigation}) => {
 export default function MainContainer({navigation}){
     const [isSignedIn, setIsSignedIn] = useState(false);
     const [finishedQuestionnaire, setFinishedQuestionnaire] = useState(false);
+    const [isCheckingQuestionnaire, setIsCheckingQuestionnaire] = useState(true);
 
     // In order to rerender the maincontainer on signin, we gotta callback and update the state
     setRenderCallback(setIsSignedIn);
@@ -256,6 +258,9 @@ export default function MainContainer({navigation}){
                 const data = await response.json();
                 console.log("checkQuestionnaire (data): " + JSON.stringify(data));
                 setFinishedQuestionnaire(data);
+                console.log(isCheckingQuestionnaire);
+                setIsCheckingQuestionnaire(false);
+                console.log(isCheckingQuestionnaire);
             } catch (error) {
                 console.error('Error while checking questionnaire:', error);
             }
@@ -270,45 +275,63 @@ export default function MainContainer({navigation}){
             <StatusBar barStyle={'dark-content'} backgroundColor="transparent" translucent={true}/>
             <NavigationContainer>
             {isSignedIn ? (
-                finishedQuestionnaire ? (
-                    <>
-                        <Tab.Navigator //Sets the default screen for the bottom nav bar (in this case, Home Screen)
-                        initialRouteName={ScreenNames.HOME}
-                        screenOptions={{
-                            headerShown: false, // Hides the default header
-                            tabBarLabelStyle: { display: 'none' }, // Hides label text
-                            tabBarActiveTintColor: Colors.primary.MINT,
-                            tabBarHideOnKeyboard: true,
-                        }}
-                        >
-                            <Tab.Screen
-                                name={ScreenNames.HOME}
-                                component={HomeStack}
-                                options={{
-                                    tabBarIcon: ({ color, size }) => (
-                                        <Ionicons name={IconNames.HOME} size={size} color={color} />
-                                    ),
-                                }}
-                            />
-                            <Tab.Screen
-                                name={ScreenNames.PROGRESS}
-                                component={ProgressStack}
-                                options={screenOptions}
-                            />
-                            <Tab.Screen
-                                name={ScreenNames.FORUM}
-                                component={ForumStack}
-                                options={screenOptions}
-                            />
-                            <Tab.Screen
-                                name={ScreenNames.RANKING}
-                                component={RankingStack}
-                                options={screenOptions}
-                            />
-                        </Tab.Navigator>
-                    </>
+                !isCheckingQuestionnaire ? (
+                    finishedQuestionnaire ? (
+                        <>
+                            <Tab.Navigator //Sets the default screen for the bottom nav bar (in this case, Home Screen)
+                            initialRouteName={ScreenNames.HOME}
+                            screenOptions={{
+                                headerShown: false, // Hides the default header
+                                tabBarLabelStyle: { display: 'none' }, // Hides label text
+                                tabBarActiveTintColor: Colors.primary.MINT,
+                                tabBarHideOnKeyboard: true,
+                            }}
+                            >
+                                <Tab.Screen
+                                    name={ScreenNames.HOME}
+                                    component={HomeStack}
+                                    options={{
+                                        tabBarIcon: ({ color, size }) => (
+                                            <Ionicons name={IconNames.HOME} size={size} color={color} />
+                                        ),
+                                    }}
+                                />
+                                <Tab.Screen
+                                    name={ScreenNames.PROGRESS}
+                                    component={ProgressStack}
+                                    options={screenOptions}
+                                />
+                                <Tab.Screen
+                                    name={ScreenNames.FORUM}
+                                    component={ForumStack}
+                                    options={screenOptions}
+                                />
+                                <Tab.Screen
+                                    name={ScreenNames.RANKING}
+                                    component={RankingStack}
+                                    options={screenOptions}
+                                />
+                            </Tab.Navigator>
+                        </>
+                    ) : (
+                        <QuestionnaireStack setFinishedQuestionnaire={setFinishedQuestionnaire}/>
+                    )
                 ) : (
-                    <QuestionnaireStack setFinishedQuestionnaire={setFinishedQuestionnaire}/>
+                    <ActivityIndicator
+                        size="large"
+                        color={Colors.primary.RAISIN_BLACK}
+                        style={{
+                            position: 'absolute',
+                            zIndex: 999,
+                            left: 0,
+                            top: 0,
+                            width: '100%',
+                            height: '100%',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                        testID="loading-indicator"
+                    />
                 )
             ) : (
                 <LoginStack/>

@@ -9,6 +9,7 @@ const CarbonLogo = ({ onLogoAnimationFinish }) => {
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 1500,
+      delay: 1000,
       useNativeDriver: true,
     }).start(() => {
       // Call the onLogoAnimationFinish callback when the logo animation is finished
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontFamily: 'sans-serif',
-    fontWeight: '500',
+    fontWeight: '600',
     textAlign: 'center',
     color: 'white',
     fontSize: 20,
