@@ -24,24 +24,29 @@ router.get('/', passport.authenticate('jwt', { session: false }), async function
 })
 
 /* Get Leaderboard - 10 above and 10 below */
-router.get('/leaderboard/:page', async function (req, res, next) {
+router.get('/leaderboard', async function (req, res, next) {
     //get 50 users based on the page of entries we're retrieving from the DB
+    const {page, category, worst} = req.query;
+    console.log(page, category, worst);
     const PAGE_SIZE = 15;
-    const OFFSET = req.params.page * PAGE_SIZE;
+    const OFFSET = page * PAGE_SIZE;
 
+    
     //Error checking if the page is out of bounds
-    if (req.params.page < 0 || req.params.page > 100_000) {
+    if (page < 0 || page > 100_000) {
         return res.status(400).send("Bad Request : Page out of bounds");
     }
 
     //get the leaderboard for this page.
+    const ordering = (worst === "true")? 'ASC' : 'DESC';
+
     const leaderboard = await user_table.findAll({
-        order: [['global_score', 'DESC'], ['id', 'ASC']],
+        order: [[category, ordering ], ['id', 'ASC']],
         offset: OFFSET,
         attributes: [
             'username',
-            'global_score',
-            'sustainability_score'
+            category,
+            'avatar_index'
         ],
         limit: PAGE_SIZE
     });
@@ -49,15 +54,9 @@ router.get('/leaderboard/:page', async function (req, res, next) {
     //Nothing in this page, return 'No Content'
     if (leaderboard.length == 0) return res.status(204).json([])
 
-    let prevScore = null;
-    let prevRank = null;
+
     leaderboard.forEach((user, i, leaderboard) => {
-        if (user.global_score !== prevScore) {
-            user.dataValues.rank = OFFSET + i + 1;
-            prevRank = user.rank;
-        }
-        else user.dataValues.rank = prevRank;
-        prevScore = user.global_score;
+        user.dataValues.rank =  OFFSET + i + 1;
     });
     res.status(200).json(leaderboard);
 })
@@ -174,39 +173,68 @@ router.get('/rank', passport.authenticate('jwt', { session: false }), async func
 
         },
         attributes: [
-            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.global_score > user.global_score) + 1'), 'ranking'],
+            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.global_score > user.global_score) + 1'), 'global_ranking'],
+            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.transport_score > user.transport_score) + 1'), 'transport_ranking'],
+            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.lifestyle_score > user.lifestyle_score) + 1'), 'lifestyle_ranking'],
+            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.diet_score > user.diet_score) + 1'), 'diet_ranking'],
+            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.home_score > user.home_score) + 1'), 'home_ranking'],
             'sustainability_score',
             'avatar_index',
             'global_score',
+            "transport_score", 
+            "lifestyle_score", 
+            "diet_score",  
+            "home_score",
+            "username"
         ],
         
     });
 
     if(!userScores) {
-
         console.log("Sending error code 404. No match found");
         return res.status(404).send(`404 : user with ${req.params.id} not found`);
     }
     
+    const scoreCategories = ['global_score',"transport_score", "lifestyle_score", "diet_score", "home_score",]
+    for(var str of scoreCategories){
+        await getNextRankScores(str, userScores)
+    }
+    // console.log(userScores.dataValues)
+    res.status(200).json(userScores)
+})
+
+/**
+ * getNextRankScores - Ranking Function for all user scores categories, used in conjunction with
+ * @function router.get('/rank')
+ * @param {String} categoryName - Name of category to fetch from the DB 
+ * @param {Object} userScores - Name of the returning package to send back to user
+ */
+async function getNextRankScores(categoryName, userScores){
     //Get the score of the score of the user who is one rank above you
-    users = await user_table.findAll({
+    const users = await user_table.findAll({
         where : {
-            global_score : { 
-                [Op.gt] : userScores.dataValues.global_score,
+            [categoryName] : { 
+                [Op.gt] : userScores.dataValues[categoryName],
             }
         },
-        order : [['global_score', 'ASC']]
+        order : [[categoryName, 'ASC']]
     })
 
     if(users.length == 0) {
-        userScores.dataValues.nextRankScore = userScores.dataValues.global_score;
+        userScores.dataValues["next_rank_"+categoryName] = userScores.dataValues[categoryName];
     }
     else {
-        userScores.dataValues.nextRankScore = users[0].dataValues.global_score;
+        userScores.dataValues["next_rank_"+categoryName] = users[0].dataValues[categoryName];
     }
+    return userScores
+}
 
-    res.status(200).json(userScores)
-})
+
+
+
+
+
+
 
 // UPDATE USER SETTINGS
 router.put('/changeUsername', passport.authenticate('jwt', { session: false }), async function (req, res) {
