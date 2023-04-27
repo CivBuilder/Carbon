@@ -16,4 +16,5 @@ export const ScreenNames = {
     TRANSPORTATION: 'Transportation',
     QUESTIONNAIRE: "Questionnaire",
     PREDICT: "Predict Emissions",
+    CALCULATION_DETAILS: "Calculation Details",
 };

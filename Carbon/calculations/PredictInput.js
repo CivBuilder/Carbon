@@ -6,18 +6,19 @@ import MLR from "ml-regression-multivariate-linear";
 
 const PredictInput = async () => {
     try {
-        const user_id = 323; //needs to be not hard coded
+     //needs to be not hard coded
         //const url = "http://{YOURLOCALIPHERE}:3000/api/userEmissions?user_id="+ user_id; //for local hosting and testing 
 
         //console.log("fetching data to predict from " + url); //log to see if if it works
 
 
         let count = 0;
-        console.log("predicting")
+    //    console.log("predicting")
         data = [0,0,0,0,0]
 
         try {
-            const response = await fetch(`${API_URL}userEmissions/id`, {
+            const response = await fetch(`${API_URL}userEmissions/getAll`, {
+            //constresponse = await fetch('LOCALIPHERE/userEmissions/id', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -99,12 +100,11 @@ const PredictInput = async () => {
         predictedDiet = parseInt(result2.predict([x1Today, x2Today]))
         predictedLifestyle = parseInt(result3.predict([x1Today, x2Today]))
         predictedHome = parseInt(result4.predict([x1Today, x2Today]))
-        predictedTotal = predictedTransport + predictedDiet + predictedLifestyle + predictedHome
-
+        predictedTotal = predictedTransport + predictedDiet + predictedHome
         const retData = [predictedTransport, predictedDiet, predictedLifestyle, predictedHome, predictedTotal]
 
 
-        if (hasNegative(retData)) {
+        if (hasNegative(retData) || count < 5) {
             return [0, 0, 0, 0, 0];
         }
 

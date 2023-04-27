@@ -20,6 +20,7 @@ const finishedQuestionnaire = async () => {
         }
     };
 
+
     try {
         const response = await fetch(API_URL + 'user/finish-questionnaire/', requestOptions);
         // console.log(JSON.stringify(response));
@@ -43,6 +44,38 @@ export default function FinishedScreen({navigation, route}) {
     const foodScore = route.params?.foodScore;
     const homeScore = route.params?.homeScore;
     const awarenessScore = (transportScore+foodScore+homeScore)/3;
+
+    const questionanaireBody = {
+        'transport_score': transportScore,
+        'lifestyle_score': 50,
+        'food_score': foodScore,
+        'home_score': foodScore,
+        'awareness_score': awarenessScore,
+    }
+
+    const updateSustainability = async () => {
+        try {
+            console.log("Updating sustainability score");
+            const response = await fetch(API_URL + 'user/questionnaire', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'secrettoken': await getToken()
+                },
+                body: JSON.stringify(questionanaireBody)
+            });
+
+            if (response.status === 200) {
+                console.log("Updated sustainability score");
+            } else {
+                console.log("Failed to update sustainability score");
+                console.log(await response.text());
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        
+    }
 
     const scoreCategory = SustainabilityScoreProfileView[mapScoreCategory(awarenessScore)].title;
     const scorePicture = SustainabilityScoreProfileView[mapScoreCategory(awarenessScore)].picture;
@@ -72,6 +105,21 @@ export default function FinishedScreen({navigation, route}) {
 
     useEffect(()=>{
         calculateRanks();
+        updateSustainability();
+
+        navigation.setOptions({
+        header: ()=>(
+        <View style={{
+        position: "absolute",
+        top:0,
+        height:30,
+        borderRadius: 6,
+        width:"100%",
+        backgroundColor: Colors.secondary.CELADON,
+        }}>
+        </View>
+        ),
+        })
     });
 
     return (
