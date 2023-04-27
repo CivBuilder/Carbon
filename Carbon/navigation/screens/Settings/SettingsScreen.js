@@ -14,7 +14,8 @@ import { getToken } from '../../../util/LoginManager';
 import Svg, { Defs, Rect }  from 'react-native-svg';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LoadingIndicator from '../../../components/LoadingIndicator';
-
+import CalculationsButton from '../../../components/CalculationsButton';
+import { ScreenNames } from '../Main/ScreenNames';
 const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
 
 const USER_API = API_URL + 'user/';
@@ -145,7 +146,11 @@ const SettingsScreen = ({ navigation }) => {
                     <PasswordInput text="New Password" testID="NewPassword" onChangeText={pw => setNewPassword(pw)} />
                 </View>
                 <ChangePasswordButton onPress={async () => await handlePasswordChange()} />
-
+                {/* Calculation details */}
+                <View style={styles.content}>
+                    <Text style={styles.generalText}>See how we do our calculations</Text>
+                </View>
+                <CalculationsButton onPress={() => navigation.navigate(ScreenNames.CALCULATION_DETAILS)} />
                 {/* Logout */}
                 <View style={styles.content}>
                     <Button title='logout' onPress={() => { logout() }} />
