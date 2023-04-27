@@ -1,19 +1,25 @@
 import * as React from 'react';
-import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text, Platform } from 'react-native';
+import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text, Platform, RefreshControl } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { CategoryBreakdown } from './CategoryBreakdown';
 import RecordEmission from './RecordEmission';
 import Log from '../Progress/Log';
+import NetEmissions from './NetEmissions';
 import { Section } from '../../../components/Section';
+import { useRef, useEffect } from 'react';
+
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const margin = 10;
 
 export default function ProgressScreen({ navigation }) {
+ 
   return (
     <SafeAreaView>
       <ScrollView
+        contentContainerStyle={styles.scrollView}
+   
         showsHorizontalScrollIndicator={false}
         style={{ flexGrow: 1 }}
       >
@@ -25,9 +31,14 @@ export default function ProgressScreen({ navigation }) {
           <CategoryBreakdown navigation={navigation} />
         </Section>
         {/* Log -- Will update styling and other things for this component soon :) */}
+
         <View style={styles.container}>
-            <Log></Log>
+          <Log navigation={navigation}></Log>
         </View>
+
+        <Section title="Net Emissions">
+          <NetEmissions />
+        </Section>
       </ScrollView>
     </SafeAreaView>
   )

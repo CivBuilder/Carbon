@@ -50,7 +50,7 @@ export default function RecycleAmountScreen({navigation,route}) {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    width: "100%"
+    backgroundColor: Colors.secondary.LIGHT_GREEN,
     }}
     >
         <Text style={{
@@ -60,7 +60,7 @@ export default function RecycleAmountScreen({navigation,route}) {
             paddingLeft:"6%",
             paddingRight:"6%",
         }}>
-        (Optional) Approximately How many pounds of material do you recycle per week? Respond in pounds
+        (Optional) Approximately how many pounds of material do you recycle per week?
         </Text>
         <View>
         <Text style={{

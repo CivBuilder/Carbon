@@ -1,19 +1,50 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useToggle } from "../../../hooks/useToggle";
 import { CategoryCSS as styling } from "../../../styling/CategoryCSS";
 import { Colors } from "../../../styling/Colors";
 import { Ionicons } from '@expo/vector-icons';
 import RecentEmissions from "./RecentEmissions";
+import { getRecentEmissions } from "../../../util/EmissionRecords";
 
 const CategoryContext = createContext();
-const {Provider} = CategoryContext;
+const { Provider } = CategoryContext;
 const colorScale = Object.values(Colors.categories);
 
 const Category = (props) => {
-  const {id, title, emission, percentage} = props;
-  const {status: expand, toggleStatus: toggleExpand} = useToggle();
-  const value = {expand, toggleExpand};
+  const { id, title, emission, percentage } = props;
+  const [data, setData] = useState([]);
+  const { status: expand, toggleStatus: toggleExpand } = useToggle();
+  const value = { expand, toggleExpand };
+
+  function organizeRecords(records) {
+    const categories = ["Transport", "Home", "Diet"];
+    let recordSet = [];
+    for (var entry of records) {
+      var record = {};
+      for (var category of categories)
+        record[category] = entry[`${category.toLowerCase()}_emissions`];
+      var date = entry.date;
+      var year = date.substring(0, 4);
+      var month = date.substring(5, 7);
+      var day = date.substring(8);
+      var formattedDate = `${month}/${day}/${year}`;
+      record["date"] = formattedDate;
+      recordSet.push(record);
+    };
+
+    return recordSet;
+  }
+
+  useEffect(() => {
+    async function fetchRecords() {
+      const fetchedData = await getRecentEmissions();
+      setData(fetchedData);
+    }
+    fetchRecords();
+  }, []);
+
+  const records = organizeRecords(data);
 
   return (
     <Provider value={value}>
@@ -24,6 +55,7 @@ const Category = (props) => {
         percentage={percentage}
       />
       <CategoryContent
+        records={records}
         category={title}
       />
     </Provider>
@@ -62,14 +94,14 @@ const CategoryHeader = (props) => {
   );
 };
 
-const CategoryContent = ({category}) => {
-  const {expand} = useContext(CategoryContext);
+const CategoryContent = ({records, category}) => {
+  const { expand } = useContext(CategoryContext);
 
-  return <>{expand && <RecentEmissions category={category}/>}</>;
+  return <>{expand && <RecentEmissions records={records} category={category} />}</>;
 };
 
-const ExpandIcon = ({iconActive, iconInactive}) => {
-  const {expand} = useContext(CategoryContext);
+const ExpandIcon = ({ iconActive, iconInactive }) => {
+  const { expand } = useContext(CategoryContext);
   return <>{expand ? iconActive : iconInactive}</>;
 };
 

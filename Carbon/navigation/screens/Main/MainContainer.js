@@ -1,16 +1,18 @@
 import React, { useState, useEffect} from 'react';
-import { StatusBar, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StatusBar, Image, TouchableOpacity, SafeAreaView, Text} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+import { StackActions } from '@react-navigation/native';
 
 import { Colors } from '../../../styling/Colors';
 import { IconNames } from './IconNames';
+import { API_URL } from '../../../config/Api';
 
 import { ScreenNames } from './ScreenNames';
 
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen, FoodScreen, TransportationScreen, RecyclingScreen, RecordEmissionScreen} from '../../screens';
+import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen, FoodScreen, TransportationScreen, RecyclingScreen, RecordEmissionScreen, PredictScreen} from '../../screens';
 import StartScreen from '../Questionnaire/Start';
 import DietScreen from '../Questionnaire/QuestionDiet';
 import HouseholdScreen from '../Questionnaire/QuestionHousehold';
@@ -24,8 +26,10 @@ import RecycleScreen from '../Questionnaire/QuestionRecycling';
 import RecycleAmountScreen from '../Questionnaire/QuestionRecycleAmount';
 import AnimalDietScreen from '../Questionnaire/QuestionAnimalDiet';
 
-import { getToken, setRenderCallback } from '../../../util/LoginManager';
+import { getAuthHeader, getToken, setRenderCallback } from '../../../util/LoginManager';
 import { PopUpMenu } from '../../../components/PopUpMenu';
+import RankCategoryOverlay from '../Ranking/RankCategoryOverlay';
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -44,7 +48,7 @@ const Tab = createBottomTabNavigator();
     Just add the function name on the import on top.
 */
 
-const QuestionnaireStack = ({route,navigation}) =>{
+const QuestionnaireStack = (props) => {
     return(
     <Stack.Navigator
     initialRouteName="GetStarted"
@@ -61,9 +65,9 @@ const QuestionnaireStack = ({route,navigation}) =>{
         <Stack.Screen name="q5" component={RecycleScreen}/>
         <Stack.Screen name="q5a" component={RecycleAmountScreen}/>
         <Stack.Screen name="finished" component={FinishedScreen}
-        initialParams={{
-        confirmQuestionnaire: route.params?.setIsSignedIn,
-        }}
+            initialParams={{
+                setFinishedQuestionnaire: props.setFinishedQuestionnaire
+            }}
         />
     </Stack.Navigator>
     )
@@ -129,8 +133,10 @@ const ProgressStack = ({ navigation }) => {
                     ),
                 }}
             />
+            <Stack.Screen name={ScreenNames.PREDICT} component={PredictScreen} />
             <Stack.Screen name={ScreenNames.ADD_GOAL} component={GoalScreen} />
             <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={RecordEmissionScreen} />
+
             <Stack.Screen name={ScreenNames.FOOD} component={FoodScreen} />
             <Stack.Screen name={ScreenNames.TRANSPORTATION} component={TransportationScreen} />
             <Stack.Screen name={ScreenNames.RECYCLING} component={RecyclingScreen} />
@@ -173,10 +179,14 @@ const RankingStack = ({ navigation }) => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name={' '}
+                name={'Rankings '}
                 component={RankingScreen}
                 options={{
-                    headerShown: false, // Set to false for now until we need to implement headers for this screen
+                    headerShown: false,
+                    // headerStyle: {
+                    //     height: Platform.OS === 'ios' ? 48 : 72,
+                    // },
+                    headerTitleAlign: 'center',
                 }}
             />
         </Stack.Navigator>
@@ -220,8 +230,10 @@ const LoginStack = (props,{navigation}) => {
     );
 };
 
-export default function MainContainer(){
+export default function MainContainer({navigation}){
     const [isSignedIn, setIsSignedIn] = useState(false);
+    const [finishedQuestionnaire, setFinishedQuestionnaire] = useState(false);
+
     // In order to rerender the maincontainer on signin, we gotta callback and update the state
     setRenderCallback(setIsSignedIn);
 
@@ -233,11 +245,30 @@ export default function MainContainer(){
         checkSignin();
     }, []);
 
+    useEffect(() => {
+        async function checkQuestionnaire() {
+            try {
+                const url = API_URL + 'user/check-questionnaire/';
+                const response = await fetch(url, await getAuthHeader());
+                // console.log("checkQuestionnaire (response): " + JSON.stringify(response));
+                const data = await response.json();
+                console.log("checkQuestionnaire (data): " + JSON.stringify(data));
+                setFinishedQuestionnaire(data);
+            } catch (error) {
+                console.error('Error while checking questionnaire:', error);
+            }
+        }
+        if (isSignedIn) {
+            checkQuestionnaire();
+        }
+    }, [isSignedIn]);
+
     return(
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar barStyle={'dark-content'} backgroundColor="transparent" translucent={true}/>
             <NavigationContainer>
             {isSignedIn ? (
+                finishedQuestionnaire ? (
                     <>
                         <Tab.Navigator //Sets the default screen for the bottom nav bar (in this case, Home Screen)
                         initialRouteName={ScreenNames.HOME}
@@ -274,13 +305,16 @@ export default function MainContainer(){
                             />
                         </Tab.Navigator>
                     </>
-            ) : (<LoginStack confirmSignup={setIsSignedIn}></LoginStack>)
-            }
+                ) : (
+                    <QuestionnaireStack setFinishedQuestionnaire={setFinishedQuestionnaire}/>
+                )
+            ) : (
+                <LoginStack/>
+            )}
             </NavigationContainer>
         </SafeAreaView>
     );
 };
-
 
 const screenOptions = ({ route }) => ({
     tabBarIcon: ({ color, size }) => {

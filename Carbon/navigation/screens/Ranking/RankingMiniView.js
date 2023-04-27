@@ -3,15 +3,16 @@ import {StyleSheet, Text, View, Image} from 'react-native';
 import { SustainabilityScoreProfileView } from '../../../util/SustainabilityScoreProfileView';
 import RankProgressBar from '../../../components/ProgressBar.js';
 import { Colors } from '../../../styling/Colors.js';
+import { EmissionCategory } from './EmissionScoreCateogory';
 
-export default function MiniRanking({userScores}) {
+export default function MiniRanking({userScores, rankCategory}) {
     if(userScores != null){ 
         
         //For the sake of removing too much indirection per statement 
-        const rank = userScores.ranking;
+        const rank = userScores[rankCategory.title+"ranking"];
         const sustainability_score = userScores.sustainability_score;
-        const global_score = userScores.global_score;
-        const nextRankScore = userScores.nextRankScore;
+        const currentScore = userScores[rankCategory.title+"score"];
+        const nextRankScore = userScores["next_rank_"+rankCategory.title+"score"];
 
         return(
             <View style = {styles.miniRankContainer}>
@@ -26,7 +27,7 @@ export default function MiniRanking({userScores}) {
                 <View style = {styles.textContainer}> 
                     <Text style = {styles.rankText}>Your Rank: {formatRankText(rank)}</Text>
                     <Text style = {styles.titleText}>{SustainabilityScoreProfileView[sustainability_score].title}</Text>
-                    <RankProgressBar progress = {global_score} total = {nextRankScore}/>
+                    <RankProgressBar progress = {currentScore} total = {nextRankScore}/>
                 </View>
                 </View>
             </View>
@@ -65,6 +66,8 @@ const styles = StyleSheet.create({
       flex : 1,
       flexDirection : 'row',
       justifyContent : 'center',
+      backgroundColor : 'white',
+      borderRadius : 16,
     },
   
     profileImageContainer :{
