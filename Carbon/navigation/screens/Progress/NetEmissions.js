@@ -25,42 +25,46 @@ const NetEmissions = () => {
   const debugOnTrack = true;
 
   return (
-    // <View>
-    //   <View style={{marginBottom: 12}}>
-    //     <Text style={{fontSize: 16, fontWeight: '400', textAlign:'center'}}>
-    //       By recycling, you saved <Text style={{fontSize: 20, fontWeight: '500'}}>{`${lifestyleEmissions}`}</Text> lbs of {`CO\u2082`}
-    //     </Text>
-    //     <Text style={{fontSize: 16, fontWeight: '400', textAlign:'center'}}> from the atmosphere last month.</Text>
-    //   </View>
-    //   <View>
-    //     <Text style={{fontSize: 16, fontWeight: '400', textAlign:'center'}}>
-    //       Your net emissions is <Text style={{fontSize: 20, fontWeight: '500'}}>{`${lastMonthEmissions - lifestyleEmissions}`}</Text> lbs of {`CO\u2082`} this month.
-    //     </Text>
-    //   </View>
-    // </View>
-    <View style={styling.netEmissionsGoalContainer}>
-      {debugOnTrack !== undefined ?
-        <View style={styling.onTrackContainer}>
-          <View style={styling.onTrackIcon}>
-            {debugOnTrack ? <Ionicons name="checkmark-circle" size={48} color={Colors.secondary.LIGHT_MINT}/>
-                          : <Ionicons name="close-circle" size={48} color={Colors.secondary.RED}/>}
-          </View>
-          <View style={styling.onTrack}>
-            <Text style={styling.onTrackText}>You {debugOnTrack ? "are" : "are not"} on track to lowering your emissions this month.</Text>
-          </View>
-        </View> :
-        <></>
-      }
-      <View style={styling.currentProgress}>
-        <RankProgressBar progress={lifestyleEmissions} total={debugGoalValue} widthRatio={0.8} />
+    <View>
+      <View style={{marginBottom: 12}}>
+        <Text style={{fontSize: 16, fontWeight: '400', textAlign:'center'}}>
+          By recycling, you saved <Text style={{fontSize: 20, fontWeight: '500'}}>{`${lifestyleEmissions}`}</Text> lbs of {`CO\u2082`}
+        </Text>
+        <Text style={{fontSize: 16, fontWeight: '400', textAlign:'center'}}> from the atmosphere last month.</Text>
       </View>
-      <View style={styling.netEmissions}>
-        <Text style={styling.netEmissionsText}>Your net emissions for this month:</Text>
-        <Text style={styling.netEmissionsValue}>{`${lastMonthEmissions - lifestyleEmissions}`}</Text>
-        <Text style={styling.units}>{`lbs CO\u2082`}</Text>
+      <View>
+        <Text style={{fontSize: 16, fontWeight: '400', textAlign:'center'}}>
+          Your net emissions is <Text style={{fontSize: 20, fontWeight: '500'}}>{`${lastMonthEmissions - lifestyleEmissions}`}</Text> lbs of {`CO\u2082`} this month.
+        </Text>
       </View>
     </View>
+
+    /***
+     * NEW VERSION MOCKUP -- DISABLED UNTIL FINISHED AT A LATER TIME (Adam V.)
+    ***/
+    // <View style={styling.netEmissionsGoalContainer}>
+    //   {debugOnTrack !== undefined ?
+    //     <View style={styling.onTrackContainer}>
+    //       <View style={styling.onTrackIcon}>
+    //         {debugOnTrack ? <Ionicons name="checkmark-circle" size={48} color={Colors.secondary.LIGHT_MINT}/>
+    //                       : <Ionicons name="close-circle" size={48} color={Colors.secondary.RED}/>}
+    //       </View>
+    //       <View style={styling.onTrack}>
+    //         <Text style={styling.onTrackText}>You {debugOnTrack ? "are" : "are not"} on track to lowering your emissions this month.</Text>
+    //       </View>
+    //     </View> :
+    //     <></>
+    //   }
+    //   <View style={styling.currentProgress}>
+    //     <RankProgressBar progress={lifestyleEmissions} total={debugGoalValue} widthRatio={0.8} />
+    //   </View>
+    //   <View style={styling.netEmissions}>
+    //     <Text style={styling.netEmissionsText}>Your net emissions for this month:</Text>
+    //     <Text style={styling.netEmissionsValue}>{`${lastMonthEmissions - lifestyleEmissions}`}</Text>
+    //     <Text style={styling.units}>{`lbs CO\u2082`}</Text>
+    //   </View>
+    // </View>
   );
 }
 
-export default NetEmissions
+export default NetEmissions;
