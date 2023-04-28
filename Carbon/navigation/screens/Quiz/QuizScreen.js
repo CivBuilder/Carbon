@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Dimensions, SafeAreaView, Text, TouchableOpacity, View, StyleSheet, Modal, StatusBar, ScrollView } from 'react-native';
-import {useState, useEffect} from 'react';
+import { Dimensions, SafeAreaView, Text, TouchableOpacity, View, StyleSheet, Modal, StatusBar, ScrollView, Animated } from 'react-native';
+import {useState, useEffect, useRef} from 'react';
 import { getToken } from '../../../util/LoginManager';
 import { API_URL } from '../../../config/Api';
 import { Colors } from '../../../styling/Colors';
@@ -153,13 +153,13 @@ const QuizScreen = ({navigation, route}) => {
                             ...styles.answer_button,
                             backgroundColor:
                                 quizActive ?(answer === selectedAnswer ?
-                                (answerSelected ? '#80bbff' : "white") : "white" ) :
+                                (answerSelected ? '#A7C5F2' : "white") : "white" ) :
                                 (answer === selectedAnswer ? (answer.iscorrect ? '#9ce8b2' : '#ff9494') : "white"),
 
                             borderColor:
                                 quizActive ?(answer === selectedAnswer ?
-                                (answerSelected ? '#1e73d6' : '#737373') : '#737373' ) :
-                                (answer === selectedAnswer ? (answer.iscorrect ? '#1c622f' : '#c83737') : '#737373'),
+                                (answerSelected ? '#465366' : '#BFBFBF') : '#BFBFBF' ) :
+                                (answer === selectedAnswer ? (answer.iscorrect ? '#1c622f' : '#804A4A') : '#BFBFBF'),
                             }}
                         onPress={() => answerClicked(answer)}
                     >
@@ -410,7 +410,7 @@ const QuizScreen = ({navigation, route}) => {
 
 styles = StyleSheet.create({
     screen:{
-        backgroundColor: Colors.primary.MINT_CREAM,
+        backgroundColor: '#E3FFF1',
         paddingTop: 12,
         paddingHorizontal: 24,
         height: '100%',
@@ -421,7 +421,7 @@ styles = StyleSheet.create({
         paddingVertical: 24,
         width: '100%',
         justifyContent: 'center',
-        backgroundColor: '#fff1c9',
+        backgroundColor: '#9BECF2',
         minHeight: 200,
         maxHeight: 400,
     },
@@ -452,7 +452,7 @@ styles = StyleSheet.create({
     },
     cta_button: {
         borderRadius: 12,
-        backgroundColor: Colors.secondary.LIGHT_MINT,
+        backgroundColor: Colors.primary.MINT,
         justifyContent: 'center',
         padding: 6,
     },
@@ -469,7 +469,7 @@ styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: Dimensions.get('window').height / 4,
-        backgroundColor: Colors.secondary.CELADON,
+        backgroundColor: '#9BECF2',
         borderRadius: 36,
     },
     result_heading: {
