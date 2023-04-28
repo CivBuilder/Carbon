@@ -258,17 +258,17 @@ const styles = StyleSheet.create({
         width: '80%',
         backgroundColor: "white",
         borderRadius: 16,
-        ...Platform.select({
-            ios: {
-                shadowColor: Colors.primary.RAISIN_BLACK,
-                shadowOffset: { width: 5, height: 5 },
-                shadowOpacity: 0.125,
-                shadowRadius: 2.5,
-            },
-            android: {
-                elevation: 5,
-            },
-        }),
+        // ...Platform.select({
+        //     ios: {
+        //         shadowColor: Colors.primary.RAISIN_BLACK,
+        //         shadowOffset: { width: 5, height: 5 },
+        //         shadowOpacity: 0.125,
+        //         shadowRadius: 2.5,
+        //     },
+        //     android: {
+        //         elevation: 5,
+        //     },
+        // }),
     },
 });
 

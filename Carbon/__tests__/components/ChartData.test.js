@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-
+import { DailyLog } from '../../components/ChartData';
 //Checks if daily log renders properly
 describe('DailyLog', () => {
     it('renders a bar chart', () => {

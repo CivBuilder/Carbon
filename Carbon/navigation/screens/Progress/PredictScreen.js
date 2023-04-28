@@ -115,7 +115,7 @@ export default function PredictScreen({ navigation, route }) {
                     <View style={{
                         backgroundColor: "white",
                         borderRadius: 16,
-                        height: windowHeight - 100,
+                        height: windowHeight/2,
                         padding: 10,
                         marginHorizontal: 10,
                         marginVertical: 10
@@ -151,7 +151,7 @@ export default function PredictScreen({ navigation, route }) {
                     <View style={{
                         backgroundColor: "white",
                         borderRadius: 16,
-                        height: windowHeight - 100,
+                        height: windowHeight/2,
                         padding: 10, marginHorizontal: 10,
                         marginVertical: 10,
                     }}>
