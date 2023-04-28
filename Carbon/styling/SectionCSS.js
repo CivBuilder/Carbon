@@ -1,23 +1,25 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { Colors } from "./Colors";
 
 export const SectionCSS = StyleSheet.create({
   container: {
-    margin: 10,
+    margin: 12,
   },
   header: {
-    margin: 10,
+    marginHorizontal: 12,
+    marginTop: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   title: {
     fontSize: 16,
-    fontWeight: 'bold'
+    fontWeight: '500'
   },
   shortcut: {
     color: Colors.primary.MINT,
-    fontSize: 12,
+    fontSize: 14,
+    fontWeight: '400',
   },
   body: {
     backgroundColor: "white",

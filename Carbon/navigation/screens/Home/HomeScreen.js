@@ -10,7 +10,7 @@ import ForumCards from '../../../components/ForumCards';
 // =====================
 export default function HomeScreen({ navigation }) {
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ backgroundColor: '#F7FCF8', height: '100%' }}>
             <ScrollView
                 showsHorizontalScrollIndicator={false}
                 style={{ flexGrow: 1 }}
@@ -18,17 +18,17 @@ export default function HomeScreen({ navigation }) {
             >
                 {/******* CARBON FOOTPRINT SUMMARY *******/}
                 <View>
-                    <View style={styles.container}>
-                        <View style={styles.header}>
-                            <View>
-                                <Text style={styles.title}>This Month's Footprint</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row' }}>
-                                <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.PROGRESS)}>
-                                    <Text style={styles.link}>See More</Text>
-                                </TouchableOpacity>
-                            </View>
+                    <View style={styles.header}>
+                        <View>
+                            <Text style={styles.title}>This Month's Footprint</Text>
                         </View>
+                        <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.PROGRESS)}>
+                                <Text style={styles.link}>See More</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View style={styles.container}>
                         <View style={{ backgroundColor: "white", borderRadius: 16, padding: 10, height: 300 }}>
                             <MonthlyFootprintLineChart navigation={navigation}/>
                         </View>
@@ -36,19 +36,18 @@ export default function HomeScreen({ navigation }) {
                 </View>
                 {/******* RANKINGS *******/}
                 <View>
-                    <View style={styles.container}>
-                        <View style={styles.header}>
-                            <View>
-                                <Text style={styles.title}>Rankings</Text>
-                            </View>
-                            {/* <View style={{ flexDirection: 'row' }}>
-                                <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.RANKING)}>
-                                    <Text style={styles.link}>See More</Text>
-                                </TouchableOpacity>
-                            </View> */}
-                            
+                    <View style={styles.header}>
+                        <View>
+                            <Text style={styles.title}>Rankings</Text>
                         </View>
-                        <View style={{ backgroundColor: "white", borderRadius: 16, padding: 10 }}>
+                        {/* <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.RANKING)}>
+                                <Text style={styles.link}>See More</Text>
+                            </TouchableOpacity>
+                        </View> */}
+                    </View>
+                    <View style={styles.container}>
+                        <View style={{ backgroundColor: "white", borderRadius: 16, paddingHorizontal: margin / 2 }}>
                             <HomeScreenRanking/>  
                         </View>
                     </View>
@@ -56,21 +55,21 @@ export default function HomeScreen({ navigation }) {
 
                 {/******* FOR YOU *******/}
                 <View>
-                    <View style={styles.container}>
-                        <View style={styles.header}>
-                            <View>
-                                <Text style={styles.title}>For You</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row' }}>
-                                <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.FORUM)}>
-                                    <Text style={styles.link}>Learn More</Text>
-                                </TouchableOpacity>
-                            </View>
+                    <View style={styles.header}>
+                        <View>
+                            <Text style={styles.title}>For You</Text>
                         </View>
-                        <View style={{ height: 400 }}>
-                            <ForumCards navigation={navigation}/>
+                        <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.FORUM)}>
+                                <Text style={styles.link}>Learn More</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
+                    {/* <View style={styles.container}> */}
+                        <View style={{ height: 350 }}>
+                            <ForumCards navigation={navigation}/>
+                        </View>
+                    {/* </View> */}
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -79,7 +78,7 @@ export default function HomeScreen({ navigation }) {
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
-const margin = 10;
+const margin = 12;
 
 const styles = StyleSheet.create({
     container: {
@@ -102,17 +101,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
-        margin: margin,
+        marginHorizontal: margin,
+        marginTop: margin,
     },
     title: {
         fontSize: 16,
-        fontWeight: 'bold'
+        fontWeight: '500'
     },
     cardContainer: {
         marginBottom: 10,
     },
     link: {
         color: Colors.primary.MINT,
-        fontSize: 12,
+        fontSize: 14,
+        fontWeight: '500',
     }
 });

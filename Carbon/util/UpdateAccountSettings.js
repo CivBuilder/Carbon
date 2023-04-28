@@ -1,4 +1,4 @@
-import { validatePassword } from "./LoginManager";
+import { validatePassword, validateUsername } from "./LoginManager";
 import { API_URL } from "../config/Api";
 import { getToken } from "./LoginManager";
 
@@ -7,6 +7,16 @@ const API_CHANGE_PASSWORD_URL = API_URL + 'user/changePassword/';
 const API_CHANGE_PFP_URL = API_URL + 'user/changePFP/';
 
 export async function changeUsername(username) {
+
+    if(!validateUsername(username)) {
+        alert("Does not meet requirements:\n\n" +
+        "- Must be between 3-30 characters long\n" +
+        "- Must not contain profanity\n" +
+        "- Must not contain special characters\n" +
+        "- Must not contain spaces")
+        return false;
+    }
+
     await fetch(API_CHANGE_USERNAME_URL, {
         method: 'PUT',
         headers: {
@@ -25,12 +35,12 @@ export async function changePassword(oldPassword, newPassword) {
     if (!validatePassword(newPassword)) {
         // Define the error messages
         const errors = [
-            "Password must fulfill these requirements:",
-            "Must be at least 8 characters long",
-            "Must contain at least one uppercase letter",
-            "Must contain at least one lowercase letter",
-            "Must contain at least one number",
-            "Must contain at least one special character ($,%,&,*,@,!)"
+            "Does not meet requirements:\n",
+            "- Must be at least 8 characters long",
+            "- Must contain at least 1 uppercase letter",
+            "- Must contain at least 1 lowercase letter",
+            "- Must contain at least 1 number",
+            "- Must contain at least 1 special character ($,%,&,*,@,!)"
         ];
 
         // Build the error message string

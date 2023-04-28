@@ -1,21 +1,20 @@
 import { View, Text } from "react-native";
 import { RecentEmissionsCSS as styling } from "../../../styling/RecentEmissionsCSS";
-import getRecentEmissions from "../../../util/getRecentEmissions";
 
-const RecentEmissions = ({category}) => {
-  const data = [];
+const RecentEmissions = (props) => {
+  let {records, category} = props;
 
   return (
     <View style={styling.recentEmissions}>
-      {data.length !== 0 ? data.map((entry, index) => (
+      {records.length !== 0 ? records.map((entry, index) => (
         <View key={index} style={styling.entry}>
           {/* Emission recorded date */}
           <View style={styling.date}>
-            <Text style={styling.value}>{entry[0]}</Text>
+            <Text style={styling.value}>{entry.date}</Text>
           </View>
           {/* Emission amount */}
           <View style={styling.emission}>
-            <Text style={styling.value}>{entry[1]}</Text>
+            <Text style={styling.value}>{entry[category]}</Text>
             <Text style={styling.units}>{` lbs CO\u2082`}</Text>
           </View>
         </View>

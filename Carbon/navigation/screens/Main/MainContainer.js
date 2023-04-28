@@ -25,9 +25,10 @@ import FinishedScreen from '../Questionnaire/Finished';
 import RecycleScreen from '../Questionnaire/QuestionRecycling';
 import RecycleAmountScreen from '../Questionnaire/QuestionRecycleAmount';
 import AnimalDietScreen from '../Questionnaire/QuestionAnimalDiet';
-
 import { getAuthHeader, getToken, setRenderCallback } from '../../../util/LoginManager';
 import { PopUpMenu } from '../../../components/PopUpMenu';
+import RankCategoryOverlay from '../Ranking/RankCategoryOverlay';
+import CalculationScreen from '../Settings/CalculationScreen';
 
 
 const Stack = createStackNavigator();
@@ -52,7 +53,7 @@ const QuestionnaireStack = (props) => {
     <Stack.Navigator
     initialRouteName="GetStarted"
     >
-        <Stack.Screen name = "GetStarted" component={StartScreen}/>
+        <Stack.Screen name = "GetStarted" component={StartScreen} options={{ headerShown: false }} />
         <Stack.Screen name="q1" component={DietScreen} />
         <Stack.Screen name="q1a" component={AnimalDietScreen}/>
         <Stack.Screen name="q2" component={HouseholdScreen} />
@@ -64,6 +65,7 @@ const QuestionnaireStack = (props) => {
         <Stack.Screen name="q5" component={RecycleScreen}/>
         <Stack.Screen name="q5a" component={RecycleAmountScreen}/>
         <Stack.Screen name="finished" component={FinishedScreen}
+            options={{ headerShown: false }}
             initialParams={{
                 setFinishedQuestionnaire: props.setFinishedQuestionnaire
             }}
@@ -110,6 +112,7 @@ const HomeStack = ({ navigation }) => {
             />
             <Stack.Screen name={ScreenNames.SETTINGS} component={SettingsScreen} />
             <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={RecordEmissionScreen} />
+            <Stack.Screen name={ScreenNames.CALCULATION_DETAILS} component={CalculationScreen} />
         </Stack.Navigator>
     );
 };
@@ -178,10 +181,14 @@ const RankingStack = ({ navigation }) => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name={' '}
+                name={'Rankings '}
                 component={RankingScreen}
                 options={{
-                    headerShown: false, // Set to false for now until we need to implement headers for this screen
+                    headerShown: false,
+                    // headerStyle: {
+                    //     height: Platform.OS === 'ios' ? 48 : 72,
+                    // },
+                    headerTitleAlign: 'center',
                 }}
             />
         </Stack.Navigator>

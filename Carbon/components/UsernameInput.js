@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     input: {
         height: 40,
         backgroundColor: 'white',
-        color: '#AFAFAF',
+        color: 'black',
         borderWidth: 2,
         borderColor: Colors.primary.MINT,
         borderTopLeftRadius: 20,
