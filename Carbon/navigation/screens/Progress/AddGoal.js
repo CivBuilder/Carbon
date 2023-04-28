@@ -9,7 +9,7 @@ const margin = 10;
 
 export default function AddGoal({ navigation }) {
     return (
-        <SafeAreaView style={{ height: windowHeight }}>
+        <SafeAreaView style={{ height: windowHeight, backgroundColor: '#F7FCF8' }}>
             <ScrollView
                 showsHorizontalScrollIndicator={false}
                 style={{ flexGrow: 1 }}
