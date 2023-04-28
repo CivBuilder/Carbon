@@ -256,11 +256,8 @@ export default function MainContainer({navigation}){
                 const response = await fetch(url, await getAuthHeader());
                 // console.log("checkQuestionnaire (response): " + JSON.stringify(response));
                 const data = await response.json();
-                console.log("checkQuestionnaire (data): " + JSON.stringify(data));
                 setFinishedQuestionnaire(data);
-                console.log(isCheckingQuestionnaire);
                 setIsCheckingQuestionnaire(false);
-                console.log(isCheckingQuestionnaire);
             } catch (error) {
                 console.error('Error while checking questionnaire:', error);
             }
