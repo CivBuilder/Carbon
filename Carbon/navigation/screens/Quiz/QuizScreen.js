@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { Dimensions, SafeAreaView, Text, TouchableOpacity, View, StyleSheet, Modal, StatusBar, ScrollView, Animated } from 'react-native';
-import {useState, useEffect, useRef} from 'react';
+import { Dimensions, SafeAreaView, Text, TouchableOpacity, View, StyleSheet, Modal, StatusBar, ScrollView, ActivityIndicator } from 'react-native';
+import {useState, useEffect, } from 'react';
 import { getToken } from '../../../util/LoginManager';
 import { API_URL } from '../../../config/Api';
 import { Colors } from '../../../styling/Colors';
 import { Ionicons } from '@expo/vector-icons';
-import { colors } from 'react-native-elements';
 
 const QuizScreen = ({navigation, route}) => {
     //used for fetching data
@@ -95,7 +94,6 @@ const QuizScreen = ({navigation, route}) => {
     async function postScore() {
         try{
             const fscore = {score: 100};
-            console.log(await getToken());
             const response = await fetch(`${API_URL}user/quiz`, {
                 method: 'POST',
                 headers:{
@@ -222,8 +220,8 @@ const QuizScreen = ({navigation, route}) => {
             <SafeAreaView style={ styles.screen }>
             <StatusBar backgroundColor={Colors.primary.MINT_CREAM} />
                 {isLoading ? (
-                    <View>
-                        <Text>Loading</Text>
+                    <View style={{flex: 1, justifyContent:'center', alignItems:'center'}}>
+                        <ActivityIndicator size="large"/>
                     </View>
                 ) : (
                     <View>
