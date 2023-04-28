@@ -1,14 +1,14 @@
 import React from "react"
 import { useState, useEffect } from 'react';
 import { Colors } from "../../../styling/Colors";
-import { View, Text, TouchableOpacity, Dimensions } from "react-native";
-import LoadingIndicator from "../../../components/LoadingIndicator";
+import { View, Text, TouchableOpacity, Dimensions, ImageBackground, SafeAreaView} from "react-native";
+import LoadingPredict from "../../../components/LoadingPredict";
 import PredictInput from "../../../calculations/PredictInput";
 import { ScreenNames } from "../Main/ScreenNames";
 import { DailyLog } from "../../../components/ChartData";
 import {API_URL} from '../../../config/Api';
 import { getToken } from '../../../util/LoginManager';
-
+import { q_styles } from "../Questionnaire/QuestionnaireStyle";
 const windowHeight = Dimensions.get("window").height;
 export default function PredictScreen({ navigation, route }) {
     const [loading, setLoading] = useState(true);
@@ -86,7 +86,12 @@ export default function PredictScreen({ navigation, route }) {
     }
 
     return (
-        <View style={{ backgroundColor: '#F7FCF8 ' }}>
+        <ImageBackground
+        source={require('../../../assets/get-started-background.png')}
+        style={ q_styles.background }
+    >
+        <SafeAreaView>
+            
             {loading || !data ? (
                 <View>
                     <View style={{
@@ -106,25 +111,17 @@ export default function PredictScreen({ navigation, route }) {
                         justifyContent: 'center',
                         marginVertical: 20
                     }}>
-                        <LoadingIndicator loading={loading} ></LoadingIndicator>
+                        <LoadingPredict loading={loading} ></LoadingPredict>
                     </View>
                 </View>
             ) : (
     
                 data.every((num) => num === 0) ? (
-                    <View style={{
-                        backgroundColor: "white",
-                        borderRadius: 16,
-                        height: windowHeight/2,
-                        padding: 10,
-                        marginHorizontal: 10,
-                        marginVertical: 10
-                    }}>
-
+                
                         <View style={{
                             alignItems: 'center',
                             justifyContent: 'center',
-                            marginVertical: windowHeight / 10
+                            marginVertical: (windowHeight / 4)+10
                         }}>
                             <Text style={{
                                 fontSize: 18,
@@ -146,7 +143,6 @@ export default function PredictScreen({ navigation, route }) {
                                 </View>
                             </TouchableOpacity>
                         </View>
-                    </View>
                 ) : (
                     <View style={{
                         backgroundColor: "white",
@@ -192,7 +188,8 @@ export default function PredictScreen({ navigation, route }) {
                 )
 
             )}
-        </View>
+        </SafeAreaView>
+        </ImageBackground>
     )
 
 
