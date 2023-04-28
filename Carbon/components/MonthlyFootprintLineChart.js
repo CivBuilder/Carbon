@@ -253,7 +253,7 @@ export const RenderPercentDifference = ({ percentDifference, percentColor }) => 
     percentage difference from the previous month displayed above the chart.
     @return the rendered React component
 **/
-export const MonthlyFootprintLineChart = ({navigation}) => {
+export const MonthlyFootprintLineChart = ({navigation, refreshing, setRefreshing}) => {
     // State variables
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -262,11 +262,14 @@ export const MonthlyFootprintLineChart = ({navigation}) => {
     // Fetches total_emissions data for the past 6 months. Handles errors and null cases.
     const lastSixMonths = getLastSixMonths();
     useEffect(() => {
+        if(refreshing) {
         setLoading(true)
         fetchTotalData(lastSixMonths, setData, setError)
             .then(() => setLoading(false)) // set loading to false when data has been fetched
-            .catch(() => setLoading(false)); // also set loading to false on error
-    }, []);
+            .catch(() => setLoading(false)) // also set loading to false on error
+            .finally(() => setRefreshing(false));
+        }
+    }, [refreshing, setRefreshing]);
 
     // (Debugging) This replaces fetched data with dummy data
     // data = dummyData;

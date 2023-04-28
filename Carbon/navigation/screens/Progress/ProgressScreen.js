@@ -6,7 +6,7 @@ import RecordEmission from './RecordEmission';
 import Log from '../Progress/Log';
 import NetEmissions from './NetEmissions';
 import { Section } from '../../../components/Section';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 
 const windowWidth = Dimensions.get("window").width;
@@ -14,18 +14,25 @@ const windowHeight = Dimensions.get("window").height;
 const margin = 12;
 
 export default function ProgressScreen({ navigation }) {
- 
+  const [refreshing, setRefreshing] = useState(false);
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+  };
+
   return (
     <SafeAreaView style={{ backgroundColor: '#F7FCF8', height: '100%' }}>
       <ScrollView
         contentContainerStyle={styles.scrollView}
-   
         showsHorizontalScrollIndicator={false}
         style={{ flexGrow: 1 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+        }
       >
         {/* Category Breakdown */}
         <Section title="Category Breakdown">
-          <CategoryBreakdown navigation={navigation} />
+          <CategoryBreakdown navigation={navigation} refreshing={refreshing} setRefreshing={setRefreshing}/>
         </Section>
 
         {/* Log -- Will update styling and other things for this component soon :) */}
@@ -35,7 +42,7 @@ export default function ProgressScreen({ navigation }) {
         </View>
 
         <Section title="Net Emissions">
-          <NetEmissions />
+          <NetEmissions refrshing={refreshing} setRefreshing={setRefreshing} />
         </Section>
       </ScrollView>
     </SafeAreaView>

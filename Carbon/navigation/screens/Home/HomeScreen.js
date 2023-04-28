@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView, TouchableOpacity, Platform, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView, TouchableOpacity, Platform, RefreshControl } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import { MonthlyFootprintLineChart } from '../../../components/MonthlyFootprintLineChart';
@@ -9,12 +10,20 @@ import ForumCards from '../../../components/ForumCards';
 //     Home Screen
 // =====================
 export default function HomeScreen({ navigation }) {
+    const [refreshing, setRefreshing] = useState(false);
+
+    const handleRefresh = () => {
+        setRefreshing(true);
+    };
+
     return (
         <SafeAreaView style={{ backgroundColor: '#F7FCF8', height: '100%' }}>
             <ScrollView
                 showsHorizontalScrollIndicator={false}
                 style={{ flexGrow: 1 }}
-
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+                }
             >
                 {/******* CARBON FOOTPRINT SUMMARY *******/}
                 <View>
@@ -30,7 +39,7 @@ export default function HomeScreen({ navigation }) {
                     </View>
                     <View style={styles.container}>
                         <View style={{ backgroundColor: "white", borderRadius: 16, padding: 10, height: 300 }}>
-                            <MonthlyFootprintLineChart navigation={navigation}/>
+                            <MonthlyFootprintLineChart navigation={navigation} refreshing={refreshing} setRefreshing={setRefreshing}/>
                         </View>
                     </View>
                 </View>
@@ -48,7 +57,7 @@ export default function HomeScreen({ navigation }) {
                     </View>
                     <View style={styles.container}>
                         <View style={{ backgroundColor: "white", borderRadius: 16, paddingHorizontal: margin / 2 }}>
-                            <HomeScreenRanking/>  
+                            <HomeScreenRanking refreshing={refreshing} setRefreshing={setRefreshing}/>  
                         </View>
                     </View>
                 </View>

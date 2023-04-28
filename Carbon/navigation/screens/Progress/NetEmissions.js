@@ -2,11 +2,12 @@ import { View, Text } from 'react-native'
 import React, {useState, useEffect} from 'react'
 import { getPreviousMonthEmissions, getPreviousMonthLifestyleEmissions } from '../../../util/Goals'
 
-const NetEmissions = () => {
+const NetEmissions = ({refreshing, setRefreshing}) => {
   const [lastMonthEmissions, setLastMonthEmissions] = useState(0);
   const [lifestyleEmissions, setLifestyleEmissions] = useState(0);
 
   useEffect(() => {
+    if(refreshing) {
     const fetchEmissions = async () => {
       const lastMonthTotalEmissions = await getPreviousMonthEmissions();
       setLastMonthEmissions(lastMonthTotalEmissions);
@@ -15,7 +16,9 @@ const NetEmissions = () => {
       setLifestyleEmissions(lastMonthLifestyleEmissions);
     };
     fetchEmissions();
-  }, []);
+    setRefreshing(false);
+    }
+  }, [refreshing, setRefreshing]);
 
   return (
     <View>

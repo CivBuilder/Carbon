@@ -7,7 +7,7 @@ import MiniRanking from './RankingMiniView';
 import { EmissionCategory } from './EmissionScoreCateogory';
 
 
-export default function HomeScreenRanking() {
+export default function HomeScreenRanking({refreshing, setRefreshing}) {
 
   
     const [userScores, setUserScores] = useState(null);
@@ -16,13 +16,19 @@ export default function HomeScreenRanking() {
     const rankCategory = EmissionCategory.GLOBAL; //Display the global score on your card 
 
     useEffect(() => {
+      if(refreshing) {
         getUserScores(setUserScores, setLoading, setErrorMessage);
-    }, []);
+        setRefreshing(false);
+      }
+    }, [refreshing, setRefreshing]);
 
     return (
       <View style= {{height : 160}}>
-        <MiniRanking userScores={userScores} rankCategory ={rankCategory}/>
-        <LoadingIndicator loading={loading}/>
+        {loading ? (
+          <LoadingIndicator loading={loading}/>
+        ): (
+          <MiniRanking userScores={userScores} rankCategory ={rankCategory}/>
+        )}
       </View>
     )
 

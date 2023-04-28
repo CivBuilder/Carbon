@@ -149,7 +149,8 @@ export const getSelectedLabel = (selectedSlice, data) => {
             );
         }
 **/
-export const CategoryBreakdown = ({navigation}) => {
+export const CategoryBreakdown = ({navigation, refreshing, setRefreshing}) => {
+    console.log(refreshing)
     // State variables
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
@@ -168,11 +169,14 @@ export const CategoryBreakdown = ({navigation}) => {
 
     // Fetches data for the current month and updates state accordingly. Handles errors and null cases.
     useEffect(() => {
-        setLoading(true);
-        fetchData(currentYearMonth, setData, setTotal, setError)
-        .then(() => setLoading(false)) // set loading to false when data has been fetched
-        .catch(() => setLoading(false)); // also set loading to false on error
-    }, []);
+        if(refreshing){
+            setLoading(true);
+            fetchData(currentYearMonth, setData, setTotal, setError)
+            .then(() => setLoading(false)) // set loading to false when data has been fetched
+            .catch(() => setLoading(false)) // also set loading to false on error
+            .finally(() => setRefreshing(false));
+        }
+    }, [refreshing, setRefreshing]);
 
     // Select slice on press events
     const handlePress = (event, props) => {
