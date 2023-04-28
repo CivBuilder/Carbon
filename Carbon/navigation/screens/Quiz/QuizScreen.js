@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Dimensions, SafeAreaView, Text, TouchableOpacity, View, StyleSheet, Modal, StatusBar } from 'react-native';
+import { Dimensions, SafeAreaView, Text, TouchableOpacity, View, StyleSheet, Modal, StatusBar, ScrollView } from 'react-native';
 import {useState, useEffect} from 'react';
 import { getToken } from '../../../util/LoginManager';
 import { API_URL } from '../../../config/Api';
@@ -166,8 +166,8 @@ const QuizScreen = ({navigation, route}) => {
                         <Text
                             style={{
                                 ...styles.answer_text,
-                                //font size 14 if answer is longer than 50 characters
-                                fontSize: answer.answer.length > 50 ? 16 : 18,
+                                //font size 14 if answer is longer than 70 characters
+                                fontSize: answer.answer.length > 70 ? 16 : 18,
                             }}
                         >{answer.answer}</Text>
                     </TouchableOpacity>
@@ -268,7 +268,7 @@ const QuizScreen = ({navigation, route}) => {
                                         width: '100%',
                                     }}
                                 >
-                                    <View style={{ alignContent: 'center', justifyContent: 'center', }}>
+                                    <View style={{ alignContent: 'center', justifyContent: 'flex-end', }}>
                                         {/* Only ask to retake the quiz if the user got a score less than 100% */}
                                         {!perfectScore && (
                                             <TouchableOpacity
@@ -362,40 +362,40 @@ const QuizScreen = ({navigation, route}) => {
 
                                 </View>
 
-                                <View style={{ marginTop: 36 }} >
-                                    {/* Question */}
-                                    {renderQuestion()}
-                                </View>
+                                <View style={{flex: 1}}>
+                                    <View style={{ marginTop: 36 }} >
+                                        {/* Question */}
+                                        {renderQuestion()}
+                                    </View>
 
-                                <View
-                                    style={{
-                                        position: 'absolute',
-                                        bottom: 0,
-                                        marginBottom: 12*10,
-                                        width: '100%',
-                                        height: Dimensions.get('window').height/3,
-                                    }}
-                                >
-                                    {/* Answers */}
-                                    {renderAnswers()}
-                                </View>
-
-                                <View
-                                    style={{
-                                        position: 'absolute',
-                                        bottom: 0,
-                                        marginBottom: 12*3,
-                                        width: '100%',
-                                    }}
-                                >
-                                    <View
-                                        style={{ alignContent: 'center', justifyContent: 'center', }}
+                                    <ScrollView
+                                        showsVerticalScrollIndicator={false}
+                                        style={{
+                                            marginTop: 12,
+                                            // backgroundColor: 'orange',
+                                            height: 240,
+                                        }}
                                     >
-                                        {/* Submit Button */}
-                                        {renderSubmitButton()}
+                                        {/* Answers */}
+                                        {renderAnswers()}
+                                    </ScrollView>
 
-                                        {/* Next Button */}
-                                        {renderNextButton()}
+                                    <View
+                                        style={{
+                                            flex: 1,
+                                            justifyContent: 'flex-end',
+                                            marginBottom: 12,
+                                        }}
+                                    >
+                                        <View
+                                            style={{ alignContent: 'center', justifyContent: 'center', }}
+                                        >
+                                            {/* Submit Button */}
+                                            {renderSubmitButton()}
+
+                                            {/* Next Button */}
+                                            {renderNextButton()}
+                                        </View>
                                     </View>
                                 </View>
                             </View>
@@ -418,10 +418,11 @@ styles = StyleSheet.create({
         borderRadius: 16,
         paddingHorizontal: 12,
         paddingVertical: 24,
-        height: Dimensions.get('window').height/3,
         width: '100%',
         justifyContent: 'center',
         backgroundColor: '#fff1c9',
+        minHeight: 200,
+        maxHeight: 400,
     },
     question_counter: {
         fontSize: 16,
@@ -440,8 +441,8 @@ styles = StyleSheet.create({
     answer_button: {
         borderRadius: 12,
         borderWidth: 2,
-        padding: 6,
-        marginVertical: 8,
+        padding: 8,
+        marginVertical: 6,
     },
     answer_text: {
         fontWeight: '500',
@@ -451,27 +452,26 @@ styles = StyleSheet.create({
     cta_button: {
         borderRadius: 12,
         backgroundColor: Colors.secondary.LIGHT_MINT,
-        height: 48,
         justifyContent: 'center',
+        padding: 6,
     },
     cta_text: {
         fontSize: 24,
         fontWeight: '500',
         textAlign: 'center',
-        letterSpacing: 1, // add spacing between characters
         color: Colors.primary.MINT_CREAM,
     },
     result_container: {
         paddingHorizontal: 12,
         paddingVertical: 24,
-        height: Dimensions.get('window').height/2.5,
         width: '100%',
-        marginBottom: 12*14,
         justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: Dimensions.get('window').height / 4,
         backgroundColor: 'white',
-        borderRadius: 16,
-        borderWidth: 4,
-        borderColor: '#1e73d6',
+        borderRadius: 36,
+        borderWidth: 3,
+        borderColor: Colors.secondary.LIGHT_MINT,
     },
     result_heading: {
         textAlign: 'center',
