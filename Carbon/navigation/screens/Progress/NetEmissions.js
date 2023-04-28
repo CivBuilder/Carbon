@@ -5,9 +5,10 @@ import { getPreviousMonthEmissions, getPreviousMonthLifestyleEmissions } from '.
 const NetEmissions = ({refreshing, setRefreshing}) => {
   const [lastMonthEmissions, setLastMonthEmissions] = useState(0);
   const [lifestyleEmissions, setLifestyleEmissions] = useState(0);
+  const [initialStart, setInitialStart] = useState(true);
 
   useEffect(() => {
-    if(refreshing) {
+    if(refreshing || initialStart) {
     const fetchEmissions = async () => {
       const lastMonthTotalEmissions = await getPreviousMonthEmissions();
       setLastMonthEmissions(lastMonthTotalEmissions);
@@ -17,8 +18,9 @@ const NetEmissions = ({refreshing, setRefreshing}) => {
     };
     fetchEmissions();
     setRefreshing(false);
+    setInitialStart(false);
     }
-  }, [refreshing, setRefreshing]);
+  }, [initialStart, refreshing, setRefreshing]);
 
   return (
     <View>

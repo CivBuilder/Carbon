@@ -13,14 +13,16 @@ export default function HomeScreenRanking({refreshing, setRefreshing}) {
     const [userScores, setUserScores] = useState(null);
     const [error, setErrorMessage] = useState(false);    
     const [loading, setLoading] = useState(false);
+    const [initialStart, setInitialStart] = useState(true);
     const rankCategory = EmissionCategory.GLOBAL; //Display the global score on your card 
 
     useEffect(() => {
-      if(refreshing) {
+      if(refreshing || initialStart) {
         getUserScores(setUserScores, setLoading, setErrorMessage);
         setRefreshing(false);
+        setInitialStart(false);
       }
-    }, [refreshing, setRefreshing]);
+    }, [initialStart, refreshing, setRefreshing]);
 
     return (
       <View style= {{height : 160}}>

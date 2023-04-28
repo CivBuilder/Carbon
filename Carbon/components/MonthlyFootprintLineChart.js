@@ -258,18 +258,20 @@ export const MonthlyFootprintLineChart = ({navigation, refreshing, setRefreshing
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [initialStart, setInitialStart] = useState(true);
 
     // Fetches total_emissions data for the past 6 months. Handles errors and null cases.
     const lastSixMonths = getLastSixMonths();
     useEffect(() => {
-        if(refreshing) {
-        setLoading(true)
-        fetchTotalData(lastSixMonths, setData, setError)
-            .then(() => setLoading(false)) // set loading to false when data has been fetched
-            .catch(() => setLoading(false)) // also set loading to false on error
-            .finally(() => setRefreshing(false));
+        if(refreshing || initialStart) {
+            setLoading(true)
+            fetchTotalData(lastSixMonths, setData, setError)
+                .then(() => setLoading(false)) // set loading to false when data has been fetched
+                .catch(() => setLoading(false)) // also set loading to false on error
+                .finally(() => setRefreshing(false));
+            setInitialStart(false);
         }
-    }, [refreshing, setRefreshing]);
+    }, [initialStart, refreshing, setRefreshing]);
 
     // (Debugging) This replaces fetched data with dummy data
     // data = dummyData;

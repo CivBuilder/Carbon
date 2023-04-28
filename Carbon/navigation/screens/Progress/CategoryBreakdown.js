@@ -157,6 +157,7 @@ export const CategoryBreakdown = ({navigation, refreshing, setRefreshing}) => {
     const [selectedSlice, setSelectedSlice] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [initialStart, setInitialStart] = useState(true);
 
     // Get the current year and month in YYYY-MM format
     const now = new Date();
@@ -169,14 +170,15 @@ export const CategoryBreakdown = ({navigation, refreshing, setRefreshing}) => {
 
     // Fetches data for the current month and updates state accordingly. Handles errors and null cases.
     useEffect(() => {
-        if(refreshing){
+        if(refreshing || initialStart){
             setLoading(true);
             fetchData(currentYearMonth, setData, setTotal, setError)
             .then(() => setLoading(false)) // set loading to false when data has been fetched
-            .catch(() => setLoading(false)) // also set loading to false on error
-            .finally(() => setRefreshing(false));
+            .catch(() => setLoading(false)); // also set loading to false on error
+            setRefreshing(false);
+            setInitialStart(false);
         }
-    }, [refreshing, setRefreshing]);
+    }, [initialStart, refreshing, setRefreshing]);
 
     // Select slice on press events
     const handlePress = (event, props) => {
