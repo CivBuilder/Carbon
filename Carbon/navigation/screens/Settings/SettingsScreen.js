@@ -190,58 +190,48 @@ const SettingsScreen = ({ navigation }) => {
 
             </KeyboardAwareScrollView>
             {modalVisible && (
-                <View style={{ position: 'absolute',  bottom: 0, left: 0, right: 0, top: 0 }}>
-                    <Animated.View style={{flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', opacity: fadeAnimation}}/>
-                    <Animated.View style={{position: 'absolute', bottom: 0, left: 0, right: 0, top: 0, transform: [{translateY: fadeAnimation.interpolate({inputRange: [0, 1], outputRange: [500, 0],})}]}}>
-                        <View
-                            style={{
-                                position: 'absolute',
-                                bottom: 0,
-                                left: 0,
-                                right: 0,
-                                top: '40%',
-                                borderTopLeftRadius: 16,
-                                borderTopRightRadius: 16,
-                                backgroundColor: 'white',
-                            }}
-                        >
-
+                    <View style={{ position: 'absolute',  bottom: 0, left: 0, right: 0, top: 0 }}>
+                        <Animated.View style={{flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', opacity: fadeAnimation}}/>
+                        <Animated.View style={{position: 'absolute', bottom: 0, left: 0, right: 0, top: 0, transform: [{translateY: fadeAnimation.interpolate({inputRange: [0, 1], outputRange: [500, 0],})}]}}>
+                            <View
+                                style={{
+                                    position: 'absolute',
+                                    bottom: 0, left: 0, right: 0, top: '40%',
+                                    backgroundColor: "white",
+                                    borderTopLeftRadius: 16,
+                                    borderTopRightRadius: 16
+                                }}
+                            >
                                 <ScrollView showsVerticalScrollIndicator={false}>
-                                    <View
-                                        style={{
-                                        flexDirection: 'row',
-                                        flexWrap: 'wrap',
-                                        justifyContent: 'center',
-                                        paddingVertical: 12,
-                                        }}>
+                                    <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', paddingTop: 12}}>
                                         {pfps.map((item, index) => {
-                                        return (
+                                            return(
                                             <TouchableOpacity key={index} onPress={() => {onSetPFP(index)}}>
-                                            <Image source={item} style={{height: 90, width: 90, margin: 12}}/>
+                                                <Image source={item} style={{height: 90, width: 90, margin: 12}}/>
                                             </TouchableOpacity>
-                                        );
+                                            )
                                         })}
                                     </View>
-                                    <View style={{ justifyContent:'center', alignContent:'center', marginVertical: 12 }}>
-                                        <TouchableOpacity
-                                            onPress={hideModal}
+                                    <View style={{alignContent:'center', margin: 12}}>
+                                        <TouchableOpacity onPress={hideModal}
                                             style={{
-                                            backgroundColor: 'white',
-                                            borderRadius: 16,
-                                            borderWidth: 2,
-                                            borderColor: 'gray',
-                                            padding: 6,
-                                            width: '50%',
-                                            alignSelf: 'center',
-                                            }}>
-                                            <Text style={{ fontSize: 20, color: 'gray', textAlign: 'center' }}>Cancel</Text>
+                                                backgroundColor: "white",
+                                                borderRadius: 12,
+                                                borderWidth: 2,
+                                                borderColor: "gray",
+                                                padding: 6,
+                                                width: '50%',
+                                                alignSelf: 'center'
+                                            }}
+                                        >
+                                            <Text style={{fontSize: 20, color: "gray", textAlign: 'center'}}>Cancel</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </ScrollView>
-                        </View>
-                    </Animated.View>
-                </View>
-            )}
+                            </View>
+                        </Animated.View>
+                    </View>
+                )}
         </View>
     )
 }
