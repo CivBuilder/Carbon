@@ -3,10 +3,14 @@ import {StyleSheet, Text, View, Image} from 'react-native';
 import { SustainabilityScoreProfileView } from '../../../util/SustainabilityScoreProfileView';
 import RankProgressBar from '../../../components/ProgressBar.js';
 import { Colors } from '../../../styling/Colors.js';
-import { EmissionCategory } from './EmissionScoreCateogory';
+import { EmissionCategory as EC } from './EmissionScoreCateogory';
+
 
 export default function MiniRanking({userScores, rankCategory}) {
-    if(userScores != null){ 
+    if(userScores != null && (rankCategory==EC.GLOBAL || rankCategory == EC.DIET ||
+       rankCategory==EC.HOME || rankCategory==EC.LIFESTYLE || rankCategory==EC.TRANSPORT)
+    )
+    { 
         
         //For the sake of removing too much indirection per statement 
         const rank = userScores[rankCategory.title+"ranking"];
@@ -15,7 +19,7 @@ export default function MiniRanking({userScores, rankCategory}) {
         const nextRankScore = userScores["next_rank_"+rankCategory.title+"score"];
 
         return(
-            <View style = {styles.miniRankContainer}>
+            <View style = {styles.miniRankContainer} testID='Ranking-Mini-Container'>
                 <View style = {styles.profileImageContainer}>
                 <Image 
                     style = {styles.profileImage}
@@ -42,7 +46,7 @@ export default function MiniRanking({userScores, rankCategory}) {
  * @param {Number} rank - Value to return the correctly formatted placementstring 
  * @returns 
  */
-function formatRankText(rank) {
+export function formatRankText(rank) {
 
     //11th, 12th, ... edge case.
     if(Math.floor(rank/10) % 10 === 1)

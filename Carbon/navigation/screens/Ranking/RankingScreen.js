@@ -122,7 +122,7 @@ export default function RankingScreen({navigation, route}){
     useEffect( () => {
       if(userScores === null) return;
       
-      //Start at the page based on why 
+      //Update the "Like you tables based on their rank in that category, update other tables to just be at the start of the list"
       Object.values(EC).forEach((Cat)=>{
         updateTable(setLeaderboardTables, leaderboardTables, Cat, ListTabIDs.PLAYERS_LIKE_YOU, Math.floor(userScores[Cat.title+"ranking"]/PAGE_SIZE), false, setLoading, setErrorMessage);
         updateTable(setLeaderboardTables, leaderboardTables, Cat, ListTabIDs.TOP_PLAYERS, 0, false, setLoading, setErrorMessage); 
@@ -156,7 +156,6 @@ export default function RankingScreen({navigation, route}){
 
       <View>
         <View style = {styles.MiniRankContainer}>
-          {/* Replace with the  */}
           <MiniRanking userScores={userScores} rankCategory={emission_category}/> 
         </View>
         

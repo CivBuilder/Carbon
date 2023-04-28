@@ -14,11 +14,6 @@ describe('ServerErrorScreen', () => {
     elements.map(el => console.log(el.props.testID));
 
 
-    // const refreshControl = getAllByTestId('refresh-control');
-    // fireEvent(refreshControl, 'refresh');
-    // expect(mockOnRefresh).toHaveBeenCalled();
-
-
     const sadIcon = getAllByTestId('Sad-Icon-Error-Text');
     const errorMessageText = getByText(/Error Getting Data - Swipe Down to Refresh Page/i);
     expect(sadIcon).toBeTruthy();

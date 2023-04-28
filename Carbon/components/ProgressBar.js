@@ -19,6 +19,7 @@ export default function RankProgressBar({progress, total}) {
     useEffect( () => {
         setRatio(progress === total ? 1 : progress/total)
     }, [progress, total])
+    
     const initWidth = useRef(new Animated.Value(0)).current;
     useEffect (() => {
         Animated.spring(initWidth, {

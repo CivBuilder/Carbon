@@ -174,11 +174,6 @@ router.get('/rank', passport.authenticate('jwt', { session: false }), async func
 
         },
         attributes: [
-            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.global_score > user.global_score) + 1'), 'global_ranking'],
-            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.transport_score > user.transport_score) + 1'), 'transport_ranking'],
-            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.lifestyle_score > user.lifestyle_score) + 1'), 'lifestyle_ranking'],
-            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.diet_score > user.diet_score) + 1'), 'diet_ranking'],
-            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.home_score > user.home_score) + 1'), 'home_ranking'],
             'sustainability_score',
             'avatar_index',
             'global_score',
@@ -186,7 +181,20 @@ router.get('/rank', passport.authenticate('jwt', { session: false }), async func
             "lifestyle_score", 
             "diet_score",  
             "home_score",
-            "username"
+            "username",
+
+            // [sequelize.literal('ROW_NUMBER() OVER (ORDER BY "global_score" DESC)'), 'global_ranking'],
+            // [sequelize.literal('ROW_NUMBER() OVER (ORDER BY transport_score DESC)'), 'transport_ranking'],
+            // [sequelize.literal('ROW_NUMBER() OVER (ORDER BY lifestyle_score DESC)'), 'lifestyle_ranking'],
+            // [sequelize.literal('ROW_NUMBER() OVER (ORDER BY diet_score DESC)'), 'diet_ranking'],
+            // [sequelize.literal('ROW_NUMBER() OVER (ORDER BY global_score DESC)'), 'home_ranking'],
+            
+            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.global_score > user.global_score) + 1'), 'global_ranking'],
+            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.transport_score > user.transport_score) + 1'), 'transport_ranking'],
+            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.lifestyle_score > user.lifestyle_score) + 1'), 'lifestyle_ranking'],
+            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.diet_score > user.diet_score) + 1'), 'diet_ranking'],
+            [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.home_score > user.home_score) + 1'), 'home_ranking'],
+            
         ],
         
     });

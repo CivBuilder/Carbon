@@ -7,8 +7,8 @@ import {Colors} from '../styling/Colors'
 const ICON_SIZE = 75;
 
 /**
- * 
- * @param onRefresh - async function for user to pass - Likely one to wait on a server request 
+ * Displays a sad face with the error message, will give the users an option to refresh 
+ * @param {Function} }onRefresh - async function for user to pass - Likely one to wait on a server request 
  * @returns - Screen with Sad face prompting user to refresh the page.
  */
 
