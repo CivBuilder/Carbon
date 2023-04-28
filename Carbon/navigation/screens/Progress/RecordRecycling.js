@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput} from 'react-native';
 import CustomPicker from './CustomPicker';
 import {Colors} from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
@@ -110,9 +110,9 @@ const RecordRecycling = ({ navigation, route }) => {
         <Text style={styles.header}>Did you know?</Text>
         <Text style={styles.label}>{memoizedFunFact}</Text>
       </View>
-      <Text style={styles.header}>Log the amount of each material you recycled today</Text>
+      <Text style={styles.header}>Log each material you recycled today</Text>
       <View style={styles.pickercontainer}>
-        <CustomPicker
+        {/* <CustomPicker
           label="Paper"
           selectedValue={paperAmount}
           onValueChange={setPaperAmount}
@@ -139,6 +139,34 @@ const RecordRecycling = ({ navigation, route }) => {
           onValueChange={setMetalAmount}
           items={weights}
           testID='metal-picker'
+        /> */}
+        <Text style={styles.text_input_label}>Paper</Text>
+        <TextInput
+          placeholder='lbs'
+          style={styles.text_input}
+          keyboardType="numeric"
+          onChangeText={paper=>paper ? setPaperAmount(paper): 0}
+        />
+        <Text style={styles.text_input_label}>Plastic</Text>
+        <TextInput
+          placeholder='lbs'
+          style={styles.text_input}
+          keyboardType="numeric"
+          onChangeText={plastic=>plastic ? setPlasticAmount(plastic): 0}
+        />
+        <Text style={styles.text_input_label}>Glass</Text>
+        <TextInput
+          placeholder='lbs'
+          style={styles.text_input}
+          keyboardType="numeric"
+          onChangeText={glass=>glass ? setGlassAmount(glass): 0}
+        />
+        <Text style={styles.text_input_label}>Metal</Text>
+        <TextInput
+          placeholder='lbs'
+          style={styles.text_input}
+          keyboardType="numeric"
+          onChangeText={metal=>metal ? setMetalAmount(metal): 0}
         />
        
       <TouchableOpacity testID='save-button' style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
@@ -158,14 +186,16 @@ const styles = StyleSheet.create({
       flexGrow: 1,
     },
     container: {
-        flex: 1,
-        alignItems: 'center',
-        backgroundColor: Colors.primary.MINT,
+      flex: 1,
+      alignItems: 'center',
+      backgroundColor: Colors.secondary.NYANZA,
+      paddingHorizontal: 24,
     },
     label: {
-        fontSize: 16,
-        color: Colors.primary.RAISIN_BLACK,
-        marginBottom: 10,
+      fontSize: 16,
+      color: Colors.primary.RAISIN_BLACK,
+      marginBottom: 10,
+      textAlign: 'center',
     },
     pickercontainer: {
       width: '100%',
@@ -174,7 +204,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     button: {
-      backgroundColor: Colors.secondary.ALMOND,
+      backgroundColor: Colors.secondary.DARK_MINT,
       borderRadius: 8,
       paddingVertical: 12,
       paddingHorizontal: 12,
@@ -188,16 +218,35 @@ const styles = StyleSheet.create({
       fontSize: 16,
     },
     funfact: {
-      backgroundColor: Colors.primary.MINT_CREAM,
-      padding: 10,
+      borderRadius: 12,
+      borderWidth: 2,
+      borderColor: Colors.primary.MINT,
+      backgroundColor: Colors.secondary.CELADON,
+      padding: 12,
+      width: '100%',
       justifyContent: 'flex-start',
       alignItems: 'center',
-      marginBottom: 20,
-      width: '100%',
+      marginVertical: 12,
     },
     header: {
       fontSize: 20,
       fontWeight: 'bold',
       marginBottom: 10,
+    },
+    text_input_label: {
+      fontSize:16,
+      fontWeight:"500",
+      marginBottom:12,
+      textAlign: 'center',
+    },
+    text_input: {
+        height: 40,
+        width: 12*16,
+        borderColor: 'gray',
+        borderWidth: 1.5,
+        borderRadius: 6,
+        padding: 10,
+        marginBottom: 24,
+        backgroundColor: 'white',
     },
   });

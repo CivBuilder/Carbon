@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Dimensions } from 'react-native';
 import CustomPicker from './CustomPicker';
 import {Colors} from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
@@ -99,6 +99,7 @@ const RecordTransportation = ({ navigation, route }) => {
 
   //Update our parameter to send back when the consumption state variable changes 
   useEffect(() => {
+    console.log(milesTraveled)
     if(milesTraveled !== null && selectedValue !== null) {
       let transporation_emission = calcMilesTraveled();
       console.log("transport_emissions: " + transporation_emission);
@@ -117,44 +118,56 @@ const RecordTransportation = ({ navigation, route }) => {
         <Text style={styles.label} testID='fun-fact'>{memoizedFunFact}</Text>
       </View>
       <Text style={styles.header}>Log your travel for today</Text>
-      <CustomPicker
+      {/* <CustomPicker
         label="How many miles did you travel today?"
         selectedValue={milesTraveled}
         onValueChange={setMilesTraveled}
         items={miles}
         testID='miles-traveled'
+      /> */}
+      <Text style={styles.text_input_label}>How many miles did you travel today?</Text>
+      <TextInput
+        placeholder='miles'
+        style={styles.text_input}
+        keyboardType="numeric"
+        onChangeText={miles=>miles ? setMilesTraveled(miles): 0}
       />
-      <Text style={styles.header}>What was your mode of transportation?</Text>
-      <RadioButton.Group onValueChange={value => setSelectedValue(value)} value={selectedValue}>
-        <View style={styles.switchContainer}>
-          <Text style={styles.radioButtonText}>Car</Text>
-          <RadioButton value="Car" />
-        </View>
-        <View style={styles.switchContainer}>
-          <Text style={styles.radioButtonText}>Electric Car</Text>
-          <RadioButton value="ElecCar" />
-        </View>
-        <View style={styles.switchContainer}>
-          <Text style={styles.radioButtonText}>Bike</Text>
-          <RadioButton value="Bike" />
-        </View>
-        <View style={styles.switchContainer}>
-          <Text style={styles.radioButtonText}>Bus</Text>
-          <RadioButton value="Bus" />
-        </View>
-        <View style={styles.switchContainer}>
-          <Text style={styles.radioButtonText}>Train</Text>
-          <RadioButton value="Train" />
-        </View>
-        <View style={styles.switchContainer}>
-          <Text style={styles.radioButtonText}>Plane</Text>
-          <RadioButton value="Plane" />
-        </View>
-      </RadioButton.Group>
 
-      <TouchableOpacity testID='save-button' style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
-        <Text style={styles.buttonText}>Save & Return</Text>
-      </TouchableOpacity>
+      <View style={{marginBottom: 24, alignItems: 'center'}}>
+        <Text style={styles.header}>What was your mode of transportation?</Text>
+        <RadioButton.Group onValueChange={value => setSelectedValue(value)} value={selectedValue}>
+          <View style={styles.switchContainer}>
+            <Text style={styles.radioButtonText}>Car</Text>
+            <RadioButton value="Car" />
+          </View>
+          <View style={styles.switchContainer}>
+            <Text style={styles.radioButtonText}>Electric Car</Text>
+            <RadioButton value="ElecCar" />
+          </View>
+          <View style={styles.switchContainer}>
+            <Text style={styles.radioButtonText}>Bike</Text>
+            <RadioButton value="Bike" />
+          </View>
+          <View style={styles.switchContainer}>
+            <Text style={styles.radioButtonText}>Bus</Text>
+            <RadioButton value="Bus" />
+          </View>
+          <View style={styles.switchContainer}>
+            <Text style={styles.radioButtonText}>Train</Text>
+            <RadioButton value="Train" />
+          </View>
+          <View style={styles.switchContainer}>
+            <Text style={styles.radioButtonText}>Plane</Text>
+            <RadioButton value="Plane" />
+          </View>
+        </RadioButton.Group>
+      </View>
+
+      <View style={{flex: 1, justifyContent:'flex-end', marginBottom: 12,}}>
+        <TouchableOpacity testID='save-button' style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
+          <Text style={styles.buttonText}>Save & Return</Text>
+        </TouchableOpacity>
+      </View>
     </View>
     </ScrollView>
   );
@@ -169,12 +182,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: Colors.secondary.NON_PHOTO_BLUE,
+    backgroundColor: Colors.secondary.NYANZA,
+    paddingHorizontal: 24,
   },
   label: {
     fontSize: 16,
     color: Colors.primary.RAISIN_BLACK,
     marginBottom: 10,
+    textAlign: 'center',
   },
   switchContainer: {
     flexDirection: 'row',
@@ -197,12 +212,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   funfact: {
-    backgroundColor: Colors.primary.MINT,
-    padding: 10,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: Colors.primary.MINT,
+    backgroundColor: Colors.secondary.CELADON,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    width: '100%',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginBottom: 20,
-    width: '100%',
+    marginVertical: 12,
   },
   header: {
     fontSize: 20,
@@ -213,7 +232,22 @@ const styles = StyleSheet.create({
     marginRight: 25,
     width: 60,
   },
-  
+  text_input_label: {
+    fontSize:16,
+    fontWeight:"500",
+    marginBottom:12,
+    textAlign: 'center',
+  },
+  text_input: {
+      height: 40,
+      width: 12*16,
+      borderColor: 'gray',
+      borderWidth: 1.5,
+      borderRadius: 6,
+      padding: 10,
+      marginBottom: 24,
+      backgroundColor: 'white',
+  },
 });
 
 
