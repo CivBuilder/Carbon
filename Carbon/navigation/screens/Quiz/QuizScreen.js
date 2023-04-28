@@ -5,6 +5,7 @@ import { getToken } from '../../../util/LoginManager';
 import { API_URL } from '../../../config/Api';
 import { Colors } from '../../../styling/Colors';
 import { Ionicons } from '@expo/vector-icons';
+import { colors } from 'react-native-elements';
 
 const QuizScreen = ({navigation, route}) => {
     //used for fetching data
@@ -113,7 +114,6 @@ const QuizScreen = ({navigation, route}) => {
     const renderQuestion = () => {
         return (
             <>
-            <StatusBar backgroundColor="#e3f7ff" />
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12, }}>
                     {/* Question Counter */}
@@ -220,6 +220,7 @@ const QuizScreen = ({navigation, route}) => {
             animationOutTiming={1000}
         >
             <SafeAreaView style={ styles.screen }>
+            <StatusBar backgroundColor={Colors.primary.MINT_CREAM} />
                 {isLoading ? (
                     <View>
                         <Text>Loading</Text>
@@ -229,21 +230,24 @@ const QuizScreen = ({navigation, route}) => {
                         { quizCompleted ? (
                             <View style={{ height: '100%', justifyContent: 'center', alignItems: 'center', }}>
                                 <View style={styles.result_container}>
-                                    <Text style={styles.result_heading}>All done!</Text>
-                                    <Text style={styles.result_subheading}>Your score:</Text>
-                                    <Text
-                                        style={{
-                                            ...styles.result_score,
-                                            color:
-                                            score / data.questions.length >= 0.8
-                                                ? "#3CB371" // Green if at least 80% of the questions are correct
-                                                : score / data.questions.length >= 0.5
-                                                ? "#FFA500" // Yellow if between 50% and 80%
-                                                : "#FF6347", // Red if below 50%
-                                        }}
-                                    >{Math.round(score / data.questions.length * 100)}%</Text>
+                                    <Text style={styles.result_heading}>Quiz completed!</Text>
+                                    <View style={{ backgroundColor: 'white', borderRadius: 200, width: 180, height: 180, justifyContent: 'center', alignItems: 'center' }}>
+                                        <Text
+                                            style={{
+                                                ...styles.result_score,
+                                                color:
+                                                    score / data.questions.length >= 0.8
+                                                        ? "#3CB371" // Green if at least 80% of the questions are correct
+                                                        : score / data.questions.length >= 0.5
+                                                        ? "#FFA500" // Yellow if between 50% and 80%
+                                                        : "#FF6347", // Red if below 50%
+                                                }}
+                                        >
+                                            {Math.round(score / data.questions.length * 100)}%
+                                        </Text>
+                                    </View>
 
-                                    <Text style={styles.result_info}>{`You answered ${score} out of ${data.questions.length}\nquestions correctly.`}</Text>
+                                    <Text style={styles.result_info}>{`You got ${score} out of ${data.questions.length} questions right.`}</Text>
 
                                     <Text style={styles.result_encouragement}>
                                         {perfectScore &&
@@ -259,29 +263,26 @@ const QuizScreen = ({navigation, route}) => {
                                     </Text>
                                 </View>
 
-
                                 <View
                                     style={{
+                                        flex:1,
                                         position: 'absolute',
-                                        bottom: 0,
-                                        marginBottom: 12 * 3,
+                                        bottom: 20,
                                         width: '100%',
                                     }}
                                 >
-                                    <View style={{ alignContent: 'center', justifyContent: 'flex-end', }}>
-                                        {/* Only ask to retake the quiz if the user got a score less than 100% */}
-                                        {!perfectScore && (
-                                            <TouchableOpacity
-                                                style={{ ...styles.cta_button, marginBottom: 12, backgroundColor: "white", borderWidth: 2, borderColor: "#1e73d6" }}
-                                                onPress={() => redoQuiz()}
-                                            >
-                                                <Text style={{ ...styles.cta_text, color: "#1e73d6" }}>Retake Quiz</Text>
-                                            </TouchableOpacity>
-                                        )}
-                                        <TouchableOpacity style={ styles.cta_button } onPress={() => navigation.goBack()}>
-                                            <Text  style={ styles.cta_text }>Finish</Text>
+                                    {/* Only ask to retake the quiz if the user got a score less than 100% */}
+                                    {!perfectScore && (
+                                        <TouchableOpacity
+                                            style={{ ...styles.cta_button, marginBottom: 12, backgroundColor: "#1e73d6" }}
+                                            onPress={() => redoQuiz()}
+                                        >
+                                            <Text style={styles.cta_text}>Retake Quiz</Text>
                                         </TouchableOpacity>
-                                    </View>
+                                    )}
+                                    <TouchableOpacity style={{ ...styles.cta_button, backgroundColor: 'transparent', padding: 3, borderWidth: 3, borderColor: Colors.secondary.DARK_MINT }} onPress={() => navigation.goBack()}>
+                                        <Text  style={{ ...styles.cta_text, color: Colors.secondary.DARK_MINT }}>Finish</Text>
+                                    </TouchableOpacity>
                                 </View>
                             </View>
 
@@ -409,7 +410,7 @@ const QuizScreen = ({navigation, route}) => {
 
 styles = StyleSheet.create({
     screen:{
-        backgroundColor: "#e3f7ff",
+        backgroundColor: Colors.primary.MINT_CREAM,
         paddingTop: 12,
         paddingHorizontal: 24,
         height: '100%',
@@ -462,22 +463,20 @@ styles = StyleSheet.create({
         color: Colors.primary.MINT_CREAM,
     },
     result_container: {
-        paddingHorizontal: 12,
-        paddingVertical: 24,
+        paddingVertical: 36,
+        paddingHorizontal: 24,
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: Dimensions.get('window').height / 4,
-        backgroundColor: 'white',
+        backgroundColor: Colors.secondary.CELADON,
         borderRadius: 36,
-        borderWidth: 3,
-        borderColor: Colors.secondary.LIGHT_MINT,
     },
     result_heading: {
         textAlign: 'center',
-        fontSize: 32,
-        fontWeight: '400',
-        marginBottom: 4,
+        fontSize: 36,
+        fontWeight: '500',
+        marginBottom: 12,
     },
     result_subheading: {
         textAlign: 'center',
@@ -487,16 +486,15 @@ styles = StyleSheet.create({
     },
     result_score: {
         textAlign: 'center',
-        fontSize: 64,
-        fontWeight: 'bold',
-        color: Colors.primary.MINT,
-        marginBottom: 16,
+        fontSize: 72,
+        fontWeight: '800',
+        marginVertical: 24,
     },
     result_info: {
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: '400',
-        marginBottom: 24,
+        marginVertical: 24,
     },
     result_encouragement: {
         textAlign: 'center',
