@@ -80,7 +80,7 @@ export default function BillScreen({navigation,route}) {
                 <View>
                     <Text style={q_styles.text_input_header}>Electricity Bill ($)</Text>
                     <TextInput
-                        placeholder="Ex: $60.07"
+                        placeholder="Ex: 120"
                         style={q_styles.text_input}
                         keyboardType="decimal-pad"
                         onChangeText={text=>text ? setBill(text): 0}
@@ -88,7 +88,7 @@ export default function BillScreen({navigation,route}) {
 
                     <Text style={q_styles.text_input_header}>Power Rates ($/kW h)</Text>
                     <TextInput
-                        placeholder="Ex: 0.98 kW h"
+                        placeholder="Ex: 0.13"
                         keyboardType="decimal-pad"
                         style={q_styles.text_input}
                         onChangeText={text=>text?setRate(text): 0}

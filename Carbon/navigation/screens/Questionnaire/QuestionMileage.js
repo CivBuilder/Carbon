@@ -75,7 +75,7 @@ export default function MileageScreen({navigation,route}) {
                         Miles per gallon (mpg)
                     </Text>
                     <TextInput
-                        placeholder="Ex: 33"
+                        placeholder="Ex: 25"
                         style={q_styles.text_input}
                         keyboardType="decimal-pad"
                         onChangeText={text=>{

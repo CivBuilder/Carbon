@@ -79,7 +79,8 @@ export default function HouseholdScreen({navigation,route}) {
                                 setNextPage("q2a")
                             }}
                         >
-                            <Text style={q_styles.answer_text} >{`Fossil Fuels\n(Coal, Natural Gas, etc...)`}</Text>
+                            <Text style={q_styles.answer_text} >Fossil Fuels</Text>
+                            <Text style={{...q_styles.answer_text, fontSize: 16}} >(Coal, Natural Gas, etc...)</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -95,7 +96,8 @@ export default function HouseholdScreen({navigation,route}) {
                                 setNextPage("q4")
                             }}
                         >
-                            <Text style={q_styles.answer_text} >{`Renewable Energy \n(Solar, Wind, etc...)`}</Text>
+                            <Text style={q_styles.answer_text} >Renewable Energy</Text>
+                            <Text style={{...q_styles.answer_text, fontSize: 16}} >(Solar, Wind, etc...)</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
