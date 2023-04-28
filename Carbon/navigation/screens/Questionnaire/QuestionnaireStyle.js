@@ -58,21 +58,21 @@ export const q_styles = StyleSheet.create({
         color: Colors.primary.RAISIN_BLACK,
     },
     cta_container: {
-        alignItems: 'center',
-        marginHorizontal: 12,
-    },
-    cta_button: {
         position: 'absolute',
         bottom: 20,
-        borderRadius: 6,
-        padding: 10,
         alignItems: 'center',
-        width: '90%',
+        width: '100%',
+    },
+    cta_button: {
+        borderRadius: 12,
+        padding: 12,
+        width: '60%',
         backgroundColor: Colors.primary.MINT,
     },
     cta_text: {
         fontSize: 18,
         fontWeight: '400',
+        textAlign: 'center',
         color: Colors.primary.MINT_CREAM,
     },
     score_text: {

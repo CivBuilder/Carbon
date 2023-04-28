@@ -14,31 +14,31 @@ TODO: Improve UI
 TODO: Improve transferring of data between pages
 */
 
-export default function MileageScreen({navigation,route}) {
-    //Values from previous pages
+export default function MileageScreen({navigation, route}) {
+    // Values from previous pages
     const foodScore = route.params?.foodScore;
     const homeScore = route.params?.homeScore;
-    const [transportScore,setTransportScore] = useState(route.params?.transportScore);
+    const [transportScore, setTransportScore] = useState(route.params?.transportScore);
 
-    //Value to calculate & transfer at the "finished" screen
-    const [mpg,setmpg] = useState(0);
+    // Value to calculate & transfer at the "finished" screen
+    const [mpg, setMpg] = useState(0);
 
-    //Updating progress bar (a.k.a the header)
-    useEffect(()=>{
+    useEffect(() => {
         navigation.setOptions({
-        header: ()=>(
-        <View style={{
-        position: "absolute",
-        top:0,
-        height:30,
-        borderRadius: 6,
-        width:"60%",
-        backgroundColor: Colors.secondary.CELADON,
-        }}>
-        </View>
-        ),
-        })
-    });
+            header: () => (
+            <View
+                style={{
+                position: "absolute",
+                top: 0,
+                height: 30,
+                borderRadius: 6,
+                width: "60%",
+                backgroundColor: Colors.secondary.CELADON,
+                }}
+            />
+            ),
+        });
+    }, []);
 
     const calculateTransportScore=() =>{
         //User performance = userMPG / aveMPG

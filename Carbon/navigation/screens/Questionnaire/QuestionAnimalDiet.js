@@ -55,7 +55,7 @@ export default function AnimalDietScreen({navigation,route}) {
     }
 
     return (
-        <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
+        <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={q_styles.questionnaire_container}>
             <ImageBackground
                 source={require('../../../assets/food-background-2.png')}
                 style={ q_styles.background }

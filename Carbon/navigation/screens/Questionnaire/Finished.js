@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react';
-import {View, Text,Button,Image, Dimensions, TouchableOpacity, ScrollView} from 'react-native';
+import {View, Text,Button,Image, Dimensions, TouchableOpacity, ScrollView, SafeAreaView, StatusBar} from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { API_URL } from '../../../config/Api';
 import {SustainabilityScoreProfileView} from '../../../util/SustainabilityScoreProfileView';
@@ -74,7 +74,6 @@ export default function FinishedScreen({navigation, route}) {
         } catch (error) {
             console.log(error);
         }
-        
     }
 
     const scoreCategory = SustainabilityScoreProfileView[mapScoreCategory(awarenessScore)].title;
@@ -103,6 +102,7 @@ export default function FinishedScreen({navigation, route}) {
         }
     }
 
+    /*
     useEffect(()=>{
         calculateRanks();
         updateSustainability();
@@ -121,94 +121,104 @@ export default function FinishedScreen({navigation, route}) {
         ),
         })
     });
+    */
+
+    const statusBarHeight = StatusBar.currentHeight ?? 0;
 
     return (
-        <ScrollView showsHorizontalScrollIndicator={false} style={{ flex: 1, backgroundColor: 'rgba(216, 243, 220, 0.4)' }}>
-            <View style={{ marginTop:"12%", alignItems: 'center', }}>
-                <Text style={{fontSize:20,}}>...and you're done!</Text>
-            </View>
+        <ScrollView
+            showsHorizontalScrollIndicator={false}
+            style={{
+                flex: 1,
+                // backgroundColor: Colors.secondary.CELADON,
+                backgroundColor: 'rgba(216, 243, 220, 0.4)',
+            }}
+        >
+            <View style={{ height:Dimensions.get('window').height + statusBarHeight }}>
+                <View style={{ marginTop:48, marginBottom:12, alignItems: 'center', }}>
+                    <Text style={{fontSize:20,}}>...and you're done!</Text>
+                </View>
 
-            <View style={{ marginVertical:"5%", alignItems: 'center',  }}>
-                <Text style={{ fontSize:24, }}>Here are your results:</Text>
-            </View >
+                <View style={{ marginBottom:24, alignItems: 'center', }}>
+                    <Text style={{ fontSize:24, }}>Here are your results:</Text>
+                </View >
 
-            <View
-                style={{
-                    alignItems:'center',
-                    justifyContent:'center',
-                    marginHorizontal: 24,
-                    borderRadius: 16,
-                    backgroundColor: Colors.secondary.ALMOND,
-                }}
-            >
-                <View style={{
+                <View
+                    style={{
                         alignItems:'center',
                         justifyContent:'center',
+                        marginHorizontal: 24,
+                        borderRadius: 16,
+                        backgroundColor: Colors.secondary.ALMOND,
                     }}
                 >
-                    <View style={{marginVertical: 24}}>
-                        <Image
-                            source = {scorePicture}
-                            resizeMode='contain'
-                            style={{
-                                width: Dimensions.get('window').width * 0.35,
-                                height: Dimensions.get('window').width * 0.35,
-                            }}
-                        />
+                    <View style={{
+                            alignItems:'center',
+                            justifyContent:'center',
+                        }}
+                    >
+                        <View style={{marginVertical: 24}}>
+                            <Image
+                                source = {scorePicture}
+                                resizeMode='contain'
+                                style={{
+                                    width: Dimensions.get('window').width * 0.35,
+                                    height: Dimensions.get('window').width * 0.35,
+                                }}
+                            />
+                        </View>
+
+                        <View style={{marginBottom: 12}}>
+                            <Text
+                                style={{
+                                    fontSize:36,
+                                    fontWeight:"500",
+                                    textAlign:'center',
+                                }}
+                            >
+                                {scoreCategory}
+                            </Text>
+                        </View>
                     </View>
 
-                    <View>
-                        <Text
-                            style={{
-                                fontSize:36,
-                                fontWeight:"500",
-                                textAlign:'center',
-                            }}
-                        >
-                            {scoreCategory}
-                        </Text>
+                    <View style={{marginBottom: 24, flexDirection:'row'}}>
+                        <View style={{...q_styles.score_category_container, borderColor:Colors.categories.HOME }}>
+                            <Ionicons name='home-outline' size={40} color={Colors.categories.HOME}/>
+                            <Text style={{...q_styles.score_text, color:Colors.categories.HOME }}>
+                                {homeScore}
+                            </Text>
+                        </View>
+
+                        <View style={{marginHorizontal:6}}></View>
+
+                        <View style={{...q_styles.score_category_container, borderColor:Colors.categories.TRANSPORTATION }}>
+                            <Ionicons name='bicycle-outline' size={40} color={Colors.categories.TRANSPORTATION}/>
+                            <Text style={{...q_styles.score_text, color:Colors.categories.TRANSPORTATION }}>
+                                {transportScore}
+                            </Text>
+                        </View>
+
+                        <View style={{marginHorizontal:6}}></View>
+
+                        <View style={{...q_styles.score_category_container, borderColor:Colors.categories.DIET }}>
+                            <Ionicons name='fast-food-outline' size={40} color={Colors.categories.DIET}/>
+                            <Text style={{...q_styles.score_text, color:Colors.categories.DIET }}>
+                                {foodScore}
+                            </Text>
+                        </View>
                     </View>
                 </View>
 
-                <View style={{marginVertical: '10%', flexDirection:'row'}}>
-                    <View style={{...q_styles.score_category_container, borderColor:Colors.categories.HOME }}>
-                        <Ionicons name='home-outline' size={40} color={Colors.categories.HOME}/>
-                        <Text style={{...q_styles.score_text, color:Colors.categories.HOME }}>
-                            {homeScore}
-                        </Text>
-                    </View>
+                <View
+                    style={{
+                        marginTop: 24,
+                        flexDirection:'row',
+                        justifyContent:'space-evenly',
+                    }}
+                >
+                    <View style={{justifyContent:'center', alignItems:'center'}}>
+                        <Text style={{fontSize:20,marginBottom:10,}}>Best Category:</Text>
 
-                    <View style={{marginHorizontal:6}}></View>
-
-                    <View style={{...q_styles.score_category_container, borderColor:Colors.categories.TRANSPORTATION }}>
-                        <Ionicons name='bicycle-outline' size={40} color={Colors.categories.TRANSPORTATION}/>
-                        <Text style={{...q_styles.score_text, color:Colors.categories.TRANSPORTATION }}>
-                            {transportScore}
-                        </Text>
-                    </View>
-
-                    <View style={{marginHorizontal:6}}></View>
-
-                    <View style={{...q_styles.score_category_container, borderColor:Colors.categories.DIET }}>
-                        <Ionicons name='fast-food-outline' size={40} color={Colors.categories.DIET}/>
-                        <Text style={{...q_styles.score_text, color:Colors.categories.DIET }}>
-                            {foodScore}
-                        </Text>
-                    </View>
-                </View>
-            </View>
-
-            <View
-                style={{
-                    marginTop: 24,
-                    flexDirection:'row',
-                    justifyContent:'space-evenly',
-                }}
-            >
-                <View style={{justifyContent:'center', alignItems:'center'}}>
-                    <Text style={{fontSize:20,marginBottom:10,}}>Best Category:</Text>
-
-                    <View style={{marginBottom:40,}}>
                         <View
                             style={{
                                 backgroundColor: 'white',
@@ -223,12 +233,10 @@ export default function FinishedScreen({navigation, route}) {
                             <Text style={{ fontSize: 18, fontWeight:'500', textAlign: 'center', color: Colors.secondary.DARK_MINT, }}>{bestScore}</Text>
                         </View>
                     </View>
-                </View>
 
-                <View style={{justifyContent:'center', alignItems:'center'}}>
-                    <Text style={{fontSize:20,marginBottom:10,}}>Worst Category:</Text>
+                    <View style={{justifyContent:'center', alignItems:'center'}}>
+                        <Text style={{fontSize:20,marginBottom:10,}}>Worst Category:</Text>
 
-                    <View style={{marginBottom:40,}}>
                         <View
                             style={{
                                 backgroundColor: 'white',
@@ -244,18 +252,18 @@ export default function FinishedScreen({navigation, route}) {
                         </View>
                     </View>
                 </View>
-            </View>
 
-            <View style={{...q_styles.cta_container, position: 'absolute', bottom: 10, left: 0, right: 0}}>
-                <TouchableOpacity
-                    style={q_styles.cta_button}
-                    onPress={() =>{
-                        finishedQuestionnaire()
-                        route.params?.setFinishedQuestionnaire(true)
-                    }}
-                >
-                    <Text style={{...q_styles.cta_text, fontWeight: '600'}}>Take me to the app!</Text>
-                </TouchableOpacity>
+                <View style={{alignItems: 'center', position:'absolute', bottom: 20, width:'100%'}}>
+                    <TouchableOpacity
+                        style={q_styles.cta_button}
+                        onPress={() =>{
+                            finishedQuestionnaire()
+                            route.params?.setFinishedQuestionnaire(true)
+                        }}
+                    >
+                        <Text style={{...q_styles.cta_text, fontWeight: '600'}}>Take me to the app!</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </ScrollView>
     )
