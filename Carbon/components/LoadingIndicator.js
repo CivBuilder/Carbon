@@ -5,7 +5,7 @@ import { Colors } from '../styling/Colors';
 
 /**
  * 
- * @param loading - a state variable to determine if loading or not
+ * @param {State - Boolean} loading - a state variable to determine if loading or not
  * @returns a null element or a loading screen indicator that will overlay over all existing elements
  */
 export default function LoadingIndicator({loading}) {

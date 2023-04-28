@@ -2,7 +2,7 @@ import {View, StyleSheet, Animated, Dimensions, Text} from 'react-native';
 import React from 'react';
 import { Colors }   from '../styling/Colors.js';
 import { useEffect } from 'react';
-import { useLayoutEffect, useRef, useState } from 'react';
+import {useRef, useState } from 'react';
 
 const {width} = Dimensions.get('window');
 
@@ -14,7 +14,7 @@ const {width} = Dimensions.get('window');
  */
 export default function RankProgressBar({progress, total}) {
 
-    const [ratio, setRatio] = useState(progress === total ? 1 : progress/total);
+    const [ratio, setRatio] = useState((progress === total || total === 0) ? 1 : progress/total);
 
     useEffect( () => {
         setRatio(progress === total ? 1 : progress/total)
@@ -30,14 +30,14 @@ export default function RankProgressBar({progress, total}) {
     }, [ratio]);
 
     return (
-        <View style = {styles.RankProgBarContainer}>
+        <View style = {styles.RankProgBarContainer} testID='ProgressBar Container'>
             <View style = {styles.loadingBar}>
-            <Animated.View style={[styles.progressBar, {width : initWidth}]}/>
+            <Animated.View style={[styles.progressBar, {width : initWidth}]} testID={"AnimatedProgressBar"}/>
             </View>
             
-            <View style = {{flexDirection : 'row', flex : 1, justifyContent : 'center'}}>
-                <Text style = {styles.numerator}>{progress} </Text>
-                <Text style = {styles.denominator}>/ {total}</Text>
+            <View style = {{flexDirection : 'row', flex : 1, justifyContent : 'center'}} testID=''>
+                <Text style = {styles.numerator} testID='progressText'>{progress} </Text>
+                <Text style = {styles.denominator} testID = 'totalText'>/ {total}</Text>
             </View>
         </View>
     )
