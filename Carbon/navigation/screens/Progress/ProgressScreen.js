@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text, Platform, RefreshControl } from 'react-native';
+import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text, Platform, RefreshControl , TouchableOpacity} from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { CategoryBreakdown } from './CategoryBreakdown';
 import RecordEmission from './RecordEmission';
 import Log from '../Progress/Log';
 import NetEmissions from './NetEmissions';
 import { Section } from '../../../components/Section';
-import { useRef, useEffect } from 'react';
+import {  useRef } from 'react';
+import { Ionicons } from '@expo/vector-icons';
 
 
 const windowWidth = Dimensions.get("window").width;
@@ -14,7 +15,8 @@ const windowHeight = Dimensions.get("window").height;
 const margin = 12;
 
 export default function ProgressScreen({ navigation }) {
- 
+
+
   return (
     <SafeAreaView style={{ backgroundColor: '#F7FCF8', height: '100%' }}>
       <ScrollView
@@ -23,6 +25,7 @@ export default function ProgressScreen({ navigation }) {
         showsHorizontalScrollIndicator={false}
         style={{ flexGrow: 1 }}
       >
+        
         {/* Category Breakdown */}
         <Section title="Category Breakdown">
           <CategoryBreakdown navigation={navigation} />
@@ -31,7 +34,7 @@ export default function ProgressScreen({ navigation }) {
         {/* Log -- Will update styling and other things for this component soon :) */}
 
         <View style={styles.container}>
-          <Log navigation={navigation}></Log>
+          <Log navigation={navigation} ></Log>
         </View>
 
         <Section title="Net Emissions">
