@@ -79,7 +79,7 @@ export default function MileageScreen({navigation, route}) {
                         style={q_styles.text_input}
                         keyboardType="decimal-pad"
                         onChangeText={text=>{
-                            text? setmpg(text):setmpg(0);
+                            text? setMpg(text):setMpg(0);
                             calculateTransportScore();
                         }}
                     />
