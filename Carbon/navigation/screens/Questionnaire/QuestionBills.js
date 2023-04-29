@@ -73,7 +73,7 @@ export default function BillScreen({navigation,route}) {
                     {`Heating and cooling in a household\naccounts for 43% of energy usage\nin U.S. homes.`}
                 </Text>
                 <Text style={{...q_styles.question_text, fontSize: 18, marginHorizontal: 24}}>
-                    (Optional) Provide your monthly average electricity bill and
+                    (Optional) Provide your average monthly electricity bill and
                     your electricity rates.
                 </Text>
 
@@ -86,7 +86,7 @@ export default function BillScreen({navigation,route}) {
                         onChangeText={text=>text ? setBill(text): 0}
                     />
 
-                    <Text style={q_styles.text_input_header}>Power Rates ($/kW h)</Text>
+                    <Text style={q_styles.text_input_header}>Power Rates ($/kW⋅h)</Text>
                     <TextInput
                         placeholder="Ex: 0.13"
                         keyboardType="decimal-pad"
