@@ -102,7 +102,6 @@ export default function FinishedScreen({ navigation, route }) {
         }
     }
 
-    /*
     useEffect(()=>{
         calculateRanks();
         updateSustainability();
@@ -121,7 +120,6 @@ export default function FinishedScreen({ navigation, route }) {
         ),
         })
     });
-    */
 
     const statusBarHeight = StatusBar.currentHeight ?? 0;
 
