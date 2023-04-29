@@ -1,5 +1,5 @@
 import { API_URL } from "../config/Api";
-import { getAuthHeader } from "../util/LoginManager";
+import { getAuthHeader } from "./UserManagement";
 
 const TIMEOUT_DURATION = 25000;
 

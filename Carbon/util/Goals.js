@@ -1,4 +1,4 @@
-import { getToken } from "./LoginManager";
+import { getToken } from "./UserManagement";
 import { API_URL } from "../config/Api";
 
 const API_GOAL_URL = API_URL + 'goal';

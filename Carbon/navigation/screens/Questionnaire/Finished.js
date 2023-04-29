@@ -1,10 +1,10 @@
-import React,{useEffect,useState} from 'react';
-import {View, Text,Button,Image, Dimensions, TouchableOpacity, ScrollView, SafeAreaView, StatusBar} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Button, Image, Dimensions, TouchableOpacity, ScrollView, SafeAreaView, StatusBar } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { API_URL } from '../../../config/Api';
-import {SustainabilityScoreProfileView} from '../../../util/SustainabilityScoreProfileView';
+import { SustainabilityScoreProfileView } from '../../../util/SustainabilityScoreProfileView';
 import mapScoreCategory from '../../../calculations/mapScoreCategory';
-import { getToken } from '../../../util/LoginManager';
+import { getToken } from '../../../util/UserManagement';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -34,7 +34,7 @@ const finishedQuestionnaire = async () => {
     }
 };
 
-export default function FinishedScreen({navigation, route}) {
+export default function FinishedScreen({ navigation, route }) {
     //Final Calculations
     //Food Score is calculated in animaldiet and diet
     //Home score is calculated in household and bills
@@ -43,7 +43,7 @@ export default function FinishedScreen({navigation, route}) {
     const transportScore = route.params?.transportScore;
     const foodScore = route.params?.foodScore;
     const homeScore = route.params?.homeScore;
-    const awarenessScore = (transportScore+foodScore+homeScore)/3;
+    const awarenessScore = (transportScore + foodScore + homeScore) / 3;
 
     const questionanaireBody = {
         'transport_score': transportScore,
@@ -79,25 +79,25 @@ export default function FinishedScreen({navigation, route}) {
     const scoreCategory = SustainabilityScoreProfileView[mapScoreCategory(awarenessScore)].title;
     const scorePicture = SustainabilityScoreProfileView[mapScoreCategory(awarenessScore)].picture;
 
-    const[bestScore,setBestScore] = useState("Transportation");
-    const[worstScore,setWorstScore] = useState("Food");
+    const [bestScore, setBestScore] = useState("Transportation");
+    const [worstScore, setWorstScore] = useState("Food");
 
-    const calculateRanks=() =>{
-        let maxVal = Math.max(transportScore,homeScore,foodScore)
-        let minVal = Math.min(transportScore,homeScore,foodScore)
-        if(transportScore==maxVal){
+    const calculateRanks = () => {
+        let maxVal = Math.max(transportScore, homeScore, foodScore)
+        let minVal = Math.min(transportScore, homeScore, foodScore)
+        if (transportScore == maxVal) {
             setBestScore("Transportation")
-        }else if (homeScore==maxVal){
+        } else if (homeScore == maxVal) {
             setBestScore("Home")
-        }else{
+        } else {
             setBestScore("Food")
         }
 
-        if(foodScore==minVal){
+        if (foodScore == minVal) {
             setWorstScore("Food")
-        }else if (awarenessScore==minVal){
+        } else if (awarenessScore == minVal) {
             setWorstScore("Awareness")
-        }else{
+        } else {
             setWorstScore("Transportation")
         }
     }
@@ -134,32 +134,32 @@ export default function FinishedScreen({navigation, route}) {
                 backgroundColor: 'rgba(216, 243, 220, 0.4)',
             }}
         >
-            <View style={{ height:Dimensions.get('window').height + statusBarHeight }}>
-                <View style={{ marginTop:48, marginBottom:12, alignItems: 'center', }}>
-                    <Text style={{fontSize:20,}}>...and you're done!</Text>
+            <View style={{ height: Dimensions.get('window').height + statusBarHeight }}>
+                <View style={{ marginTop: 48, marginBottom: 12, alignItems: 'center', }}>
+                    <Text style={{ fontSize: 20, }}>...and you're done!</Text>
                 </View>
 
-                <View style={{ marginBottom:24, alignItems: 'center', }}>
-                    <Text style={{ fontSize:24, }}>Here are your results:</Text>
+                <View style={{ marginBottom: 24, alignItems: 'center', }}>
+                    <Text style={{ fontSize: 24, }}>Here are your results:</Text>
                 </View >
 
                 <View
                     style={{
-                        alignItems:'center',
-                        justifyContent:'center',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                         marginHorizontal: 24,
                         borderRadius: 16,
                         backgroundColor: Colors.secondary.ALMOND,
                     }}
                 >
                     <View style={{
-                            alignItems:'center',
-                            justifyContent:'center',
-                        }}
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
                     >
-                        <View style={{marginVertical: 24}}>
+                        <View style={{ marginVertical: 24 }}>
                             <Image
-                                source = {scorePicture}
+                                source={scorePicture}
                                 resizeMode='contain'
                                 style={{
                                     width: Dimensions.get('window').width * 0.35,
@@ -168,12 +168,12 @@ export default function FinishedScreen({navigation, route}) {
                             />
                         </View>
 
-                        <View style={{marginBottom: 12}}>
+                        <View style={{ marginBottom: 12 }}>
                             <Text
                                 style={{
-                                    fontSize:36,
-                                    fontWeight:"500",
-                                    textAlign:'center',
+                                    fontSize: 36,
+                                    fontWeight: "500",
+                                    textAlign: 'center',
                                 }}
                             >
                                 {scoreCategory}
@@ -181,28 +181,28 @@ export default function FinishedScreen({navigation, route}) {
                         </View>
                     </View>
 
-                    <View style={{marginBottom: 24, flexDirection:'row'}}>
-                        <View style={{...q_styles.score_category_container, borderColor:Colors.categories.HOME }}>
-                            <Ionicons name='home-outline' size={40} color={Colors.categories.HOME}/>
-                            <Text style={{...q_styles.score_text, color:Colors.categories.HOME }}>
+                    <View style={{ marginBottom: 24, flexDirection: 'row' }}>
+                        <View style={{ ...q_styles.score_category_container, borderColor: Colors.categories.HOME }}>
+                            <Ionicons name='home-outline' size={40} color={Colors.categories.HOME} />
+                            <Text style={{ ...q_styles.score_text, color: Colors.categories.HOME }}>
                                 {homeScore}
                             </Text>
                         </View>
 
-                        <View style={{marginHorizontal:6}}></View>
+                        <View style={{ marginHorizontal: 6 }}></View>
 
-                        <View style={{...q_styles.score_category_container, borderColor:Colors.categories.TRANSPORTATION }}>
-                            <Ionicons name='bicycle-outline' size={40} color={Colors.categories.TRANSPORTATION}/>
-                            <Text style={{...q_styles.score_text, color:Colors.categories.TRANSPORTATION }}>
+                        <View style={{ ...q_styles.score_category_container, borderColor: Colors.categories.TRANSPORTATION }}>
+                            <Ionicons name='bicycle-outline' size={40} color={Colors.categories.TRANSPORTATION} />
+                            <Text style={{ ...q_styles.score_text, color: Colors.categories.TRANSPORTATION }}>
                                 {transportScore}
                             </Text>
                         </View>
 
-                        <View style={{marginHorizontal:6}}></View>
+                        <View style={{ marginHorizontal: 6 }}></View>
 
-                        <View style={{...q_styles.score_category_container, borderColor:Colors.categories.DIET }}>
-                            <Ionicons name='fast-food-outline' size={40} color={Colors.categories.DIET}/>
-                            <Text style={{...q_styles.score_text, color:Colors.categories.DIET }}>
+                        <View style={{ ...q_styles.score_category_container, borderColor: Colors.categories.DIET }}>
+                            <Ionicons name='fast-food-outline' size={40} color={Colors.categories.DIET} />
+                            <Text style={{ ...q_styles.score_text, color: Colors.categories.DIET }}>
                                 {foodScore}
                             </Text>
                         </View>
@@ -212,12 +212,12 @@ export default function FinishedScreen({navigation, route}) {
                 <View
                     style={{
                         marginTop: 24,
-                        flexDirection:'row',
-                        justifyContent:'space-evenly',
+                        flexDirection: 'row',
+                        justifyContent: 'space-evenly',
                     }}
                 >
-                    <View style={{justifyContent:'center', alignItems:'center'}}>
-                        <Text style={{fontSize:20,marginBottom:10,}}>Best Category:</Text>
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 20, marginBottom: 10, }}>Best Category:</Text>
 
                         <View
                             style={{
@@ -229,13 +229,13 @@ export default function FinishedScreen({navigation, route}) {
                                 borderColor: Colors.secondary.DARK_MINT,
                                 width: 170,
                             }}
-                            >
-                            <Text style={{ fontSize: 18, fontWeight:'500', textAlign: 'center', color: Colors.secondary.DARK_MINT, }}>{bestScore}</Text>
+                        >
+                            <Text style={{ fontSize: 18, fontWeight: '500', textAlign: 'center', color: Colors.secondary.DARK_MINT, }}>{bestScore}</Text>
                         </View>
                     </View>
 
-                    <View style={{justifyContent:'center', alignItems:'center'}}>
-                        <Text style={{fontSize:20,marginBottom:10,}}>Worst Category:</Text>
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 20, marginBottom: 10, }}>Worst Category:</Text>
 
                         <View
                             style={{
@@ -247,21 +247,21 @@ export default function FinishedScreen({navigation, route}) {
                                 borderColor: Colors.secondary.RED,
                                 width: 170,
                             }}
-                            >
-                            <Text style={{ fontSize: 18, fontWeight:'500', textAlign: 'center', color: Colors.secondary.RED, }}>{worstScore}</Text>
+                        >
+                            <Text style={{ fontSize: 18, fontWeight: '500', textAlign: 'center', color: Colors.secondary.RED, }}>{worstScore}</Text>
                         </View>
                     </View>
                 </View>
 
-                <View style={{alignItems: 'center', position:'absolute', bottom: 20, width:'100%'}}>
+                <View style={{ alignItems: 'center', position: 'absolute', bottom: 20, width: '100%' }}>
                     <TouchableOpacity
                         style={q_styles.cta_button}
-                        onPress={() =>{
+                        onPress={() => {
                             finishedQuestionnaire()
                             route.params?.setFinishedQuestionnaire(true)
                         }}
                     >
-                        <Text style={{...q_styles.cta_text, fontWeight: '600'}}>Take me to the app!</Text>
+                        <Text style={{ ...q_styles.cta_text, fontWeight: '600' }}>Take me to the app!</Text>
                     </TouchableOpacity>
                 </View>
             </View>

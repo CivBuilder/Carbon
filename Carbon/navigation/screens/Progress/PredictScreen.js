@@ -6,8 +6,8 @@ import LoadingIndicator from "../../../components/LoadingIndicator";
 import PredictInput from "../../../calculations/PredictInput";
 import { ScreenNames } from "../Main/ScreenNames";
 import { DailyLog } from "../../../components/ChartData";
-import {API_URL} from '../../../config/Api';
-import { getToken } from '../../../util/LoginManager';
+import { API_URL } from '../../../config/Api';
+import { getToken } from '../../../util/UserManagement';
 
 const windowHeight = Dimensions.get("window").height;
 export default function PredictScreen({ navigation, route }) {
@@ -20,7 +20,7 @@ export default function PredictScreen({ navigation, route }) {
         diet_emissions: 0,
         home_emissions: 0
     });
-    
+
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -37,14 +37,14 @@ export default function PredictScreen({ navigation, route }) {
             try {
                 const retData = await PredictInput(); //put the data here and set the array
                 setData(retData); //Sets the 2d array to be in twoDdata
-              
+
             }
             catch (error) {
                 console.log(error);
             }
         }
         callPredictInput(); //Call the getdata through callGetData
-        
+
     }, []);
 
     async function postResults() {
@@ -110,7 +110,7 @@ export default function PredictScreen({ navigation, route }) {
                     </View>
                 </View>
             ) : (
-    
+
                 data.every((num) => num === 0) ? (
                     <View style={{
                         backgroundColor: "white",

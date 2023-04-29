@@ -1,24 +1,24 @@
 //This file will predict input from 
 
 import { API_URL } from "../config/Api";
-import { getToken } from "../util/LoginManager";
+import { getToken } from "../util/UserManagement";
 import MLR from "ml-regression-multivariate-linear";
 
 const PredictInput = async () => {
     try {
-     //needs to be not hard coded
+        //needs to be not hard coded
         //const url = "http://{YOURLOCALIPHERE}:3000/api/userEmissions?user_id="+ user_id; //for local hosting and testing 
 
         //console.log("fetching data to predict from " + url); //log to see if if it works
 
 
         let count = 0;
-    //    console.log("predicting")
-        data = [0,0,0,0,0]
+        //    console.log("predicting")
+        data = [0, 0, 0, 0, 0]
 
         try {
             const response = await fetch(`${API_URL}userEmissions/getAll`, {
-            //constresponse = await fetch('LOCALIPHERE/userEmissions/id', {
+                //constresponse = await fetch('LOCALIPHERE/userEmissions/id', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,5 +1,5 @@
 import { API_URL } from "../config/Api";
-import { getAuthHeader } from '../util/LoginManager';
+import { getAuthHeader } from '../util/UserManagement';
 
 const TIMEOUT_DURATION = 25000;
 
@@ -13,7 +13,7 @@ const TIMEOUT_DURATION = 25000;
   @example
   const data = await FetchMonthEmissions('2023-01');
 */
-export const FetchMonthEmissions = async(yearMonth) => {
+export const FetchMonthEmissions = async (yearMonth) => {
   console.log('FetchMonthEmissions: Fetching data...');
   try {
 

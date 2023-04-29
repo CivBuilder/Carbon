@@ -1,5 +1,5 @@
 import { API_URL } from "../../../config/Api";
-import { getToken } from "../../../util/LoginManager";
+import { getToken } from "../../../util/UserManagement";
 /*
     This is a function that will get the data from the server and return it
     The data is not being returned yet.

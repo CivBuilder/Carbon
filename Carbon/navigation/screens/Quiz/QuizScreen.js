@@ -1,28 +1,28 @@
 import * as React from 'react';
 import { Dimensions, SafeAreaView, Text, TouchableOpacity, View, StyleSheet, Modal, StatusBar, ScrollView, ActivityIndicator } from 'react-native';
-import {useState, useEffect, } from 'react';
-import { getToken } from '../../../util/LoginManager';
+import { useState, useEffect, } from 'react';
+import { getToken } from '../../../util/UserManagement';
 import { API_URL } from '../../../config/Api';
 import { Colors } from '../../../styling/Colors';
 import { Ionicons } from '@expo/vector-icons';
 
-const QuizScreen = ({navigation, route}) => {
+const QuizScreen = ({ navigation, route }) => {
     //used for fetching data
-    const[isLoading, setLoading] = useState(true);
-    const[data, setData] = useState([]);
-    const[question, setQuestion] = useState([]);
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+    const [question, setQuestion] = useState([]);
 
     //gets all content from quizcontent
-    const fetchData = async() => {
+    const fetchData = async () => {
         console.log("Fetching data for quizcontent with id:", route.params.id);
-        try{
-        const response = await fetch(API_URL + "quiz/" + route.params.id)
-        const responsedata = await response.json();
-        setData(responsedata.quiz);
-        setLoading(false);
+        try {
+            const response = await fetch(API_URL + "quiz/" + route.params.id)
+            const responsedata = await response.json();
+            setData(responsedata.quiz);
+            setLoading(false);
 
         }
-        catch(error) {
+        catch (error) {
             console.error("An error occured when connecting to the api, ensure you turned on the server and updated the APIURL accordingly if hosting localy - Avery. The following is the official error message: " + error)
             navigation.goBack(); //Hacky way of going back to the previous screen if the api is down since there's no other way to exit out of the loading screen
         }
@@ -49,7 +49,7 @@ const QuizScreen = ({navigation, route}) => {
 
     //HELPER FUNCTIONS
     const answerClicked = (answer) => {
-        if(quizActive){
+        if (quizActive) {
             setSelectedAnswer(answer);
             setShowSubmit(true);
             setAnswerSelected(true);
@@ -58,8 +58,8 @@ const QuizScreen = ({navigation, route}) => {
 
     const submitClicked = () => {
         setQuizActive(false);
-        if(selectedAnswer.iscorrect){
-            setScore(score+1);
+        if (selectedAnswer.iscorrect) {
+            setScore(score + 1);
         }
         setShowSubmit(false);
         setShowNext(true);
@@ -67,16 +67,16 @@ const QuizScreen = ({navigation, route}) => {
     }
 
     const nextClicked = () => {
-        if(currentQuestion + 1 < data.questions.length){
+        if (currentQuestion + 1 < data.questions.length) {
             setCurrentQuestion(currentQuestion + 1);
         }
-        else{
+        else {
             setQuizCompleted(true)
-            if(score/data.questions.length == 1){
+            if (score / data.questions.length == 1) {
                 setperfectScore(true)
                 postScore()
             }
-            else{
+            else {
                 setperfectScore(false)
             }
         }
@@ -92,18 +92,18 @@ const QuizScreen = ({navigation, route}) => {
     }
 
     async function postScore() {
-        try{
-            const fscore = {score: 100};
+        try {
+            const fscore = { score: 100 };
             const response = await fetch(`${API_URL}user/quiz`, {
                 method: 'POST',
-                headers:{
+                headers: {
                     'Content-Type': 'application/json',
                     'secrettoken': await getToken(),
                 },
-                body : JSON.stringify(fscore)
+                body: JSON.stringify(fscore)
             });
-        } catch(error){
-                console.error("Post Failed: " + error)
+        } catch (error) {
+            console.error("Post Failed: " + error)
         }
     }
 
@@ -112,31 +112,31 @@ const QuizScreen = ({navigation, route}) => {
     const renderQuestion = () => {
         return (
             <>
-            <View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12, }}>
-                    {/* Question Counter */}
-                    <View>
-                        <Text style={ styles.question_counter }>{`Question ${currentQuestion + 1} of ${data.questions.length}`}</Text>
+                <View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12, }}>
+                        {/* Question Counter */}
+                        <View>
+                            <Text style={styles.question_counter}>{`Question ${currentQuestion + 1} of ${data.questions.length}`}</Text>
+                        </View>
+
+                        {/* Score Counter */}
+                        <View>
+                            <Text style={styles.score_counter}>Score: {score}</Text>
+                        </View>
                     </View>
 
-                    {/* Score Counter */}
-                    <View>
-                        <Text style={ styles.score_counter }>Score: {score}</Text>
+                    {/* Question */}
+                    <View style={styles.question_container}>
+                        <Text
+                            style={{
+                                ...styles.question_text,
+                                fontSize: data.questions[currentQuestion].question.length > 90 ? 18 : 22,
+                            }}
+                        >
+                            {data.questions[currentQuestion].question}
+                        </Text>
                     </View>
                 </View>
-
-                {/* Question */}
-                <View style={styles.question_container}>
-                    <Text
-                        style={{
-                            ...styles.question_text,
-                            fontSize: data.questions[currentQuestion].question.length > 90 ? 18 : 22,
-                        }}
-                    >
-                        {data.questions[currentQuestion].question}
-                    </Text>
-                </View>
-            </View>
             </>
         )
     }
@@ -150,15 +150,15 @@ const QuizScreen = ({navigation, route}) => {
                         style={{
                             ...styles.answer_button,
                             backgroundColor:
-                                quizActive ?(answer === selectedAnswer ?
-                                (answerSelected ? '#A7C5F2' : "white") : "white" ) :
-                                (answer === selectedAnswer ? (answer.iscorrect ? '#9ce8b2' : '#ff9494') : "white"),
+                                quizActive ? (answer === selectedAnswer ?
+                                    (answerSelected ? '#A7C5F2' : "white") : "white") :
+                                    (answer === selectedAnswer ? (answer.iscorrect ? '#9ce8b2' : '#ff9494') : "white"),
 
                             borderColor:
-                                quizActive ?(answer === selectedAnswer ?
-                                (answerSelected ? '#465366' : '#BFBFBF') : '#BFBFBF' ) :
-                                (answer === selectedAnswer ? (answer.iscorrect ? '#1c622f' : '#804A4A') : '#BFBFBF'),
-                            }}
+                                quizActive ? (answer === selectedAnswer ?
+                                    (answerSelected ? '#465366' : '#BFBFBF') : '#BFBFBF') :
+                                    (answer === selectedAnswer ? (answer.iscorrect ? '#1c622f' : '#804A4A') : '#BFBFBF'),
+                        }}
                         onPress={() => answerClicked(answer)}
                     >
                         <Text
@@ -175,34 +175,34 @@ const QuizScreen = ({navigation, route}) => {
     }
 
     const renderSubmitButton = () => {
-        return(
+        return (
             <View>
-                {showSubmit ?  (
+                {showSubmit ? (
                     <TouchableOpacity
-                        style={ styles.cta_button }
-                        onPress ={() => submitClicked()}
+                        style={styles.cta_button}
+                        onPress={() => submitClicked()}
                     >
-                        <Text style = { styles.cta_text }> Submit </Text>
+                        <Text style={styles.cta_text}> Submit </Text>
                     </TouchableOpacity>
                 ) : (
-                    <View/>
+                    <View />
                 )}
             </View>
         )
     }
 
     const renderNextButton = () => {
-        return(
+        return (
             <View>
-                {showNext ?  (
+                {showNext ? (
                     <TouchableOpacity
-                        style={ styles.cta_button }
-                        onPress ={() => nextClicked()}
+                        style={styles.cta_button}
+                        onPress={() => nextClicked()}
                     >
-                        <Text style = { styles.cta_text }> Next </Text>
+                        <Text style={styles.cta_text}> Next </Text>
                     </TouchableOpacity>
                 ) : (
-                    <View/>
+                    <View />
                 )}
             </View>
         )
@@ -217,15 +217,15 @@ const QuizScreen = ({navigation, route}) => {
             animationInTiming={1000}
             animationOutTiming={1000}
         >
-            <SafeAreaView style={ styles.screen }>
-            <StatusBar backgroundColor={Colors.primary.MINT_CREAM} />
+            <SafeAreaView style={styles.screen}>
+                <StatusBar backgroundColor={Colors.primary.MINT_CREAM} />
                 {isLoading ? (
-                    <View style={{flex: 1, justifyContent:'center', alignItems:'center'}}>
-                        <ActivityIndicator size="large"/>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <ActivityIndicator size="large" />
                     </View>
                 ) : (
                     <View>
-                        { quizCompleted ? (
+                        {quizCompleted ? (
                             <View style={{ height: '100%', justifyContent: 'center', alignItems: 'center', }}>
                                 <View style={styles.result_container}>
                                     <Text style={styles.result_heading}>Quiz completed!</Text>
@@ -237,9 +237,9 @@ const QuizScreen = ({navigation, route}) => {
                                                     score / data.questions.length >= 0.8
                                                         ? "#3CB371" // Green if at least 80% of the questions are correct
                                                         : score / data.questions.length >= 0.5
-                                                        ? "#FFA500" // Yellow if between 50% and 80%
-                                                        : "#FF6347", // Red if below 50%
-                                                }}
+                                                            ? "#FFA500" // Yellow if between 50% and 80%
+                                                            : "#FF6347", // Red if below 50%
+                                            }}
                                         >
                                             {Math.round(score / data.questions.length * 100)}%
                                         </Text>
@@ -263,7 +263,7 @@ const QuizScreen = ({navigation, route}) => {
 
                                 <View
                                     style={{
-                                        flex:1,
+                                        flex: 1,
                                         position: 'absolute',
                                         bottom: 20,
                                         width: '100%',
@@ -279,14 +279,14 @@ const QuizScreen = ({navigation, route}) => {
                                         </TouchableOpacity>
                                     )}
                                     <TouchableOpacity style={{ ...styles.cta_button, backgroundColor: 'transparent', padding: 3, borderWidth: 3, borderColor: Colors.secondary.DARK_MINT }} onPress={() => navigation.goBack()}>
-                                        <Text  style={{ ...styles.cta_text, color: Colors.secondary.DARK_MINT }}>Finish</Text>
+                                        <Text style={{ ...styles.cta_text, color: Colors.secondary.DARK_MINT }}>Finish</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
 
                         ) : (
 
-                            <View style={{height: '100%'}}>
+                            <View style={{ height: '100%' }}>
                                 {/* Close button and exit modal */}
                                 <View style={{ position: 'relative' }}>
                                     <TouchableOpacity
@@ -304,8 +304,8 @@ const QuizScreen = ({navigation, route}) => {
                                             animationOutTiming={1000}
                                             transparent={true}
                                         >
-                                            <View style={{flex: 1, backgroundColor: "rgba(0,0,0,0.5)", justifyContent: 'flex-end'}}>
-                                                <TouchableOpacity onPress={() => setVisibility(false)}/>
+                                            <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.5)", justifyContent: 'flex-end' }}>
+                                                <TouchableOpacity onPress={() => setVisibility(false)} />
                                                 <View
                                                     style={{
                                                         position: 'absolute', bottom: '40%', left: 24, right: 24, top: '30%',
@@ -361,7 +361,7 @@ const QuizScreen = ({navigation, route}) => {
 
                                 </View>
 
-                                <View style={{flex: 1}}>
+                                <View style={{ flex: 1 }}>
                                     <View style={{ marginTop: 36 }} >
                                         {/* Question */}
                                         {renderQuestion()}
@@ -407,7 +407,7 @@ const QuizScreen = ({navigation, route}) => {
 }
 
 styles = StyleSheet.create({
-    screen:{
+    screen: {
         backgroundColor: '#E3FFF1',
         paddingTop: 12,
         paddingHorizontal: 24,
@@ -429,7 +429,7 @@ styles = StyleSheet.create({
     },
     score_counter: {
         fontSize: 16,
-        marginRight: 12*2,
+        marginRight: 12 * 2,
         color: Colors.primary.RAISIN_BLACK,
     },
     question_text: {

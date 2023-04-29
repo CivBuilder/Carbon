@@ -8,7 +8,7 @@ import LoginNavButton from '../../../components/LoginNavButton'
 import { Colors } from '../../../styling/Colors'
 import { ScreenNames } from '../Main/ScreenNames'
 import { useState } from 'react'
-import { signup } from '../../../util/LoginManager'
+import { signup } from '../../../util/UserManagement'
 
 
 const SignUpScreen = ({ navigation }) => {

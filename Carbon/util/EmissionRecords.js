@@ -1,5 +1,5 @@
 import { API_URL } from "../config/Api";
-import { getToken } from "./LoginManager";
+import { getToken } from "./UserManagement";
 
 export const getRecentEmissions = async () => {
   console.log(`getRecentEmissions: Fetching recent records`);
