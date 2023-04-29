@@ -172,7 +172,11 @@ const SettingsScreen = ({ navigation }) => {
                     <PasswordInput text="Confirm Password" testID="ConfirmPassword" onChangeText={pw => handlePasswordMatch(pw)} />
                 </View>
                 <ChangePasswordButton onPress={async () => await handlePasswordChange()} disabled={(!oldPassword || !newPassword || !confirmPassword || !passwordMatch)} />
-
+                {/* Calculation details */}
+                <View style={styles.content}>
+                    <Text style={styles.generalText}>See how we do our calculations</Text>
+                </View>
+                <CalculationsButton onPress={() => navigation.navigate(ScreenNames.CALCULATION_DETAILS)} />
                 {/* Logout */}
                 <View style={styles.content}>
                     <TouchableOpacity
