@@ -70,7 +70,7 @@ export default function RecordEmissionScreen({navigation, route}) {
     <View style={styles.centeredView}>
       <View style={styles.titleView}>
         <Text style={styles.title}>
-          Choose a category to record today's carbon emissions:
+          Select a category to log your emissions for today
         </Text>
       </View>
       <View style={styles.modalView} testID='modal-view'>  
@@ -86,6 +86,12 @@ export default function RecordEmissionScreen({navigation, route}) {
           <Icon name="car" size={40} color={Colors.secondary.DARK_MINT} style={styles.icon} testID="car-icon" />
           <Text style={styles.categoryText}>Transportation</Text>
         </TouchableOpacity> 
+        <TouchableOpacity style={styles.categoryTile} onPress={() => {
+            navigation.navigate(ScreenNames.ELECTRICITY, {sentEmissionsEntry : emissionsEntry})
+        }}>
+          <Icon name="plug" size={40} color={Colors.secondary.DARK_MINT} style={styles.icon} testID="electricity-icon" />
+          <Text style={styles.categoryText}>Electricity</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.categoryTile} onPress={() => {
             navigation.navigate(ScreenNames.RECYCLING, {sentEmissionsEntry : emissionsEntry})
         }}>
