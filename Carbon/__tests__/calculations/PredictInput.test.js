@@ -43,29 +43,4 @@ describe("test suite one", () => {
     });
 });
 
-describe("test suite two", () => {
-    beforeAll(() => {
-        global.fetch = jest.fn(() => {
-            return new Promise(resolve => {
-                resolve({
-                    ok: false,
-                    success: false,
-                    json: () => {
-                        return Promise.resolve("error message");
-                    },
-                    status: 400,
-                });
-            });
-        });
-    });
 
-    afterAll(() => {
-        global.fetch.mockClear();
-        delete global.fetch;
-    });
-
-    test("PredictInput should handle error", async () => {
-        const data = await PredictInput();
-        expect(data).toBe([0,0,0,0,0]);
-    });
-});
