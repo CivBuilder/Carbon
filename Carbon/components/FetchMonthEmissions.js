@@ -14,7 +14,7 @@ const TIMEOUT_DURATION = 25000;
   const data = await FetchMonthEmissions('2023-01');
 */
 export const FetchMonthEmissions = async (yearMonth) => {
-  console.log('FetchMonthEmissions: Fetching data...');
+  // console.log('FetchMonthEmissions: Fetching data...');
   try {
 
     // Check if yearMonth is in correct format
