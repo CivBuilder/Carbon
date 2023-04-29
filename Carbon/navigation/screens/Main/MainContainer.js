@@ -113,6 +113,10 @@ const HomeStack = ({ navigation }) => {
             />
             <Stack.Screen name={ScreenNames.SETTINGS} component={SettingsScreen} />
             <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={RecordEmissionScreen} />
+            <Stack.Screen name={ScreenNames.FOOD} component={FoodScreen} />
+            <Stack.Screen name={ScreenNames.TRANSPORTATION} component={TransportationScreen} />
+            <Stack.Screen name={ScreenNames.RECYCLING} component={RecyclingScreen} />
+            <Stack.Screen name={ScreenNames.ELECTRICITY} component={RecordElectricity} />
             <Stack.Screen name={ScreenNames.CALCULATION_DETAILS} component={CalculationScreen} />
         </Stack.Navigator>
     );
