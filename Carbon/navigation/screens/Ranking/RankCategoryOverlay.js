@@ -16,7 +16,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
 
     return (
         <View>
-            <TouchableOpacity onPress={() => {setVisibility(!modalVisible)}}>
+            <TouchableOpacity onPress={() => {setVisibility(!modalVisible)}} testID='list-btn'>
                 <Ionicons
                     name={"list-outline"}
                     size={26}
@@ -25,6 +25,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                 />
             </TouchableOpacity>
             <Modal 
+                testID='overlay-modal'
                 transparent = {true}
                 animationType='slide'
                 visible = {modalVisible}
@@ -38,6 +39,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
 
                         <View style = {styles.RadioButtonContainer}>
                             <RadioButton
+                                testID='glob-btn'
                                 value = "Global Score"
                                 status={ selectedCategory === ec.GLOBAL ? 'checked' : 'unchecked' }
                                 onPress={() => setSelectedCategory(ec.GLOBAL)}
@@ -54,6 +56,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                         
                         <View style = {styles.RadioButtonContainer}>
                             <RadioButton
+                                testID='trans-btn'
                                 value = "Transport Score"
                                 status={ selectedCategory === ec.TRANSPORT ? 'checked' : 'unchecked' }
                                 onPress={() => setSelectedCategory(ec.TRANSPORT)}
@@ -70,6 +73,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
 
                         <View style = {styles.RadioButtonContainer}>
                             <RadioButton
+                                testID='life-btn'
                                 value = "Lifestyle Score"
                                 status={ selectedCategory === ec.LIFESTYLE ? 'checked' : 'unchecked' }
                                 onPress={() => setSelectedCategory(ec.LIFESTYLE)}
@@ -86,6 +90,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
 
                         <View style = {styles.RadioButtonContainer}>
                             <RadioButton
+                                testID='diet-btn'
                                 value = "Diet Score"
                                 status={ selectedCategory === ec.DIET ? 'checked' : 'unchecked' }
                                 onPress={() => setSelectedCategory(ec.DIET)}
@@ -102,6 +107,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
 
                         <View style = {styles.RadioButtonContainer}>
                             <RadioButton
+                                testID='home-btn'
                                 value = "Home Score"
                                 status={ selectedCategory === ec.HOME ? 'checked' : 'unchecked' }
                                 onPress={() => setSelectedCategory(ec.HOME)}
@@ -117,6 +123,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                         </View>
 
                         <Pressable 
+                            testID='leave-btn'
                             style = {styles.button} 
                             onPress = {() => {
                                 setVisibility(!modalVisible); 

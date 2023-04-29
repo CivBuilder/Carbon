@@ -11,7 +11,7 @@ export default function ListPlayers ({table, onRefresh, onEndReached, category, 
             data={table}
             getItem={(table, index) => table[index]}
             getItemCount={table => table.length}
-            keyExtractor={(item, i) => item.username}
+            keyExtractor={(item, i) => i}
             renderItem = {({item}) => <RenderListEntry item={item} category={category} username = {username}/>}
             onRefresh = {onRefresh}
             refreshing={false}

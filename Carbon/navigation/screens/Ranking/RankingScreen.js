@@ -19,8 +19,6 @@ const API_Entry_LEADERBOARD_URL = API_URL + "user/leaderboard";
 
 
 //For Testing - We must get these when establishing a user session. This data is in the database for testing
-const KEY = "8";
-const USERNAME = "sellen7";
 
 const ListTabIDs = {
   PLAYERS_LIKE_YOU : 0, 
