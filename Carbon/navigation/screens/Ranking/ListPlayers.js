@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Image} from "react-native";
+import { View, Text, VirtualizedList, Image} from "react-native";
 import {Colors} from "../../../styling/Colors";
 import { StyleSheet } from "react-native";
 import { AvatarView } from "../../../util/AvatarProfileMap";
@@ -7,8 +7,11 @@ export default function ListPlayers ({table, onRefresh, onEndReached, category, 
     
     // useEffect()
     return(
-        <FlatList 
+        <VirtualizedList
             data={table}
+            getItem={(table, index) => table[index]}
+            getItemCount={table => table.length}
+            keyExtractor={(item, i) => item.username}
             renderItem = {({item}) => <RenderListEntry item={item} category={category} username = {username}/>}
             onRefresh = {onRefresh}
             refreshing={false}
@@ -16,8 +19,8 @@ export default function ListPlayers ({table, onRefresh, onEndReached, category, 
             onEndReachedThreshold={0.9}
             style = {{
             }}
-            testID="flatlist"
-        ></FlatList>
+            testID="list"
+        ></VirtualizedList>
         
     )
 }
