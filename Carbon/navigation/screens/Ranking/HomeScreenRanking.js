@@ -20,7 +20,7 @@ export default function HomeScreenRanking() {
     }, []);
 
     return (
-      <View style= {{height : 160}}>
+      <View style= {{height : 160}} testID='home-screen-ranking'>
         <MiniRanking userScores={userScores} rankCategory ={rankCategory}/>
         <LoadingIndicator loading={loading}/>
       </View>

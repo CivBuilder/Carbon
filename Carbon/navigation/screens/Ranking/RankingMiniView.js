@@ -6,6 +6,12 @@ import { Colors } from '../../../styling/Colors.js';
 import { EmissionCategory as EC } from './EmissionScoreCateogory';
 
 
+/**
+ * 
+ * @param {JSON} userScores - Prop JSon that is the result of the fetch request for the  
+ * @param {JSON} rankCategory - EmissionScoreCategory JSON object that determines which category of rank
+ * @returns 
+ */
 export default function MiniRanking({userScores, rankCategory}) {
     if(userScores != null && (rankCategory==EC.GLOBAL || rankCategory == EC.DIET ||
        rankCategory==EC.HOME || rankCategory==EC.LIFESTYLE || rankCategory==EC.TRANSPORT)
