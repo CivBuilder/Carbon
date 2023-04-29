@@ -30,7 +30,7 @@ import { PopUpMenu } from '../../../components/PopUpMenu';
 import RankCategoryOverlay from '../Ranking/RankCategoryOverlay';
 import CalculationScreen from '../Settings/CalculationScreen';
 import LoadingIndicator from '../../../components/LoadingIndicator';
-
+import RecordElectricity from '../Progress/RecordElectricity';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -139,10 +139,10 @@ const ProgressStack = ({ navigation }) => {
             <Stack.Screen name={ScreenNames.PREDICT} component={PredictScreen} />
             <Stack.Screen name={ScreenNames.ADD_GOAL} component={GoalScreen} />
             <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={RecordEmissionScreen} />
-
             <Stack.Screen name={ScreenNames.FOOD} component={FoodScreen} />
             <Stack.Screen name={ScreenNames.TRANSPORTATION} component={TransportationScreen} />
             <Stack.Screen name={ScreenNames.RECYCLING} component={RecyclingScreen} />
+            <Stack.Screen name={ScreenNames.ELECTRICITY} component={RecordElectricity} />
         </Stack.Navigator>
     );
 };
