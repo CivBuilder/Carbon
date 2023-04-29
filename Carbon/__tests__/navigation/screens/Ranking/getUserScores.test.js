@@ -42,7 +42,7 @@ describe('getUserScores ~ function that retrieves user scores from the database'
                 resolve({
                 ok: true,
                 json: () => {
-                    return { ranking: 5, sustainability_score: 80 };
+                    return {};
                 },
                 status : 404,
                 });

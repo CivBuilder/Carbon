@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, Image} from 'react-native';
 import { SustainabilityScoreProfileView } from '../../../util/SustainabilityScoreProfileView';
 import RankProgressBar from '../../../components/ProgressBar.js';
 import { Colors } from '../../../styling/Colors.js';
-import { EmissionCategory as EC } from './EmissionScoreCateogory';
+import { EmissionCategory as EC } from './EmissionScoreCategory';
 
 
 /**

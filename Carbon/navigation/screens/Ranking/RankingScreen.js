@@ -10,7 +10,7 @@ import getUserScores from './getUserScores';
 import MiniRanking from './RankingMiniView';
 import SwitchSelector from "react-native-switch-selector";
 import RankingCategoryOverlay from './RankCategoryOverlay';
-import { EmissionCategory as EC, EmissionCategory } from './EmissionScoreCateogory';
+import { EmissionCategory as EC, EmissionCategory } from './EmissionScoreCategory';
 import RankingList from './RankingTableClass';
 
 const PAGE_SIZE = 15;

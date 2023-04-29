@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../../../styling/Colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { RadioButton } from 'react-native-paper';
-import { EmissionCategory as ec } from './EmissionScoreCateogory';
+import { EmissionCategory as ec } from './EmissionScoreCategory';
 
 
 export default function RankCategoryOverlay({setEmissionCategory}){

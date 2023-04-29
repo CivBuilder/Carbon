@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react-native';
 import { formatRankText } from '../../../../navigation/screens/Ranking/RankingMiniView';
 import MiniRanking from '../../../../navigation/screens/Ranking/RankingMiniView';
-import { EmissionCategory as EC } from '../../../../navigation/screens/Ranking/EmissionScoreCateogory';
+import { EmissionCategory as EC } from '../../../../navigation/screens/Ranking/EmissionScoreCategory';
 
 describe('FormatRankText', () => {
     it('Will return st with 1s ordinals are that arent in the 10s place', () => {
