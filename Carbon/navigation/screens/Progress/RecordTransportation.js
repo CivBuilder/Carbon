@@ -9,6 +9,8 @@ import calcElecCar from '../../../calculations/travel_calculations/calcElecCar';
 import calcPlane from '../../../calculations/travel_calculations/calcPlane';
 import calcPublic from '../../../calculations/travel_calculations/calcPublic';
 import calcBike from '../../../calculations/travel_calculations/calcBike';
+import { validateTransportationEntry } from '../../../util/RecordEmissionChecks';
+
 const RecordTransportation = ({ navigation, route }) => {
   
   const [emissionsEntry, setEmissionsEntry] = useState({});
@@ -164,7 +166,7 @@ const RecordTransportation = ({ navigation, route }) => {
       </View>
 
       <View style={{flex: 1, justifyContent:'flex-end', marginBottom: 12,}}>
-        <TouchableOpacity testID='save-button' style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
+        <TouchableOpacity testID='save-button' style={styles.button} onPress={() => validateTransportationEntry(milesTraveled) ? navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry}) : alert("Miles traveled must be between 0 and 4000.")}>
           <Text style={styles.buttonText}>Save & Return</Text>
         </TouchableOpacity>
       </View>

@@ -7,6 +7,7 @@ import calcPaper  from '../../../calculations/recycling_calculations/calcPaper'
 import calcPlastic from '../../../calculations/recycling_calculations/calcPlastic'
 import calcMetal from '../../../calculations/recycling_calculations/calcMetal'
 import calcGlass from '../../../calculations/recycling_calculations/calcGlass'
+import { validateRecyclingEntry } from '../../../util/RecordEmissionChecks';
 
 const RecordRecycling = ({ navigation, route }) => {
   const [emissionsEntry, setEmissionsEntry] = useState();
@@ -169,7 +170,7 @@ const RecordRecycling = ({ navigation, route }) => {
           onChangeText={metal=>metal ? setMetalAmount(metal): 0}
         />
        
-      <TouchableOpacity testID='save-button' style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
+      <TouchableOpacity testID='save-button' style={styles.button} onPress={() => validateRecyclingEntry(paperAmount, plasticAmount, glassAmount, metalAmount) ? navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry}) : alert("Each entry must be a number between 0 and 50.")}>
         <Text style={styles.buttonText}>Save & Return</Text>
       </TouchableOpacity>   
     </View>

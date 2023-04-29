@@ -7,6 +7,7 @@ import calcBeef  from '../../../calculations/food_calculations/calcBeef'
 import calcCheese from '../../../calculations/food_calculations/calcCheese'
 import calcPork from '../../../calculations/food_calculations/calcPork'
 import calcPoultry from '../../../calculations/food_calculations/calcPoultry'
+import { validateFoodEntry } from '../../../util/RecordEmissionChecks';
 
 const RecordFood = ({ navigation, route }) => {
   const [totalConsumption, setTotalConsumption] = useState(0);
@@ -146,7 +147,7 @@ const RecordFood = ({ navigation, route }) => {
           onChangeText={poultry=>poultry ? setPorkConsumption(poultry): 0}
         />
 
-        <TouchableOpacity testID ='save-button' style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
+        <TouchableOpacity testID ='save-button' style={styles.button} onPress={() => validateFoodEntry(beefConsumption, porkConsumption, cheeseConsumption, poultryConsumption) ? navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry}) : alert("Each entry must be a number between 0 and 10.")}>
           <Text style={styles.buttonText}>Save & Return</Text>
         </TouchableOpacity>
       </View>
