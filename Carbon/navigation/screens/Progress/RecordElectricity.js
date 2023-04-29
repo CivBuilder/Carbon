@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import CustomPicker from './CustomPicker';
 import {Colors} from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
@@ -61,12 +61,20 @@ const RecordElectricity = ({ navigation, route }) => {
       </View>
       <Text style={styles.header}>Log your home electricity usage for today</Text>
       <View style={styles.pickercontainer}>
-        <CustomPicker
+
+        {/* <CustomPicker
           label='Electricity Usage (kWh)'
           selectedValue={electricityUsage}
           onValueChange={setElectricityUsage}
           items={kwh}
           testID='electricity-picker'
+        /> */}
+        <Text style={styles.text_input_label}>Electric Usage (kW⋅h)</Text>
+        <TextInput
+          placeholder='kW⋅h'
+          style={styles.text_input}
+          keyboardType="numeric"
+          onChangeText={electricity=>electricity ? setElectricityUsage(electricity): 0}
         />
         <TouchableOpacity testID ='save-button' style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
           <Text style={styles.buttonText}>Save & Return</Text>
@@ -78,58 +86,73 @@ const RecordElectricity = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
-  scrollview: {
-    flexGrow: 1,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: Colors.secondary.ALMOND,
-  },
-  label: {
-    fontSize: 16,
-    color: Colors.primary.RAISIN_BLACK,
-    marginBottom: 10,
-  },
-  pickercontainer: {
-    width: '100%',
-    padding: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    
-  },
-  picker: {
-    marginBottom: 5,
-  },
-  
-  button: {
-    backgroundColor: Colors.secondary.DARK_MINT,
-    borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    margin: 4,
-    minWidth: 60,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: Colors.primary.MINT_CREAM,
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  funfact: {
-    backgroundColor: Colors.primary.MINT,
-    padding: 10,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginBottom: 20,
-    width: '100%',
-  },
-  header: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  
+    scrollview: {
+      flexGrow: 1,
+    },
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      backgroundColor: Colors.secondary.NYANZA,
+      paddingHorizontal: 24,
+    },
+    label: {
+      fontSize: 16,
+      color: Colors.primary.RAISIN_BLACK,
+      marginBottom: 10,
+      textAlign: 'center',
+    },
+    pickercontainer: {
+      width: '100%',
+      padding: 10,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    button: {
+      backgroundColor: Colors.secondary.DARK_MINT,
+      borderRadius: 8,
+      paddingVertical: 12,
+      paddingHorizontal: 12,
+      margin: 4,
+      minWidth: 60,
+      alignItems: 'center',
+    },
+    buttonText: {
+      color: Colors.primary.RAISIN_BLACK,
+      fontWeight: 'bold',
+      fontSize: 16,
+    },
+    funfact: {
+      borderRadius: 12,
+      borderWidth: 2,
+      borderColor: Colors.primary.MINT,
+      backgroundColor: Colors.secondary.CELADON,
+      padding: 12,
+      width: '100%',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      marginVertical: 12,
+    },
+    header: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      marginBottom: 10,
+    },
+    text_input_label: {
+      fontSize:16,
+      fontWeight:"500",
+      marginBottom:12,
+      textAlign: 'center',
+    },
+    text_input: {
+        height: 40,
+        width: 12*16,
+        borderColor: 'gray',
+        borderWidth: 1.5,
+        borderRadius: 6,
+        padding: 10,
+        marginBottom: 24,
+        backgroundColor: 'white',
+    },
 });
 
 export default RecordElectricity;
