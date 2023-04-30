@@ -94,7 +94,8 @@ const ForumCards = ({ navigation }) => {
         <TouchableOpacity onPress={() => {
           navigation.navigate(ScreenNames.FORUM, {
             screen: ScreenNames.BROWSER,
-            params: { id: 36 }
+            initial: false,
+            params: { id: 36 },
           });
         }}>
           <Image style={{ width: '100%', height: '100%', borderRadius: 16 }} source={thumbnails.water3} />
