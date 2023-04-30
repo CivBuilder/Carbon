@@ -2,7 +2,6 @@ export const EmissionCategory = {
     GLOBAL : {
         title : 'global_',
         id : 0,
-        URL : ''
     },
     TRANSPORT : {
         title : 'transport_',

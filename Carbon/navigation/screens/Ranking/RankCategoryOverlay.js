@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../../../styling/Colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { RadioButton } from 'react-native-paper';
-import { EmissionCategory as ec } from './EmissionScoreCateogory';
+import { EmissionCategory as ec } from './EmissionScoreCategory';
 
 
 export default function RankCategoryOverlay({setEmissionCategory}){
@@ -16,7 +16,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
 
     return (
         <View>
-            <TouchableOpacity onPress={() => {setVisibility(!modalVisible)}}>
+            <TouchableOpacity onPress={() => {setVisibility(!modalVisible)}} testID='list-btn'>
                 <Ionicons
                     name={"list-outline"}
                     size={26}
@@ -25,6 +25,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                 />
             </TouchableOpacity>
             <Modal 
+                testID='overlay-modal'
                 transparent = {true}
                 animationType='slide'
                 visible = {modalVisible}
@@ -33,11 +34,12 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                 <View style = {styles.ModalOuterContainer}>
                     <View style = {styles.modalView}>
                         <Text style = {styles.QuestionText}>
-                            Please select your Leaderboard Category:
+                            Please Select your Leaderboard Category:
                         </Text>
 
                         <View style = {styles.RadioButtonContainer}>
                             <RadioButton
+                                testID='glob-btn'
                                 value = "Global Score"
                                 status={ selectedCategory === ec.GLOBAL ? 'checked' : 'unchecked' }
                                 onPress={() => setSelectedCategory(ec.GLOBAL)}
@@ -47,13 +49,14 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                                 name={"earth"}
                                 size={26}
                                 color={Colors.primary.RAISIN_BLACK}
-                                style={{ marginRight: 16, marginLeft: 12 }}
+                                style={{ marginRight: 16, marginLeft: 40 }}
                             />
                             <Text> Global Score </Text>
                         </View>
                         
                         <View style = {styles.RadioButtonContainer}>
                             <RadioButton
+                                testID='trans-btn'
                                 value = "Transport Score"
                                 status={ selectedCategory === ec.TRANSPORT ? 'checked' : 'unchecked' }
                                 onPress={() => setSelectedCategory(ec.TRANSPORT)}
@@ -63,13 +66,14 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                                 name={"car-sport"}
                                 size={26}
                                 color={Colors.primary.RAISIN_BLACK}
-                                style={{ marginRight: 16, marginLeft: 12 }}
+                                style={{ marginRight: 16, marginLeft: 40 }}
                             />
                             <Text> Transport Score </Text>
                         </View>
 
                         <View style = {styles.RadioButtonContainer}>
                             <RadioButton
+                                testID='life-btn'
                                 value = "Lifestyle Score"
                                 status={ selectedCategory === ec.LIFESTYLE ? 'checked' : 'unchecked' }
                                 onPress={() => setSelectedCategory(ec.LIFESTYLE)}
@@ -79,13 +83,14 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                                 name = "recycle"
                                 size = {26}
                                 color={Colors.primary.RAISIN_BLACK}
-                                style={{ marginRight: 16, marginLeft: 12 }}
+                                style={{ marginRight: 16, marginLeft: 40 }}
                             />
                             <Text> Lifestyle Score </Text>
                         </View>
 
                         <View style = {styles.RadioButtonContainer}>
                             <RadioButton
+                                testID='diet-btn'
                                 value = "Diet Score"
                                 status={ selectedCategory === ec.DIET ? 'checked' : 'unchecked' }
                                 onPress={() => setSelectedCategory(ec.DIET)}
@@ -95,13 +100,14 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                                 name={"restaurant"}
                                 size={26}
                                 color={Colors.primary.RAISIN_BLACK}
-                                style={{ marginRight: 16, marginLeft: 12 }}
+                                style={{ marginRight: 16, marginLeft: 40 }}
                             />
                             <Text> Diet Score </Text>
                         </View>
 
                         <View style = {styles.RadioButtonContainer}>
                             <RadioButton
+                                testID='home-btn'
                                 value = "Home Score"
                                 status={ selectedCategory === ec.HOME ? 'checked' : 'unchecked' }
                                 onPress={() => setSelectedCategory(ec.HOME)}
@@ -111,19 +117,20 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                                 name={"home"}
                                 size={26}
                                 color={Colors.primary.RAISIN_BLACK}
-                                style={{ marginRight: 16, marginLeft: 12 }}
+                                style={{ marginRight: 16, marginLeft: 40 }}
                             />
                             <Text>Home Score</Text>
                         </View>
 
                         <Pressable 
+                            testID='leave-btn'
                             style = {styles.button} 
                             onPress = {() => {
                                 setVisibility(!modalVisible); 
                                 setEmissionCategory(selectedCategory);
                             }}
                         >
-                            <Text style={{fontSize: 18, fontWeight:'500', textAlign:'center', color:Colors.primary.MINT_CREAM}}> Return </Text>
+                            <Text> Return </Text>
                         </Pressable>
                     </View>
                 </View>
@@ -155,31 +162,26 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        padding : 12,
+        padding : 5,
     },
     RadioButtonContainer : {
         flexDirection : 'row', 
         alignContent : 'center', 
         alignItems : 'center', 
-        marginHorizontal: 12,
-        paddingHorizontal: 24,
+        marginLeft : 15,
     },
     QuestionText : {
+        flex : 0.4,
         fontSize : 20,
         fontWeight : 'bold',
         textAlign : 'center',
         marginTop : 5,
-        marginBottom : 20,
     },
     button: {
-        justifyContent: 'flex-end',
-        alignSelf: 'center',
         borderRadius: 20,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
+        padding: 5,
         elevation: 2,
-        width:'60%',
-        marginTop: 20,
+        alignSelf : 'center',
         backgroundColor : Colors.primary.MINT
-    },
+    },    
 });

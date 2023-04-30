@@ -1,42 +1,29 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { View } from 'react-native'
+import {View} from 'react-native'
 import LoadingIndicator from "../../../components/LoadingIndicator";
 import getUserScores from './getUserScores';
 import MiniRanking from './RankingMiniView';
-import { EmissionCategory } from './EmissionScoreCateogory';
+import { EmissionCategory } from './EmissionScoreCategory';
 
 
-export default function HomeScreenRanking({ refreshing, setRefreshing }) {
+export default function HomeScreenRanking() {
 
+  
+    const [userScores, setUserScores] = useState(null);
+    const [error, setErrorMessage] = useState(false);    
+    const [loading, setLoading] = useState(false);
+    const rankCategory = EmissionCategory.GLOBAL; //Display the global score on your card 
 
-  const [userScores, setUserScores] = useState(null);
-  const [error, setErrorMessage] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [initialStart, setInitialStart] = useState(true);
-  const rankCategory = EmissionCategory.GLOBAL; //Display the global score on your card 
+    useEffect(() => {
+        getUserScores(setUserScores, setLoading, setErrorMessage);
+    }, []);
 
-  useEffect(() => {
-    if (refreshing || initialStart) {
-      getUserScores(setUserScores, setLoading, setErrorMessage);
-      setRefreshing(false);
-      setInitialStart(false);
-    }
-  }, [initialStart, refreshing, setRefreshing]);
-
-  return (
-    <View>
-      {loading ? (
-        <LoadingIndicator loading={loading} />
-      ) : (
-        <MiniRanking userScores={userScores} rankCategory={rankCategory} />
-      )}
-    </View>
-  )
+    return (
+      <View style= {{height : 160}} testID='home-screen-ranking'>
+        <MiniRanking userScores={userScores} rankCategory ={rankCategory}/>
+        <LoadingIndicator loading={loading}/>
+      </View>
+    )
 
 }
-
-
-
-
-

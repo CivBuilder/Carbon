@@ -10,7 +10,7 @@ import getUserScores from './getUserScores';
 import MiniRanking from './RankingMiniView';
 import SwitchSelector from "react-native-switch-selector";
 import RankingCategoryOverlay from './RankCategoryOverlay';
-import { EmissionCategory as EC, EmissionCategory } from './EmissionScoreCateogory';
+import { EmissionCategory as EC, EmissionCategory } from './EmissionScoreCategory';
 import RankingList from './RankingTableClass';
 
 const PAGE_SIZE = 15;
@@ -175,8 +175,8 @@ export default function RankingScreen({ navigation, route }) {
                 { label: "Top Players", value: ListTabIDs.TOP_PLAYERS },
                 { label: "Worst Players", value: ListTabIDs.WORST_PLAYERS }
               ]}
-              testID="gender-switch-selector"
-              accessibilityLabel="gender-switch-selector"
+              testID="tab-switcher"
+              accessibilityLabel="tab-switcher-label"
               animationDuration={150}
               height={36}
             />
