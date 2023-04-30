@@ -1,8 +1,9 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,TextInput, TouchableOpacity, ImageBackground, ScrollView, Keyboard } from 'react-native';
+import {View, Text,TextInput, TouchableOpacity, ImageBackground, ScrollView, Keyboard, KeyboardAvoidingView, Animated } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import {aveFoodConsumption} from '../../../calculations/food_calculations/averageFoodConsumption';
 import calcBeef from '../../../calculations/food_calculations/questionnaire/calcBeef';
@@ -10,6 +11,8 @@ import calcCheese from '../../../calculations/food_calculations/questionnaire/ca
 import calcPork from '../../../calculations/food_calculations/questionnaire/calcPork';
 import calcPoultry from '../../../calculations/food_calculations/questionnaire/calcPoultry';
 import mapScore from '../../../calculations/questionnaireMapScore';
+
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
 
 /*
 Animal Diet Screen (types of meat & amounts eaten per year)
@@ -54,28 +57,31 @@ export default function AnimalDietScreen({navigation,route}) {
         setFoodScore(mapScore(userPerformance));
     }
 
-    const [hideButton, setHideButton] = useState(false);
+    const [showButton, setShowButton] = useState(true);
+    const [isFocused, setIsFocused] = useState(false);
 
     const handleInputFocus = () => {
-        setHideButton(true);
+        // setShowButton(false);
+        setIsFocused(true);
     };
 
     const handleInputBlur = () => {
-        setHideButton(false);
+        // setShowButton(true);
+        setIsFocused(false);
     };
 
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
             Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
             () => {
-            setHideButton(true);
+                setShowButton(false);
             },
         );
 
         const keyboardDidHideListener = Keyboard.addListener(
             Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
             () => {
-            setHideButton(false);
+                setShowButton(true);
             },
         );
 
@@ -86,7 +92,7 @@ export default function AnimalDietScreen({navigation,route}) {
     }, []);
 
     return (
-        <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={q_styles.questionnaire_container}>
+        <KeyboardAwareScrollView contentContainerStyle={q_styles.questionnaire_container}>
             <ImageBackground
                 source={require('../../../assets/food-background-2.png')}
                 style={ q_styles.background }
@@ -158,20 +164,11 @@ export default function AnimalDietScreen({navigation,route}) {
                 />
             </View>
 
-            {!hideButton && (
-                <View style={q_styles.cta_container}>
-                    <TouchableOpacity
-                        style={q_styles.cta_button}
-                        onPress={() =>
-                            navigation.navigate('q2',{
-                                foodScore:foodScore
-                            })
-                        }
-                    >
-                        <Text style={q_styles.cta_text}>Next Question</Text>
-                    </TouchableOpacity>
-                </View>
-            )}
-        </ScrollView>
+            <QuestionnaireCTAButton
+                title={"Next Question"}
+                isVisible={!isFocused && showButton}
+                onPress={() => navigation.navigate('q2',{ foodScore:foodScore })}
+            />
+        </KeyboardAwareScrollView>
     )
 }

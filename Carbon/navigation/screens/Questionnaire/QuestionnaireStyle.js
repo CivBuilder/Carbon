@@ -56,36 +56,18 @@ export const q_styles = StyleSheet.create({
         textAlign: 'center',
         color: Colors.primary.RAISIN_BLACK,
     },
-    cta_container: {
-        position: 'absolute',
-        bottom: 20,
-        alignItems: 'center',
-        width: '100%',
-    },
-    cta_button: {
-        borderRadius: 12,
-        padding: 12,
-        width: '60%',
-        backgroundColor: Colors.primary.MINT,
-    },
-    cta_text: {
-        fontSize: 18,
-        fontWeight: '400',
-        textAlign: 'center',
-        color: Colors.primary.MINT_CREAM,
-    },
     score_text: {
-        fontSize: 24,
+        fontSize: 18,
         fontWeight: '500',
         marginBottom: 3,
     },
     score_category_container: {
         backgroundColor:'white',
-        borderRadius: 50,
+        borderRadius: 200,
         borderWidth: 3,
         justifyContent:'center',
         alignItems: 'center',
-        paddingHorizontal: 21,
-        paddingTop: 3,
+        height: 96,
+        width: 96,
     }
 });

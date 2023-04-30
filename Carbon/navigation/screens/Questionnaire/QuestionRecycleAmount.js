@@ -5,6 +5,7 @@ import {aveRecyclingPerWeek} from '../../../calculations/recycling_calculations/
 import mapScore from '../../../calculations/questionnaireMapScore';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
 /*
 Mileage Screen
 
@@ -39,28 +40,31 @@ export default function RecycleAmountScreen({navigation,route}) {
         })
     });
 
-    const [hideButton, setHideButton] = useState(false);
+    const [showButton, setShowButton] = useState(true);
+    const [isFocused, setIsFocused] = useState(false);
 
     const handleInputFocus = () => {
-        setHideButton(true);
+        // setShowButton(false);
+        setIsFocused(true);
     };
 
     const handleInputBlur = () => {
-        setHideButton(false);
+        // setShowButton(true);
+        setIsFocused(false);
     };
 
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
             Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
             () => {
-            setHideButton(true);
+                setShowButton(false);
             },
         );
 
         const keyboardDidHideListener = Keyboard.addListener(
             Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
             () => {
-            setHideButton(false);
+                setShowButton(true);
             },
         );
 
@@ -110,23 +114,18 @@ export default function RecycleAmountScreen({navigation,route}) {
                 />
             </View>
 
-            { !hideButton && (
-                <View style={q_styles.cta_container}>
-                    <TouchableOpacity
-                        style={q_styles.cta_button}
-                        onPress={() =>{
-                            navigation.navigate('finished',{
-                                transportScore:transportScore,
-                                homeScore:homeScore,
-                                foodScore:foodScore,
-                                lifestyleScore:lifestyleScore,
-                            })
-                        }}
-                    >
-                        <Text style={q_styles.cta_text}>See My Results</Text>
-                    </TouchableOpacity>
-                </View>
-            )}
+            <QuestionnaireCTAButton
+                title={"See My Results"}
+                isVisible={showButton}
+                onPress={() =>{
+                    navigation.navigate('finished',{
+                        transportScore:transportScore,
+                        homeScore:homeScore,
+                        foodScore:foodScore,
+                        lifestyleScore:lifestyleScore,
+                    })
+                }}
+            />
         </ScrollView>
     )
 }

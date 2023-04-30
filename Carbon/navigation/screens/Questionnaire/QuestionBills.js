@@ -6,6 +6,7 @@ import homeElec from '../../../calculations/home_calculations/questionnaire/home
 import mapScore from '../../../calculations/questionnaireMapScore';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
 
 /*
 Bills Screen
@@ -40,28 +41,31 @@ export default function BillScreen({ navigation, route }) {
         });
     });
 
-    const [hideButton, setHideButton] = useState(false);
+    const [showButton, setShowButton] = useState(true);
+    const [isFocused, setIsFocused] = useState(false);
 
     const handleInputFocus = () => {
-        setHideButton(true);
+        // setShowButton(false);
+        setIsFocused(true);
     };
 
     const handleInputBlur = () => {
-        setHideButton(false);
+        // setShowButton(true);
+        setIsFocused(false);
     };
 
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
             Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
             () => {
-                setHideButton(true);
+                setShowButton(false);
             },
         );
 
         const keyboardDidHideListener = Keyboard.addListener(
             Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
             () => {
-                setHideButton(false);
+                setShowButton(true);
             },
         );
 
@@ -150,21 +154,16 @@ export default function BillScreen({ navigation, route }) {
                 </View>
             </View>
 
-            {!hideButton && (
-                <View style={q_styles.cta_container}>
-                    <TouchableOpacity
-                        style={q_styles.cta_button}
-                        onPress={() => {
-                            navigation.navigate('q4', {
-                                foodScore: foodScore,
-                                homeScore: homeScore,
-                            })
-                        }}
-                    >
-                        <Text style={q_styles.cta_text}>Next Question</Text>
-                    </TouchableOpacity>
-                </View>
-            )}
+            <QuestionnaireCTAButton
+                title={"Next Question"}
+                isVisible={!isFocused && showButton}
+                onPress={() =>{
+                    navigation.navigate('q4',{
+                        foodScore:foodScore,
+                        homeScore:homeScore,
+                    })
+                }}
+            />
         </ScrollView>
     )
 }

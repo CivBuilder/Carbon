@@ -3,6 +3,7 @@ import {View, Text,Button, TouchableOpacity, ImageBackground, ScrollView} from '
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
 /*
 Transport Screen
 TODO: Find a better way to transfer values to the last screen(instead of transferring between pages)
@@ -89,28 +90,18 @@ export default function RecycleScreen({navigation, route}) {
                 </View>
             </View>
 
-            <View style={q_styles.cta_container}>
-                {buttonIndex >= 0 ? (
-                    <TouchableOpacity
-                        style={q_styles.cta_button}
-                        onPress={() =>{
-                            navigation.navigate(nextPage,{
-                                foodScore:foodScore,
-                                transportScore:transportScore,
-                                homeScore:homeScore,
-                                lifestyleScore:lifestyleScore,
-                            })
-                        }}
-                    >
-                        <Text style={q_styles.cta_text}>
-                            {buttonIndex === 0 && "Next Question"}
-                            {buttonIndex === 1 && "See My Results"}
-                        </Text>
-                    </TouchableOpacity>
-                ) : (
-                    null
-                )}
-            </View>
+            <QuestionnaireCTAButton
+                title={buttonIndex === 0 ? "Next Question" : buttonIndex === 1 ? "See My Results" : ""}
+                isVisible={buttonIndex >= 0}
+                onPress={() =>{
+                    navigation.navigate(nextPage,{
+                        foodScore:foodScore,
+                        transportScore:transportScore,
+                        homeScore:homeScore,
+                        lifestyleScore:lifestyleScore,
+                    })
+                }}
+            />
         </ScrollView>
     )
 }

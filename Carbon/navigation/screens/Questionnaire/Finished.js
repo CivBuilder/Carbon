@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Button, Image, Dimensions, TouchableOpacity, ScrollView, SafeAreaView, StatusBar } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { View, Text, Image, Dimensions, Animated } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { API_URL } from '../../../config/Api';
 import { SustainabilityScoreProfileView } from '../../../util/SustainabilityScoreProfileView';
@@ -7,6 +7,7 @@ import mapScoreCategory from '../../../calculations/mapScoreCategory';
 import { getToken } from '../../../util/UserManagement';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
 
 /*
 Finished Screen
@@ -125,148 +126,198 @@ export default function FinishedScreen({ navigation, route }) {
         })
     });
 
-    const statusBarHeight = StatusBar.currentHeight ?? 0;
+    // ANIMATIONS
+    // define animated values
+    const rankTitleOpacity = useRef(new Animated.Value(0)).current;
+    const rankPictureOpacity = useRef(new Animated.Value(0)).current;
+    const rankPictureScale = useRef(new Animated.Value(0)).current;
+    const homeScoreOpacity = useRef(new Animated.Value(0)).current;
+    const transportScoreOpacity = useRef(new Animated.Value(0)).current;
+    const foodScoreOpacity = useRef(new Animated.Value(0)).current;
+    const bestCategoryOpacity = useRef(new Animated.Value(0)).current;
+    const worstCategoryOpacity = useRef(new Animated.Value(0)).current;
+    const buttonOpacity = useRef(new Animated.Value(0)).current;
+
+    // define animation configurations
+    const rankTitleConfig = {
+        toValue: 1,
+        duration: 2500,
+        useNativeDriver: true,
+    };
+    const rankPictureConfig = {
+        toValue: 1,
+        duration: 2000,
+        useNativeDriver: true,
+    };
+    const rankPictureScaleConfig = {
+        toValue: 1,
+        duration: 1600,
+        useNativeDriver: true,
+    };
+    const categoryScoreConfig = {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+    };
+    const buttonConfig = {
+        toValue: 1,
+        delay: 690,
+        duration: 1000,
+        useNativeDriver: true,
+    }
+
+    // define the completion callback for ranking animations
+    const onRankingComplete = () => {
+        // Category score animations
+        Animated.timing(homeScoreOpacity, categoryScoreConfig).start(() => {
+            Animated.timing(transportScoreOpacity, categoryScoreConfig).start(() => {
+                Animated.timing(foodScoreOpacity, categoryScoreConfig).start(() => {
+                    Animated.timing(bestCategoryOpacity, categoryScoreConfig).start(() => {
+                        Animated.timing(worstCategoryOpacity, categoryScoreConfig).start(() => {
+                            Animated.timing(buttonOpacity, buttonConfig).start();
+                        });
+                    })
+                });
+            });
+        });
+    };
+
+    // start ranking animations in parallel
+    Animated.parallel([
+        Animated.timing(rankPictureOpacity, rankPictureConfig),
+        Animated.timing(rankPictureScale, rankPictureScaleConfig),
+        Animated.timing(rankTitleOpacity, rankTitleConfig),
+    ]).start(onRankingComplete);
 
     return (
-        <ScrollView
-            showsHorizontalScrollIndicator={false}
-            style={{
-                flex: 1,
-                // backgroundColor: Colors.secondary.CELADON,
-                backgroundColor: 'rgba(216, 243, 220, 0.4)',
-            }}
-        >
-            <View style={{ height: Dimensions.get('window').height + statusBarHeight }}>
-                <View style={{ marginTop: 48, marginBottom: 12, alignItems: 'center', }}>
-                    <Text style={{ fontSize: 20, }}>...and you're done!</Text>
-                </View>
+        <View style={{flex: 1, backgroundColor: 'rgba(216, 243, 220, 0.4)'}}>
+            <View style={{ marginTop: 48, marginBottom: 6, alignItems: 'center', }}>
+                <Text style={{ fontSize: 20, }}>...and you're done!</Text>
+            </View>
 
-                <View style={{ marginBottom: 24, alignItems: 'center', }}>
-                    <Text style={{ fontSize: 24, }}>Here are your results:</Text>
-                </View >
+            <View style={{ marginBottom: 12, alignItems: 'center', }}>
+                <Text style={{ fontSize: 24, }}>Here are your results:</Text>
+            </View >
 
-                <View
-                    style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginHorizontal: 24,
-                        borderRadius: 16,
-                        backgroundColor: Colors.secondary.ALMOND,
-                    }}
-                >
-                    <View style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                    >
-                        <View style={{ marginVertical: 24 }}>
-                            <Image
-                                source={scorePicture}
-                                resizeMode='contain'
-                                style={{
-                                    width: Dimensions.get('window').width * 0.35,
-                                    height: Dimensions.get('window').width * 0.35,
-                                }}
-                            />
-                        </View>
-
-                        <View style={{ marginBottom: 12 }}>
-                            <Text
-                                style={{
-                                    fontSize: 36,
-                                    fontWeight: "500",
-                                    textAlign: 'center',
-                                }}
-                            >
-                                {scoreCategory}
-                            </Text>
-                        </View>
-                    </View>
-
-                    <View style={{ marginBottom: 24, flexDirection: 'row' }}>
-                        <View style={{ ...q_styles.score_category_container, borderColor: Colors.categories.HOME }}>
-                            <Ionicons name='home-outline' size={40} color={Colors.categories.HOME} />
-                            <Text style={{ ...q_styles.score_text, color: Colors.categories.HOME }}>
-                                {homeScore * 10}
-                            </Text>
-                        </View>
-
-                        <View style={{ marginHorizontal: 6 }}></View>
-
-                        <View style={{ ...q_styles.score_category_container, borderColor: Colors.categories.TRANSPORTATION }}>
-                            <Ionicons name='bicycle-outline' size={40} color={Colors.categories.TRANSPORTATION} />
-                            <Text style={{ ...q_styles.score_text, color: Colors.categories.TRANSPORTATION }}>
-                                {transportScore * 10}
-                            </Text>
-                        </View>
-
-                        <View style={{ marginHorizontal: 6 }}></View>
-
-                        <View style={{ ...q_styles.score_category_container, borderColor: Colors.categories.DIET }}>
-                            <Ionicons name='fast-food-outline' size={40} color={Colors.categories.DIET} />
-                            <Text style={{ ...q_styles.score_text, color: Colors.categories.DIET }}>
-                                {foodScore * 10}
-                            </Text>
-                        </View>
-                    </View>
-                </View>
-
-                <View
-                    style={{
-                        marginTop: 24,
-                        flexDirection: 'row',
-                        justifyContent: 'space-evenly',
-                    }}
-                >
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ fontSize: 20, marginBottom: 10, }}>Best Category:</Text>
-
-                        <View
+            <View
+                style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginHorizontal: 24,
+                    borderRadius: 16,
+                    backgroundColor: Colors.secondary.ALMOND,
+                }}
+            >
+                <View style={{ alignItems: 'center', justifyContent: 'center'}}>
+                    <View style={{ marginVertical: 24 }}>
+                        <Animated.Image
+                            source={scorePicture}
+                            resizeMode='contain'
                             style={{
-                                backgroundColor: 'white',
-                                paddingHorizontal: 20,
-                                paddingVertical: 10,
-                                borderRadius: 10,
-                                borderWidth: 2,
-                                borderColor: Colors.secondary.DARK_MINT,
-                                width: 170,
+                                width: Dimensions.get('window').width * 0.35,
+                                height: Dimensions.get('window').width * 0.35,
+                                opacity: rankPictureOpacity,
+                                transform: [{ scale: rankPictureScale }],
+                            }}
+                        />
+                    </View>
+
+                    <View style={{ marginBottom: 24 }}>
+                        <Animated.Text
+                            style={{
+                                fontSize: 36,
+                                fontWeight: "500",
+                                textAlign: 'center',
+                                opacity: rankTitleOpacity,
                             }}
                         >
-                            <Text style={{ fontSize: 18, fontWeight: '500', textAlign: 'center', color: Colors.secondary.DARK_MINT, }}>{bestScore}</Text>
-                        </View>
-                    </View>
-
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ fontSize: 20, marginBottom: 10, }}>Worst Category:</Text>
-
-                        <View
-                            style={{
-                                backgroundColor: 'white',
-                                paddingHorizontal: 20,
-                                paddingVertical: 10,
-                                borderRadius: 10,
-                                borderWidth: 2,
-                                borderColor: Colors.secondary.RED,
-                                width: 170,
-                            }}
-                        >
-                            <Text style={{ fontSize: 18, fontWeight: '500', textAlign: 'center', color: Colors.secondary.RED, }}>{worstScore}</Text>
-                        </View>
+                            {scoreCategory}
+                        </Animated.Text>
                     </View>
                 </View>
 
-                <View style={{ alignItems: 'center', position: 'absolute', bottom: 20, width: '100%' }}>
-                    <TouchableOpacity
-                        style={q_styles.cta_button}
-                        onPress={() => {
-                            finishedQuestionnaire()
-                            route.params?.setFinishedQuestionnaire(true)
-                        }}
-                    >
-                        <Text style={{ ...q_styles.cta_text, fontWeight: '600' }}>Take me to the app!</Text>
-                    </TouchableOpacity>
+                <View style={{ marginBottom: 24, flexDirection: 'row' }}>
+                    <Animated.View style={{ ...q_styles.score_category_container, borderColor: Colors.categories.HOME, opacity: homeScoreOpacity }}>
+                        <Ionicons name='home-outline' size={36} color={Colors.categories.HOME} />
+                        <Text style={{ ...q_styles.score_text, color: Colors.categories.HOME }}>
+                            {homeScore * 10}
+                        </Text>
+                    </Animated.View>
+
+                    <View style={{ marginHorizontal: 8 }}/>
+
+                    <Animated.View style={{ ...q_styles.score_category_container, borderColor: Colors.categories.TRANSPORTATION, opacity: transportScoreOpacity }}>
+                        <Ionicons name='bicycle-outline' size={36} color={Colors.categories.TRANSPORTATION} />
+                        <Text style={{ ...q_styles.score_text, color: Colors.categories.TRANSPORTATION }}>
+                            {transportScore * 10}
+                        </Text>
+                    </Animated.View>
+
+                    <View style={{ marginHorizontal: 8 }}/>
+
+                    <Animated.View style={{ ...q_styles.score_category_container, borderColor: Colors.categories.DIET, opacity: foodScoreOpacity }}>
+                        <Ionicons name='fast-food-outline' size={36} color={Colors.categories.DIET} />
+                        <Text style={{ ...q_styles.score_text, color: Colors.categories.DIET }}>
+                            {foodScore * 10}
+                        </Text>
+                    </Animated.View>
                 </View>
             </View>
-        </ScrollView>
+
+            <View
+                style={{
+                    marginTop: 12,
+                    flexDirection: 'row',
+                    justifyContent: 'space-evenly',
+                }}
+            >
+                <Animated.View style={{ justifyContent: 'center', alignItems: 'center', opacity: bestCategoryOpacity }}>
+                    <Text style={{ fontSize: 20, marginBottom: 10, }}>Best Category:</Text>
+
+                    <View
+                        style={{
+                            backgroundColor: 'white',
+                            paddingHorizontal: 20,
+                            paddingVertical: 10,
+                            borderRadius: 10,
+                            borderWidth: 2,
+                            borderColor: Colors.secondary.DARK_MINT,
+                            width: 170,
+                        }}
+                    >
+                        <Text style={{ fontSize: 18, fontWeight: '500', textAlign: 'center', color: Colors.secondary.DARK_MINT, }}>{bestScore}</Text>
+                    </View>
+                </Animated.View>
+
+                <Animated.View style={{ justifyContent: 'center', alignItems: 'center', opacity: worstCategoryOpacity }}>
+                    <Text style={{ fontSize: 20, marginBottom: 10, }}>Worst Category:</Text>
+
+                    <View
+                        style={{
+                            backgroundColor: 'white',
+                            paddingHorizontal: 20,
+                            paddingVertical: 10,
+                            borderRadius: 10,
+                            borderWidth: 2,
+                            borderColor: Colors.secondary.RED,
+                            width: 170,
+                        }}
+                    >
+                        <Text style={{ fontSize: 18, fontWeight: '500', textAlign: 'center', color: Colors.secondary.RED, }}>{worstScore}</Text>
+                    </View>
+                </Animated.View>
+            </View>
+
+            <Animated.View style={{flex: 1, opacity: buttonOpacity}}>
+                <QuestionnaireCTAButton
+                    title={"Take me to the app!"}
+                    isVisible={true}
+                    onPress={() => {
+                        finishedQuestionnaire()
+                        route.params?.setFinishedQuestionnaire(true)
+                    }}
+                />
+            </Animated.View>
+        </View>
     )
 }

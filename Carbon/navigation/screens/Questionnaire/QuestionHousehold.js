@@ -3,6 +3,7 @@ import {View, Text,Switch,Button, TouchableOpacity, ScrollView, ImageBackground}
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
 
 /*
 Household Screen
@@ -77,6 +78,7 @@ export default function HouseholdScreen({navigation,route}) {
                             onPress={() => {
                                 setButtonIndex(0)
                                 setNextPage("q2a")
+                                setIsDisabled(false)
                             }}
                         >
                             <Text style={q_styles.answer_text} >Fossil Fuels</Text>
@@ -94,6 +96,7 @@ export default function HouseholdScreen({navigation,route}) {
                             onPress={() => {
                                 setButtonIndex(1)
                                 setNextPage("q4")
+                                setIsDisabled(false)
                             }}
                         >
                             <Text style={q_styles.answer_text} >Renewable Energy</Text>
@@ -103,23 +106,16 @@ export default function HouseholdScreen({navigation,route}) {
                 </View>
             </View>
 
-            <View style={q_styles.cta_container}>
-                {buttonIndex >= 0 ? (
-                    <TouchableOpacity
-                        style={q_styles.cta_button}
-                        onPress={() =>{
-                            navigation.navigate(nextPage, {
-                                homeScore:homeScore,
-                                foodScore:foodScore,
-                            })
-                        }}
-                    >
-                        <Text style={q_styles.cta_text}>Next Question</Text>
-                    </TouchableOpacity>
-                ) : (
-                    null
-                )}
-            </View>
+            <QuestionnaireCTAButton
+                title={"Next Question"}
+                isVisible={!(buttonIndex != 1 && buttonIndex != 0)}
+                onPress={() =>{
+                    navigation.navigate(nextPage, {
+                        homeScore:homeScore,
+                        foodScore:foodScore,
+                    })
+                }}
+            />
         </ScrollView>
     )
 }

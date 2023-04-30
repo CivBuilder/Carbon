@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, ImageBackground, ScrollView, K
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
 
 import { averageGasCarMPG } from '../../../calculations/travel_calculations/averageGasCarMPG';
 import mapScoreReverse from '../../../calculations/questionnaireMapScoreReverse';
@@ -120,22 +121,17 @@ export default function MileageScreen({ navigation, route }) {
                 </View>
             </View>
 
-            {!hideButton && (
-                <View style={q_styles.cta_container}>
-                    <TouchableOpacity
-                        style={q_styles.cta_button}
-                        onPress={() => {
-                            navigation.navigate('q5', {
-                                transportScore: transportScore,
-                                foodScore: foodScore,
-                                homeScore: homeScore,
-                            })
-                        }}
-                    >
-                        <Text style={q_styles.cta_text}>Next Question</Text>
-                    </TouchableOpacity>
-                </View>
-            )}
+            <QuestionnaireCTAButton
+                title={"Next Question"}
+                isVisible={!hideButton}
+                onPress={() =>{
+                    navigation.navigate('q5',{
+                        transportScore:transportScore,
+                        foodScore: foodScore,
+                        homeScore:homeScore,
+                    })
+                }}
+            />
         </ScrollView>
     )
 }

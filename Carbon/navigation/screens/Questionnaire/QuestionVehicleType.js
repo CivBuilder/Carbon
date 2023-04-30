@@ -3,6 +3,8 @@ import {View, Text,Button, TouchableOpacity, ImageBackground, ScrollView } from 
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
+
 /*
 Vehicle Type Screen
 
@@ -105,24 +107,17 @@ export default function VehicleTypeScreen({navigation,route}) {
             </View>
             </View>
 
-                <View style={q_styles.cta_container}>
-                    {buttonIndex >= 0 ? (
-                        <TouchableOpacity
-                            style={q_styles.cta_button}
-                            onPress={() =>{
-                                navigation.navigate(nextPage,{
-                                    homeScore:homeScore,
-                                    foodScore:foodScore,
-                                    transportScore:transportScore,
-                                })
-                            }}
-                        >
-                            <Text style={q_styles.cta_text}>Next Question</Text>
-                        </TouchableOpacity>
-                    ) : (
-                        null
-                    )}
-                </View>
-            </ScrollView>
-        )
+            <QuestionnaireCTAButton
+                title={"Next Question"}
+                isVisible={buttonIndex >= 0}
+                onPress={() =>{
+                    navigation.navigate(nextPage,{
+                        homeScore:homeScore,
+                        foodScore:foodScore,
+                        transportScore:transportScore,
+                    })
+                }}
+            />
+        </ScrollView>
+    )
 }

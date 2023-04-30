@@ -3,6 +3,7 @@ import { View, Text, Button, TouchableOpacity, StyleSheet, Dimensions, ImageBack
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
 
 /*
 Question 1 Screen
@@ -153,22 +154,15 @@ export default function DietScreen({ navigation }) {
                 </View>
             </View>
 
-            <View style={q_styles.cta_container}>
-                {isDisabled ? (
-                    <TouchableOpacity
-                        style={q_styles.cta_button}
-                        onPress={() => {
-                            navigation.navigate(nextPage, {
-                                foodScore: foodScoreCalc,
-                            });
-                        }}
-                    >
-                        <Text style={q_styles.cta_text}>Next Question</Text>
-                    </TouchableOpacity>
-                ) : (
-                    null
-                )}
-            </View>
-        </ScrollView>
+                <QuestionnaireCTAButton
+                    title={"Next Question"}
+                    isVisible={isDisabled}
+                    onPress={() =>{
+                        navigation.navigate(nextPage,{
+                        foodScore:foodScoreCalc,
+                        });
+                    }}
+                />
+            </ScrollView>
     )
 }

@@ -3,6 +3,8 @@ import {View, Text,Button,Switch, TouchableOpacity, ImageBackground, ScrollView 
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
+
 /*
 Public Transport Screen
 
@@ -118,26 +120,17 @@ export default function PublicTransportScreen({navigation,route}) {
                 </View>
             </View>
 
-            <View style={q_styles.cta_container}>
-                    {buttonOn0 || buttonOn1 ? (
-                        <TouchableOpacity
-                            style={q_styles.cta_button}
-                            onPress={() =>{
-                                navigation.navigate('q5',{
-                                    homeScore:homeScore,
-                                    foodScore:foodScore,
-                                    transportScore:transportScore,
-                                })
-                            }}
-                        >
-                            <Text style={q_styles.cta_text}>
-                                Next Question
-                            </Text>
-                        </TouchableOpacity>
-                    ) : (
-                        null
-                    )}
-            </View>
+            <QuestionnaireCTAButton
+                title={"Next Question"}
+                isVisible={buttonOn0 || buttonOn1}
+                onPress={() =>{
+                    navigation.navigate('q5',{
+                        homeScore:homeScore,
+                        foodScore:foodScore,
+                        transportScore:transportScore,
+                    })
+                }}
+            />
         </ScrollView>
     )
 }
