@@ -1,6 +1,6 @@
-import { View, Text } from 'react-native'
-import React, {useState, useEffect} from 'react'
-import { getPreviousMonthEmissions, getPreviousMonthLifestyleEmissions } from '../../../util/Goals'
+import { View, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { getPreviousMonthEmissions, getPreviousMonthLifestyleEmissions } from '../../../util/Goals';
 
 const NetEmissions = () => {
   const [lastMonthEmissions, setLastMonthEmissions] = useState(0);
@@ -31,7 +31,7 @@ const NetEmissions = () => {
         </Text>
       </View>
     </View>
-  )
+  );
 }
 
-export default NetEmissions
+export default NetEmissions;

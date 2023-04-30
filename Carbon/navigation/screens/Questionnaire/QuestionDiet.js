@@ -26,7 +26,17 @@ export default function DietScreen({ navigation }) {
             ),
         });
 
-        setFoodScoreCalc(nextPage == 'q2' ? 1 : 0);
+        if(buttonIndex==0){
+            setFoodScoreCalc(0);
+        }else if(nextPage== "q2"){
+            if(buttonIndex==1){
+                setFoodScoreCalc(.5);
+            }else if(buttonIndex==2){
+                setFoodScoreCalc(.75)
+            }else {
+                setFoodScoreCalc(1);
+            }
+        }
         });
 
         // Disables "next" button

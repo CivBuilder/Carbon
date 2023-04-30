@@ -1,13 +1,12 @@
-import {View, StyleSheet, Animated, Dimensions, Text} from 'react-native';
+import { View, StyleSheet, Animated, Dimensions, Text } from 'react-native';
 import React from 'react';
-import { Colors }   from '../styling/Colors.js';
+import { Colors } from '../styling/Colors.js';
 import { useEffect } from 'react';
 import {useRef, useState } from 'react';
 
 const {width} = Dimensions.get('window');
 
 /**
- * 
  * Displays Animated progress bar where progress/total % will be filled in
  * @param {Number} progress - progress towards total value, % will fill the bar
  * @param {Number} total - total value to be me
@@ -23,8 +22,8 @@ export default function RankProgressBar({progress, total}) {
     const initWidth = useRef(new Animated.Value(0)).current;
     useEffect (() => {
         Animated.spring(initWidth, {
-            toValue : ratio*width*2/3.3,
-            bounciness : 10,
+            toValue : ratio * progressBarLength,
+            bounciness : 5,
             speed : 2,
             useNativeDriver : false
         }).start();
@@ -41,7 +40,7 @@ export default function RankProgressBar({progress, total}) {
                 <Text style = {styles.denominator} testID = 'totalText'>/ {total}</Text>
             </View>
         </View>
-    )
+  )
 }
 
 const styles = StyleSheet.create({

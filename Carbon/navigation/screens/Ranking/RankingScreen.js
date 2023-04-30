@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { StyleSheet, View} from 'react-native';
+import { StyleSheet, View, Platform, SafeAreaView } from 'react-native';
 import ServerErrorScreen from '../../../components/ServerErrorScreen';
 import LoadingIndicator from "../../../components/LoadingIndicator";
-import {Colors} from "../../../styling/Colors";
+import { Colors } from "../../../styling/Colors";
 import ListPlayers from './ListPlayers';
 import { API_URL } from '../../../config/Api';
 import getUserScores from './getUserScores';
@@ -21,10 +21,10 @@ const API_Entry_LEADERBOARD_URL = API_URL + "user/leaderboard";
 //For Testing - We must get these when establishing a user session. This data is in the database for testing
 
 const ListTabIDs = {
-  PLAYERS_LIKE_YOU : 0, 
-  TOP_PLAYERS : 1, 
-  WORST_PLAYERS : 2,
-} 
+  PLAYERS_LIKE_YOU: 0,
+  TOP_PLAYERS: 1,
+  WORST_PLAYERS: 2,
+}
 
 
 /**
@@ -39,59 +39,59 @@ const ListTabIDs = {
 
 
 
-async function updateTable(setLeaderboardTables, leaderboardTables, currentCategory, currentTab, fresh_start, ExtendUpwards, setLoading, setErrorMessage){
-  
+async function updateTable(setLeaderboardTables, leaderboardTables, currentCategory, currentTab, fresh_start, ExtendUpwards, setLoading, setErrorMessage) {
+
   //Get the category and if we are in the worst tab to send has headers
-  let category = currentCategory.title+"score";
-  let worstList = (currentTab === ListTabIDs.WORST_PLAYERS); 
+  let category = currentCategory.title + "score";
+  let worstList = (currentTab === ListTabIDs.WORST_PLAYERS);
   let categoryItem = leaderboardTables[currentCategory.id][currentTab];
 
-  
+
   // let table = [...(leaderboardTables[currentCategory.id][currentTab])];
   let page = fresh_start !== null ? fresh_start : ExtendUpwards ? categoryItem.indices[0] : categoryItem.indices[1];
-  if(ExtendUpwards === false) setLoading(true); //Don't have two loading screens at once
+  if (ExtendUpwards === false) setLoading(true); //Don't have two loading screens at once
 
-  if(page < 0 && ExtendUpwards === true ){
+  if (page < 0 && ExtendUpwards === true) {
     alert("No more players to load ~ We're at the top!");
     return;
   }
-  
+
   try {
-    
-    if(page < 0 && ExtendUpwards === true ){
+
+    if (page < 0 && ExtendUpwards === true) {
       throw new Error(`No more players to load ~ We're at the top ${topMessage}!`);
     }
-      const response = await fetch(API_Entry_LEADERBOARD_URL+`?page=${page}&category=${category}&worst=${worstList}`)
+    const response = await fetch(API_Entry_LEADERBOARD_URL + `?page=${page}&category=${category}&worst=${worstList}`)
 
-    if(response.status === 200) {
+    if (response.status === 200) {
 
       //get the package
       const response_content = await response.json();
 
       // //Concat to the end of our array if we refresh by reaching the end of the list, otherwise prepend the array
-      if(fresh_start !== null) categoryItem.entries = response_content;
-      else if (ExtendUpwards === false)  
+      if (fresh_start !== null) categoryItem.entries = response_content;
+      else if (ExtendUpwards === false)
         categoryItem.entries = categoryItem.entries.concat(response_content);
       else categoryItem.entries = response_content.concat(categoryItem.entries);
 
       //Start of a new list ,move both beginning and ending indices
-      if(fresh_start !== null) {
-        categoryItem.indices = [fresh_start-1, fresh_start+1];
+      if (fresh_start !== null) {
+        categoryItem.indices = [fresh_start - 1, fresh_start + 1];
       }
-      else if(ExtendUpwards) {
+      else if (ExtendUpwards) {
         categoryItem.indices[0]--;
       }
       else categoryItem.indices[1]++;
 
-      let copiedArray = leaderboardTables.map(obj => ({...obj}));
+      let copiedArray = leaderboardTables.map(obj => ({ ...obj }));
       setLeaderboardTables(copiedArray);
     }
-    else if (response.status === 404){
+    else if (response.status === 404) {
       throw new Error(`Error: ${response.status} : ${response.statusText}`);
     }
   }
   //for any other server errors, just set the error screen
-  catch(err) {
+  catch (err) {
     setErrorMessage(`Error: ${err.message}`);
   }
   setLoading(false);
@@ -99,18 +99,18 @@ async function updateTable(setLeaderboardTables, leaderboardTables, currentCateg
 }
 
 
-export default function RankingScreen({navigation, route}){
+export default function RankingScreen({ navigation, route }) {
 
 
 
-    /***************************************State Savers***************************************/
-    const [userScores, setUserScores] = useState(null);
-    const [errorMessage, setErrorMessage] = useState(null);
-    const [emission_category, setEmissionCategory] = useState(EC.GLOBAL);
-    const [loading, setLoading] = useState(false);
-    const [leaderboardTables, setLeaderboardTables] = useState(Array.from({length: 5}, () => Array.from({length: 3}, () => new RankingList())));
-    const [currentTab, setCurrentTab] = useState(ListTabIDs.PLAYERS_LIKE_YOU);
-    const [doneInit, setInitDone] = useState(null)
+  /***************************************State Savers***************************************/
+  const [userScores, setUserScores] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [emission_category, setEmissionCategory] = useState(EC.GLOBAL);
+  const [loading, setLoading] = useState(false);
+  const [leaderboardTables, setLeaderboardTables] = useState(Array.from({ length: 5 }, () => Array.from({ length: 3 }, () => new RankingList())));
+  const [currentTab, setCurrentTab] = useState(ListTabIDs.PLAYERS_LIKE_YOU);
+  const [doneInit, setInitDone] = useState(null)
 
 
 
@@ -196,46 +196,60 @@ export default function RankingScreen({navigation, route}){
 
 
 
-  const styles = StyleSheet.create({
-    MiniRankContainer : { 
-      height : 180,
-      // backgroundColor : Colors.secondary.NYANZA,
-      padding : 12,
-    },
-    ListContentContainer : {
-      flex : 1,
-      backgroundColor : "black",
-      paddingTop : 5,
-    },
-    HeaderText : {
-      alignItems: 'center',
-      justifyContent: 'center',
-      textAlign : 'center',
-      fontSize : 18,
-      fontWeight : 'bold'
-    },
-  
-    RankText : {
-      alignItems: 'center',
-      justifyContent: 'center',
-      textAlign : 'center',
-      fontWeight : 'bold',
-      fontSize : 45,
-    },
-  
-    buttonContainer : {
-      flex : 0.04,
-      backgroundColor : Colors.secondary.RED,
-      width : '90%',
-      alignSelf : 'center',
-      borderRadius : 7,
-      flexDirection : 'row',
-    },
-  
-    buttonText: {
-      color: '#FFFFFF',
-      textAlign: 'center',
-    },
+const styles = StyleSheet.create({
+  MiniRankContainer: {
+    height: 130,
+    // backgroundColor : Colors.secondary.NYANZA,
+    padding: 12,
+    backgroundColor: "white",
+    borderRadius: 16,
+    ...Platform.select({
+      ios: {
+        shadowColor: Colors.primary.RAISIN_BLACK,
+        shadowOffset: { width: 5, height: 5 },
+        shadowOpacity: 0.125,
+        shadowRadius: 2.5,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
+    margin: 14,
+  },
+  ListContentContainer: {
+    flex: 1,
+    backgroundColor: "black",
+    paddingTop: 5,
+  },
+  HeaderText: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
 
-  
-  });
+  RankText: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 45,
+  },
+
+  buttonContainer: {
+    flex: 0.04,
+    backgroundColor: Colors.secondary.RED,
+    width: '90%',
+    alignSelf: 'center',
+    borderRadius: 7,
+    flexDirection: 'row',
+  },
+
+  buttonText: {
+    color: '#FFFFFF',
+    textAlign: 'center',
+  },
+
+
+});
