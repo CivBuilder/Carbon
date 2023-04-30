@@ -27,13 +27,16 @@ const ForumCards = ({navigation}) => {
             // loop={false}
         >
             <View style={styles.card}>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate(ScreenNames.FORUM, {
-                        screen: ScreenNames.BROWSER,
-                        initial: false,
-                        params: {id: 24}
-                    });
-                }}>
+                <TouchableOpacity
+                    activeOpacity={1} //Removes the flashing effect when pressed
+                    onPress={() => {
+                        navigation.navigate(ScreenNames.FORUM, {
+                            screen: ScreenNames.BROWSER,
+                            initial: false,
+                            params: {id: 24}
+                        });
+                    }}
+                >
                     <Image style={{width: '100%', height: '100%', borderRadius: 16}} source={thumbnails.food3}/>
                     <Svg height="100%" width="100%" style={StyleSheet.absoluteFillObject}>
                         <Defs>
@@ -57,14 +60,17 @@ const ForumCards = ({navigation}) => {
                         </Text>
                     </Text>
                 </TouchableOpacity>
-            </View> 
+            </View>
             <View style={styles.card}>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate(ScreenNames.FORUM, {
-                        screen: ScreenNames.QUIZ,
-                        params: {id: 19}
-                    });
-                }}>
+                <TouchableOpacity
+                    activeOpacity={1} //Removes the flashing effect when pressed
+                    onPress={() => {
+                        navigation.navigate(ScreenNames.FORUM, {
+                            screen: ScreenNames.QUIZ,
+                            params: {id: 19}
+                        });
+                    }}
+                >
                     <Image style={{width: '100%', height: '100%', borderRadius: 16}} source={thumbnails.transport3}/>
                     <Svg height="100%" width="100%" style={StyleSheet.absoluteFillObject}>
                         <Defs>
@@ -90,12 +96,15 @@ const ForumCards = ({navigation}) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.card}>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate(ScreenNames.FORUM, {
-                        screen: ScreenNames.BROWSER,
-                        params: {id: 36}
-                    });
-                }}>
+                <TouchableOpacity
+                    activeOpacity={1} //Removes the flashing effect when pressed
+                    onPress={() => {
+                        navigation.navigate(ScreenNames.FORUM, {
+                            screen: ScreenNames.BROWSER,
+                            params: {id: 36}
+                        });
+                    }}
+                >
                     <Image style={{width: '100%', height: '100%', borderRadius: 16}} source={thumbnails.water3}/>
                     <Svg height="100%" width="100%" style={StyleSheet.absoluteFillObject}>
                         <Defs>
@@ -121,12 +130,15 @@ const ForumCards = ({navigation}) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.card}>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate(ScreenNames.FORUM, {
-                        screen: ScreenNames.QUIZ,
-                        params: {id: 31}
-                    });
-                }}>
+                <TouchableOpacity
+                    activeOpacity={1} //Removes the flashing effect when pressed
+                    onPress={() => {
+                        navigation.navigate(ScreenNames.FORUM, {
+                            screen: ScreenNames.QUIZ,
+                            params: {id: 31}
+                        });
+                    }}
+                >
                     <Image style={{width: '100%', height: '100%', borderRadius: 16}} source={thumbnails.recycle3}/>
                     <Svg height="100%" width="100%" style={StyleSheet.absoluteFillObject}>
                         <Defs>
