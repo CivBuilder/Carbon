@@ -1,6 +1,5 @@
 import { StyleSheet, Platform } from "react-native";
 import { Colors } from "./Colors";
-import { Platform } from "react-native";
 
 export const SectionCSS = StyleSheet.create({
   container: {
