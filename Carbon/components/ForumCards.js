@@ -33,7 +33,7 @@ const ForumCards = ({navigation}) => {
                         navigation.navigate(ScreenNames.FORUM, {
                             screen: ScreenNames.BROWSER,
                             initial: false,
-                            params: {id: 24}
+                            params: {id: 24},
                         });
                     }}
                 >
@@ -101,6 +101,7 @@ const ForumCards = ({navigation}) => {
                     onPress={() => {
                         navigation.navigate(ScreenNames.FORUM, {
                             screen: ScreenNames.BROWSER,
+                            initial: false,
                             params: {id: 36}
                         });
                     }}
