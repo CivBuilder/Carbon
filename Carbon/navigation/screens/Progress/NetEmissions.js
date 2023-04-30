@@ -17,9 +17,6 @@ const NetEmissions = () => {
     fetchEmissions();
   }, []);
 
-  const debugGoalValue = 100;
-  const debugOnTrack = true;
-
   return (
     <View>
       <View style={{marginBottom: 12}}>
