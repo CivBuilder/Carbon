@@ -6,7 +6,9 @@ import { ScreenNames } from '../Main/ScreenNames';
 import { saveGoalToDatabase, getPreviousMonthEmissions } from '../../../util/Goals';
 
 const margin = 10;
-const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>; async function getEmissionsFromDb() {
+const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
+
+async function getEmissionsFromDb() {
   const emissions = await getPreviousMonthEmissions();
   return emissions;
 }
@@ -14,17 +16,22 @@ const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>; async function getEmissi
 export default function GoalSetter({ navigation }) {
   const [goal, setGoal] = useState(0);
   const [previousMonthEmissions, setPreviousMonthEmissions] = useState(0);
+  const [originalEmissions, setOriginalEmissions] = useState(0);
 
   useEffect(() => {
     async function fetchLastMonthEmissions() {
       const emissions = await getEmissionsFromDb();
-      const factor = goal / 100;
-      const newEmissions = emissions * factor;
-      setPreviousMonthEmissions(newEmissions.toFixed(1));
+      setPreviousMonthEmissions(emissions);
+      setOriginalEmissions(emissions);
     }
     fetchLastMonthEmissions();
-  }, [goal]);
+  }, []);
 
+  useEffect(() => {
+    const factor = goal / 100;
+    const newEmissions = originalEmissions * factor;
+    setPreviousMonthEmissions(newEmissions.toFixed(1));
+  }, [goal, originalEmissions]);
 
   const handleValueChange = (value) => {
     const roundedValue = Math.round(value);
@@ -53,9 +60,9 @@ export default function GoalSetter({ navigation }) {
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={() => {
-            saveGoalToDatabase(goal);
-            navigation.goBack();
-            }}>
+          saveGoalToDatabase(goal);
+          navigation.goBack();
+        }}>
           <View style={styles.button} testID="set-goal-button">
             <Text style={styles.buttonText}>Set Goal</Text>
           </View>
