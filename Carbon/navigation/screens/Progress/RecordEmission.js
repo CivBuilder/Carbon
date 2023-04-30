@@ -36,7 +36,7 @@ export default function RecordEmissionScreen({navigation, route}) {
       emissionsEntry.total_emissions = e.diet_emissions + e.home_emissions + e.transport_emissions
 
       //Check if at least one emission was entered
-      if(emissionsEntry.total_emissions === 0 ) throw new Error(`Please Upload at least one Emission Category`);
+      if(emissionsEntry.total_emissions === 0 && e.lifestyle_emissions === 0) throw new Error(`Please Upload at least one Emission Category`);
 
       //post emission to server
       const response = await fetch(`${API_URL}userEmissions`, {
