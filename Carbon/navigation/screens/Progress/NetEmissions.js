@@ -31,7 +31,7 @@ const NetEmissions = ({refreshing, setRefreshing}) => {
         <Text style={{fontSize: 16, fontWeight: '400', textAlign:'center'}}> from the atmosphere last month.</Text>
       </View>
         <LottieView style={{flex: 1, height: 200, margin: 8}} source={require('../../../assets/lotties/recyclepeople.json')} autoPlay loop />
-      <View style={{marginTop: 12}}>
+      <View style={{marginTop: 8}}>
         <Text style={{fontSize: 16, fontWeight: '400', textAlign:'center'}}>
           Your net emissions is <Text style={{fontSize: 20, fontWeight: '500'}}>{`${lastMonthEmissions - lifestyleEmissions}`}</Text> lbs of {`CO\u2082`} this month.
         </Text>
