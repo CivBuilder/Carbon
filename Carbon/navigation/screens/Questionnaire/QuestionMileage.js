@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,Button,TextInput, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
+import {View, Text,TextInput, TouchableOpacity, ImageBackground, ScrollView, Keyboard } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -49,6 +49,37 @@ export default function MileageScreen({navigation, route}) {
         setTransportScore(mapScoreReverse(userPerformance));
     }
 
+    const [hideButton, setHideButton] = useState(false);
+
+    const handleInputFocus = () => {
+        setHideButton(true);
+    };
+
+    const handleInputBlur = () => {
+        setHideButton(false);
+    };
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+            Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+            () => {
+            setHideButton(true);
+            },
+        );
+
+        const keyboardDidHideListener = Keyboard.addListener(
+            Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+            () => {
+            setHideButton(false);
+            },
+        );
+
+        return () => {
+            keyboardDidShowListener.remove();
+            keyboardDidHideListener.remove();
+        };
+    }, []);
+
     return (
         <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
             <ImageBackground
@@ -85,20 +116,23 @@ export default function MileageScreen({navigation, route}) {
                     />
                 </View>
             </View>
-            <View style={q_styles.cta_container}>
-                <TouchableOpacity
-                    style={q_styles.cta_button}
-                    onPress={() =>{
-                        navigation.navigate('q5',{
-                            transportScore:transportScore,
-                            foodScore: foodScore,
-                            homeScore:homeScore,
-                        })
-                    }}
-                >
-                    <Text style={q_styles.cta_text}>Next Question</Text>
-                </TouchableOpacity>
-            </View>
+
+            {!hideButton && (
+                <View style={q_styles.cta_container}>
+                    <TouchableOpacity
+                        style={q_styles.cta_button}
+                        onPress={() =>{
+                            navigation.navigate('q5',{
+                                transportScore:transportScore,
+                                foodScore: foodScore,
+                                homeScore:homeScore,
+                            })
+                        }}
+                    >
+                        <Text style={q_styles.cta_text}>Next Question</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
         </ScrollView>
     )
 }

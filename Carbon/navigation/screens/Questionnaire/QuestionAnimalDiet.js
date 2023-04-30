@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,Button,TextInput, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
+import {View, Text,TextInput, TouchableOpacity, ImageBackground, ScrollView, Keyboard } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -54,6 +54,37 @@ export default function AnimalDietScreen({navigation,route}) {
         setFoodScore(mapScore(userPerformance));
     }
 
+    const [hideButton, setHideButton] = useState(false);
+
+    const handleInputFocus = () => {
+        setHideButton(true);
+    };
+
+    const handleInputBlur = () => {
+        setHideButton(false);
+    };
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+            Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+            () => {
+            setHideButton(true);
+            },
+        );
+
+        const keyboardDidHideListener = Keyboard.addListener(
+            Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+            () => {
+            setHideButton(false);
+            },
+        );
+
+        return () => {
+            keyboardDidShowListener.remove();
+            keyboardDidHideListener.remove();
+        };
+    }, []);
+
     return (
         <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={q_styles.questionnaire_container}>
             <ImageBackground
@@ -77,6 +108,8 @@ export default function AnimalDietScreen({navigation,route}) {
                     placeholder="Ex: 1.1"
                     style={q_styles.text_input}
                     keyboardType="decimal-pad"
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
                     onChangeText={text=>{
                         setlbsBeef(text? +text : 0);
                         calculatePreciseFoodScore()
@@ -88,6 +121,8 @@ export default function AnimalDietScreen({navigation,route}) {
                     placeholder="Ex: 1.9"
                     keyboardType="decimal-pad"
                     style={q_styles.text_input}
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
                     onChangeText={text=>{
                         setlbsPoultry(text? +text : 0);
                         calculatePreciseFoodScore()
@@ -100,6 +135,8 @@ export default function AnimalDietScreen({navigation,route}) {
                     placeholder="Ex: 0.96"
                     keyboardType="decimal-pad"
                     style={q_styles.text_input}
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
                     onChangeText={text=>{
                         setlbsPork(text? +text : 0);
                         calculatePreciseFoodScore()
@@ -112,6 +149,8 @@ export default function AnimalDietScreen({navigation,route}) {
                     placeholder="Ex: 0.75"
                     keyboardType="decimal-pad"
                     style={q_styles.text_input}
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
                     onChangeText={text=>{
                         setlbsCheese(text? +text : 0);
                         calculatePreciseFoodScore()
@@ -119,18 +158,20 @@ export default function AnimalDietScreen({navigation,route}) {
                 />
             </View>
 
-            <View style={q_styles.cta_container}>
-                <TouchableOpacity
-                    style={q_styles.cta_button}
-                    onPress={() =>
-                        navigation.navigate('q2',{
-                            foodScore:foodScore
-                        })
-                    }
-                >
-                    <Text style={q_styles.cta_text}>Next Question</Text>
-                </TouchableOpacity>
-            </View>
+            {!hideButton && (
+                <View style={q_styles.cta_container}>
+                    <TouchableOpacity
+                        style={q_styles.cta_button}
+                        onPress={() =>
+                            navigation.navigate('q2',{
+                                foodScore:foodScore
+                            })
+                        }
+                    >
+                        <Text style={q_styles.cta_text}>Next Question</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
         </ScrollView>
     )
 }

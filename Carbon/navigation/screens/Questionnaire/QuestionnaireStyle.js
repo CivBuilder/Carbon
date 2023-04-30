@@ -21,7 +21,6 @@ export const q_styles = StyleSheet.create({
         fontWeight: '400',
         marginBottom: 40,
         textAlign: 'center',
-
     },
     answer_container: {
         width: '60%',

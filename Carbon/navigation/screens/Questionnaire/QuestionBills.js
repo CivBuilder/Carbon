@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,Button,TextInput, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
+import {View, Text,TextInput, TouchableOpacity, ImageBackground, ScrollView, Keyboard } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import {aveAnnualHomeEmissions} from '../../../calculations/home_calculations/aveHomeEmissions';
 import homeElec from '../../../calculations/home_calculations/homeElec'
@@ -40,6 +40,37 @@ export default function BillScreen({navigation,route}) {
         });
         calculateHomeScore();
     });
+
+    const [hideButton, setHideButton] = useState(false);
+
+    const handleInputFocus = () => {
+        setHideButton(true);
+    };
+
+    const handleInputBlur = () => {
+        setHideButton(false);
+    };
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+            Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+            () => {
+            setHideButton(true);
+            },
+        );
+
+        const keyboardDidHideListener = Keyboard.addListener(
+            Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+            () => {
+            setHideButton(false);
+            },
+        );
+
+        return () => {
+            keyboardDidShowListener.remove();
+            keyboardDidHideListener.remove();
+        };
+    }, []);
 
     const calculateHomeScore=() =>{
         //Electricity bill (in dollars)
@@ -83,6 +114,8 @@ export default function BillScreen({navigation,route}) {
                         placeholder="Ex: 120"
                         style={q_styles.text_input}
                         keyboardType="decimal-pad"
+                        onFocus={handleInputFocus}
+                        onBlur={handleInputBlur}
                         onChangeText={text=>text ? setBill(text): 0}
                     />
 
@@ -91,24 +124,28 @@ export default function BillScreen({navigation,route}) {
                         placeholder="Ex: 0.13"
                         keyboardType="decimal-pad"
                         style={q_styles.text_input}
+                        onFocus={handleInputFocus}
+                        onBlur={handleInputBlur}
                         onChangeText={text=>text?setRate(text): 0}
                     />
                 </View>
             </View>
 
-            <View style={q_styles.cta_container}>
-                <TouchableOpacity
-                    style={q_styles.cta_button}
-                    onPress={() =>{
-                        navigation.navigate('q4',{
-                            foodScore:foodScore,
-                            homeScore:homeScore,
-                        })
-                    }}
-                >
-                    <Text style={q_styles.cta_text}>Next Question</Text>
-                </TouchableOpacity>
-            </View>
+            {!hideButton && (
+                <View style={q_styles.cta_container}>
+                    <TouchableOpacity
+                        style={q_styles.cta_button}
+                        onPress={() =>{
+                            navigation.navigate('q4',{
+                                foodScore:foodScore,
+                                homeScore:homeScore,
+                            })
+                        }}
+                    >
+                        <Text style={q_styles.cta_text}>Next Question</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
         </ScrollView>
     )
 }

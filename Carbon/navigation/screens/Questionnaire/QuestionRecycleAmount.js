@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,Button,TextInput, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
+import {View, Text,TextInput, TouchableOpacity, ImageBackground, ScrollView, Keyboard } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import {aveRecyclingPerWeek} from '../../../calculations/recycling_calculations/aveRecycling';
 import mapScore from '../../../calculations/questionnaireMapScore';
@@ -39,6 +39,37 @@ export default function RecycleAmountScreen({navigation,route}) {
         })
     });
 
+    const [hideButton, setHideButton] = useState(false);
+
+    const handleInputFocus = () => {
+        setHideButton(true);
+    };
+
+    const handleInputBlur = () => {
+        setHideButton(false);
+    };
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+            Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+            () => {
+            setHideButton(true);
+            },
+        );
+
+        const keyboardDidHideListener = Keyboard.addListener(
+            Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+            () => {
+            setHideButton(false);
+            },
+        );
+
+        return () => {
+            keyboardDidShowListener.remove();
+            keyboardDidHideListener.remove();
+        };
+    }, []);
+
     const calculateRecycleAmount=() =>{
         //More recycling is better
         let userPerformance = recycleAmt/aveRecyclingPerWeek.average;
@@ -70,6 +101,8 @@ export default function RecycleAmountScreen({navigation,route}) {
                     placeholder="Ex: 10"
                     style={q_styles.text_input}
                     keyboardType="decimal-pad"
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
                     onChangeText={text=>{
                         setRecycleAmt(text);
                         calculateRecycleAmount();
@@ -77,8 +110,8 @@ export default function RecycleAmountScreen({navigation,route}) {
                 />
             </View>
 
-            <View style={q_styles.cta_container}>
-                { recycleAmt !== 0 && (
+            { !hideButton && (
+                <View style={q_styles.cta_container}>
                     <TouchableOpacity
                         style={q_styles.cta_button}
                         onPress={() =>{
@@ -92,8 +125,8 @@ export default function RecycleAmountScreen({navigation,route}) {
                     >
                         <Text style={q_styles.cta_text}>See My Results</Text>
                     </TouchableOpacity>
-                )}
-            </View>
+                </View>
+            )}
         </ScrollView>
     )
 }
