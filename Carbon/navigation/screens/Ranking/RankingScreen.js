@@ -201,7 +201,7 @@ export default function RankingScreen({ navigation, route }) {
 
 const styles = StyleSheet.create({
   MiniRankContainer: {
-    height: 130,
+    height: 140,
     // backgroundColor : Colors.secondary.NYANZA,
     padding: 12,
     backgroundColor: "white",

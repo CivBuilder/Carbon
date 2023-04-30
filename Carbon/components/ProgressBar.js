@@ -1,38 +1,42 @@
-import { View, StyleSheet, Animated, Dimensions, Text } from 'react-native';
+import { View, StyleSheet, Animated, Text } from 'react-native';
 import React from 'react';
 import { Colors } from '../styling/Colors.js';
 import { useEffect } from 'react';
 import { useRef, useState } from 'react';
-
-const {width} = Dimensions.get('window');
 
 /**
  * Displays Animated progress bar where progress/total % will be filled in
  * @param {Number} progress - progress towards total value, % will fill the bar
  * @param {Number} total - total value to be me
  */
-export default function RankProgressBar({progress, total, barWidth}) {
-  const progressBarLength = width * (barWidth <= 1 && barWidth > 0 ? barWidth : 1 );
-  const [ratio, setRatio] = useState(progress === total ? 1 : progress/total);
+export default function RankProgressBar({ progress, total }) {
+  const [ratio, setRatio] = useState(progress === total ? 1 : progress / total);
+  const [barWidth, setWidth] = useState(0);
+  const onLayout = (event) => {
+    const { width } = event.nativeEvent.layout;
+    setWidth(width);
+  };
 
-    useEffect( () => {
-        setRatio(progress === total ? 1 : progress/total)
-    }, [progress, total])
-    const initWidth = useRef(new Animated.Value(0)).current;
-    useEffect (() => {
-        Animated.spring(initWidth, {
-            toValue : ratio * progressBarLength,
-            bounciness : 5,
-            speed : 2,
-            useNativeDriver : false
-        }).start();
-    }, [ratio]);
+  useEffect(() => {
+    setRatio(progress === total ? 1 : progress / total)
+  }, [progress, total])
+  const initWidth = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.spring(initWidth, {
+      toValue: ratio * barWidth,
+      bounciness: 5,
+      speed: 2,
+      useNativeDriver: false
+    }).start();
+  }, [ratio, barWidth]);
 
   return (
     <View style={styles.RankProgBarContainer}>
       {(progress !== total) &&
-        <View style={[styles.loadingBar, {width : progressBarLength}]}>
-          <Animated.View style={[styles.progressBar, { width: initWidth }]} />
+        <View onLayout={onLayout}>
+          <View style={[styles.loadingBar, { width: barWidth }]}>
+            <Animated.View style={[styles.progressBar, { width: initWidth }]} />
+          </View>
         </View>
       }
       <View style={styles.progressValues}>
@@ -49,11 +53,12 @@ const styles = StyleSheet.create({
     // justifyContent : 'flex-end'
   },
   loadingBar: {
-    width: width,
-    borderRadius : 15,
-    backgroundColor : "#DDE1E4",
-    flex : 0.25,
-    overflow : 'hidden'
+    minWidth: '100%',
+    minHeight: 10,
+    borderRadius: 15,
+    backgroundColor: "#DDE1E4",
+    flex: 0.25,
+    overflow: 'hidden'
   },
   progressBar: {
     backgroundColor: Colors.secondary.LIGHT_MINT,
@@ -68,7 +73,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     marginHorizontal: 2,
-    marginTop: 2,
   },
   numerator: {
     fontSize: 14,

@@ -32,7 +32,7 @@ export default function MiniRanking({userScores, rankCategory}) {
             <Text style={styling.titleText}>{SustainabilityScoreProfileView[sustainability_score].title}</Text>
           </View>
           <View style={styling.rankProgress}>
-            <RankProgressBar progress={currentScore} total={nextRankScore} barWidth={0.5} />
+            <RankProgressBar progress={currentScore} total={nextRankScore} />
           </View>
         </View>
       </View>
