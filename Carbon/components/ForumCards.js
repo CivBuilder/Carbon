@@ -28,7 +28,9 @@ const ForumCards = ({ navigation }) => {
         // loop={false}
         >
             <View style={styles.card}>
-                <TouchableOpacity onPress={() => {
+                <TouchableOpacity
+                    activeOpacity={1} //Removes the flashing effect when pressed
+                    onPress={() => {
                     navigation.navigate(ScreenNames.FORUM, {
                         screen: ScreenNames.BROWSER,
                         initial: false,
@@ -60,7 +62,9 @@ const ForumCards = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.card}>
-                <TouchableOpacity onPress={() => {
+                <TouchableOpacity
+                    activeOpacity={1} //Removes the flashing effect when pressed
+                    onPress={() => {
                     navigation.navigate(ScreenNames.FORUM, {
                         screen: ScreenNames.QUIZ,
                         params: { id: 19 }
@@ -91,7 +95,9 @@ const ForumCards = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.card}>
-                <TouchableOpacity onPress={() => {
+                <TouchableOpacity
+                    activeOpacity={1} //Removes the flashing effect when pressed
+                    onPress={() => {
                     navigation.navigate(ScreenNames.FORUM, {
                         screen: ScreenNames.BROWSER,
                         initial: false,
@@ -123,7 +129,9 @@ const ForumCards = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.card}>
-                <TouchableOpacity onPress={() => {
+                <TouchableOpacity
+                    activeOpacity={1} //Removes the flashing effect when pressed
+                    onPress={() => {
                     navigation.navigate(ScreenNames.FORUM, {
                         screen: ScreenNames.QUIZ,
                         params: { id: 31 }
