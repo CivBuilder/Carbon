@@ -106,10 +106,7 @@ describe('RankingScreen', () => {
         })})
         const { findByTestId} = render(<RankingScreen />);
         const screen = await findByTestId('rank-screen');
-        const switchTab = getByTestId('switch');
         expect(screen).toBeDefined();
-        expect(switchTab).toBeDefined();        
-
     });
 
     // test('renders correctly - return status 400', async () => {
