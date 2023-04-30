@@ -52,11 +52,6 @@ export default function RecordEmissionScreen({ navigation, route }) {
         console.log("Successful Post!");
         navigation.goBack();
       }
-      //if second post for the day - alert and also go back
-      else if (response.status === 204) {
-        alert(`You can only upload results once a day :(`);
-        navigation.goBack();
-      }
       //Alert on bad request - should only see on testing 
       else if (response.status === 404) {
         throw new Error(`Client ID Not Found`);
