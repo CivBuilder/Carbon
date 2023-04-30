@@ -40,11 +40,14 @@ export default function MileageScreen({navigation,route}) {
         })
     });
 
+    //Updating transportation score
+    useEffect(()=>{
+        calculateTransportScore();
+    },[mpg]);
+
     const calculateTransportScore=() =>{
         //User performance = userMPG / aveMPG
         //transport score = mapped(userPerformance)
-        console.log(averageGasCarMPG.MPG)
-        console.log(mpg)
         let userPerformance = mpg / averageGasCarMPG.MPG;
         setTransportScore(mapScoreReverse(userPerformance));
     }
@@ -80,7 +83,6 @@ export default function MileageScreen({navigation,route}) {
                         keyboardType="decimal-pad"
                         onChangeText={text=>{
                             text? setmpg(text):setmpg(0);
-                            calculateTransportScore();
                         }}
                     />
                 </View>
