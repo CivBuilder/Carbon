@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { API_URL } from '../config/Api';
+
+import { profanities } from '../components/Profanities';
 import { changeUsername } from './UpdateAccountSettings';
 
 function renderCallback() {
@@ -135,4 +137,34 @@ export function validatePassword(password) {
 export function validateEmail(email) {
     const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     return regex.test(email);
+}
+
+export function validateUsername(username) {
+    // Check for bad words/slurs
+    for (const profanity of profanities) {
+        if (username.toLowerCase().includes(profanity.toLowerCase())) {
+            return false; // username contains a bad word/slur
+        }
+    }
+
+    // Check for SQL injection attacks
+    const sqlKeywords = ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'DROP', 'ALTER', 'CREATE', 'TRUNCATE'];
+    for (const keyword of sqlKeywords) {
+        if (username.toUpperCase().includes(keyword)) {
+            return false; // username contains a SQL keyword
+        }
+    }
+
+    // Check for special characters except '_', '-', and '.'
+    const regex = /^[a-zA-Z0-9_.-]*$/;
+    if (!regex.test(username)) {
+        return false;
+    }
+
+    // Check for length (minimum 3 characters, maximum 30)
+    if (username.length < 3 || username.length > 30) {
+        return false;
+    }
+
+    return true; // username is valid
 }

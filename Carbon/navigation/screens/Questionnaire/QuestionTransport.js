@@ -1,6 +1,8 @@
-import React, {useEffect} from 'react';
-import {View, Text,Button} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text,Button, TouchableOpacity, ImageBackground} from 'react-native';
 import { Colors } from '../../../styling/Colors';
+import { q_styles } from './QuestionnaireStyle';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 /*
 Transport Screen
 TODO: Find a better way to transfer values to the last screen(instead of transferring between pages)
@@ -12,6 +14,8 @@ export default function TransportScreen({navigation, route}) {
     //Carry Scores and values from previous pages
     const foodScore = route.params?.foodScore;
     const homeScore = route.params?.homeScore;
+    const [nextPage, setNextPage] = useState("q4a");
+    const [buttonIndex, setButtonIndex] = useState(-1);
 
     //Updating progress bar (a.k.a the header)
     useEffect(()=>{
@@ -31,71 +35,79 @@ export default function TransportScreen({navigation, route}) {
     });
 
     return (
-            <>
-            <View
-                style={{
-                    flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: Colors.secondary.LIGHT_GREEN,
-                }}
-            >
-            <Text style={{
-                fontSize:20,
-                fontWeight:"400",
-                marginBottom:40,
-                paddingLeft:"8%",
-                paddingRight:"6%",
-            }}>
-            In 2020, passenger vehicles accounted for 38% of greenhouse
-            gases emitted by the transportation industry. Do you own or drive
-            a passenger vehicle?
-            </Text>
-            <View style={{
-                width:"60%",
-            }}
-            >
-            <View style={{
-                marginBottom:12,
-            }}>
-            <Button
-                title="Yes"
-                onPress={()=>{
-                    navigation.navigate("q4a",{
-                    homeScore:homeScore,
-                    foodScore:foodScore,
-                    });
-                }}
-                color={Colors.secondary.LIGHT_MINT}
+        <>
+            <ImageBackground
+                source={require('../../../assets/car-background-2.png')}
+                style={ q_styles.background }
             />
+
+            <View style={{position: 'absolute', top: 32, left: 10}}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name='chevron-back-outline' size={36} color='black' />
+                </TouchableOpacity>
             </View>
-            <View style={{
-                            marginBottom:12,
-            }}>
-            <Button
-                title ="No"
-                onPress={()=>{
-                    navigation.navigate("q4c",{
-                    homeScore:homeScore,
-                    foodScore:foodScore,
-                    });
-                }}
-                color={Colors.secondary.LIGHT_MINT}
-            />
+
+            <View style={{ ...q_styles.questionnaire_container }}>
+                <Text style={{ ...q_styles.question_text, fontSize: 18, marginHorizontal: 24, marginBottom: 20}}>
+                    In 2020, passenger vehicles accounted for 38% of greenhouse
+                    gases emitted by the transportation industry.
+                </Text>
+                <Text style={{ ...q_styles.question_text, fontSize: 18, marginHorizontal: 24}}>
+                    Do you own or drive a passenger vehicle?
+                </Text>
+
+                <View style={{ width:'60%'}}>
+                    <View style={ q_styles.button_container }>
+                        <TouchableOpacity
+                            style={{
+                                ...q_styles.answer_button,
+                                backgroundColor: buttonIndex === 0 ? Colors.primary.MINT : 'white',
+                                borderColor: buttonIndex === 0 ? Colors.primary.MINT : Colors.primary.GRAY,
+                            }}
+                            onPress={()=>{
+                                setButtonIndex(0);
+                                setNextPage("q4a");
+                            }}
+                        >
+                            <Text style={q_styles.answer_text} >Yes</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={q_styles.button_container}>
+                        <TouchableOpacity
+                            style={{
+                                ...q_styles.answer_button,
+                                backgroundColor: buttonIndex === 1 ? Colors.primary.MINT : 'white',
+                                borderColor: buttonIndex === 1 ? Colors.primary.MINT : Colors.primary.GRAY,
+                            }}
+                            onPress={()=>{
+                                setButtonIndex(1);
+                                setNextPage("q4c");
+                            }}
+                        >
+                            <Text style={q_styles.answer_text} >No</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             </View>
+
+            <View style={q_styles.cta_container}>
+                {buttonIndex !== -1 ? (
+                    <TouchableOpacity
+                        style={q_styles.cta_button}
+                        onPress={() =>{
+                            navigation.navigate(nextPage,{
+                                homeScore:homeScore,
+                                foodScore:foodScore,
+                            });
+                        }}
+                    >
+                        <Text style={q_styles.cta_text}>Next Question</Text>
+                    </TouchableOpacity>
+                ) : (
+                    null
+                )}
             </View>
-            </View>
-            <View style={{
-                justifyContent:'center',
-            }}>
-            <Button
-            title="Previous Question"
-            color={Colors.primary.MINT}
-            onPress={() =>
-                navigation.goBack()
-            }
-            />
-            </View>
-            </>
-        )
+        </>
+    )
 }

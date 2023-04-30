@@ -1,39 +1,46 @@
 import * as React from 'react';
-import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text, Platform } from 'react-native';
+import { View, SafeAreaView, ScrollView, StyleSheet, Text, Platform } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { CategoryBreakdown } from './CategoryBreakdown';
-import RecordEmission from './RecordEmission';
 import Log from '../Progress/Log';
 import NetEmissions from './NetEmissions';
 import { Section } from '../../../components/Section';
-
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
-const margin = 10;
+const margin = 12;
 
 export default function ProgressScreen({ navigation }) {
+
+
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: '#F7FCF8', height: '100%' }}>
       <ScrollView
+        contentContainerStyle={styles.scrollView}
+
         showsHorizontalScrollIndicator={false}
         style={{ flexGrow: 1 }}
       >
-        {/* <View>
-                    <RecordEmission />
-                </View> */}
+
         {/* Category Breakdown */}
         <Section title="Category Breakdown">
           <CategoryBreakdown navigation={navigation} />
         </Section>
+
         {/* Log -- Will update styling and other things for this component soon :) */}
-        
+        <Text style={{
+          marginHorizontal: 12,
+          marginTop: 12,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          fontSize: 16,
+          fontWeight: '500',
+        }}>Category By Time</Text>
         <View style={styles.container}>
-            <Log navigation={navigation}></Log>
+          <Log navigation={navigation} ></Log>
         </View>
-            
-            <Section title="Net Emissions">
-              <NetEmissions />
-            </Section>
+
+        <Section title="Net Emissions">
+          <NetEmissions />
+        </Section>
       </ScrollView>
     </SafeAreaView>
   )

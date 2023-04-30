@@ -10,7 +10,7 @@ export const RecentEmissionsCSS = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexWrap: 'nowrap',
-    backgroundColor: "#f2f2f2",
+    backgroundColor: Colors.miscellaneous.BACKGROUND,
     borderRadius: 8,
   },
   entry: {
@@ -46,6 +46,6 @@ export const RecentEmissionsCSS = StyleSheet.create({
   notFound: {
     fontSize: 13,
     fontStyle: 'italic',
-    color: '#8e8e8e',
+    color: Colors.miscellaneous.DISABLED,
   },
 });

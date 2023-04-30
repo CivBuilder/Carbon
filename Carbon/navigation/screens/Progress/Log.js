@@ -4,6 +4,9 @@ import { ScreenNames } from "../Main/ScreenNames";
 import React, { useState, useRef, useEffect } from 'react';
 import { Colors } from '../../../styling/Colors';
 import GetData from "../Home/GetData";
+import { Ionicons } from '@expo/vector-icons';
+import LoadingIndicator from "../../../components/LoadingIndicator";
+import { faWindowRestore } from "@fortawesome/free-regular-svg-icons";
 /*
     Log function, it can get todays, yesterdays, weekly or monthly data
     It's purpose is to display to the user their relevant data in an easy to see way and let them track their progress
@@ -14,8 +17,6 @@ const windowHeight = Dimensions.get("window").height;
 
 
 export default function Log({ navigation }) {
-    const myRef = useRef();
-
     const whichLog = ["Today's", "Yesterday's", "Weekly", "Monthly"]; //String list for displaying
     const [number, setNumber] = useState(0);  //A state hook to set which area we are time frame we look at. 
     //0 = "Today", 1= "Yesterday's" etc etc.
@@ -25,6 +26,7 @@ export default function Log({ navigation }) {
     useEffect(() => {
         //Wait for get Data
         async function callGetData() {
+       
             try {
                 const retData = await GetData(); //put the data here and set the array
                 loadArr(retData); //Sets the 2d array to be in twoDdata
@@ -35,15 +37,28 @@ export default function Log({ navigation }) {
             }
         }
         callGetData(); //Call the getdata through callGetData
-    }, [myRef.current]);
+    }, []);
     if (!data) {
         //ESSENTIALLY if it isnt loaded we return null
         return (
-            <View style={{  backgroundColor: "white",  borderRadius: 16, height: windowHeight / 2, padding: 10 }} >
-            <Text style={{ fontSize: 40 }}>LOADING......</Text> 
+            <View style={{ backgroundColor: "white", borderRadius: 16, height: windowHeight / 2, padding: 10 }} >
+                    <LoadingIndicator loading={true} ></LoadingIndicator>
+
             </View>
-            )
+        )
     }
+    async function Refresh()  {
+        console.log("refresh")
+        try {
+            const retData = await GetData(); //put the data here and set the array
+            loadArr(retData); //Sets the 2d array to be in twoDdata
+            setArray(retData[number]); //as well as setting the specific look at to be index 0
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
     //function to handle the change to the right (aka today -> yesterday)
     const handleChangeRight = () => {
         if (number < 3) {
@@ -57,11 +72,7 @@ export default function Log({ navigation }) {
         if (number > 0) {
             setNumber(number - 1);
         }
-        else
-        {
-            console.log("refreshing")
-            myRef.current = Math.random();
-        }
+
         changeArrayLeft();
     };
 
@@ -75,20 +86,42 @@ export default function Log({ navigation }) {
         if (number < 3) {
             setArray(twoDdata[number + 1]);
         }
+
     };
     //our rendering
     return (
-        <View style={{  backgroundColor: "white",  borderRadius: 16, height: windowHeight / 2, padding: 10 }}> 
+        <View style={{ backgroundColor: "white", borderRadius: 16, height: (windowHeight / 2) + windowHeight / 14, padding: 10 }}>
+
             <View style={styles.header}>
-
-                <Text style={styles.title}>{whichLog[number]} Log</Text>
+                <View>
+                <Text style={styles.title}>{whichLog[number]} Log </Text>
+                <Text> Units: lbs/CO2</Text>
+                </View>
                 {/* Will display the log as well as some text next to it*/}
-
-                <Text>Units: lb's CO2</Text>
                 {/* Displays our units used */}
+                <TouchableOpacity
+                    testID="refresh-click"
+                    style={{
+                        backgroundColor: Colors.primary.MINT,
+                        borderRadius: 5,
+                        alignSelf: "center",
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        margin: margin,
+                        width: windowHeight / 20, // set the width to 50 pixels
+                        height: windowHeight / 20, // 
+                    }}
+                    onPress={Refresh}
+                >{/* Handle right*/}
+                    {/* more button formatting*/}
+                    <Ionicons name="refresh-outline" size={30} color="white"/>
+                </TouchableOpacity>
 
             </View>
-            {/*Align things */}
+            {/* <View style={styles.header}>
+                <Text style={{ alignSelf: 'center' }}>Units: lbs/CO2</Text>
+            </View> */}
+            {/*Align things */ }
 
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15,/*backgroundColor: Colors.primary.MINT*/ }}>
                 {/* Implements the log itself from ChartData.js */}
@@ -104,7 +137,7 @@ export default function Log({ navigation }) {
                 
                    
                 ) : (
-                    <DailyLog dataArray={data}></DailyLog>
+                    <DailyLog dataArray={data} ></DailyLog>
                 )}
                 {/*Additional formatting for the button */}
             </View>
@@ -120,11 +153,12 @@ export default function Log({ navigation }) {
                         margin: margin,
                     }}
                     testID="left-click"
-
+                    
                     onPress={handleChangeLeft}
                 >{/* handle left*/}
                     {/* More formatting*/}
-                    <Text style={{ color: 'white', fontSize: 26 }}>{' <-'}</Text>
+                    {/* <Text style={{ color: 'white', fontSize: 26 }}>{' <-'}</Text> */}
+                    <Ionicons name="chevron-back" size={30} color='white'></Ionicons>
                 </TouchableOpacity>
                 <TouchableOpacity
                     testID="right-click"
@@ -139,10 +173,14 @@ export default function Log({ navigation }) {
                     onPress={handleChangeRight}
                 >{/* Handle right*/}
                     {/* more button formatting*/}
-                    <Text style={{ justifyContent: 'center', color: 'white', fontSize: 26 }}>{' ->'}</Text>
+                    <Ionicons name="chevron-forward" size={30} color='white'></Ionicons>
+
                 </TouchableOpacity>
+                
+              
+
             </View>
-        </View>
+        </View >
     )
 }
 
@@ -151,7 +189,8 @@ const margin = 10;
 const styles = StyleSheet.create({
     title: {
         fontSize: 16,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        alignSelf: 'center'
     },
     container: {
         margin: margin,

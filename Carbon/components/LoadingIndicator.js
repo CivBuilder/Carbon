@@ -1,5 +1,5 @@
 //Angel Quintanilla -
-
+import { View } from 'react-native';
 import { ActivityIndicator } from 'react-native';
 import { Colors } from '../styling/Colors';
 
@@ -10,10 +10,9 @@ import { Colors } from '../styling/Colors';
  */
 export default function LoadingIndicator({loading}) {
     if(loading)
-    return (<ActivityIndicator size="large" color={Colors.primary.RAISIN_BLACK} style={LoadingIndicatorStyle} testID="loading-indicator"/>)
+    return (<View style={{height: 125}}><ActivityIndicator size="large" color={Colors.primary.RAISIN_BLACK} style={LoadingIndicatorStyle} testID="loading-indicator"/></View>)
     else return(null);
 }
-
 
 const LoadingIndicatorStyle = {
     position: 'absolute',

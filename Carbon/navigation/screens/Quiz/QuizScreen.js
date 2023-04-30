@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Dimensions, SafeAreaView, Text, TouchableOpacity, View, StyleSheet, Modal } from 'react-native';
+import { Dimensions, SafeAreaView, Text, TouchableOpacity, View, StyleSheet, Modal, StatusBar } from 'react-native';
 import {useState, useEffect} from 'react';
 import { getToken } from '../../../util/LoginManager';
 import { API_URL } from '../../../config/Api';
@@ -112,6 +112,8 @@ const QuizScreen = ({navigation, route}) => {
     //RENDER FUNCTIONS
     const renderQuestion = () => {
         return (
+            <>
+            <StatusBar backgroundColor="#e3f7ff" />
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12, }}>
                     {/* Question Counter */}
@@ -130,13 +132,14 @@ const QuizScreen = ({navigation, route}) => {
                     <Text
                         style={{
                             ...styles.question_text,
-                            fontSize: data.questions[currentQuestion].question.length > 50 ? 18 : 22,
+                            fontSize: data.questions[currentQuestion].question.length > 90 ? 18 : 22,
                         }}
                     >
                         {data.questions[currentQuestion].question}
                     </Text>
                 </View>
             </View>
+            </>
         )
     }
 
@@ -160,7 +163,13 @@ const QuizScreen = ({navigation, route}) => {
                             }}
                         onPress={() => answerClicked(answer)}
                     >
-                        <Text style={styles.answer_text}>{answer.answer}</Text>
+                        <Text
+                            style={{
+                                ...styles.answer_text,
+                                //font size 14 if answer is longer than 50 characters
+                                fontSize: answer.answer.length > 50 ? 16 : 18,
+                            }}
+                        >{answer.answer}</Text>
                     </TouchableOpacity>
                 ))}
             </View>
@@ -294,55 +303,58 @@ const QuizScreen = ({navigation, route}) => {
                                             animationType="fade"
                                             animationInTiming={1000}
                                             animationOutTiming={1000}
+                                            transparent={true}
                                         >
-                                            <TouchableOpacity onPress={() => setVisibility(false)}/>
-                                            <View
-                                                style={{
-                                                    flex: 1,
-                                                    backgroundColor: 'white',
-                                                    borderRadius: 10,
-                                                    padding: 22,
-                                                    justifyContent: 'center',
-                                                    alignItems: 'center',
-                                                }}
-                                            >
-                                                <Text style={{ fontSize: 22 }}>
-                                                    Are you sure you want to quit?
-                                                </Text>
-                                                <Text style={{ fontSize: 22, marginBottom: 24 }}>
-                                                    Your progress will be lost.
-                                                </Text>
-                                                <View style={{ flexDirection: 'row' }}>
-                                                    <TouchableOpacity
-                                                        onPress={() => {
-                                                            setShowModal(false);
-                                                            navigation.goBack();
-                                                        }}
-                                                        style={{
-                                                            backgroundColor: '#74C69D',
-                                                            borderRadius: 12,
-                                                            padding: 12,
-                                                            paddingHorizontal: 48,
-                                                            marginRight: 36,
-                                                        }}
-                                                    >
-                                                        <Text style={{ color: Colors.primary.MINT_CREAM, fontSize: 18, fontWeight: '500' }}>Yes</Text>
-                                                    </TouchableOpacity>
-                                                    <TouchableOpacity
-                                                        onPress={() => {
-                                                            setShowModal(false);
-                                                        }}
-                                                        style={{
-                                                            backgroundColor: 'white',
-                                                            borderRadius: 12,
-                                                            borderWidth: 2,
-                                                            borderColor: '#db2525',
-                                                            padding: 12,
-                                                            paddingHorizontal: 48,
-                                                        }}
-                                                    >
-                                                        <Text style={{ color: Colors.primary.RAISIN_BLACK, fontSize: 18, fontWeight: '500', color: '#db2525' }}>No</Text>
-                                                    </TouchableOpacity>
+                                            <View style={{flex: 1, backgroundColor: "rgba(0,0,0,0.5)", justifyContent: 'flex-end'}}>
+                                                <TouchableOpacity onPress={() => setVisibility(false)}/>
+                                                <View
+                                                    style={{
+                                                        position: 'absolute', bottom: '40%', left: 24, right: 24, top: '30%',
+                                                        borderRadius: 18,
+                                                        backgroundColor: 'white',
+                                                        padding: 22,
+                                                        justifyContent: 'center',
+                                                        alignItems: 'center',
+                                                    }}
+                                                >
+                                                    <Text style={{ fontSize: 22 }}>
+                                                        Are you sure you want to quit?
+                                                    </Text>
+                                                    <Text style={{ fontSize: 22, marginBottom: 48 }}>
+                                                        Your progress will be lost.
+                                                    </Text>
+                                                    <View style={{ flexDirection: 'row' }}>
+                                                        <TouchableOpacity
+                                                            onPress={() => {
+                                                                setShowModal(false);
+                                                                navigation.goBack();
+                                                            }}
+                                                            style={{
+                                                                backgroundColor: '#74C69D',
+                                                                borderRadius: 12,
+                                                                padding: 12,
+                                                                paddingHorizontal: 48,
+                                                                marginRight: 36,
+                                                            }}
+                                                        >
+                                                            <Text style={{ color: Colors.primary.MINT_CREAM, fontSize: 18, fontWeight: '500' }}>Yes</Text>
+                                                        </TouchableOpacity>
+                                                        <TouchableOpacity
+                                                            onPress={() => {
+                                                                setShowModal(false);
+                                                            }}
+                                                            style={{
+                                                                backgroundColor: 'white',
+                                                                borderRadius: 12,
+                                                                borderWidth: 2,
+                                                                borderColor: '#db2525',
+                                                                padding: 12,
+                                                                paddingHorizontal: 48,
+                                                            }}
+                                                        >
+                                                            <Text style={{ color: Colors.primary.RAISIN_BLACK, fontSize: 18, fontWeight: '500', color: '#db2525' }}>No</Text>
+                                                        </TouchableOpacity>
+                                                    </View>
                                                 </View>
                                             </View>
                                         </Modal>
@@ -428,12 +440,10 @@ styles = StyleSheet.create({
     answer_button: {
         borderRadius: 12,
         borderWidth: 2,
-        height: 48,
-        justifyContent: 'center',
+        padding: 6,
         marginVertical: 8,
     },
     answer_text: {
-        fontSize: 18,
         fontWeight: '500',
         color: Colors.primary.RAISIN_BLACK,
         textAlign: 'center',

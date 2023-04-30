@@ -11,7 +11,7 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const margin = 10;
 const chartWidth = windowWidth - (margin * 2);
-const chartHeight = 210;
+const chartHeight = 100;
 
 const dummyData = [
     { x: "Transport", y: Math.round(Math.random() * 10000) },
@@ -189,7 +189,7 @@ export const CategoryBreakdown = ({navigation}) => {
     // Show error message if error exists.
     if (error) {
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 60}}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 60, height: chartHeight }}>
                 <Text style={{ fontSize: 18, textAlign: 'center' }}>Unable to connect</Text>
                 <Text style={{ fontSize: 14, textAlign: 'center' }}>Please check your network settings and try again.</Text>
             </View>
@@ -199,7 +199,7 @@ export const CategoryBreakdown = ({navigation}) => {
     // Renders a message and a button to add emissions if there is no data available for the current month.
     if (!data || !Array.isArray(data) || data.length === 0) {
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: chartHeight }}>
                 <Text style={{ fontSize: 18 }}>You have no data for this month.</Text>
                 <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION)}>
                     <View style={{ backgroundColor: Colors.primary.MINT, padding: 10, marginTop: 12, borderRadius: 12 }}>
