@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ScrollView, SafeAreaView, RefreshControl } from 'react-native';
-import { ScrollView, SafeAreaView } from 'react-native';
 import { ScreenNames } from '../Main/ScreenNames';
 import { MonthlyFootprintLineChart } from '../../../components/MonthlyFootprintLineChart';
 import HomeScreenRanking from '../Ranking/HomeScreenRanking'

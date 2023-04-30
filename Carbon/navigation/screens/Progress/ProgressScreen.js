@@ -1,9 +1,10 @@
-import * as React from 'react';
-import { View, SafeAreaView, ScrollView, StyleSheet, Text, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { View, SafeAreaView, ScrollView, StyleSheet, Text, Platform, RefreshControl } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { CategoryBreakdown } from './CategoryBreakdown';
 import Log from '../Progress/Log';
 import NetEmissions from './NetEmissions';
+import GoalProgress from './GoalProgress';
 import { Section } from '../../../components/Section';
 const margin = 12;
 
@@ -27,7 +28,7 @@ export default function ProgressScreen({ navigation }) {
 
         {/* Category Breakdown */}
         <Section title="Category Breakdown">
-          <CategoryBreakdown navigation={navigation} refreshing={refreshing} setRefreshing={setRefreshing}/>
+          <CategoryBreakdown navigation={navigation} refreshing={refreshing} setRefreshing={setRefreshing} />
         </Section>
 
         {/* Log -- Will update styling and other things for this component soon :) */}
@@ -45,7 +46,10 @@ export default function ProgressScreen({ navigation }) {
         </View>
 
         <Section title="Net Emissions">
-          <NetEmissions refrshing={refreshing} setRefreshing={setRefreshing} />
+          <NetEmissions refreshing={refreshing} setRefreshing={setRefreshing} />
+        </Section>
+        <Section title="Goal Progress">
+          <GoalProgress refreshing={refreshing} setRefreshing={setRefreshing} navigation={navigation}></GoalProgress>
         </Section>
       </ScrollView>
     </SafeAreaView>
