@@ -362,8 +362,8 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
     }
   });
 
-  if (todaysEntries.some((entry) => entry.user_id === req.user.id))
-    return res.status(204).send(`User Entry already submitted today.`);
+  // if (todaysEntries.some((entry) => entry.user_id === req.user.id))
+  //   return res.status(204).send(`User Entry already submitted today.`);
 
 
 

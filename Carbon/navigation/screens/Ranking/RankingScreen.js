@@ -130,11 +130,13 @@ export default function RankingScreen({navigation, route}){
     }, [userScores])
 
     if(userScores === null) return (
-      <LoadingIndicator loading={loading}/>
+      <View testID='load-screen'>
+      <LoadingIndicator loading={loading} testID="loading-screen"/>
+      </View>
     );
 
     if(errorMessage !== null) return (
-      <View>
+      <View testID='error-screen'>
         <ServerErrorScreen onRefresh={() =>{getUserScores(setUserScores, setLoading, setErrorMessage)}} errorMessage={errorMessage}/>
         <LoadingIndicator loading={loading}/>
       </View>
