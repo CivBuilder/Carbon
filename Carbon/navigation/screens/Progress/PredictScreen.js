@@ -50,30 +50,26 @@ export default function PredictScreen({ navigation, route }) {
     async function postResults() {
         try {
             // console.log("trying to post")
-            setEmissionsEntry({
+            const predictedEmissions = {
                 transport_emissions: data[0],
                 total_emissions: data[4],
                 lifestyle_emissions: data[2],
                 diet_emissions: data[1],
                 home_emissions: data[3]
-            });
+            };
             //post emission to server
-            const response = await fetch(`${API_URL}userEmissions`, {
+            const response = await fetch(API_URL + 'userEmissions', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'secrettoken': await getToken(),
                 },
-                body: JSON.stringify(emissionsEntry)
+                body: JSON.stringify(predictedEmissions)
             });
+
             //exit screen on successful request
             if (response.status === 200) {
                 // console.log("Successful Post!");
-                navigation.goBack();
-            }
-            //if second post for the day - alert and also go back
-            else if (response.status === 204) {
-                alert(`You can only upload results once a day :(`);
                 navigation.goBack();
             }
             //Alert on bad request - should only see on testing 
@@ -101,16 +97,18 @@ export default function PredictScreen({ navigation, route }) {
                         <View style={{
                             alignItems: 'center',
                             justifyContent: 'center',
-                            paddingTop: windowHeight / 4
+                            paddingTop: windowHeight / 4,
+                            marginBottom: -50,
                         }}>
-
                             <Text style={{
                                 color: Colors.primary.MINT,
                                 fontWeight: 'bold',
-                                fontSize: 30
+                                fontSize: 30,
+                                textAlign: 'center',
                             }}>Predicting Results</Text>
                         </View>
-                        <LottieView speed={2} style={{height: 280, marginHorizontal: 8}} source={require('../../../assets/lotties/tinytown.json')} autoPlay loop />
+
+                        <LottieView speed={2} style={{ height: 280, marginHorizontal: 8 }} source={require('../../../assets/lotties/tinytown.json')} autoPlay loop />
 
                     </View>
                 ) : (
@@ -168,7 +166,7 @@ export default function PredictScreen({ navigation, route }) {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     margin: 10,
-                                }} testID="accept-predict-button" onPress={() => navigation.goBack()}>
+                                }} testID="reject-predict-button" onPress={() => navigation.goBack()}>
 
                                     <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 24 }}>Decline</Text>
                                 </TouchableOpacity>
@@ -179,7 +177,7 @@ export default function PredictScreen({ navigation, route }) {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     margin: 10,
-                                }} testID="accept-predict-button" onPress={() => postResults()}>
+                                }} testID="accept-predict-button" onPress={async () => await postResults()}>
                                     <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 24 }}>Accept</Text>
                                 </TouchableOpacity>
                             </View>

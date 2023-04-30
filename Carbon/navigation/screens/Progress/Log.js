@@ -123,7 +123,7 @@ export default function Log({ navigation }) {
             </View> */}
             {/*Align things */ }
 
-            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15,/*backgroundColor: Colors.primary.MINT*/ }}>
+            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10,/*backgroundColor: Colors.primary.MINT*/ }}>
                 {/* Implements the log itself from ChartData.js */}
                 {data.every((num) => num === 0) ? (
                         <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: windowHeight / 10}}>
