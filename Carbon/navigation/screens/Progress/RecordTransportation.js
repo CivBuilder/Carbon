@@ -9,7 +9,7 @@ import calcElecCar from '../../../calculations/travel_calculations/calcElecCar';
 import calcPlane from '../../../calculations/travel_calculations/calcPlane';
 import calcPublic from '../../../calculations/travel_calculations/calcPublic';
 import calcBike from '../../../calculations/travel_calculations/calcBike';
-import { validateTransportationEntry } from '../../../util/RecordEmissionChecks';
+import { validateTransportationScreen, getTransportationError } from '../../../util/RecordEmissionChecks';
 
 const RecordTransportation = ({ navigation, route }) => {
   
@@ -132,7 +132,7 @@ const RecordTransportation = ({ navigation, route }) => {
         placeholder='miles'
         style={styles.text_input}
         keyboardType="numeric"
-        onChangeText={miles=>miles ? setMilesTraveled(miles): 0}
+        onChangeText={(miles) => setMilesTraveled(miles.length > 0 ? miles : 0)}
       />
 
       <View style={{marginBottom: 24, alignItems: 'center'}}>
@@ -165,11 +165,13 @@ const RecordTransportation = ({ navigation, route }) => {
         </RadioButton.Group>
       </View>
 
-      <View style={{flex: 1, justifyContent:'flex-end', marginBottom: 12,}}>
-        <TouchableOpacity testID='save-button' style={styles.button} onPress={() => validateTransportationEntry(milesTraveled) ? navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry}) : alert("Miles traveled must be between 0 and 4000.")}>
+      {(milesTraveled.length > 0) && (parseFloat(milesTraveled)) > 0  && selectedValue !== null && (
+      <View style={{flex: 1, justifyContent:'flex-end', marginBottom: 20,}}>
+        <TouchableOpacity testID='save-button' style={styles.button} onPress={() => validateTransportationScreen(milesTraveled, selectedValue) ? navigation.navigate(ScreenNames.RECORD_EMISSION, { returningEmissionsEntry: emissionsEntry }) : getTransportationError(milesTraveled, selectedValue)}>
           <Text style={styles.buttonText}>Save & Return</Text>
         </TouchableOpacity>
       </View>
+      )}
     </View>
     </ScrollView>
   );

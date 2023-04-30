@@ -120,7 +120,7 @@ const RecordFood = ({ navigation, route }) => {
           placeholder='lbs'
           style={styles.text_input}
           keyboardType="numeric"
-          onChangeText={beef=>beef ? setBeefConsumption(beef): 0}
+          onChangeText={(beef) => setBeefConsumption(beef.length > 0 ? beef : 0)}
         />
 
         <Text style={styles.text_input_label}>Cheese</Text>
@@ -128,7 +128,7 @@ const RecordFood = ({ navigation, route }) => {
           placeholder='lbs'
           style={styles.text_input}
           keyboardType="numeric"
-          onChangeText={cheese=>cheese ? setCheeseConsumption(cheese): 0}
+          onChangeText={(cheese)=> setCheeseConsumption(cheese.length > 0 ? cheese : 0)}
         />
 
         <Text style={styles.text_input_label}>Pork</Text>
@@ -136,7 +136,7 @@ const RecordFood = ({ navigation, route }) => {
           placeholder='lbs'
           style={styles.text_input}
           keyboardType="numeric"
-          onChangeText={pork=>pork ? setPorkConsumption(pork): 0}
+          onChangeText={(pork) => setPorkConsumption(pork.length > 0 ? pork : 0)}
         />
 
         <Text style={styles.text_input_label}>Poultry</Text>
@@ -144,12 +144,17 @@ const RecordFood = ({ navigation, route }) => {
           placeholder='lbs'
           style={styles.text_input}
           keyboardType="numeric"
-          onChangeText={poultry=>poultry ? setPorkConsumption(poultry): 0}
+          onChangeText={(poultry) => setPoultryConsumption(poultry.length > 0 ? poultry : 0)}
         />
 
+      {(beefConsumption.length > 0 || cheeseConsumption.length > 0 || porkConsumption.length > 0 || poultryConsumption.length > 0) &&
+       (parseFloat(beefConsumption) + parseFloat(cheeseConsumption) + parseFloat(porkConsumption) + parseFloat(poultryConsumption)) > 0 && (
+        <View style={{flex:1, justifyContent:'flex-end'}}>
         <TouchableOpacity testID ='save-button' style={styles.button} onPress={() => validateFoodEntry(beefConsumption, porkConsumption, cheeseConsumption, poultryConsumption) ? navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry}) : alert("Each entry must be a number between 0 and 10.")}>
           <Text style={styles.buttonText}>Save & Return</Text>
         </TouchableOpacity>
+        </View>
+      )}
       </View>
     </View>
     </ScrollView>
@@ -183,11 +188,11 @@ const styles = StyleSheet.create({
   },
   
   button: {
+    flex: 1,
+    justifyContent:'flex-end',
     backgroundColor: Colors.secondary.DARK_MINT,
     borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    margin: 4,
+    padding: 12,
     minWidth: 60,
     alignItems: 'center',
   },

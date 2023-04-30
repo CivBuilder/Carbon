@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Colors } from '../../../styling/Colors';
 import { React, useCallback, useEffect } from 'react';
@@ -67,6 +67,7 @@ export default function RecordEmissionScreen({ navigation, route }) {
   }
 
   return (
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
     <View style={styles.centeredView}>
       <View style={styles.titleView}>
         <Text style={styles.title}>
@@ -85,7 +86,7 @@ export default function RecordEmissionScreen({ navigation, route }) {
         }}>
           <Icon name="car" size={40} color={Colors.secondary.DARK_MINT} style={styles.icon} testID="car-icon" />
           <Text style={styles.categoryText}>Transportation</Text>
-        </TouchableOpacity> 
+        </TouchableOpacity>
         <TouchableOpacity style={styles.categoryTile} onPress={() => {
             navigation.navigate(ScreenNames.ELECTRICITY, {sentEmissionsEntry : emissionsEntry})
         }}>
@@ -108,6 +109,7 @@ export default function RecordEmissionScreen({ navigation, route }) {
         </TouchableOpacity>
       </View>
     </View>
+    </ScrollView>
   )
 }
 const styles = StyleSheet.create({

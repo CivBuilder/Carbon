@@ -156,7 +156,7 @@ const ForumStack = ({ navigation }) => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name={'Education'}
+                name={'Education Forum'}
                 component={ForumScreen}
                 options={{
                     headerShown: true,
@@ -186,7 +186,7 @@ const RankingStack = ({ navigation }) => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name={'Rankings '}
+                name={'Rankings'}
                 component={RankingScreen}
                 options={{
                     headerShown: false,
@@ -268,6 +268,7 @@ export default function MainContainer({ navigation }) {
         }
         if (isSignedIn) {
             checkQuestionnaire();
+            setIsCheckingQuestionnaire(true);
         }
     }, [isSignedIn]);
 

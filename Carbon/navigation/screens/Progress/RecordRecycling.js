@@ -145,34 +145,37 @@ const RecordRecycling = ({ navigation, route }) => {
         <TextInput
           placeholder='lbs'
           style={styles.text_input}
-          keyboardType="numeric"
-          onChangeText={paper=>paper ? setPaperAmount(paper): 0}
+          keyboardType="decimal-pad"
+          onChangeText={(paper) => setPaperAmount(paper.length > 0 ? paper : 0)}
         />
         <Text style={styles.text_input_label}>Plastic</Text>
         <TextInput
           placeholder='lbs'
           style={styles.text_input}
-          keyboardType="numeric"
-          onChangeText={plastic=>plastic ? setPlasticAmount(plastic): 0}
+          keyboardType="decimal-pad"
+          onChangeText={(plastic) => setPlasticAmount(plastic.length > 0 ? plastic : 0)}
         />
         <Text style={styles.text_input_label}>Glass</Text>
         <TextInput
           placeholder='lbs'
           style={styles.text_input}
-          keyboardType="numeric"
-          onChangeText={glass=>glass ? setGlassAmount(glass): 0}
+          keyboardType="decimal-pad"
+          onChangeText={(glass) => setGlassAmount(glass.length > 0 ? glass : 0)}
         />
         <Text style={styles.text_input_label}>Metal</Text>
         <TextInput
           placeholder='lbs'
           style={styles.text_input}
-          keyboardType="numeric"
-          onChangeText={metal=>metal ? setMetalAmount(metal): 0}
+          keyboardType="decimal-pad"
+          onChangeText={(metal) => setMetalAmount(metal.length > 0 ? metal : 0)}
         />
-       
-      <TouchableOpacity testID='save-button' style={styles.button} onPress={() => validateRecyclingEntry(paperAmount, plasticAmount, glassAmount, metalAmount) ? navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry}) : alert("Each entry must be a number between 0 and 50.")}>
-        <Text style={styles.buttonText}>Save & Return</Text>
-      </TouchableOpacity>   
+
+      {(paperAmount.length > 0 || plasticAmount.length > 0 || glassAmount.length > 0 || metalAmount.length > 0) &&
+       (parseFloat(paperAmount) + parseFloat(plasticAmount) + parseFloat(glassAmount) + parseFloat(metalAmount)) > 0 && (
+        <TouchableOpacity testID='save-button' style={styles.button} onPress={() => validateRecyclingEntry(paperAmount, plasticAmount, glassAmount, metalAmount) ? navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry}) : alert("Each entry must be a number between 0 and 50.")}>
+          <Text style={styles.buttonText}>Save & Return</Text>
+        </TouchableOpacity>
+      )}
     </View>
     </View>
     </ScrollView>
@@ -205,16 +208,16 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     button: {
+      flex: 1,
+      justifyContent:'flex-end',
       backgroundColor: Colors.secondary.DARK_MINT,
       borderRadius: 8,
-      paddingVertical: 12,
-      paddingHorizontal: 12,
-      margin: 4,
+      padding: 12,
       minWidth: 60,
       alignItems: 'center',
     },
     buttonText: {
-      color: Colors.primary.RAISIN_BLACK,
+      color: Colors.primary.MINT_CREAM,
       fontWeight: 'bold',
       fontSize: 16,
     },
@@ -232,6 +235,7 @@ const styles = StyleSheet.create({
     header: {
       fontSize: 20,
       fontWeight: 'bold',
+      marginTop: 12,
       marginBottom: 10,
     },
     text_input_label: {

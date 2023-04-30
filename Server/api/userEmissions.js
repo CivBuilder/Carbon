@@ -13,20 +13,20 @@ const moment = require('moment');
           GET
 **********************/
 
-router.get('/',  passport.authenticate('jwt', { session: false }), async function (req, res) {
+router.get('/', passport.authenticate('jwt', { session: false }), async function (req, res) {
   const date = new Date(); //get date
   day = date.getDate(); //grab the day and month
   month = date.getMonth() + 1;
   year = date.getFullYear();
   const todaysDate = new Date(year, month, day);
 
- const userId = req.user.id;
+  const userId = req.user.id;
   //const userId = 323; //for testing
   //console.log("finding for this ID" + userId);
   const data = await UserEmissions.findAll({
     where: {
       user_id: userId,
-    
+
     }
   });
   const content = data.filter(item => item.user_id == userId);
@@ -149,12 +149,12 @@ router.get('/',  passport.authenticate('jwt', { session: false }), async functio
 });
 
 /* Finds all Entries where a user posted a submission*/
-router.get('/getAll',passport.authenticate('jwt', { session: false }), async function (req, res)  {
+router.get('/getAll', passport.authenticate('jwt', { session: false }), async function (req, res) {
   console.log("getting by id")
   const user_entry = await UserEmissions.findAll({
     where: {
       user_id: req.user.id
-     // user_id: 323 // for testing
+      // user_id: 323 // for testing
     }
   });
   if (!user_entry || user_entry.length === 0) {
@@ -349,6 +349,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
     if (n < 0) return res.status(400).send(`400 : bad request. No Negative Emissions`);
   }
 
+  /// COMMENTING THIS OUT SO WE CAN LOG EMISSIONS MORE THAN ONCE A DAY
   //Validate if user has already posted once today
   const now = new Date();
   const todaysDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -356,29 +357,53 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
 
   const todaysEntries = await UserEmissions.findAll({
     where: {
+      user_id: req.user.id,
       date: {
         [Op.between]: [todaysDate, nextDay],
       }
     }
   });
 
-  if (todaysEntries.some((entry) => entry.user_id === req.user.id))
-    return res.status(204).send(`User Entry already submitted today.`);
-
-
-
 
   const today = new Date().toISOString().slice(0, 10);
 
-  await UserEmissions.create({
-    user_id: req.user.id,                                 //Needs to change with sessions states
-    date: sequelize.fn('STR_TO_DATE', today, '%Y-%m-%d'),
-    total_emissions: req.body.total_emissions,
-    transport_emissions: req.body.transport_emissions,
-    lifestyle_emissions: req.body.lifestyle_emissions,
-    diet_emissions: req.body.diet_emissions,
-    home_emissions: req.body.home_emissions
-  });
+  // if an entry already exists, update it
+  if (todaysEntries.length) {
+    const { total_emissions, transport_emissions, lifestyle_emissions, diet_emissions, home_emissions } = todaysEntries[0];
+    const newTotal = req.body.total_emissions + total_emissions;
+    const newTrans = req.body.transport_emissions + transport_emissions;
+    const newLifestyle = req.body.lifestyle_emissions + lifestyle_emissions;
+    const newDiet = req.body.diet_emissions + diet_emissions;
+    const newHome = req.body.home_emissions + home_emissions;
+
+    await UserEmissions.update({
+      total_emissions: newTotal,
+      transport_emissions: newTrans,
+      lifestyle_emissions: newLifestyle,
+      diet_emissions: newDiet,
+      home_emissions: newHome
+    }, {
+      where: {
+        user_id: req.user.id,
+        date: {
+          [Op.between]: [todaysDate, nextDay],
+        }
+      }
+    });
+  }
+
+  // otherwise, create a new entry
+  else {
+    await UserEmissions.create({
+      user_id: req.user.id,                                 //Needs to change with sessions states
+      date: sequelize.fn('STR_TO_DATE', today, '%Y-%m-%d'),
+      total_emissions: req.body.total_emissions,
+      transport_emissions: req.body.transport_emissions,
+      lifestyle_emissions: req.body.lifestyle_emissions,
+      diet_emissions: req.body.diet_emissions,
+      home_emissions: req.body.home_emissions
+    });
+  }
 
   await UpdateScore(req.user.id);
   return res.status(200).send("Data Successfully posted to Database.");
