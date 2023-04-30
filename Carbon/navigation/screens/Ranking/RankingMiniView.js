@@ -14,28 +14,51 @@ export default function MiniRanking({userScores, rankCategory}) {
     const nextRankScore = userScores["next_rank_"+rankCategory.title+"score"];
 
     return (
+      // <View style={styling.rankLeaderboardContainer}>
+      //   <View style={styling.rankImageContainer}>
+      //     <View style={styling.leaderboardRank}>
+      //       <Text style={styling.leaderboardText}>Your current leaderboard rank is:</Text>
+      //       <Text style={styling.leaderboardValue}>{formatRankText(rank)}</Text>
+      //     </View>
+      //   </View>
+      //   <View style={styling.rankContainer}>
+      //     <View style={styling.rankImage}>
+      //       <Image
+      //         style={styling.profileImage}
+      //         source={SustainabilityScoreProfileView[sustainability_score].picture}
+      //         resizeMode="contain"
+      //       />
+      //     </View>
+      //     <View style={styling.rankTitleProgressContainer}>
+      //       <View style={styling.rankTitle}>
+      //         <Text style={styling.titleText}>{SustainabilityScoreProfileView[sustainability_score].title}</Text>
+      //       </View>
+      //       <View style={styling.rankProgress}>
+      //         <RankProgressBar progress={currentScore} total={nextRankScore} barWidth={0.5} />
+      //       </View>
+      //     </View>
+      //   </View>
+      // </View>
+
       <View style={styling.rankLeaderboardContainer}>
-        <View style={styling.leaderboardContainer}>
+        <View style={styling.rankImageContainer}>
+          <Image
+            style={styling.profileImage}
+            source={SustainabilityScoreProfileView[sustainability_score].picture}
+            resizeMode="contain"
+          />
+        </View>
+        <View style={styling.gap}></View>
+        <View style={styling.rankingContainer}>
           <View style={styling.leaderboardRank}>
-            <Text style={styling.leaderboardText}>Your current leaderboard rank is:</Text>
+            <Text style={styling.leaderboardText}>Your rank:</Text>
             <Text style={styling.leaderboardValue}>{formatRankText(rank)}</Text>
           </View>
-        </View>
-        <View style={styling.rankContainer}>
-          <View style={styling.rankImage}>
-            <Image
-              style={styling.profileImage}
-              source={SustainabilityScoreProfileView[sustainability_score].picture}
-              resizeMode="contain"
-            />
+          <View style={styling.rankTitle}>
+            <Text style={styling.titleText}>{SustainabilityScoreProfileView[sustainability_score].title}</Text>
           </View>
-          <View style={styling.rankTitleProgressContainer}>
-            <View style={styling.rankTitle}>
-              <Text style={styling.titleText}>{SustainabilityScoreProfileView[sustainability_score].title}</Text>
-            </View>
-            <View style={styling.rankProgress}>
-              <RankProgressBar progress={currentScore} total={nextRankScore} barWidth={0.5} />
-            </View>
+          <View style={styling.rankProgress}>
+            <RankProgressBar progress={currentScore} total={nextRankScore} barWidth={0.5} />
           </View>
         </View>
       </View>

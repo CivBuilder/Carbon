@@ -4,37 +4,24 @@ import { Colors } from "./Colors";
 export const RankingMiniViewCSS = StyleSheet.create({
   rankLeaderboardContainer: {
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  rankContainer: {
-    display: 'flex',
     flex: 1,
     flexDirection: 'row',
+    justifyContent: 'space-between',
     flexWrap: 'nowrap',
+  },
+  rankImageContainer: {
+    display: 'flex',
+    flex: 3,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
   },
-  leaderboardContainer: {
+  rankingContainer: {
     display: 'flex',
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-  },
-  rankTitleProgressContainer: {
-    display: 'flex',
-    flex: 2,
+    flex: 6,
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginStart: 15,
   },
-  rankImage: {
+  gap: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   profileImage: {
     height: 100,
@@ -43,31 +30,32 @@ export const RankingMiniViewCSS = StyleSheet.create({
   },
   rankTitle: {
     flex: 2,
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center',
     marginBottom: 5,
   },
   titleText: {
     fontSize: 24,
     fontWeight: '700',
-    fontStyle: 'italic',
   },
   rankProgress: {
     flex: 2,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
   },
   leaderboardRank: {
-    display: 'flex',
-    flex: 1,
+    flex: 2,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    marginBottom: 10,
   },
   leaderboardText: {
     marginEnd: 5,
-    fontSize: 15,
+    fontSize: 19,
   },
   leaderboardValue: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: '600',
   }
 });
