@@ -8,6 +8,12 @@ export const NetEmissionsCSS = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  netEmissionsGoalContainerNoProgressBar: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   onTrackContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -33,6 +39,9 @@ export const NetEmissionsCSS = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
+  onTrackTextNoProgressBar: {
+    fontSize: 18
+  },
   onTrackText: {
     fontSize: 15,
     marginBottom: 15,
@@ -43,10 +52,6 @@ export const NetEmissionsCSS = StyleSheet.create({
     marginBottom: 10,
   },
   currentProgress: {
-    // flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // marginBottom: 15,
     flex: 2,
     alignItems: 'flex-start',
     justifyContent: 'center',

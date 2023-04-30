@@ -72,7 +72,7 @@ const GoalProgress = ({ refreshing, setRefreshing, navigation }) => {
                             : <Ionicons name="close-circle" size={48} color={Colors.secondary.RED} />}
                     </View>
                     <View style={styling.onTrack}>
-                        <Text style={styling.onTrackText}>You {onTrackThisMonth ? "are on track to meeting your goal this month. Great job!" : "are not on track to meeting your goal this month."}</Text>
+                        <Text style={thisMonthTotalNumber < thisMonthGoalNumber ? styling.onTrackText :  styling.onTrackTextNoProgressBar}>You {onTrackThisMonth ? "are on track to meeting your goal this month. Great job!" : "are not on track to meet your goal this month."}</Text>
                     </View>
                 </View>
                 {thisMonthTotalNumber < thisMonthGoalNumber && (
