@@ -17,7 +17,7 @@ export default function HomeScreenRanking() {
   }, []);
 
   return (
-    <View style={{ height: 160 }}>
+    <View>
       <MiniRanking userScores={userScores} rankCategory={rankCategory} />
       <LoadingIndicator loading={loading} />
     </View>

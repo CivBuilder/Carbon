@@ -9,9 +9,9 @@ export default function MiniRanking({userScores, rankCategory}) {
 
     //For the sake of removing too much indirection per statement 
     const rank = userScores[rankCategory.title+"ranking"];
-        const sustainability_score = userScores.sustainability_score;
-        const currentScore = userScores[rankCategory.title+"score"];
-        const nextRankScore = userScores["next_rank_"+rankCategory.title+"score"];
+    const sustainability_score = userScores.sustainability_score;
+    const currentScore = userScores[rankCategory.title+"score"];
+    const nextRankScore = userScores["next_rank_"+rankCategory.title+"score"];
 
     return (
       <View style={styling.rankLeaderboardContainer}>
@@ -34,7 +34,7 @@ export default function MiniRanking({userScores, rankCategory}) {
               <Text style={styling.titleText}>{SustainabilityScoreProfileView[sustainability_score].title}</Text>
             </View>
             <View style={styling.rankProgress}>
-              <RankProgressBar progress={currentScore} total={nextRankScore} />
+              <RankProgressBar progress={currentScore} total={nextRankScore} barWidth={0.5} />
             </View>
           </View>
         </View>

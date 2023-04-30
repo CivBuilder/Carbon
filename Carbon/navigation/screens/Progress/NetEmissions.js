@@ -56,7 +56,7 @@ const NetEmissions = () => {
     //     <></>
     //   }
     //   <View style={styling.currentProgress}>
-    //     <RankProgressBar progress={lifestyleEmissions} total={debugGoalValue} widthRatio={0.8} />
+    //     <RankProgressBar progress={lifestyleEmissions} total={debugGoalValue} barWidth={0.8} />
     //   </View>
     //   <View style={styling.netEmissions}>
     //     <Text style={styling.netEmissionsText}>Your net emissions for this month:</Text>
