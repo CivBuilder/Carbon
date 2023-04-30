@@ -144,7 +144,7 @@ export default function RankingScreen({navigation, route}){
 
     return (
     
-    <View style = {{flex : 1}}>
+    <View style = {{flex : 1}} testID='rank-screen'>
 
       {/* Header with Toggling Overlay */}
       <View style = {{height : 100, backgroundColor : 'white', flexDirection : 'row-reverse'}}>
@@ -174,8 +174,8 @@ export default function RankingScreen({navigation, route}){
               { label: "Top Players", value: ListTabIDs.TOP_PLAYERS},
               { label: "Worst Players", value : ListTabIDs.WORST_PLAYERS}
             ]}
-            testID="gender-switch-selector"
-            accessibilityLabel="gender-switch-selector"
+            testID='players_cat_tab'
+            accessibilityLabel="players_cat_tab_label"
             animationDuration = {150}
             height = {36}
           />

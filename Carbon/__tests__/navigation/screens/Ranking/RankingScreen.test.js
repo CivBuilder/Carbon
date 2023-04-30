@@ -3,6 +3,9 @@ import { render, act, fireEvent, waitFor} from '@testing-library/react-native';
 import getUserScores from '../../../../navigation/screens/Ranking/getUserScores';
 import RankingScreen from '../../../../navigation/screens/Ranking/RankingScreen';
 
+jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
+
+
 jest.mock('../../../../navigation/screens/Ranking/getUserScores', ()=>jest.fn(
     (setUserScores, setLoading, setErrorMessage)=>{setUserScores({
         // sustainability_score : 1,
@@ -56,19 +59,33 @@ describe('RankingScreen', () => {
     
     test('renders loading Screen view when the userscores are null', async () => {
         getUserScores.mockImplementation((setUserScores, setLoading, setErrorMessage)=>{setUserScores(null)});
-        const { getByTestId } = render(<RankingScreen />);
-        const loadscreen = await waitFor(()=>getByTestId('load-screen'));
-        expect(loadscreen).toBeDefined();
-        // await waitFor(() =>{expect(getByTestId('rankingComponent')).toBeDefined()});
-        
+        const { findByTestId } = render(<RankingScreen />);
+        const loadscreen = await findByTestId('load-screen');
+        expect(loadscreen).toBeDefined();        
     });
 
     
     test('renders loading Screen view when the userscores are null', async () => {
-        getUserScores.mockImplementation((setUserScores, setLoading, setErrorMessage)=>{setErrorMessage("err")});
-        const { getByTestId } = render(<RankingScreen />);
-        // const error_screen = await waitFor(()=>getByTestId('error-screen'));
-        // expect(loadscreen).toBeDefined();        
+        getUserScores.mockImplementation((setUserScores, setLoading, setErrorMessage)=>{setErrorMessage(true) 
+        setUserScores({
+            sustainability_score : 1,
+            avatar_index : 1,
+            global_score : 1,
+            transport_score : 2,
+            lifestyle_score : 1 ,
+            diet_score: 1,
+            home_score : 1, 
+            username : 'hello',
+            global_ranking : 1 ,
+            transport_ranking : 1 ,
+            lifestyle_ranking : 1 ,
+            diet_ranking : 1 ,
+            home_ranking : 1 ,    
+        })});
+
+        const { findByTestId } = render(<RankingScreen />);
+        const error_screen = await findByTestId('error-screen');
+        expect(error_screen).toBeDefined();        
     });
 
     test('renders loading Screen view when the userscores are null', async () => {
@@ -85,25 +102,14 @@ describe('RankingScreen', () => {
             transport_ranking : 1 ,
             lifestyle_ranking : 1 ,
             diet_ranking : 1 ,
-            home_ranking : 1 ,
-    
-    
-            // [sequelize.literal('ROW_NUMBER() OVER (ORDER BY "global_score" DESC)'), 'global_ranking'],
-            // [sequelize.literal('ROW_NUMBER() OVER (ORDER BY transport_score DESC)'), 'transport_ranking'],
-            // [sequelize.literal('ROW_NUMBER() OVER (ORDER BY lifestyle_score DESC)'), 'lifestyle_ranking'],
-            // [sequelize.literal('ROW_NUMBER() OVER (ORDER BY diet_score DESC)'), 'diet_ranking'],
-            // [sequelize.literal('ROW_NUMBER() OVER (ORDER BY global_score DESC)'), 'home_ranking'],
-            
-            // [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.global_score > user.global_score) + 1'), 'global_ranking'],
-            // [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.transport_score > user.transport_score) + 1'), 'transport_ranking'],
-            // [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.lifestyle_score > user.lifestyle_score) + 1'), 'lifestyle_ranking'],
-            // [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.diet_score > user.diet_score) + 1'), 'diet_ranking'],
-            // [sequelize.literal('(SELECT COUNT(*) FROM user as user2 WHERE user2.home_score > user.home_score) + 1'), 'home_ranking'],
-            
+            home_ranking : 1 ,       
         })})
-        const { getByTestId } = render(<RankingScreen />);
-        // const error_screen = await waitFor(()=>getByTestId('error-screen'));
-        // expect(loadscreen).toBeDefined();        
+        const { findByTestId, getByTestId} = render(<RankingScreen />);
+        const screen = await findByTestId('rank-screen');
+        const switchTab = getByTestId('switch');
+        expect(screen).toBeDefined();
+        expect(switchTab).toBeDefined();        
+
     });
 
     // test('renders correctly - return status 400', async () => {
