@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import CustomPicker from './CustomPicker';
 import {Colors} from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
-import { RadioButton } from 'react-native-paper';
 import calcCar from '../../../calculations/travel_calculations/calcCar';
 import calcElecCar from '../../../calculations/travel_calculations/calcElecCar';
 import calcPlane from '../../../calculations/travel_calculations/calcPlane';
 import calcPublic from '../../../calculations/travel_calculations/calcPublic';
 import calcBike from '../../../calculations/travel_calculations/calcBike';
+import TransportationRadioButton from './TransportationRadioButton';
 const RecordTransportation = ({ navigation, route }) => {
   
   const [emissionsEntry, setEmissionsEntry] = useState({});
@@ -92,6 +92,14 @@ const RecordTransportation = ({ navigation, route }) => {
     return transport_emissions;
   }
 
+  //ensure that the user has selected a value for both the miles traveled and the transportation type
+  function validateInput() {
+    if(milesTraveled === null || selectedValue === null) 
+      Alert.alert("Please select a value for both fields");
+    else
+      navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})
+  }
+  
   //set the fun fact when the component mounts
   useEffect(() => {
     setFunFact(getRandomFunFact());
@@ -125,34 +133,12 @@ const RecordTransportation = ({ navigation, route }) => {
         testID='miles-traveled'
       />
       <Text style={styles.header}>What was your mode of transportation?</Text>
-      <RadioButton.Group onValueChange={value => setSelectedValue(value)} value={selectedValue}>
-        <View style={styles.switchContainer}>
-          <Text style={styles.radioButtonText}>Car</Text>
-          <RadioButton value="Car" />
-        </View>
-        <View style={styles.switchContainer}>
-          <Text style={styles.radioButtonText}>Electric Car</Text>
-          <RadioButton value="ElecCar" />
-        </View>
-        <View style={styles.switchContainer}>
-          <Text style={styles.radioButtonText}>Bike</Text>
-          <RadioButton value="Bike" />
-        </View>
-        <View style={styles.switchContainer}>
-          <Text style={styles.radioButtonText}>Bus</Text>
-          <RadioButton value="Bus" />
-        </View>
-        <View style={styles.switchContainer}>
-          <Text style={styles.radioButtonText}>Train</Text>
-          <RadioButton value="Train" />
-        </View>
-        <View style={styles.switchContainer}>
-          <Text style={styles.radioButtonText}>Plane</Text>
-          <RadioButton value="Plane" />
-        </View>
-      </RadioButton.Group>
-
-      <TouchableOpacity testID='save-button' style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
+      <TransportationRadioButton 
+        setSelectedValue={setSelectedValue} 
+        selectedValue={selectedValue} 
+        testID='transportation-radio-button'
+      />
+      <TouchableOpacity testID='save-button' style={styles.button} onPress={validateInput}>
         <Text style={styles.buttonText}>Save & Return</Text>
       </TouchableOpacity>
     </View>
@@ -175,12 +161,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.primary.RAISIN_BLACK,
     marginBottom: 10,
-  },
-  switchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 5,
-    padding: 5,
   },
   button: {
     backgroundColor: Colors.secondary.DARK_MINT,

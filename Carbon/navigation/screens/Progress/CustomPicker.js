@@ -32,6 +32,7 @@ const styles = {
         fontSize: 14,
         alignSelf: 'center',
         marginTop: 5,
+        padding: 5,
       },
       pickerRow: {
         display: 'flex',

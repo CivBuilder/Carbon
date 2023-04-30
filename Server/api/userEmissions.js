@@ -351,8 +351,8 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
 
   //Validate if user has already posted once today
   const now = new Date();
-  const todaysDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const nextDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  const todaysDate = new Date(now.getFullYear(), now.getMonth(), now.getDate()-1);
+  const nextDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
   const todaysEntries = await UserEmissions.findAll({
     where: {

@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import {View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Colors } from '../../../styling/Colors';
 import { React, useCallback, useEffect } from 'react';
@@ -6,6 +6,43 @@ import { ScreenNames } from '../Main/ScreenNames';
 import { useState } from 'react';
 import {API_URL} from '../../../config/Api';
 import { getToken } from '../../../util/LoginManager';
+//Posts the results, on a successfull post it will leave the screen
+export async function postResults(navigation, emissionsEntry) { 
+  try{
+    //for conciseness, emissionsEntry total is just the sum of the others
+    let e = emissionsEntry; 
+    emissionsEntry.total_emissions = e.diet_emissions + e.home_emissions + e.transport_emissions
+
+    //Check if at least one emission was entered
+    if(emissionsEntry.total_emissions === 0 && e.lifestyle_emissions === 0) Alert.alert(`Please Upload at least one Emission Category`);
+
+    //post emission to server
+    const response = await fetch(`${API_URL}userEmissions`, {
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/json',
+        'secrettoken': await getToken(),
+      },
+      body : JSON.stringify(emissionsEntry)
+    });
+    //exit screen on successful request
+    if(response.status === 200) {
+      console.log("Successful Post!");
+      navigation.goBack();
+    }
+    //if second post for the day - alert and also go back
+    else if(response.status === 204){
+      alert(`You can only upload results once a day :(`);
+      navigation.goBack(); 
+    }
+    //Alert on bad request - should only see on testing 
+    else if(response.status === 404){
+      throw new Error(`Client ID Not Found`);
+    }
+  } catch(err) {
+    alert(err.message)
+  }
+}
 export default function RecordEmissionScreen({navigation, route}) {
   
   //Default value for the final submission that we post to the server
@@ -28,43 +65,7 @@ export default function RecordEmissionScreen({navigation, route}) {
   }, [route.params]);
 
 
-  //Posts the results, on a successfull post it will leave the screen
-  async function postResults() { 
-    try{
-      //for conciseness, emissionsEntry total is just the sum of the others
-      let e = emissionsEntry; 
-      emissionsEntry.total_emissions = e.diet_emissions + e.home_emissions + e.transport_emissions
-
-      //Check if at least one emission was entered
-      if(emissionsEntry.total_emissions === 0 ) throw new Error(`Please Upload at least one Emission Category`);
-
-      //post emission to server
-      const response = await fetch(`${API_URL}userEmissions`, {
-        method: 'POST',
-        headers:{
-          'Content-Type': 'application/json',
-          'secrettoken': await getToken(),
-        },
-        body : JSON.stringify(emissionsEntry)
-      });
-      //exit screen on successful request
-      if(response.status === 200) {
-        console.log("Successful Post!");
-        navigation.goBack();
-      }
-      //if second post for the day - alert and also go back
-      else if(response.status === 204){
-        alert(`You can only upload results once a day :(`);
-        navigation.goBack(); 
-      }
-      //Alert on bad request - should only see on testing 
-      else if(response.status === 404){
-        throw new Error(`Client ID Not Found`);
-      }
-    } catch(err) {
-      alert(err.message)
-    }
-  }
+  
 
   return (
     <View style={styles.centeredView}>
@@ -100,7 +101,7 @@ export default function RecordEmissionScreen({navigation, route}) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.saveView}
-          onPress={() => {postResults()}}
+          onPress={() => {postResults(navigation, emissionsEntry)}}
           testID="save-and-exit-icon"
         >
           <Icon name="cloud-upload" size={40} style={styles.saveIcon}  />
