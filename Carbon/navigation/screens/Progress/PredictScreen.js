@@ -6,7 +6,7 @@ import PredictInput from "../../../calculations/PredictInput";
 import { ScreenNames } from "../Main/ScreenNames";
 import { DailyLog } from "../../../components/ChartData";
 import { API_URL } from '../../../config/Api';
-import { getToken } from '../../../util/LoginManager';
+import { getToken } from "../../../util/UserManagement";
 import { q_styles } from "../Questionnaire/QuestionnaireStyle";
 const windowHeight = Dimensions.get("window").height;
 export default function PredictScreen({ navigation, route }) {
@@ -104,7 +104,7 @@ export default function PredictScreen({ navigation, route }) {
                                 fontWeight: 'bold',
                                 fontSize: 18
                             }}>Predicting Results</Text>
-                                                    <ActivityIndicator size="large" color={Colors.primary.MINT} style={LoadingIndicatorStyle} testID="loading-indication"/>
+                            <ActivityIndicator size="large" color={Colors.primary.MINT} style={LoadingIndicatorStyle} testID="loading-indication" />
 
                         </View>
                         <View style={{
@@ -112,16 +112,16 @@ export default function PredictScreen({ navigation, route }) {
                             justifyContent: 'center',
                             marginVertical: 20
                         }}>
-                          
-                                <Image
-                                    source={require('../../../assets/crystal-ball.png')}
 
-                                    resizeMode='contain'
-                                    style={{
-                                        width: Dimensions.get('window').width * 0.35,
-                                        height: Dimensions.get('window').width * 0.35,
-                                    }}
-                                />
+                            <Image
+                                source={require('../../../assets/crystal-ball.png')}
+
+                                resizeMode='contain'
+                                style={{
+                                    width: Dimensions.get('window').width * 0.35,
+                                    height: Dimensions.get('window').width * 0.35,
+                                }}
+                            />
                         </View>
                     </View>
                 ) : (
