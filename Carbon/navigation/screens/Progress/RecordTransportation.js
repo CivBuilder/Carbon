@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Dimensions } from 'react-native';
 import CustomPicker from './CustomPicker';
-import {Colors} from '../../../styling/Colors';
+import { Colors } from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import { RadioButton } from 'react-native-paper';
 import calcCar from '../../../calculations/travel_calculations/calcCar';
@@ -9,10 +9,10 @@ import calcElecCar from '../../../calculations/travel_calculations/calcElecCar';
 import calcPlane from '../../../calculations/travel_calculations/calcPlane';
 import calcPublic from '../../../calculations/travel_calculations/calcPublic';
 import calcBike from '../../../calculations/travel_calculations/calcBike';
-import { validateTransportationEntry } from '../../../util/RecordEmissionChecks';
+import { validateTransportationScreen, getTransportationError } from '../../../util/RecordEmissionChecks';
 
 const RecordTransportation = ({ navigation, route }) => {
-  
+
   const [emissionsEntry, setEmissionsEntry] = useState({});
   const [milesTraveled, setMilesTraveled] = useState(0);
   const [selectedValue, setSelectedValue] = useState(null);
@@ -33,29 +33,29 @@ const RecordTransportation = ({ navigation, route }) => {
     { "label": "10 miles", "value": 10 },
     { "label": "15 miles", "value": 15 },
     { "label": "20 miles", "value": 20 },
-    { "label": "25 miles", "value": 25 },  
-    { "label": "30 miles", "value": 30 },  
-    { "label": "35 miles", "value": 35 },  
-    { "label": "40 miles", "value": 40 },  
-    { "label": "45 miles", "value": 45 },  
-    { "label": "50 miles", "value": 50 },  
-    { "label": "60 miles", "value": 60 },  
-    { "label": "70 miles", "value": 70 },  
-    { "label": "80 miles", "value": 80 },  
-    { "label": "90 miles", "value": 90 },  
-    { "label": "100 miles", "value": 100 },  
-    { "label": "125 miles", "value": 125 },  
-    { "label": "150 miles", "value": 150 },  
-    { "label": "175 miles", "value": 175 },  
-    { "label": "200 miles", "value": 200 },  
-    { "label": "250 miles", "value": 250 },  
-    { "label": "300 miles", "value": 300 },  
-    { "label": "400 miles", "value": 400 },  
-    { "label": "500 miles", "value": 500 },  
-    { "label": "600 miles", "value": 600 },  
-    { "label": "700 miles", "value": 700 },  
-    { "label": "800 miles", "value": 800 },  
-    { "label": "900 miles", "value": 900 },  
+    { "label": "25 miles", "value": 25 },
+    { "label": "30 miles", "value": 30 },
+    { "label": "35 miles", "value": 35 },
+    { "label": "40 miles", "value": 40 },
+    { "label": "45 miles", "value": 45 },
+    { "label": "50 miles", "value": 50 },
+    { "label": "60 miles", "value": 60 },
+    { "label": "70 miles", "value": 70 },
+    { "label": "80 miles", "value": 80 },
+    { "label": "90 miles", "value": 90 },
+    { "label": "100 miles", "value": 100 },
+    { "label": "125 miles", "value": 125 },
+    { "label": "150 miles", "value": 150 },
+    { "label": "175 miles", "value": 175 },
+    { "label": "200 miles", "value": 200 },
+    { "label": "250 miles", "value": 250 },
+    { "label": "300 miles", "value": 300 },
+    { "label": "400 miles", "value": 400 },
+    { "label": "500 miles", "value": 500 },
+    { "label": "600 miles", "value": 600 },
+    { "label": "700 miles", "value": 700 },
+    { "label": "800 miles", "value": 800 },
+    { "label": "900 miles", "value": 900 },
     { "label": "1000 miles", "value": 1000 },
     { "label": "2000 miles", "value": 2000 },
     { "label": "3000 miles", "value": 3000 },
@@ -69,28 +69,28 @@ const RecordTransportation = ({ navigation, route }) => {
 
   //memoize the fun fact so it doesn't change when the state variable changes
   const memoizedFunFact = useMemo(() => funFact, [funFact]);
-  
+
   //get the correct value for the transportation emissions
-  function calcMilesTraveled () {
+  function calcMilesTraveled() {
     let transport_emissions = 0;
-      if(selectedValue === "Car") {
-        transport_emissions = calcCar(milesTraveled, 0);
-      } 
-      else if(selectedValue === "ElecCar") {
-        transport_emissions = calcElecCar(milesTraveled);
-      }
-      else if(selectedValue === "Bike") {
-        transport_emissions = calcBike(milesTraveled);
-      } 
-      else if(selectedValue === "Plane") {
-        transport_emissions = calcPlane(milesTraveled);
-      } 
-      else if(selectedValue === "Bus") {
-        transport_emissions = calcPublic(milesTraveled, "bus");
-      }
-      else if(selectedValue === "Train") {
-        transport_emissions = calcPublic(milesTraveled, "train");
-      }
+    if (selectedValue === "Car") {
+      transport_emissions = calcCar(milesTraveled, 0);
+    }
+    else if (selectedValue === "ElecCar") {
+      transport_emissions = calcElecCar(milesTraveled);
+    }
+    else if (selectedValue === "Bike") {
+      transport_emissions = calcBike(milesTraveled);
+    }
+    else if (selectedValue === "Plane") {
+      transport_emissions = calcPlane(milesTraveled);
+    }
+    else if (selectedValue === "Bus") {
+      transport_emissions = calcPublic(milesTraveled, "bus");
+    }
+    else if (selectedValue === "Train") {
+      transport_emissions = calcPublic(milesTraveled, "train");
+    }
     return transport_emissions;
   }
 
@@ -102,75 +102,75 @@ const RecordTransportation = ({ navigation, route }) => {
   //Update our parameter to send back when the consumption state variable changes 
   useEffect(() => {
     console.log(milesTraveled)
-    if(milesTraveled !== null && selectedValue !== null) {
+    if (milesTraveled !== null && selectedValue !== null) {
       let transporation_emission = calcMilesTraveled();
       console.log("transport_emissions: " + transporation_emission);
       setEmissionsEntry({
         ...route.params.sentEmissionsEntry,
         transport_emissions: transporation_emission
-    })
-  }
+      })
+    }
   }, [milesTraveled, selectedValue])
 
   return (
     <ScrollView contentContainerStyle={styles.scrollview}>
-    <View style={styles.container}>
-      <View style={styles.funfact}>
-        <Text style={styles.header}>Did you know?</Text>
-        <Text style={styles.label} testID='fun-fact'>{memoizedFunFact}</Text>
-      </View>
-      <Text style={styles.header}>Log your travel for today</Text>
-      {/* <CustomPicker
+      <View style={styles.container}>
+        <View style={styles.funfact}>
+          <Text style={styles.header}>Did you know?</Text>
+          <Text style={styles.label} testID='fun-fact'>{memoizedFunFact}</Text>
+        </View>
+        <Text style={styles.header}>Log your travel for today</Text>
+        {/* <CustomPicker
         label="How many miles did you travel today?"
         selectedValue={milesTraveled}
         onValueChange={setMilesTraveled}
         items={miles}
         testID='miles-traveled'
       /> */}
-      <Text style={styles.text_input_label}>How many miles did you travel today?</Text>
-      <TextInput
-        placeholder='miles'
-        style={styles.text_input}
-        keyboardType="numeric"
-        onChangeText={miles=>miles ? setMilesTraveled(miles): 0}
-      />
+        <Text style={styles.text_input_label}>How many miles did you travel today?</Text>
+        <TextInput
+          placeholder='miles'
+          style={styles.text_input}
+          keyboardType="numeric"
+          onChangeText={miles => miles ? setMilesTraveled(miles) : 0}
+        />
 
-      <View style={{marginBottom: 24, alignItems: 'center'}}>
-        <Text style={styles.header}>What was your mode of transportation?</Text>
-        <RadioButton.Group onValueChange={value => setSelectedValue(value)} value={selectedValue}>
-          <View style={styles.switchContainer}>
-            <Text style={styles.radioButtonText}>Car</Text>
-            <RadioButton value="Car" />
-          </View>
-          <View style={styles.switchContainer}>
-            <Text style={styles.radioButtonText}>Electric Car</Text>
-            <RadioButton value="ElecCar" />
-          </View>
-          <View style={styles.switchContainer}>
-            <Text style={styles.radioButtonText}>Bike</Text>
-            <RadioButton value="Bike" />
-          </View>
-          <View style={styles.switchContainer}>
-            <Text style={styles.radioButtonText}>Bus</Text>
-            <RadioButton value="Bus" />
-          </View>
-          <View style={styles.switchContainer}>
-            <Text style={styles.radioButtonText}>Train</Text>
-            <RadioButton value="Train" />
-          </View>
-          <View style={styles.switchContainer}>
-            <Text style={styles.radioButtonText}>Plane</Text>
-            <RadioButton value="Plane" />
-          </View>
-        </RadioButton.Group>
-      </View>
+        <View style={{ marginBottom: 24, alignItems: 'center' }}>
+          <Text style={styles.header}>What was your mode of transportation?</Text>
+          <RadioButton.Group onValueChange={value => setSelectedValue(value)} value={selectedValue}>
+            <View style={styles.switchContainer}>
+              <Text style={styles.radioButtonText}>Car</Text>
+              <RadioButton value="Car" />
+            </View>
+            <View style={styles.switchContainer}>
+              <Text style={styles.radioButtonText}>Electric Car</Text>
+              <RadioButton value="ElecCar" />
+            </View>
+            <View style={styles.switchContainer}>
+              <Text style={styles.radioButtonText}>Bike</Text>
+              <RadioButton value="Bike" />
+            </View>
+            <View style={styles.switchContainer}>
+              <Text style={styles.radioButtonText}>Bus</Text>
+              <RadioButton value="Bus" />
+            </View>
+            <View style={styles.switchContainer}>
+              <Text style={styles.radioButtonText}>Train</Text>
+              <RadioButton value="Train" />
+            </View>
+            <View style={styles.switchContainer}>
+              <Text style={styles.radioButtonText}>Plane</Text>
+              <RadioButton value="Plane" />
+            </View>
+          </RadioButton.Group>
+        </View>
 
-      <View style={{flex: 1, justifyContent:'flex-end', marginBottom: 12,}}>
-        <TouchableOpacity testID='save-button' style={styles.button} onPress={() => validateTransportationEntry(milesTraveled) ? navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry}) : alert("Miles traveled must be between 0 and 4000.")}>
-          <Text style={styles.buttonText}>Save & Return</Text>
-        </TouchableOpacity>
+        <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: 12, }}>
+          <TouchableOpacity testID='save-button' style={styles.button} onPress={() => validateTransportationScreen(milesTraveled, selectedValue) ? navigation.navigate(ScreenNames.RECORD_EMISSION, { returningEmissionsEntry: emissionsEntry }) : getTransportationError(milesTraveled, selectedValue)}>
+            <Text style={styles.buttonText}>Save & Return</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
     </ScrollView>
   );
 };
@@ -235,20 +235,20 @@ const styles = StyleSheet.create({
     width: 60,
   },
   text_input_label: {
-    fontSize:16,
-    fontWeight:"500",
-    marginBottom:12,
+    fontSize: 16,
+    fontWeight: "500",
+    marginBottom: 12,
     textAlign: 'center',
   },
   text_input: {
-      height: 40,
-      width: 12*16,
-      borderColor: 'gray',
-      borderWidth: 1.5,
-      borderRadius: 6,
-      padding: 10,
-      marginBottom: 24,
-      backgroundColor: 'white',
+    height: 40,
+    width: 12 * 16,
+    borderColor: 'gray',
+    borderWidth: 1.5,
+    borderRadius: 6,
+    padding: 10,
+    marginBottom: 24,
+    backgroundColor: 'white',
   },
 });
 

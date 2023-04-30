@@ -1,3 +1,4 @@
+import { Alert } from "react-native";
 // all the regex for record emissions and alerts if needed
 export function validateElectricityEntry(entry) {
     const regex = /^(\d{1,2}(\.\d+)?|100(\.0+)?)$/;
@@ -13,7 +14,7 @@ export function validateFoodEntry(beefConsumption, porkConsumption, cheeseConsum
     return beef && pork && cheese && poultry;
 }
 
-export function validateTransportationEntry(entry) {
+function validateTransportationEntry(entry) {
     const regex = /^(4000(\.0{1,3})?|[1-3]\d{0,3}(\.\d{1,3})?|\d{1,2}(\.\d{1,3})?|0(\.\d{1,3})?)$/; // 0-4000
     return regex.test(entry);
 }
@@ -25,4 +26,29 @@ export function validateRecyclingEntry(paperAmount, plasticAmount, glassAmount, 
     const glass = regex.test(glassAmount);
     const metal = regex.test(metalAmount);
     return paper && plastic && glass && metal;
+}
+
+export function validateTransportationScreen(entry, selectedValue) {
+    let noErrors = true;
+    noErrors = validateTransportationEntry(entry);
+
+    if (selectedValue === null) {
+        noErrors = false;
+    }
+
+    return noErrors;
+}
+
+export function getTransportationError(entry, selectedValue) {
+    let errors = [];
+    if (selectedValue === null) {
+        errors.push("Please select a mode of transportation.");
+    }
+    const goodEntry = validateTransportationEntry(entry);
+    if (!goodEntry) {
+        errors.push("Miles traveled must be between 0 and 4000.")
+    }
+    const errorMessage = errors.join("\n");
+
+    alert(errorMessage);
 }
