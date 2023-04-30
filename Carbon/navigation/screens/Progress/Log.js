@@ -48,7 +48,7 @@ export default function Log({ navigation }) {
         )
     }
     async function Refresh()  {
-        console.log("refresh")
+        // console.log("refresh")
         try {
             const retData = await GetData(); //put the data here and set the array
             loadArr(retData); //Sets the 2d array to be in twoDdata
@@ -95,7 +95,7 @@ export default function Log({ navigation }) {
             <View style={styles.header}>
                 <View>
                 <Text style={styles.title}>{whichLog[number]} Log </Text>
-                <Text> Units: lbs/CO2</Text>
+                <Text>{`Units: lbs/CO\u2082`}</Text>
                 </View>
                 {/* Will display the log as well as some text next to it*/}
                 {/* Displays our units used */}

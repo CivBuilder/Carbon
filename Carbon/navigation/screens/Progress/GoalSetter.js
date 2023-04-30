@@ -48,7 +48,7 @@ export default function GoalSetter({ navigation }) {
           onValueChange={handleValueChange}
           testID="slider"
         />
-        <Text style={styles.sliderSubText}>That's {previousMonthEmissions} pounds of CO2 compared to last month.</Text>
+        <Text style={styles.sliderSubText}>{`That's ${previousMonthEmissions} pounds of CO\u2082 compared to last month.`}</Text>
         <NonBreakingSpace />
       </View>
       <View style={styles.buttonContainer}>
