@@ -37,7 +37,7 @@ const NetEmissions = ({refreshing, setRefreshing}) => {
         </Text>
       </View>
     </View>
-  )
+  );
 }
 
-export default NetEmissions
+export default NetEmissions;
