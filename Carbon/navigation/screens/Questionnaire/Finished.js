@@ -90,6 +90,8 @@ export default function FinishedScreen({navigation, route}) {
             setBestScore("Transportation")
         }else if (homeScore==maxVal){
             setBestScore("Home")
+        }else if (awarenessScore==maxVal){
+            setBestScore("Awareness")
         }else{
             setBestScore("Food")
         }
@@ -98,6 +100,8 @@ export default function FinishedScreen({navigation, route}) {
             setWorstScore("Food")
         }else if (awarenessScore==minVal){
             setWorstScore("Awareness")
+        }else if (homeScore ==minVal){
+            setBestScore("Home")
         }else{
             setWorstScore("Transportation")
         }
@@ -174,7 +178,7 @@ export default function FinishedScreen({navigation, route}) {
                     <View style={{...q_styles.score_category_container, borderColor:Colors.categories.HOME }}>
                         <Ionicons name='home-outline' size={40} color={Colors.categories.HOME}/>
                         <Text style={{...q_styles.score_text, color:Colors.categories.HOME }}>
-                            {homeScore}
+                            {homeScore*10}
                         </Text>
                     </View>
 
@@ -183,7 +187,7 @@ export default function FinishedScreen({navigation, route}) {
                     <View style={{...q_styles.score_category_container, borderColor:Colors.categories.TRANSPORTATION }}>
                         <Ionicons name='bicycle-outline' size={40} color={Colors.categories.TRANSPORTATION}/>
                         <Text style={{...q_styles.score_text, color:Colors.categories.TRANSPORTATION }}>
-                            {transportScore}
+                            {transportScore*10}
                         </Text>
                     </View>
 
@@ -192,7 +196,7 @@ export default function FinishedScreen({navigation, route}) {
                     <View style={{...q_styles.score_category_container, borderColor:Colors.categories.DIET }}>
                         <Ionicons name='fast-food-outline' size={40} color={Colors.categories.DIET}/>
                         <Text style={{...q_styles.score_text, color:Colors.categories.DIET }}>
-                            {foodScore}
+                            {foodScore*10}
                         </Text>
                     </View>
                 </View>
