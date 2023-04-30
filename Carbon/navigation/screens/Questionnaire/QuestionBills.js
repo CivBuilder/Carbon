@@ -2,7 +2,7 @@ import React, {useState,useEffect} from 'react';
 import {View, Text,Button,TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import {aveAnnualHomeEmissions} from '../../../calculations/home_calculations/aveHomeEmissions';
-import homeElec from '../../../calculations/home_calculations/homeElec'
+import homeElec from '../../../calculations/home_calculations/questionnaire/homeElec'
 import mapScore from '../../../calculations/questionnaireMapScore';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -38,8 +38,24 @@ export default function BillScreen({navigation,route}) {
         </View>
         ),
         });
-        calculateHomeScore();
     });
+
+    useEffect(()=>{
+            navigation.setOptions({
+            header: ()=>(
+            <View style={{
+            position: "absolute",
+            top:0,
+            height:30,
+            borderRadius: 6,
+            width:"30%",
+            backgroundColor: Colors.secondary.CELADON,
+            }}>
+            </View>
+            ),
+            });
+            calculateHomeScore();
+    },[bill,rate]);
 
     const calculateHomeScore=() =>{
         //Electricity bill (in dollars)
@@ -52,6 +68,10 @@ export default function BillScreen({navigation,route}) {
             let userScore=homeElec(bill/rate/1000)
             userPerformance = userScore/aveAnnualHomeEmissions.homePowerEmissions
         }
+        console.log("Rate:",rate)
+        console.log("Bill:",bill)
+        console.log("User Performance",userPerformance)
+
         setHomeScore(mapScore(userPerformance))
     }
 
