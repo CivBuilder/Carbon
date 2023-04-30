@@ -89,6 +89,8 @@ export default function FinishedScreen({ navigation, route }) {
             setBestScore("Transportation")
         } else if (homeScore == maxVal) {
             setBestScore("Home")
+        } else if (awarenessScore == maxVal) {
+            setBestScore("Awareness")
         } else {
             setBestScore("Food")
         }
@@ -97,27 +99,29 @@ export default function FinishedScreen({ navigation, route }) {
             setWorstScore("Food")
         } else if (awarenessScore == minVal) {
             setWorstScore("Awareness")
+        } else if (homeScore == minVal) {
+            setBestScore("Home")
         } else {
             setWorstScore("Transportation")
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         calculateRanks();
         updateSustainability();
 
         navigation.setOptions({
-        header: ()=>(
-        <View style={{
-        position: "absolute",
-        top:0,
-        height:30,
-        borderRadius: 6,
-        width:"100%",
-        backgroundColor: Colors.secondary.CELADON,
-        }}>
-        </View>
-        ),
+            header: () => (
+                <View style={{
+                    position: "absolute",
+                    top: 0,
+                    height: 30,
+                    borderRadius: 6,
+                    width: "100%",
+                    backgroundColor: Colors.secondary.CELADON,
+                }}>
+                </View>
+            ),
         })
     });
 
@@ -179,11 +183,11 @@ export default function FinishedScreen({ navigation, route }) {
                         </View>
                     </View>
 
-                    <View style={{ marginBottom: 24, flexDirection: 'row' }}>
+                    <View style={{ marginVertical: '10%', flexDirection: 'row' }}>
                         <View style={{ ...q_styles.score_category_container, borderColor: Colors.categories.HOME }}>
                             <Ionicons name='home-outline' size={40} color={Colors.categories.HOME} />
                             <Text style={{ ...q_styles.score_text, color: Colors.categories.HOME }}>
-                                {homeScore}
+                                {homeScore * 10}
                             </Text>
                         </View>
 
@@ -192,7 +196,7 @@ export default function FinishedScreen({ navigation, route }) {
                         <View style={{ ...q_styles.score_category_container, borderColor: Colors.categories.TRANSPORTATION }}>
                             <Ionicons name='bicycle-outline' size={40} color={Colors.categories.TRANSPORTATION} />
                             <Text style={{ ...q_styles.score_text, color: Colors.categories.TRANSPORTATION }}>
-                                {transportScore}
+                                {transportScore * 10}
                             </Text>
                         </View>
 
@@ -201,7 +205,7 @@ export default function FinishedScreen({ navigation, route }) {
                         <View style={{ ...q_styles.score_category_container, borderColor: Colors.categories.DIET }}>
                             <Ionicons name='fast-food-outline' size={40} color={Colors.categories.DIET} />
                             <Text style={{ ...q_styles.score_text, color: Colors.categories.DIET }}>
-                                {foodScore}
+                                {foodScore * 10}
                             </Text>
                         </View>
                     </View>
@@ -217,52 +221,53 @@ export default function FinishedScreen({ navigation, route }) {
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={{ fontSize: 20, marginBottom: 10, }}>Best Category:</Text>
 
-                        <View
-                            style={{
-                                backgroundColor: 'white',
-                                paddingHorizontal: 20,
-                                paddingVertical: 10,
-                                borderRadius: 10,
-                                borderWidth: 2,
-                                borderColor: Colors.secondary.DARK_MINT,
-                                width: 170,
-                            }}
-                        >
-                            <Text style={{ fontSize: 18, fontWeight: '500', textAlign: 'center', color: Colors.secondary.DARK_MINT, }}>{bestScore}</Text>
+                        <View style={{ marginBottom: 40, }}>
+                            <View
+                                style={{
+                                    backgroundColor: 'white',
+                                    paddingHorizontal: 20,
+                                    paddingVertical: 10,
+                                    borderRadius: 10,
+                                    borderWidth: 2,
+                                    borderColor: Colors.secondary.DARK_MINT,
+                                    width: 170,
+                                }}
+                            >
+                                <Text style={{ fontSize: 18, fontWeight: '500', textAlign: 'center', color: Colors.secondary.DARK_MINT, }}>{bestScore}</Text>
+                            </View>
+                        </View>
+
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontSize: 20, marginBottom: 10, }}>Worst Category:</Text>
+
+                            <View
+                                style={{
+                                    backgroundColor: 'white',
+                                    paddingHorizontal: 20,
+                                    paddingVertical: 10,
+                                    borderRadius: 10,
+                                    borderWidth: 2,
+                                    borderColor: Colors.secondary.RED,
+                                    width: 170,
+                                }}
+                            >
+                                <Text style={{ fontSize: 18, fontWeight: '500', textAlign: 'center', color: Colors.secondary.RED, }}>{worstScore}</Text>
+                            </View>
                         </View>
                     </View>
 
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ fontSize: 20, marginBottom: 10, }}>Worst Category:</Text>
-
-                        <View
-                            style={{
-                                backgroundColor: 'white',
-                                paddingHorizontal: 20,
-                                paddingVertical: 10,
-                                borderRadius: 10,
-                                borderWidth: 2,
-                                borderColor: Colors.secondary.RED,
-                                width: 170,
+                    <View style={{ alignItems: 'center', position: 'absolute', bottom: 20, width: '100%' }}>
+                        <TouchableOpacity
+                            style={q_styles.cta_button}
+                            onPress={() => {
+                                finishedQuestionnaire()
+                                route.params?.setFinishedQuestionnaire(true)
                             }}
                         >
-                            <Text style={{ fontSize: 18, fontWeight: '500', textAlign: 'center', color: Colors.secondary.RED, }}>{worstScore}</Text>
-                        </View>
+                            <Text style={{ ...q_styles.cta_text, fontWeight: '600' }}>Take me to the app!</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
-
-                <View style={{ alignItems: 'center', position: 'absolute', bottom: 20, width: '100%' }}>
-                    <TouchableOpacity
-                        style={q_styles.cta_button}
-                        onPress={() => {
-                            finishedQuestionnaire()
-                            route.params?.setFinishedQuestionnaire(true)
-                        }}
-                    >
-                        <Text style={{ ...q_styles.cta_text, fontWeight: '600' }}>Take me to the app!</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
         </ScrollView>
     )
 }

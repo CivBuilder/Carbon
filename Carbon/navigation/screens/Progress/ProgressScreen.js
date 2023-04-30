@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text, Platform, RefreshControl } from 'react-native';
+import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text, Platform, RefreshControl, TouchableOpacity } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { CategoryBreakdown } from './CategoryBreakdown';
 import RecordEmission from './RecordEmission';
@@ -7,6 +7,7 @@ import Log from '../Progress/Log';
 import NetEmissions from './NetEmissions';
 import { Section } from '../../../components/Section';
 import { useRef, useEffect, useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
 
 
 const windowWidth = Dimensions.get("window").width;
@@ -30,15 +31,24 @@ export default function ProgressScreen({ navigation }) {
           <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
         }
       >
+
         {/* Category Breakdown */}
         <Section title="Category Breakdown">
           <CategoryBreakdown navigation={navigation} refreshing={refreshing} setRefreshing={setRefreshing}/>
         </Section>
 
         {/* Log -- Will update styling and other things for this component soon :) */}
-
+        <Text style={{
+          marginHorizontal: 12,
+          marginTop: 12,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          fontSize: 16,
+          fontWeight: '500',
+        }}>Category By Time</Text>
         <View style={styles.container}>
-          <Log navigation={navigation}></Log>
+          <Log navigation={navigation} ></Log>
         </View>
 
         <Section title="Net Emissions">
