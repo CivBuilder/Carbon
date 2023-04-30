@@ -33,7 +33,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                 <View style = {styles.ModalOuterContainer}>
                     <View style = {styles.modalView}>
                         <Text style = {styles.QuestionText}>
-                            Please Select your Leaderboard Category:
+                            Please select your Leaderboard Category:
                         </Text>
 
                         <View style = {styles.RadioButtonContainer}>
@@ -47,7 +47,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                                 name={"earth"}
                                 size={26}
                                 color={Colors.primary.RAISIN_BLACK}
-                                style={{ marginRight: 16, marginLeft: 40 }}
+                                style={{ marginRight: 16, marginLeft: 12 }}
                             />
                             <Text> Global Score </Text>
                         </View>
@@ -63,7 +63,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                                 name={"car-sport"}
                                 size={26}
                                 color={Colors.primary.RAISIN_BLACK}
-                                style={{ marginRight: 16, marginLeft: 40 }}
+                                style={{ marginRight: 16, marginLeft: 12 }}
                             />
                             <Text> Transport Score </Text>
                         </View>
@@ -79,7 +79,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                                 name = "recycle"
                                 size = {26}
                                 color={Colors.primary.RAISIN_BLACK}
-                                style={{ marginRight: 16, marginLeft: 40 }}
+                                style={{ marginRight: 16, marginLeft: 12 }}
                             />
                             <Text> Lifestyle Score </Text>
                         </View>
@@ -95,7 +95,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                                 name={"restaurant"}
                                 size={26}
                                 color={Colors.primary.RAISIN_BLACK}
-                                style={{ marginRight: 16, marginLeft: 40 }}
+                                style={{ marginRight: 16, marginLeft: 12 }}
                             />
                             <Text> Diet Score </Text>
                         </View>
@@ -111,7 +111,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                                 name={"home"}
                                 size={26}
                                 color={Colors.primary.RAISIN_BLACK}
-                                style={{ marginRight: 16, marginLeft: 40 }}
+                                style={{ marginRight: 16, marginLeft: 12 }}
                             />
                             <Text>Home Score</Text>
                         </View>
@@ -123,7 +123,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                                 setEmissionCategory(selectedCategory);
                             }}
                         >
-                            <Text> Return </Text>
+                            <Text style={{fontSize: 18, fontWeight:'500', textAlign:'center', color:Colors.primary.MINT_CREAM}}> Return </Text>
                         </Pressable>
                     </View>
                 </View>
@@ -155,26 +155,31 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        padding : 5,
+        padding : 12,
     },
     RadioButtonContainer : {
         flexDirection : 'row', 
         alignContent : 'center', 
         alignItems : 'center', 
-        marginLeft : 15,
+        marginHorizontal: 12,
+        paddingHorizontal: 24,
     },
     QuestionText : {
-        flex : 0.4,
         fontSize : 20,
         fontWeight : 'bold',
         textAlign : 'center',
         marginTop : 5,
+        marginBottom : 20,
     },
     button: {
+        justifyContent: 'flex-end',
+        alignSelf: 'center',
         borderRadius: 20,
-        padding: 5,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
         elevation: 2,
-        alignSelf : 'center',
+        width:'60%',
+        marginTop: 20,
         backgroundColor : Colors.primary.MINT
-    },    
+    },
 });
