@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView, Image, Pressable, Animated } from 'react-native';
+import { View, Text, Button, StyleSheet, ScrollView, Image, Pressable, Animated, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import UsernameInput from '../../../components/UsernameInput';
 import PasswordInput from '../../../components/PasswordInput';
@@ -258,17 +258,17 @@ const styles = StyleSheet.create({
         width: '80%',
         backgroundColor: "white",
         borderRadius: 16,
-        // ...Platform.select({
-        //     ios: {
-        //         shadowColor: Colors.primary.RAISIN_BLACK,
-        //         shadowOffset: { width: 5, height: 5 },
-        //         shadowOpacity: 0.125,
-        //         shadowRadius: 2.5,
-        //     },
-        //     android: {
-        //         elevation: 5,
-        //     },
-        // }),
+        ...Platform.select({
+            ios: {
+                shadowColor: Colors.primary.RAISIN_BLACK,
+                shadowOffset: { width: 5, height: 5 },
+                shadowOpacity: 0.125,
+                shadowRadius: 2.5,
+            },
+            android: {
+                elevation: 5,
+            },
+        }),
     },
 });
 
