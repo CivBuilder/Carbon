@@ -113,7 +113,7 @@ export default function RankCategoryOverlay({setEmissionCategory}){
                                 color={Colors.primary.RAISIN_BLACK}
                                 style={{ marginRight: 16, marginLeft: 12 }}
                             />
-                            <Text>Home Score</Text>
+                            <Text> Home Score </Text>
                         </View>
 
                         <Pressable 
