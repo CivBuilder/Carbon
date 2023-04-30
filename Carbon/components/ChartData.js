@@ -32,7 +32,7 @@ export function DailyLog ({dataArray}) {
                 (opacity = 1) =>  Colors.categories.TRANSPORTATION,
                 (opacity = 1) =>  Colors.categories.DIET,
                 (opacity = 1) =>  Colors.categories.HOME, //all colors will be MINt
-                (opacity = 1) =>  Colors.primary.MINT,
+                (opacity = 1) =>  Colors.secondary.DARK_MINT,
             ]
             }
         ]
