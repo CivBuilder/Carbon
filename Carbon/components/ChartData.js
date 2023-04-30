@@ -21,7 +21,7 @@ const dummyData = [
     The daily log function, this takens in a data array and maps it into a bar chart based on its values
  */
 export function DailyLog ({dataArray}) {
-    dataArray = dataArray.slice(0,2).concat(dataArray.slice(3))
+    dataArray = dataArray.slice(0,1).concat(dataArray.slice(2))
     //Our data for bar styling the bar chart
     const barChartData = {
         labels: ['Transportation', 'Diet', 'Home', 'Overall'],
@@ -32,6 +32,7 @@ export function DailyLog ({dataArray}) {
                 (opacity = 1) =>  Colors.primary.MINT,
                 (opacity = 1) =>  Colors.primary.MINT,
                 (opacity = 1) =>  Colors.primary.MINT, //all colors will be MINt
+                (opacity = 1) =>  Colors.primary.MINT,
                 (opacity = 1) =>  Colors.primary.MINT,
             ]
             }
@@ -45,7 +46,7 @@ export function DailyLog ({dataArray}) {
         withCustomBarColorFromData={true}
         flatColor={true}
         style={styleBar.chart}
-        width = {chartWidth-10}
+        width = {chartWidth}
         height = {windowHeight/3}
         withVerticalLabels ={true}
         withHorizontalLabels = {true}

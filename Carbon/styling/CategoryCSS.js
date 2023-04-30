@@ -9,26 +9,23 @@ export const CategoryCSS = StyleSheet.create({
     margin: 7,
   },
   title: {
-    flex: 4,
+    flex: 3,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  text: {
-    fontSize: 15,
-  },
   emission: {
-    flex: 5,
+    flex: 3,
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
   percentage: {
-    flex: 4,
+    flex: 3,
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
   units: {
-    fontSize: 12,
+    fontSize: 11,
     marginStart: 1,
     alignSelf: 'flex-end'
   },

@@ -1,5 +1,5 @@
 
-import { Text, View, Image } from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import { SustainabilityScoreProfileView } from '../../../util/SustainabilityScoreProfileView';
 import RankProgressBar from '../../../components/ProgressBar.js';
 import { Colors } from '../../../styling/Colors.js';
@@ -54,18 +54,80 @@ export default function MiniRanking({userScores, rankCategory}) {
  */
 export function formatRankText(rank) {
 
-  //11th, 12th, ... edge case.
-  if (Math.floor(rank / 10) % 10 === 1)
-    return rank + "th";
+    //11th, 12th, ... edge case.
+    if(Math.floor(rank/10) % 10 === 1)
+        return rank+"th";
 
-  switch (rank % 10) {
-    case 1:
-      return rank + "st";
-    case 2:
-      return rank + "nd";
-    case 3:
-      return rank + "rd";
-    default:
-      return rank + "th";
+    switch(rank % 10) {
+        case 1: 
+            return rank+"st";
+        case 2: 
+            return rank+"nd";
+        case 3:
+            return rank+"rd";
+        default: 
+            return rank+"th";
+    }
   }
-};
+
+const styles = StyleSheet.create({
+
+    miniRankContainer : { 
+      flex : 1,
+      flexDirection : 'row',
+      justifyContent : 'center',
+      backgroundColor : 'white',
+      borderRadius : 16,
+    },
+  
+    profileImageContainer :{
+      flex : 1,
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+  
+    profileImage : {
+      height : 100,
+      width : 100,
+      resizeMode : 'contain',
+    },
+  
+    SideContainer : {
+      flex : 2,
+      padding : 5,
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignContent : 'center',
+      // backgroundColor : 'cyan',
+    },
+  
+    textContainer : {
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignContent : 'center',
+      // backgroundColor : 'white',
+      flex : 0.75
+    },
+  
+  
+    rankText: {
+      color: Colors.primary.RAISIN_BLACK,
+      fontSize : 21,
+      textAlignVertical : 'center',
+      flex : 1,
+      // backgroundColor : 'white',
+    },
+  
+    titleText : { 
+      color: Colors.primary.RAISIN_BLACK,
+      fontWeight: 'bold',
+      fontSize: 28,
+      flex : 1,
+      // backgroundColor : 'red',
+      textAlignVertical : 'center',
+      paddingBottom : 10,
+    },
+  });
+  
+  

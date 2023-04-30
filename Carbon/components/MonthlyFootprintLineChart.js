@@ -297,7 +297,7 @@ export const MonthlyFootprintLineChart = ({navigation}) => {
     // TODO: Fix the error when trying to render LoadingIndicator component
     if (loading) {
         return (
-            <View style={{ height: 125, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 {/* <LoadingIndicator loading={loading}/> */}
                 <ActivityIndicator
                     testID="loading-indicator"

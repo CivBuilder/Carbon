@@ -3,24 +3,22 @@ import { Colors } from "./Colors";
 
 export const SectionCSS = StyleSheet.create({
   container: {
-    marginTop: 10,
-    marginHorizontal: 14,
-    marginBottom: 14,
+    margin: 12,
   },
   header: {
-    marginHorizontal: 14,
-    marginTop: 14,
+    marginHorizontal: 12,
+    marginTop: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   title: {
-    fontSize: 17,
-    fontWeight: '600',
+    fontSize: 16,
+    fontWeight: '500'
   },
   shortcut: {
     color: Colors.primary.MINT,
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '400',
   },
   body: {
