@@ -36,7 +36,7 @@ export default function RankProgressBar({progress, total}) {
             <Animated.View style={[styles.progressBar, {width : initWidth}]} testID={"AnimatedProgressBar"}/>
             </View>
             
-            <View style = {{flexDirection : 'row', flex : 1, justifyContent : 'center'}} testID=''>
+            <View style = {{flexDirection : 'row', flex : 1, justifyContent : 'center', paddingTop:2}} testID=''>
                 <Text style = {styles.numerator} testID='progressText'>{progress} </Text>
                 <Text style = {styles.denominator} testID = 'totalText'>/ {total}</Text>
             </View>
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         width : '100%',
         borderRadius : 15,
         backgroundColor : "#DDE1E4",
-        flex : 0.25,
+        flex : 0.4,
         overflow : 'hidden'
     },
     progressBar : {
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     numerator : {
         fontSize : 14, 
         fontWeight  : 'bold',
-        color : Colors.secondary.DARK_MINT
+        color : Colors.secondary.DARK_MINT,
     },
     denominator  : {
         fontSize : 14,

@@ -104,7 +104,7 @@ describe('RankingScreen', () => {
             diet_ranking : 1 ,
             home_ranking : 1 ,       
         })})
-        const { findByTestId, getByTestId} = render(<RankingScreen />);
+        const { findByTestId} = render(<RankingScreen />);
         const screen = await findByTestId('rank-screen');
         const switchTab = getByTestId('switch');
         expect(screen).toBeDefined();
