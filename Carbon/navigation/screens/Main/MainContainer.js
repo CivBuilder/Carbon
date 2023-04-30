@@ -268,6 +268,7 @@ export default function MainContainer({ navigation }) {
         }
         if (isSignedIn) {
             checkQuestionnaire();
+            setIsCheckingQuestionnaire(true);
         }
     }, [isSignedIn]);
 
