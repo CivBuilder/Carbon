@@ -57,7 +57,7 @@ export const q_styles = StyleSheet.create({
         color: Colors.primary.RAISIN_BLACK,
     },
     score_text: {
-        fontSize: 18,
+        fontSize: 24,
         fontWeight: '500',
         marginBottom: 3,
     },

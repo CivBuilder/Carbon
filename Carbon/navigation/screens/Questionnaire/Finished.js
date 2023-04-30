@@ -80,50 +80,31 @@ export default function FinishedScreen({ navigation, route }) {
     const scoreCategory = SustainabilityScoreProfileView[mapScoreCategory(awarenessScore)].title;
     const scorePicture = SustainabilityScoreProfileView[mapScoreCategory(awarenessScore)].picture;
 
-    const [bestScore, setBestScore] = useState("Transportation");
-    const [worstScore, setWorstScore] = useState("Food");
+    const [bestScore, setBestScore] = useState("");
+    const [worstScore, setWorstScore] = useState("");
 
     const calculateRanks = () => {
-        let maxVal = Math.max(transportScore, homeScore, foodScore)
-        let minVal = Math.min(transportScore, homeScore, foodScore)
-        if (transportScore == maxVal) {
-            setBestScore("Transportation")
-        } else if (homeScore == maxVal) {
-            setBestScore("Home")
-        } else if (awarenessScore == maxVal) {
-            setBestScore("Awareness")
-        } else {
-            setBestScore("Food")
-        }
+        const scoreMap = {
+            Transportation: transportScore,
+            Home: homeScore,
+            Food: foodScore
+        };
 
-        if (foodScore == minVal) {
-            setWorstScore("Food")
-        } else if (awarenessScore == minVal) {
-            setWorstScore("Awareness")
-        } else if (homeScore == minVal) {
-            setBestScore("Home")
-        } else {
-            setWorstScore("Transportation")
-        }
+        const bestScore = Object.keys(scoreMap).reduce((best, score) => {
+        return scoreMap[score] > scoreMap[best] ? score : best;
+        }, Object.keys(scoreMap)[0]);
+
+        const worstScore = Object.keys(scoreMap).reduce((worst, score) => {
+        return scoreMap[score] < scoreMap[worst] ? score : worst;
+        }, Object.keys(scoreMap)[0]);
+
+        setBestScore(bestScore);
+        setWorstScore(worstScore);
     }
 
     useEffect(() => {
         calculateRanks();
         updateSustainability();
-
-        navigation.setOptions({
-            header: () => (
-                <View style={{
-                    position: "absolute",
-                    top: 0,
-                    height: 30,
-                    borderRadius: 6,
-                    width: "100%",
-                    backgroundColor: Colors.secondary.CELADON,
-                }}>
-                </View>
-            ),
-        })
     });
 
     // ANIMATIONS
@@ -166,28 +147,19 @@ export default function FinishedScreen({ navigation, route }) {
         useNativeDriver: true,
     }
 
-    // define the completion callback for ranking animations
-    const onRankingComplete = () => {
-        // Category score animations
-        Animated.timing(homeScoreOpacity, categoryScoreConfig).start(() => {
-            Animated.timing(transportScoreOpacity, categoryScoreConfig).start(() => {
-                Animated.timing(foodScoreOpacity, categoryScoreConfig).start(() => {
-                    Animated.timing(bestCategoryOpacity, categoryScoreConfig).start(() => {
-                        Animated.timing(worstCategoryOpacity, categoryScoreConfig).start(() => {
-                            Animated.timing(buttonOpacity, buttonConfig).start();
-                        });
-                    })
-                });
-            });
-        });
-    };
-
-    // start ranking animations in parallel
-    Animated.parallel([
-        Animated.timing(rankPictureOpacity, rankPictureConfig),
-        Animated.timing(rankPictureScale, rankPictureScaleConfig),
-        Animated.timing(rankTitleOpacity, rankTitleConfig),
-    ]).start(onRankingComplete);
+    Animated.sequence([
+        Animated.parallel([
+            Animated.timing(rankPictureOpacity, rankPictureConfig),
+            Animated.timing(rankPictureScale, rankPictureScaleConfig),
+            Animated.timing(rankTitleOpacity, rankTitleConfig),
+        ]),
+        Animated.timing(homeScoreOpacity, categoryScoreConfig),
+        Animated.timing(transportScoreOpacity, categoryScoreConfig),
+        Animated.timing(foodScoreOpacity, categoryScoreConfig),
+        Animated.timing(bestCategoryOpacity, categoryScoreConfig),
+        Animated.timing(worstCategoryOpacity, categoryScoreConfig),
+        Animated.timing(buttonOpacity, buttonConfig),
+    ]).start();
 
     return (
         <View style={{flex: 1, backgroundColor: 'rgba(216, 243, 220, 0.4)'}}>

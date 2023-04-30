@@ -20,8 +20,8 @@ const CarbonLogo = ({ onLogoAnimationFinish }) => {
   return (
     <Animated.View style={[styles.logo, { opacity: fadeAnim }]}>
       <Image
-        source={{ uri: 'https://i.ibb.co/s9Kfh8p/carbon-logo.png' }}
-        style={{ width: 260, height: 130 }}
+        source={require('../../../assets/Carbon_Logo.png')}
+        style={{ width: 260, height: 130, resizeMode: 'contain' }}
       />
     </Animated.View>
   );
