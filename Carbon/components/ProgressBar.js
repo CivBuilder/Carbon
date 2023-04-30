@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     width: 0,
     height: 10,
     borderRadius: 15,
-    flex: 1
+    flex: 1,
   },
   progressValues: {
     flexDirection: 'row',
