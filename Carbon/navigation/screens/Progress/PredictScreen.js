@@ -8,6 +8,7 @@ import { DailyLog } from "../../../components/ChartData";
 import { API_URL } from '../../../config/Api';
 import { getToken } from '../../../util/LoginManager';
 import { q_styles } from "../Questionnaire/QuestionnaireStyle";
+import LottieView from 'lottie-react-native';
 const windowHeight = Dimensions.get("window").height;
 export default function PredictScreen({ navigation, route }) {
     const [loading, setLoading] = useState(true);
@@ -24,7 +25,7 @@ export default function PredictScreen({ navigation, route }) {
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 2000 + Math.floor(Math.random() * 1000)); // 3 seconds
+        }, 6000 + Math.floor(Math.random() * 1000)); // 3 seconds
 
         return () => clearTimeout(timer); // Clean up the timer on unmount
     }, []);
@@ -102,27 +103,11 @@ export default function PredictScreen({ navigation, route }) {
                             <Text style={{
                                 color: Colors.primary.MINT,
                                 fontWeight: 'bold',
-                                fontSize: 18
+                                fontSize: 30
                             }}>Predicting Results</Text>
-                                                    <ActivityIndicator size="large" color={Colors.primary.MINT} style={LoadingIndicatorStyle} testID="loading-indication"/>
-
+                            <LottieView speed={2} style={{height: 280, marginHorizontal: 8}} source={require('../../../assets/lotties/tinytown.json')} autoPlay loop />        
                         </View>
-                        <View style={{
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginVertical: 20
-                        }}>
-                          
-                                <Image
-                                    source={require('../../../assets/crystal-ball.png')}
-
-                                    resizeMode='contain'
-                                    style={{
-                                        width: Dimensions.get('window').width * 0.35,
-                                        height: Dimensions.get('window').width * 0.35,
-                                    }}
-                                />
-                        </View>
+                        
                     </View>
                 ) : (
 
