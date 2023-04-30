@@ -17,8 +17,6 @@ const windowHeight = Dimensions.get("window").height;
 
 
 export default function Log({ navigation }) {
-    const myRef = useRef();
-
     const whichLog = ["Today's", "Yesterday's", "Weekly", "Monthly"]; //String list for displaying
     const [number, setNumber] = useState(0);  //A state hook to set which area we are time frame we look at. 
     //0 = "Today", 1= "Yesterday's" etc etc.
@@ -28,6 +26,7 @@ export default function Log({ navigation }) {
     useEffect(() => {
         //Wait for get Data
         async function callGetData() {
+       
             try {
                 const retData = await GetData(); //put the data here and set the array
                 loadArr(retData); //Sets the 2d array to be in twoDdata
@@ -38,7 +37,7 @@ export default function Log({ navigation }) {
             }
         }
         callGetData(); //Call the getdata through callGetData
-    }, [myRef.current]);
+    }, []);
     if (!data) {
         //ESSENTIALLY if it isnt loaded we return null
         return (
@@ -48,8 +47,16 @@ export default function Log({ navigation }) {
             </View>
         )
     }
-    const Refresh = () => {
-        myRef.current = Math.random()
+    async function Refresh()  {
+        console.log("refresh")
+        try {
+            const retData = await GetData(); //put the data here and set the array
+            loadArr(retData); //Sets the 2d array to be in twoDdata
+            setArray(retData[number]); //as well as setting the specific look at to be index 0
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
 
     //function to handle the change to the right (aka today -> yesterday)
@@ -65,9 +72,8 @@ export default function Log({ navigation }) {
         if (number > 0) {
             setNumber(number - 1);
         }
-        else
 
-            changeArrayLeft();
+        changeArrayLeft();
     };
 
     //change array functions update the displayed data as according
@@ -80,6 +86,7 @@ export default function Log({ navigation }) {
         if (number < 3) {
             setArray(twoDdata[number + 1]);
         }
+
     };
     //our rendering
     return (
@@ -130,7 +137,7 @@ export default function Log({ navigation }) {
                 
                    
                 ) : (
-                    <DailyLog dataArray={data}></DailyLog>
+                    <DailyLog dataArray={data} ></DailyLog>
                 )}
                 {/*Additional formatting for the button */}
             </View>
@@ -146,7 +153,7 @@ export default function Log({ navigation }) {
                         margin: margin,
                     }}
                     testID="left-click"
-
+                    
                     onPress={handleChangeLeft}
                 >{/* handle left*/}
                     {/* More formatting*/}

@@ -1,14 +1,13 @@
 import React from "react"
 import { useState, useEffect } from 'react';
 import { Colors } from "../../../styling/Colors";
-import { View, Text, TouchableOpacity, Dimensions } from "react-native";
-import LoadingIndicator from "../../../components/LoadingIndicator";
+import { View, Text, TouchableOpacity, Dimensions, ImageBackground, SafeAreaView, Image, ActivityIndicator } from "react-native";
 import PredictInput from "../../../calculations/PredictInput";
 import { ScreenNames } from "../Main/ScreenNames";
 import { DailyLog } from "../../../components/ChartData";
-import {API_URL} from '../../../config/Api';
+import { API_URL } from '../../../config/Api';
 import { getToken } from '../../../util/LoginManager';
-
+import { q_styles } from "../Questionnaire/QuestionnaireStyle";
 const windowHeight = Dimensions.get("window").height;
 export default function PredictScreen({ navigation, route }) {
     const [loading, setLoading] = useState(true);
@@ -20,7 +19,7 @@ export default function PredictScreen({ navigation, route }) {
         diet_emissions: 0,
         home_emissions: 0
     });
-    
+
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -37,14 +36,14 @@ export default function PredictScreen({ navigation, route }) {
             try {
                 const retData = await PredictInput(); //put the data here and set the array
                 setData(retData); //Sets the 2d array to be in twoDdata
-              
+
             }
             catch (error) {
                 console.log(error);
             }
         }
         callPredictInput(); //Call the getdata through callGetData
-        
+
     }, []);
 
     async function postResults() {
@@ -86,45 +85,53 @@ export default function PredictScreen({ navigation, route }) {
     }
 
     return (
-        <View style={{ backgroundColor: '#F7FCF8 ' }}>
-            {loading || !data ? (
-                <View>
-                    <View style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        paddingTop: windowHeight / 4
-                    }}>
+        <ImageBackground
+            source={require('../../../assets/get-started-background.png')}
+            style={q_styles.background}
+        >
+            <SafeAreaView>
 
-                        <Text style={{
-                            color: Colors.primary.MINT,
-                            fontWeight: 'bold',
-                            fontSize: 18
-                        }}>Predicting Results</Text>
+                {loading || !data ? (
+                    <View>
+                        <View style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            paddingTop: windowHeight / 4
+                        }}>
+
+                            <Text style={{
+                                color: Colors.primary.MINT,
+                                fontWeight: 'bold',
+                                fontSize: 18
+                            }}>Predicting Results</Text>
+                                                    <ActivityIndicator size="large" color={Colors.primary.MINT} style={LoadingIndicatorStyle} testID="loading-indication"/>
+
+                        </View>
+                        <View style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginVertical: 20
+                        }}>
+                          
+                                <Image
+                                    source={require('../../../assets/crystal-ball.png')}
+
+                                    resizeMode='contain'
+                                    style={{
+                                        width: Dimensions.get('window').width * 0.35,
+                                        height: Dimensions.get('window').width * 0.35,
+                                    }}
+                                />
+                        </View>
                     </View>
-                    <View style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginVertical: 20
-                    }}>
-                        <LoadingIndicator loading={loading} ></LoadingIndicator>
-                    </View>
-                </View>
-            ) : (
-    
-                data.every((num) => num === 0) ? (
-                    <View style={{
-                        backgroundColor: "white",
-                        borderRadius: 16,
-                        height: windowHeight - 100,
-                        padding: 10,
-                        marginHorizontal: 10,
-                        marginVertical: 10
-                    }}>
+                ) : (
+
+                    data.every((num) => num === 0) ? (
 
                         <View style={{
                             alignItems: 'center',
                             justifyContent: 'center',
-                            marginVertical: windowHeight / 10
+                            marginVertical: (windowHeight / 4) + 10
                         }}>
                             <Text style={{
                                 fontSize: 18,
@@ -146,56 +153,59 @@ export default function PredictScreen({ navigation, route }) {
                                 </View>
                             </TouchableOpacity>
                         </View>
-                    </View>
-                ) : (
-                    <View style={{
-                        backgroundColor: "white",
-                        borderRadius: 16,
-                        height: windowHeight - 100,
-                        padding: 10, marginHorizontal: 10,
-                        marginVertical: 10,
-                    }}>
-                        <Text style={{
-                            textAlign: 'center',
+                    ) : (
+                        <View style={{
+                            backgroundColor: "white",
+                            borderRadius: 16,
+                            height: windowHeight / 2,
+                            padding: 10, marginHorizontal: 10,
+                            marginVertical: 10,
+                        }}>
+                            <Text style={{
+                                textAlign: 'center',
 
-                            fontSize: 18,
-                            color: Colors.primary.MINT,
-                            fontWeight: 'bold'
-                        }}>Here is your predicted data.</Text>
-                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
-                            <DailyLog dataArray={data}> </DailyLog>
+                                fontSize: 18,
+                                color: Colors.primary.MINT,
+                                fontWeight: 'bold'
+                            }}>Here is your predicted data.</Text>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                                <DailyLog dataArray={data}> </DailyLog>
+                            </View>
+                            <View style={{ padding: 10, justifyContent: 'center', flexDirection: 'row', alignSelf: "center" }} >
+                                <TouchableOpacity style={{
+                                    backgroundColor: Colors.primary.MINT,
+                                    borderRadius: 5,
+                                    flex: 1,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    margin: 10,
+                                }} testID="accept-predict-button" onPress={() => navigation.goBack()}>
+
+                                    <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 24 }}>Decline</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={{
+                                    backgroundColor: Colors.primary.MINT,
+                                    borderRadius: 5,
+                                    flex: 1,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    margin: 10,
+                                }} testID="accept-predict-button" onPress={() => postResults()}>
+                                    <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 24 }}>Accept</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                        <View style={{ padding: 10, justifyContent: 'center', flexDirection: 'row', alignSelf: "center" }} >
-                            <TouchableOpacity style={{
-                                backgroundColor: Colors.primary.MINT,
-                                borderRadius: 5,
-                                flex: 1,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                margin: 10,
-                            }} testID="accept-predict-button" onPress={() => navigation.goBack()}>
+                    )
 
-                                <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 24 }}>Decline</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{
-                                backgroundColor: Colors.primary.MINT,
-                                borderRadius: 5,
-                                flex: 1,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                margin: 10,
-                            }} testID="accept-predict-button" onPress={() => postResults()}>
-                                <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 24 }}>Accept</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                )
-
-            )}
-        </View>
+                )}
+            </SafeAreaView>
+        </ImageBackground>
     )
 
 
 
 }
-
+const LoadingIndicatorStyle = {
+    marginTop: 10,
+    alignItems: 'center',
+}
