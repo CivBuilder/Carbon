@@ -1,9 +1,11 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,Button,TextInput } from 'react-native';
+import {View, Text,Button,TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import {aveAnnualHomeEmissions} from '../../../calculations/home_calculations/aveHomeEmissions';
-import homeElec from '../../../calculations/home_calculations/homeElec'
+import homeElec from '../../../calculations/home_calculations/questionnaire/homeElec'
 import mapScore from '../../../calculations/questionnaireMapScore';
+import { q_styles } from './QuestionnaireStyle';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 /*
 Bills Screen
@@ -36,8 +38,24 @@ export default function BillScreen({navigation,route}) {
         </View>
         ),
         });
-        calculateHomeScore();
     });
+
+    useEffect(()=>{
+            navigation.setOptions({
+            header: ()=>(
+            <View style={{
+            position: "absolute",
+            top:0,
+            height:30,
+            borderRadius: 6,
+            width:"30%",
+            backgroundColor: Colors.secondary.CELADON,
+            }}>
+            </View>
+            ),
+            });
+            calculateHomeScore();
+    },[bill,rate]);
 
     const calculateHomeScore=() =>{
         //Electricity bill (in dollars)
@@ -50,92 +68,67 @@ export default function BillScreen({navigation,route}) {
             let userScore=homeElec(bill/rate/1000)
             userPerformance = userScore/aveAnnualHomeEmissions.homePowerEmissions
         }
+        console.log("Rate:",rate)
+        console.log("Bill:",bill)
+        console.log("User Performance",userPerformance)
+
         setHomeScore(mapScore(userPerformance))
     }
 
     return (
-    <>
-    <View
-    style={{
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: "100%",
-    backgroundColor: Colors.secondary.LIGHT_GREEN,
-    }}
-    >
-        <Text style={{
-            fontSize:18,
-            fontWeight:"400",
-            marginBottom:40,
-            paddingLeft:"12%",
-            paddingRight:"6%",
-        }}>
-        (Optional) Heating and Cooling in a household
-        accounts for 43% of energy usage in U.S. homes. Provide
-        your average electricity bill over the past year along with
-        your electricity rates.
-        </Text>
-        <View>
-        <Text style={{
-            fontSize:20,
-            fontWeight:"400",
-            marginBottom:5,
-        }}> Electricity Bill </Text>
-        <TextInput
-        placeholder="(Dollar Amount) Ex: 99.99"
-        style={{
-        backgroundColor:Colors.secondary.NYANZA,
-        height:32,
-        marginBottom:12,
-        }}
-        keyboardType="decimal-pad"
-        onChangeText={text=>text ? setBill(text): 0}
-        />
+        <>
+            <ImageBackground
+                source={require('../../../assets/questionnaire-background.png')}
+                style={ q_styles.background }
+            />
 
-        <Text style={{
-              fontSize:20,
-              fontWeight:"400",
-              marginBottom:5,
-        }}> Power Rates </Text>
-        <TextInput
-        placeholder="(Dollars per Killowatt-Hour) Ex: .98"
-        keyboardType="decimal-pad"
-        style={{
-        backgroundColor:Colors.secondary.NYANZA,
-        height:32,
-        marginBottom:12,
-        }}
-        onChangeText={text=>text?setRate(text): 0}
-        />
-        </View>
-        </View>
-        <View style={{
-        justifyContent:'center',
-        flexDirection:"row",
-        }}>
-        <View style={{width:'50%'}}>
-        <Button
-        title="Previous Question"
-        color={Colors.primary.MINT}
-        onPress={() =>
-        navigation.goBack()
-        }
-        />
-        </View>
-        <View style={{width:'50%'}}>
-        <Button
-        title="Next Question"
-        color={Colors.primary.MINT}
-        onPress={() =>
-        navigation.navigate('q4',{
-            foodScore:foodScore,
-            homeScore:homeScore,
-        })
-        }
-        />
-        </View>
-        </View>
+            <View style={{position: 'absolute', top: 32, left: 10}}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name='chevron-back-outline' size={36} color='black' />
+                </TouchableOpacity>
+            </View>
+
+            <View style={q_styles.questionnaire_container}>
+                <Text style={{...q_styles.question_text, fontSize: 18, marginHorizontal: 24, marginBottom: 24}}>
+                    {`Heating and cooling in a household\naccounts for 43% of energy usage\nin U.S. homes.`}
+                </Text>
+                <Text style={{...q_styles.question_text, fontSize: 18, marginHorizontal: 24}}>
+                    (Optional) Provide your monthly average electricity bill and
+                    your electricity rates.
+                </Text>
+
+                <View>
+                    <Text style={q_styles.text_input_header}>Electricity Bill ($)</Text>
+                    <TextInput
+                        placeholder="Ex: $60.07"
+                        style={q_styles.text_input}
+                        keyboardType="decimal-pad"
+                        onChangeText={text=>text ? setBill(text): 0}
+                    />
+
+                    <Text style={q_styles.text_input_header}>Power Rates ($/kW h)</Text>
+                    <TextInput
+                        placeholder="Ex: 0.98 kW h"
+                        keyboardType="decimal-pad"
+                        style={q_styles.text_input}
+                        onChangeText={text=>text?setRate(text): 0}
+                    />
+                </View>
+            </View>
+
+            <View style={q_styles.cta_container}>
+                <TouchableOpacity
+                    style={q_styles.cta_button}
+                    onPress={() =>{
+                        navigation.navigate('q4',{
+                            foodScore:foodScore,
+                            homeScore:homeScore,
+                        })
+                    }}
+                >
+                    <Text style={q_styles.cta_text}>Next Question</Text>
+                </TouchableOpacity>
+            </View>
         </>
     )
 }

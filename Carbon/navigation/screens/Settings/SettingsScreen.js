@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView, Image, Pressable, Animated } from 'react-native';
+import { View, Text, Button, StyleSheet, ScrollView, Image, Pressable, Animated, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import UsernameInput from '../../../components/UsernameInput';
 import PasswordInput from '../../../components/PasswordInput';
@@ -15,7 +15,8 @@ import { getToken } from '../../../util/LoginManager';
 import Svg, { Defs, Rect }  from 'react-native-svg';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LoadingIndicator from '../../../components/LoadingIndicator';
-
+import CalculationsButton from '../../../components/CalculationsButton';
+import { ScreenNames } from '../Main/ScreenNames';
 const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
 
 const USER_API = API_URL + 'user/';

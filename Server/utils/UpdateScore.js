@@ -46,7 +46,7 @@ async function UpdateScore(ID) {
 
 
     //shorthand
-    let goal_bonus = calculateGoalBonus(user.goal);
+    let goal_bonus = calculateGoalBonus(user.goal, emission_entries);
     let score_offset = 0; 
     let login_bonus = 0.10; 
     let newScores = [user.global_score, user.transport_score, user.lifestyle_score, user.diet_score, user.home_score];

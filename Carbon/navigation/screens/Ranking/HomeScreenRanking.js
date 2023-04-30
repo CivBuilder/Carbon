@@ -21,5 +21,11 @@ export default function HomeScreenRanking() {
       <MiniRanking userScores={userScores} rankCategory={rankCategory} />
       <LoadingIndicator loading={loading} />
     </View>
-  );
-};
+  )
+
+}
+
+
+
+
+

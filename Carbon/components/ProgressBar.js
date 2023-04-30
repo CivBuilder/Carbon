@@ -2,7 +2,7 @@ import { View, StyleSheet, Animated, Dimensions, Text } from 'react-native';
 import React from 'react';
 import { Colors } from '../styling/Colors.js';
 import { useEffect } from 'react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 const {width} = Dimensions.get('window');
 

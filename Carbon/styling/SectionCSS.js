@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { Colors } from "./Colors";
 
 export const SectionCSS = StyleSheet.create({

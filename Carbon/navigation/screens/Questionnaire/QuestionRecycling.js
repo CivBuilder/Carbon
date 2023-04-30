@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text,Button} from 'react-native';
+import {View, Text,Button, TouchableOpacity, ImageBackground} from 'react-native';
 import { Colors } from '../../../styling/Colors';
+import { q_styles } from './QuestionnaireStyle';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 /*
 Transport Screen
 TODO: Find a better way to transfer values to the last screen(instead of transferring between pages)
@@ -12,6 +14,8 @@ export default function RecycleScreen({navigation, route}) {
     const homeScore = route.params?.homeScore;
     const transportScore = route.params?.transportScore;
     const [lifestyleScore, setLifestyleScore] = useState(0);
+    const [nextPage, setNextPage] = useState("q5a");
+    const [buttonIndex, setButtonIndex] = useState(-1);
     //Updating progress bar (a.k.a the header)
     useEffect(()=>{
         navigation.setOptions({
@@ -30,73 +34,83 @@ export default function RecycleScreen({navigation, route}) {
     });
 
     return (
-            <>
-            <View
-                style={{
-                    flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: Colors.secondary.LIGHT_GREEN,
-                }}
-            >
-            <Text style={{
-                fontSize:20,
-                fontWeight:"400",
-                marginBottom:40,
-                paddingLeft:"8%",
-                paddingRight:"6%",
-            }}>
-            Do you Recycle?
-            </Text>
-            <View style={{
-                width:"60%",
-            }}
-            >
-            <View style={{
-                marginBottom:12,
-            }}>
-            <Button
-                title="Yes"
-                onPress={()=>{
-                    navigation.navigate("q5a",{
-                    foodScore:foodScore,
-                    transportScore:transportScore,
-                    homeScore:homeScore,
-                    lifestyleScore:lifestyleScore,
-                    });
-                }}
-                color={Colors.secondary.LIGHT_MINT}
+        <>
+            <ImageBackground
+                source={require('../../../assets/questionnaire-background.png')}
+                style={ q_styles.background }
             />
+
+            <View style={{position: 'absolute', top: 32, left: 10}}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name='chevron-back-outline' size={36} color='black' />
+                </TouchableOpacity>
             </View>
-            <View style={{
-                marginBottom:12,
-            }}>
-            <Button
-                title ="No"
-                onPress={()=>{
-                    navigation.navigate("finished",{
-                        foodScore:foodScore,
-                        transportScore:transportScore,
-                        homeScore:homeScore,
-                        lifestyleScore:lifestyleScore,
-                    });
+
+            <View style={q_styles.questionnaire_container}>
+                <Text style={ q_styles.question_text}>
+                    Are you in the habit of recycling?
+                </Text>
+
+                <View style={{
+                    width:"60%",
                 }}
-                color={Colors.secondary.LIGHT_MINT}
-            />
+                >
+                    <View style={q_styles.button_container}>
+                        <TouchableOpacity
+                            style={{
+                                ...q_styles.answer_button,
+                                backgroundColor: buttonIndex === 0 ? Colors.primary.MINT : 'white',
+                                borderColor: buttonIndex === 0 ? Colors.primary.MINT : Colors.primary.GRAY,
+                            }}
+                            onPress={()=>{
+                                setButtonIndex(0);
+                                setNextPage("q5a");
+                            }}
+                        >
+                            <Text style={q_styles.answer_text}>Yes</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={q_styles.button_container}>
+                        <TouchableOpacity
+                            style={{
+                                ...q_styles.answer_button,
+                                backgroundColor: buttonIndex === 1 ? Colors.primary.MINT : 'white',
+                                borderColor: buttonIndex === 1 ? Colors.primary.MINT : Colors.primary.GRAY,
+                            }}
+                            onPress={()=>{
+                                setButtonIndex(1);
+                                setNextPage("finished");
+                            }}
+                        >
+                            <Text style={q_styles.answer_text}>No</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             </View>
+
+            <View style={q_styles.cta_container}>
+                {buttonIndex >= 0 ? (
+                    <TouchableOpacity
+                        style={q_styles.cta_button}
+                        onPress={() =>{
+                            navigation.navigate(nextPage,{
+                                foodScore:foodScore,
+                                transportScore:transportScore,
+                                homeScore:homeScore,
+                                lifestyleScore:lifestyleScore,
+                            })
+                        }}
+                    >
+                        <Text style={q_styles.cta_text}>
+                            {buttonIndex === 0 && "Next Question"}
+                            {buttonIndex === 1 && "See My Results"}
+                        </Text>
+                    </TouchableOpacity>
+                ) : (
+                    null
+                )}
             </View>
-            </View>
-            <View style={{
-                justifyContent:'center',
-            }}>
-            <Button
-            title="Previous Question"
-            color={Colors.primary.MINT}
-            onPress={() =>
-                navigation.goBack()
-            }
-            />
-            </View>
-            </>
-        )
+        </>
+    )
 }
