@@ -150,7 +150,7 @@ export const getSelectedLabel = (selectedSlice, data) => {
         }
 **/
 export const CategoryBreakdown = ({navigation, refreshing, setRefreshing}) => {
-    console.log(refreshing)
+    // console.log(refreshing)
     // State variables
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);

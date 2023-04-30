@@ -19,7 +19,7 @@ export const saveGoalToDatabase = async (goal) => {
         body: JSON.stringify({ goal: goal })
     })
         .then(response => response.text())
-        .then(data => console.log(data))
+        // .then(data => console.log(data))
         .catch(error => console.error(error));
 };
 

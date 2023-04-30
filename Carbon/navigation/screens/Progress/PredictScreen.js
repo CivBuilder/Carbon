@@ -49,7 +49,7 @@ export default function PredictScreen({ navigation, route }) {
 
     async function postResults() {
         try {
-            console.log("trying to post")
+            // console.log("trying to post")
             setEmissionsEntry({
                 transport_emissions: data[0],
                 total_emissions: data[4],
@@ -68,7 +68,7 @@ export default function PredictScreen({ navigation, route }) {
             });
             //exit screen on successful request
             if (response.status === 200) {
-                console.log("Successful Post!");
+                // console.log("Successful Post!");
                 navigation.goBack();
             }
             //if second post for the day - alert and also go back

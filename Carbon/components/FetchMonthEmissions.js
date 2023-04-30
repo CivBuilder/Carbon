@@ -44,7 +44,7 @@ export const FetchMonthEmissions = async (yearMonth) => {
 
     // Print out the data in a readable JSON format (for debugging)
     // console.log(`FetchMonthEmissions (data):\n\t${JSON.stringify(data)}`);
-    console.log('FetchMonthEmissions: Fetching complete!');
+    // console.log('FetchMonthEmissions: Fetching complete!');
 
     // Return the data
     return data;
@@ -52,7 +52,7 @@ export const FetchMonthEmissions = async (yearMonth) => {
   }
   catch (error) {
     // Log any errors and rethrow them
-    console.error(`FetchMonthEmissions (error):\n\t${error}`);
+    // console.error(`FetchMonthEmissions (error):\n\t${error}`);
     throw error;
   }
 };

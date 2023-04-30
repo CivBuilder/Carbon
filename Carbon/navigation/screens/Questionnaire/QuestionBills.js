@@ -102,9 +102,9 @@ export default function BillScreen({ navigation, route }) {
             let userScore = homeElec(bill / rate / 1000)
             userPerformance = userScore / aveAnnualHomeEmissions.homePowerEmissions
         }
-        console.log("Rate:", rate)
-        console.log("Bill:", bill)
-        console.log("User Performance", userPerformance)
+        // console.log("Rate:", rate)
+        // console.log("Bill:", bill)
+        // console.log("User Performance", userPerformance)
 
         setHomeScore(mapScore(userPerformance))
     }

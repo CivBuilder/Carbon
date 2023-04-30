@@ -26,9 +26,9 @@ const finishedQuestionnaire = async () => {
         const response = await fetch(API_URL + 'user/finish-questionnaire/', requestOptions);
         // console.log(JSON.stringify(response));
         if (response.status === 200) {
-            console.log("Finished Questionnaire");
+            // console.log("Finished Questionnaire");
         } else {
-            console.log("Failed to finish questionnaire");
+            // console.log("Failed to finish questionnaire");
         }
     } catch (error) {
         console.error(error);
@@ -56,7 +56,7 @@ export default function FinishedScreen({ navigation, route }) {
 
     const updateSustainability = async () => {
         try {
-            console.log("Updating sustainability score");
+            // console.log("Updating sustainability score");
             const response = await fetch(API_URL + 'user/questionnaire', {
                 method: 'PUT',
                 headers: {
@@ -67,10 +67,10 @@ export default function FinishedScreen({ navigation, route }) {
             });
 
             if (response.status === 200) {
-                console.log("Updated sustainability score");
+                // console.log("Updated sustainability score");
             } else {
-                console.log("Failed to update sustainability score");
-                console.log(await response.text());
+                // console.log("Failed to update sustainability score");
+                // console.log(await response.text());
             }
         } catch (error) {
             console.log(error);

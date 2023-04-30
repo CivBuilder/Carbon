@@ -101,10 +101,10 @@ const RecordTransportation = ({ navigation, route }) => {
 
   //Update our parameter to send back when the consumption state variable changes 
   useEffect(() => {
-    console.log(milesTraveled)
+    // console.log(milesTraveled)
     if(milesTraveled !== null && selectedValue !== null) {
       let transporation_emission = calcMilesTraveled();
-      console.log("transport_emissions: " + transporation_emission);
+      // console.log("transport_emissions: " + transporation_emission);
       setEmissionsEntry({
         ...route.params.sentEmissionsEntry,
         transport_emissions: transporation_emission

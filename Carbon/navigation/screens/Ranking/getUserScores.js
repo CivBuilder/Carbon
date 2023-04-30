@@ -11,7 +11,7 @@ const API_Entry_RANK_URL = API_URL + "user/rank/";
  */
 export default async function getUserScores(setUserScores, setLoading, setErrorMessage) {
   setLoading(true);
-  console.log(`Fetching from ${API_Entry_RANK_URL}`);
+  // console.log(`Fetching from ${API_Entry_RANK_URL}`);
 
   //Get result from Server via Fetch
   try {
@@ -23,7 +23,7 @@ export default async function getUserScores(setUserScores, setLoading, setErrorM
     if (response.status === 200) {
       const response_content = await response.json();
       setUserScores(response_content);
-      console.log(`Fetch from ${API_Entry_RANK_URL} was a success!`);
+      // console.log(`Fetch from ${API_Entry_RANK_URL} was a success!`);
       setErrorMessage(null);
     }
     //Handle Error thrown from Server
@@ -35,7 +35,7 @@ export default async function getUserScores(setUserScores, setLoading, setErrorM
   catch (err) {
     setUserScores(null);
     setErrorMessage(`Fetch from ${API_Entry_RANK_URL} Failed: ${err.message}`);
-    console.log(`Fetch from ${API_Entry_RANK_URL} Failed: ${err.message}`);
+    // console.log(`Fetch from ${API_Entry_RANK_URL} Failed: ${err.message}`);
   }
   setLoading(false);
 }

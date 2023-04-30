@@ -62,7 +62,7 @@ const RecordFood = ({ navigation, route }) => {
   // Call setTotalConsumption when the consumption state variables change
   useEffect(() => {
     const newTotalConsumption = calcConsumption();
-    console.log('total consumption: ', newTotalConsumption, 'lbs')
+    // console.log('total consumption: ', newTotalConsumption, 'lbs')
     setTotalConsumption(newTotalConsumption);
   }, [beefConsumption, cheeseConsumption, porkConsumption, poultryConsumption]);
 

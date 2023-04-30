@@ -22,7 +22,7 @@ export default function RecordEmissionScreen({ navigation, route }) {
   //But we get warnings about possible bugs, so we're passing by value and not changing state.
   useEffect(() => {
     if (route.params?.returningEmissionsEntry && route.params !== undefined) {
-      console.log(route.params.returningEmissionsEntry)
+      // console.log(route.params.returningEmissionsEntry)
       setEmissionsEntry(route.params.returningEmissionsEntry);
     }
   }, [route.params]);
@@ -49,7 +49,7 @@ export default function RecordEmissionScreen({ navigation, route }) {
       });
       //exit screen on successful request
       if (response.status === 200) {
-        console.log("Successful Post!");
+        // console.log("Successful Post!");
         navigation.goBack();
       }
       //Alert on bad request - should only see on testing 

@@ -49,7 +49,7 @@ export async function login(username, password) {
         );
 
         if (response.status != 200) {
-            console.log(response.status);
+            // console.log(response.status);
             alert('Login failed, please try again.');
             return false;
         }
@@ -81,7 +81,7 @@ export async function changeUsername(username) {
         body: JSON.stringify({ username: username })
     })
         .then(response => response.text())
-        .then(data => console.log(data))
+        // .then(data => console.log(data))
         .catch(error => alert(error));
 }
 
@@ -149,7 +149,7 @@ export async function signup(username, email, password, confirm) {
 }
 
 export async function logout() {
-    console.log("Logging out");
+    // console.log("Logging out");
     await AsyncStorage.clear();
     renderCallback(await getToken());
 }
@@ -226,7 +226,7 @@ export async function changePassword(oldPassword, newPassword) {
         body: JSON.stringify({ oldPassword: oldPassword, newPassword: newPassword })
     })
         .then(response => response.text())
-        .then(data => console.log(data))
+        // .then(data => console.log(data))
         .catch(error => alert(error));
 }
 

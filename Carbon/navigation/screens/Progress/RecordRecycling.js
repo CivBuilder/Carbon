@@ -91,7 +91,7 @@ const RecordRecycling = ({ navigation, route }) => {
   //update the total recycled when the state variables change
   useEffect(() => {
     const newTotalRecycled = calcRecycled();
-    console.log('total recycled: ', newTotalRecycled, 'lbs')
+    // console.log('total recycled: ', newTotalRecycled, 'lbs')
     setRecycledAmount(newTotalRecycled);
   }, [paperAmount, plasticAmount, glassAmount, metalAmount]);
 
