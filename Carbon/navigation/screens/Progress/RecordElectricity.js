@@ -75,11 +75,14 @@ const RecordElectricity = ({ navigation, route }) => {
             placeholder='kW⋅h'
             style={styles.text_input}
             keyboardType="numeric"
-            onChangeText={electricity => electricity ? setElectricityUsage(electricity) : 0}
+            onChangeText={(electricity) => setElectricityUsage(electricity.length > 0 ? electricity : 0)}
           />
+
+        {(electricityUsage.length > 0) && (parseFloat(electricityUsage)) > 0 && (
           <TouchableOpacity testID='save-button' style={styles.button} onPress={() => validateElectricityEntry(electricityUsage) ? navigation.navigate(ScreenNames.RECORD_EMISSION, { returningEmissionsEntry: emissionsEntry }) : alert('Please enter a number between 0 and 100.')}>
             <Text style={styles.buttonText}>Save & Return</Text>
           </TouchableOpacity>
+        )}
         </View>
       </View>
     </ScrollView>
