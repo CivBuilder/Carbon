@@ -1,17 +1,10 @@
 import * as React from 'react';
-import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text, Platform, RefreshControl, TouchableOpacity } from 'react-native';
+import { View, SafeAreaView, ScrollView, StyleSheet, Text, Platform } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { CategoryBreakdown } from './CategoryBreakdown';
-import RecordEmission from './RecordEmission';
 import Log from '../Progress/Log';
 import NetEmissions from './NetEmissions';
 import { Section } from '../../../components/Section';
-import { useRef } from 'react';
-import { Ionicons } from '@expo/vector-icons';
-
-
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 const margin = 12;
 
 export default function ProgressScreen({ navigation }) {
