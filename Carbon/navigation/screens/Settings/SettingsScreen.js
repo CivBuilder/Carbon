@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
 
     content: {
         width: 300,
-        marginTop: 36,
+        marginTop: 20,
         marginBottom: 10,
     },
 
