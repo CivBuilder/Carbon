@@ -14,6 +14,7 @@
     "jsonwebtoken": "^9.0.0",
     "moment": "^2.29.4",
     "morgan": "~1.9.1",
+    "mysql2": "^3.1.2",
     "nodemon": "^2.0.21",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
