@@ -112,7 +112,7 @@ export default function ForumScreen({navigation, params}) {
                     height: 200
                 }}
             >
-                <TouchableOpacity style={{ 
+                <TouchableOpacity testID={'opacity' + item.type} style={{ 
                     alignItems: 'center',
                     justifyContent: 'center',
                     height: '100%'
