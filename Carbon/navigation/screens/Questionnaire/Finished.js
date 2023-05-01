@@ -46,28 +46,31 @@ export default function FinishedScreen({ navigation, route }) {
     const homeScore = route.params?.homeScore;
     const awarenessScore = (transportScore + foodScore + homeScore) / 3;
 
-    const questionanaireBody = {
-        'transport_score': transportScore,
+    const questionnaireBody = {
+        'transport_score': transportScore*100,
         'lifestyle_score': 50,
-        'food_score': foodScore,
-        'home_score': foodScore,
-        'awareness_score': awarenessScore,
+        'food_score': foodScore*100,
+        'home_score': foodScore*100,
+        'awareness_score': awarenessScore*100,
     }
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    const sustainability_score = Math.floor(Object.values(questionnaireBody).reduce(reducer)*0.02); // same sustainability score function 
 
     const updateSustainability = async () => {
         try {
-            // console.log("Updating sustainability score");
+            console.log("Updating sustainability score");
+            console.log(questionnaireBody);
             const response = await fetch(API_URL + 'user/questionnaire', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'secrettoken': await getToken()
                 },
-                body: JSON.stringify(questionanaireBody)
+                body: JSON.stringify(questionnaireBody)
             });
 
             if (response.status === 200) {
-                // console.log("Updated sustainability score");
+                console.log("Updated sustainability score");
             } else {
                 // console.log("Failed to update sustainability score");
                 // console.log(await response.text());
@@ -77,8 +80,8 @@ export default function FinishedScreen({ navigation, route }) {
         }
     }
 
-    const scoreCategory = SustainabilityScoreProfileView[mapScoreCategory(awarenessScore)].title;
-    const scorePicture = SustainabilityScoreProfileView[mapScoreCategory(awarenessScore)].picture;
+    const scoreCategory = SustainabilityScoreProfileView[sustainability_score].title;
+    const scorePicture = SustainabilityScoreProfileView[sustainability_score].picture;
 
     const [bestScore, setBestScore] = useState("");
     const [worstScore, setWorstScore] = useState("");
