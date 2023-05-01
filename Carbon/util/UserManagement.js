@@ -65,7 +65,9 @@ export async function login(username, password) {
 export async function changeUsername(username) {
     if (!validateUsername(username)) {
         alert("Does not meet requirements:\n\n" +
-            "- Must be between 3-30 characters long\n" +
+
+            "- Must be between 3-20 characters long\n" +
+
             "- Must not contain profanity\n" +
             "- Must not contain special characters\n" +
             "- Must not contain spaces")
@@ -93,6 +95,11 @@ export async function signup(username, email, password, confirm) {
 
     if (username === "" || email === "" || password === "" || confirm === "") {
         alert("Please fill out all fields.");
+        return false;
+    }
+
+    if (!validateUsername(username)) {
+        alert("Please enter a valid username");
         return false;
     }
 
@@ -143,11 +150,12 @@ export async function signup(username, email, password, confirm) {
         }
     );
 
+    console.log(await result.text());
     if (result.status == 200) {
         await login(email, password);
         await changeUsername(username);
     } else {
-        alert('Username already taken');
+        alert('Username/Email already taken');
         return false;
     }
 
@@ -191,8 +199,10 @@ export function validateUsername(username) {
         return false;
     }
 
-    // Check for length (minimum 3 characters, maximum 30)
-    if (username.length < 3 || username.length > 30) {
+
+    // Check for length (minimum 3 characters, maximum 20)
+    if (username.length < 3 || username.length > 20) {
+
         return false;
     }
 
