@@ -20,3 +20,11 @@ export const EmissionCategory = {
         id : 4,
     }
 }
+
+export const ListTabIDs = {
+    PLAYERS_LIKE_YOU : 0, 
+    TOP_PLAYERS : 1, 
+    WORST_PLAYERS : 2,
+} 
+  
+  

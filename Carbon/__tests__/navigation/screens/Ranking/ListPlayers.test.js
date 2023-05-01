@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import ListPlayers from "../../../../navigation/screens/Ranking/ListPlayers"
-import { EmissionCategory as EC } from '../../../../navigation/screens/Ranking/EmissionScoreCategory';
+import { EmissionCategory as EC } from '../../../../navigation/screens/Ranking/Categories';
 
 describe('ListPlayers component', () => {
   const table = [

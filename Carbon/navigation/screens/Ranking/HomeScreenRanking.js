@@ -4,7 +4,7 @@ import {View} from 'react-native'
 import LoadingIndicator from "../../../components/LoadingIndicator";
 import getUserScores from './getUserScores';
 import MiniRanking from './RankingMiniView';
-import { EmissionCategory } from './EmissionScoreCategory';
+import { EmissionCategory } from './Categories';
 
 
 export default function HomeScreenRanking() {

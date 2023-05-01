@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import { EmissionCategory as EC } from '../../../../navigation/screens/Ranking/EmissionScoreCategory';
+import { EmissionCategory as EC } from '../../../../navigation/screens/Ranking/Categories';
 import RankCategoryOverlay from '../../../../navigation/screens/Ranking/RankCategoryOverlay';
 
 const MockSetEmission = jest.fn(x=>0);

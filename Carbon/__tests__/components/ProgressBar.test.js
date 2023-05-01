@@ -10,7 +10,7 @@ describe('RankProgressBar', () => {
 
     expect(barContainer).toBeDefined();
     expect(progressText.props.children).toEqual([1, " "]);
-    expect(totalText.props.children).toEqual(["/ ", 2]);
+    expect(totalText.props.children).toEqual(2);
 
   });
 
@@ -23,7 +23,7 @@ describe('RankProgressBar', () => {
 
     expect(AnimatedProgressBar).toBeDefined(); 
     expect(progressText.props.children).toEqual([1, " "]);
-    expect(totalText.props.children).toEqual(["/ ", 0]);
+    expect(totalText.props.children).toEqual(0);
 
   });
 
@@ -37,7 +37,7 @@ describe('RankProgressBar', () => {
 
     expect(AnimatedProgressBar).toBeDefined(); 
     expect(progressText.props.children).toEqual([0, " "]);
-    expect(totalText.props.children).toEqual(["/ ", 0]);
+    expect(totalText.props.children).toEqual(0);
     
   });
 
