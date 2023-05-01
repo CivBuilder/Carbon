@@ -67,7 +67,7 @@ const CategoryHeader = (props) => {
   const {id, title, emission, percentage} = props;
 
   return (
-    <TouchableOpacity onPress={toggleExpand} style={styling.category}>
+    <TouchableOpacity onPress={toggleExpand} style={styling.category} testID='expand-button'>
       {/* Emission Category Title */}
       <View style={styling.title}>
         <Ionicons name={"ellipse"} size={13} style={{ marginEnd: 7, marginTop: 1, color: colorScale[id] }} />

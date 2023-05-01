@@ -17,6 +17,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import LoadingIndicator from '../../../components/LoadingIndicator';
 import CalculationsButton from '../../../components/CalculationsButton';
 import { ScreenNames } from '../Main/ScreenNames';
+
 const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
 
 const USER_API = API_URL + 'user/';

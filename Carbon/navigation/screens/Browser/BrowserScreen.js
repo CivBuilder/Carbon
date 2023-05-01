@@ -3,14 +3,6 @@ import {WebView} from 'react-native-webview'
 import { API_URL } from '../../../config/Api';
 import{ View, TouchableOpacity, Text} from 'react-native'
 
-const BackButton = ({navigation}) =>
-<TouchableOpacity onPress={() => {
-    navigation.goBack()
-}}>
-    <Text>&lt; Back</Text>
-</TouchableOpacity>
-
-
 const BrowserScreen = ({navigation, route}) => {
 
     const[articleLink, setArticleLink] = useState('');
