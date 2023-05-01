@@ -1,5 +1,6 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Colors } from '../../../styling/Colors';
 import { React, useCallback, useEffect } from 'react';
 import { ScreenNames } from '../Main/ScreenNames';
@@ -7,6 +8,7 @@ import { useState } from 'react';
 import { API_URL } from '../../../config/Api';
 import { getToken } from '../../../util/UserManagement';
 export default function RecordEmissionScreen({ navigation, route }) {
+  const [showModal, setShowModal] = useState(false);
 
   //Default value for the final submission that we post to the server
   const [emissionsEntry, setEmissionsEntry] = useState({
@@ -73,20 +75,20 @@ export default function RecordEmissionScreen({ navigation, route }) {
         <TouchableOpacity style={styles.categoryTile} onPress={() => {
           navigation.navigate(ScreenNames.FOOD, { sentEmissionsEntry: emissionsEntry })
         }}>
-          <Icon name="cutlery" size={40} color={Colors.secondary.DARK_MINT} style={styles.icon} testID="cutlery-icon" />
+          <Icon name="cutlery" size={36} color={Colors.secondary.DARK_MINT} style={styles.icon} testID="cutlery-icon" />
           <Text style={styles.categoryText}>Diet</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.categoryTile} onPress={() => {
           navigation.navigate(ScreenNames.TRANSPORTATION, { sentEmissionsEntry: emissionsEntry })
         }}>
-          <Icon name="car" size={40} color={Colors.secondary.DARK_MINT} style={styles.icon} testID="car-icon" />
+          <Icon name="car" size={36} color={Colors.secondary.DARK_MINT} style={styles.icon} testID="car-icon" />
           <Text style={styles.categoryText}>Transportation</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.categoryTile} onPress={() => {
             navigation.navigate(ScreenNames.ELECTRICITY, {sentEmissionsEntry : emissionsEntry})
         }}>
-          <Icon name="plug" size={40} color={Colors.secondary.DARK_MINT} style={styles.icon} testID="electricity-icon" />
-          <Text style={styles.categoryText}>Electricity</Text>
+          <Ionicons name="home-sharp" size={40} color={Colors.secondary.DARK_MINT} style={styles.icon} testID="electricity-icon" />
+          <Text style={styles.categoryText}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.categoryTile} onPress={() => {
           navigation.navigate(ScreenNames.RECYCLING, { sentEmissionsEntry: emissionsEntry })
@@ -94,15 +96,102 @@ export default function RecordEmissionScreen({ navigation, route }) {
           <Icon name="recycle" size={40} color={Colors.secondary.DARK_MINT} style={styles.icon} testID="recycle-icon" />
           <Text style={styles.categoryText}>Recycling</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.saveView}
-          onPress={() => { postResults() }}
+          onPress={() => { setShowModal(true) }}
           testID="save-and-exit-icon"
         >
           <Icon name="cloud-upload" size={40} style={styles.saveIcon} />
           <Text style={styles.saveText}>Save Daily Emissions</Text>
         </TouchableOpacity>
       </View>
+
+      {showModal && (
+        <Modal
+            isVisible={showModal}
+            animationType="fade"
+            animationInTiming={1000}
+            animationOutTiming={1000}
+            transparent={true}
+        >
+            <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.5)", justifyContent: 'center' }}>
+                <TouchableOpacity onPress={() => setShowModal(false)} />
+                <View
+                    style={{
+                        borderRadius: 18,
+                        backgroundColor: 'white',
+                        padding: 22,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        marginHorizontal: 12,
+                    }}
+                >
+                  <Text style={{ fontSize: 20, textAlign:'center' }}>
+                    Are you sure you want to save these as your daily emissions?
+                  </Text>
+
+                  <View style={{width:'90%', marginVertical:24}}>
+                    <View style={{ flexDirection: 'row', width: '100%', marginTop: 12 }}>
+                      <Text style={[styles.modal_category_text, { flex: 1 }]}>Diet:</Text>
+                      <Text style={[styles.modal_category_value, { flex: 0, textAlign: 'right' }]}>
+                        {emissionsEntry.diet_emissions} lbs {`CO\u2082`}
+                      </Text>
+                    </View>
+
+                    <View style={{ flexDirection: 'row', width: '100%', marginTop: 12 }}>
+                      <Text style={[styles.modal_category_text, { flex: 1 }]}>Transportation:</Text>
+                      <Text style={[styles.modal_category_value, { flex: 0, textAlign: 'right' }]}>
+                        {emissionsEntry.transport_emissions} lbs {`CO\u2082`}
+                      </Text>
+                    </View>
+
+                    <View style={{ flexDirection: 'row', width: '100%', marginTop: 12 }}>
+                      <Text style={[styles.modal_category_text, { flex: 1 }]}>Electricity:</Text>
+                      <Text style={[styles.modal_category_value, { flex: 0, textAlign: 'right' }]}>
+                        {emissionsEntry.home_emissions} lbs {`CO\u2082`}
+                      </Text>
+                    </View>
+
+                    <View style={{marginTop: 6, height:2, backgroundColor:'gray'}}/>
+
+                    <View style={{height:2, backgroundColor:''}}/>
+                    <View style={{ flexDirection: 'row', width: '100%', marginTop: 12 }}>
+                      <Text style={[styles.modal_category_text, { flex: 1, fontWeight:'600' }]}>Gross Total:</Text>
+                      <Text style={[styles.modal_category_value, { flex: 0, textAlign: 'right', fontWeight:'600'}]}>
+                        {emissionsEntry.diet_emissions + emissionsEntry.transport_emissions + emissionsEntry.home_emissions} lbs {`CO\u2082`}
+                      </Text>
+                    </View>
+
+                    <View style={{ flexDirection: 'row', width: '100%', marginTop: 6 }}>
+                      <Text style={[styles.modal_category_text, { flex: 1 }]}>Recycling:</Text>
+                      <Text style={[styles.modal_category_value, { flex: 0, textAlign: 'right' }]}>
+                        - {emissionsEntry.lifestyle_emissions} lbs {`CO\u2082`}
+                      </Text>
+                    </View>
+
+                    <View style={{marginTop: 6, height:2, backgroundColor:'gray'}}/>
+
+                    <View style={{ flexDirection: 'row', width: '100%', marginTop: 12 }}>
+                      <Text style={[styles.modal_category_text, { flex: 1, fontWeight:'600' }]}>Net Total:</Text>
+                      <Text style={[styles.modal_category_value, { flex: 0, textAlign: 'right', fontWeight:'600'}]}>
+                        {emissionsEntry.diet_emissions + emissionsEntry.transport_emissions + emissionsEntry.home_emissions - emissionsEntry.lifestyle_emissions} lbs {`CO\u2082`}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <View style={{flexDirection: 'row', marginTop: 6}}>
+                      <TouchableOpacity style={{borderRadius:12, borderWidth:2, borderColor:'#db2525', paddingVertical:6, width:120, marginRight: 24}} onPress={() => setShowModal(false)}>
+                          <Text style={{ fontSize: 20, textAlign:'center', color: '#db2525' }}>No</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={{ borderRadius:12, backgroundColor: '#74C69D', paddingVertical:6, width:120, marginLeft: 24,}} onPress={() => { postResults(); setShowModal(false) }}>
+                          <Text style={{ fontSize: 20, textAlign:'center', color: Colors.primary.MINT_CREAM }}>Yes</Text>
+                      </TouchableOpacity>
+                  </View>
+                </View>
+            </View>
+        </Modal>
+      )}
     </View>
     </ScrollView>
   )
@@ -173,5 +262,13 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: 20,
     color: Colors.primary.MINT,
+  },
+  modal_category_text: {
+    fontSize: 18,
+    color: Colors.primary.RAISIN_BLACK,
+  },
+  modal_category_value: {
+    fontSize: 18,
+    color: Colors.primary.RAISIN_BLACK,
   },
 })

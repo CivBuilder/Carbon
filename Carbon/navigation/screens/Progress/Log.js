@@ -16,38 +16,57 @@ import { faWindowRestore } from "@fortawesome/free-regular-svg-icons";
 const windowHeight = Dimensions.get("window").height;
 
 
-export default function Log({ navigation }) {
+export default function Log({ navigation, refreshing, setRefreshing }) {
     const whichLog = ["Today's", "Yesterday's", "Weekly", "Monthly"]; //String list for displaying
     const [number, setNumber] = useState(0);  //A state hook to set which area we are time frame we look at. 
     //0 = "Today", 1= "Yesterday's" etc etc.
     const [twoDdata, loadArr] = useState(null);
     const [data, setArray] = useState(null);
+    const [initialStart, setInitialStart] = useState(true);
+    const [loading, setLoading] = useState(false);
+
     //Get our data from getData This will effectively 
     useEffect(() => {
         //Wait for get Data
         async function callGetData() {
-       
-            try {
-                const retData = await GetData(); //put the data here and set the array
-                loadArr(retData); //Sets the 2d array to be in twoDdata
-                setArray(retData[0]); //as well as setting the specific look at to be index 0
-            }
-            catch (error) {
-                console.log(error);
+            if (refreshing || initialStart) {
+
+                try {
+                    setLoading(true);
+                    const retData = await GetData(); //put the data here and set the array
+                    loadArr(retData); //Sets the 2d array to be in twoDdata
+                    setArray(retData[0]); //as well as setting the specific look at to be index 0
+                    setLoading(false);
+                    setRefreshing(false);
+                    setInitialStart(false);
+                }
+                catch (error) {
+                    console.log(error);
+                }
             }
         }
         callGetData(); //Call the getdata through callGetData
-    }, []);
+    }, [initialStart, refreshing, setRefreshing]);
+
+
+    // Loading indicator shown if loading is true.
+    if (loading) {
+        return (
+            <LoadingIndicator loading={loading} />
+        );
+    }
+
+
     if (!data) {
         //ESSENTIALLY if it isnt loaded we return null
         return (
             <View style={{ backgroundColor: "white", borderRadius: 16, height: windowHeight / 2, padding: 10 }} >
-                    <LoadingIndicator loading={true} ></LoadingIndicator>
+                <LoadingIndicator loading={true} ></LoadingIndicator>
 
             </View>
         )
     }
-    async function Refresh()  {
+    async function Refresh() {
         // console.log("refresh")
         try {
             const retData = await GetData(); //put the data here and set the array
@@ -94,48 +113,31 @@ export default function Log({ navigation }) {
 
             <View style={styles.header}>
                 <View>
-                <Text style={styles.title}>{whichLog[number]} Log </Text>
-                <Text>{`Units: lbs/CO\u2082`}</Text>
+                    <Text style={styles.title}>{whichLog[number]} Log </Text>
+                    <Text>{`Units: lbs/CO\u2082`}</Text>
                 </View>
                 {/* Will display the log as well as some text next to it*/}
                 {/* Displays our units used */}
-                <TouchableOpacity
-                    testID="refresh-click"
-                    style={{
-                        backgroundColor: Colors.primary.MINT,
-                        borderRadius: 5,
-                        alignSelf: "center",
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        margin: margin,
-                        width: windowHeight / 20, // set the width to 50 pixels
-                        height: windowHeight / 20, // 
-                    }}
-                    onPress={Refresh}
-                >{/* Handle right*/}
-                    {/* more button formatting*/}
-                    <Ionicons name="refresh-outline" size={30} color="white"/>
-                </TouchableOpacity>
 
             </View>
             {/* <View style={styles.header}>
                 <Text style={{ alignSelf: 'center' }}>Units: lbs/CO2</Text>
             </View> */}
-            {/*Align things */ }
+            {/*Align things */}
 
-            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15,/*backgroundColor: Colors.primary.MINT*/ }}>
+            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10,/*backgroundColor: Colors.primary.MINT*/ }}>
                 {/* Implements the log itself from ChartData.js */}
                 {data.every((num) => num === 0) ? (
-                        <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: windowHeight / 10}}>
-                                <Text style={{ fontSize: 18 }}>Not enough data for {whichLog[number]} log.</Text>
-                                <TouchableOpacity testID="record-emission-button" onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION)}>
-                                    <View style={{ backgroundColor: Colors.primary.MINT, padding: 10, marginTop: 12, borderRadius: 12 }}>
-                                        <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 14 }}>Add Emissions</Text>
-                                    </View>
-                                </TouchableOpacity>
+                    <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: windowHeight / 10 }}>
+                        <Text style={{ fontSize: 18 }}>Not enough data for {whichLog[number]} log.</Text>
+                        <TouchableOpacity testID="record-emission-button" onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION)}>
+                            <View style={{ backgroundColor: Colors.primary.MINT, padding: 10, marginTop: 12, borderRadius: 12 }}>
+                                <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 14 }}>Add Emissions</Text>
                             </View>
-                
-                   
+                        </TouchableOpacity>
+                    </View>
+
+
                 ) : (
                     <DailyLog dataArray={data} ></DailyLog>
                 )}
@@ -153,7 +155,7 @@ export default function Log({ navigation }) {
                         margin: margin,
                     }}
                     testID="left-click"
-                    
+
                     onPress={handleChangeLeft}
                 >{/* handle left*/}
                     {/* More formatting*/}
@@ -176,8 +178,8 @@ export default function Log({ navigation }) {
                     <Ionicons name="chevron-forward" size={30} color='white'></Ionicons>
 
                 </TouchableOpacity>
-                
-              
+
+
 
             </View>
         </View >

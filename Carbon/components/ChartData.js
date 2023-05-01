@@ -90,7 +90,7 @@ const styleBar = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         backgroundGradientFrom: '#FFFFFF',
         backgroundGradientTo: '#FFFFFF',
-        decimalPlaces: 2, // optional, defaults to 2dp
+        decimalPlaces: 1, // optional, defaults to 2dp
         color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, //transparent
         labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
 
