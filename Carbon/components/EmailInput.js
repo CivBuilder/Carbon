@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     input: {
         height: 40,
         backgroundColor: 'white',
-        color: '#AFAFAF',
+        color: 'black',
         borderWidth: 2,
         borderColor: '#74C69D',
         borderTopLeftRadius: 20,
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
         fontSize: 16,
-        fontFamily: 'sans-serif',
+        // fontFamily: 'sans-serif',
         marginTop: 10,
         paddingLeft: 15,
     },

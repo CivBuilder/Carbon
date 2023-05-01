@@ -1,43 +1,55 @@
-import * as React from 'react';
-import { View, SafeAreaView, ScrollView, Dimensions, StyleSheet, Text, Platform, RefreshControl } from 'react-native';
+import React, { useState } from 'react';
+import { View, SafeAreaView, ScrollView, StyleSheet, Text, Platform, RefreshControl } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { CategoryBreakdown } from './CategoryBreakdown';
-import RecordEmission from './RecordEmission';
 import Log from '../Progress/Log';
 import NetEmissions from './NetEmissions';
+import GoalProgress from './GoalProgress';
 import { Section } from '../../../components/Section';
-import { useRef, useEffect } from 'react';
-
-
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
-const margin = 10;
+const margin = 12;
 
 export default function ProgressScreen({ navigation }) {
- 
+  const [refreshing, setRefreshing] = useState(false);
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+  };
+
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: '#F7FCF8', height: '100%' }}>
       <ScrollView
         contentContainerStyle={styles.scrollView}
-   
         showsHorizontalScrollIndicator={false}
         style={{ flexGrow: 1 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+        }
       >
-        {/* <View>
-                    <RecordEmission />
-                </View> */}
+
         {/* Category Breakdown */}
         <Section title="Category Breakdown">
-          <CategoryBreakdown navigation={navigation} />
+          <CategoryBreakdown navigation={navigation} refreshing={refreshing} setRefreshing={setRefreshing} />
         </Section>
-        {/* Log -- Will update styling and other things for this component soon :) */}
 
+        {/* Log -- Will update styling and other things for this component soon :) */}
+        <Text style={{
+          marginHorizontal: 12,
+          marginTop: 12,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          fontSize: 16,
+          fontWeight: '500',
+        }}>Category By Time</Text>
         <View style={styles.container}>
-          <Log navigation={navigation}></Log>
+          <Log navigation={navigation} refreshing={refreshing} setRefreshing={setRefreshing}></Log>
         </View>
 
         <Section title="Net Emissions">
-          <NetEmissions />
+          <NetEmissions refreshing={refreshing} setRefreshing={setRefreshing} />
+        </Section>
+        <Section title="Goal Progress">
+          <GoalProgress refreshing={refreshing} setRefreshing={setRefreshing} navigation={navigation}></GoalProgress>
         </Section>
       </ScrollView>
     </SafeAreaView>

@@ -1,38 +1,54 @@
-import { View, Text, StyleSheet, TextInput } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
+import { Ionicons } from '@expo/vector-icons';
+import React, {useState} from 'react'
 
 const PasswordInput = ({text, testID, onChangeText}) => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
+
+
   return (
-    <View>
+    <View style={styles.container}>
         <TextInput
           style={styles.input}
           placeholder={text}
           placeholderTextColor="#AFAFAF"
-          secureTextEntry={true}
+          secureTextEntry={!isPasswordVisible}
           testID={testID}
           onChangeText={onChangeText}
         />
+        <TouchableOpacity onPress={togglePasswordVisibility} style={styles.iconContainer}>
+          <Ionicons name={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'} size={24} color="#AFAFAF" />
+        </TouchableOpacity>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-    input: {
-        height: 40,
-        backgroundColor: 'white',
-        color: '#AFAFAF',
-        padding: 0,
-        borderWidth: 2,
-        borderColor: '#74C69D',
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
-        fontSize: 16,
-        fontFamily: 'sans-serif',
-        marginTop: 10,
-        paddingLeft: 15,
-    },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderColor: '#74C69D',
+    borderWidth: 2,
+    borderRadius: 20,
+    marginTop: 10,
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    color: 'black',
+    padding: 0,
+    fontSize: 16,
+    // fontFamily: 'sans-serif',
+    paddingLeft: 15,
+  },
+  iconContainer: {
+    paddingRight: 10,
+  },
 })
 
 export default PasswordInput

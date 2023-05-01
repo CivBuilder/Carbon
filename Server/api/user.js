@@ -81,16 +81,17 @@ Put User Questionnaire Results
 
 */
 
-router.put('/questionnaire/:id', async function (req, res, next) {
+router.put('/questionnaire', passport.authenticate('jwt', {session: false}), async function (req, res, next) {
     const user_entry = await user_table.findOne({
         where: {
-            id: req.params.id
+            id: req.user.id
         }
     });
     if (!user_entry) {
         console.log("Sending error code 404. No match found");
         return res.status(404).send(`404 : user with ${req.params.id} not found`);
     }
+    console.log(typeof req.body.transport_score, typeof req.body.lifestyle_score, typeof req.body.food_score);
     //Make sure body has a percentage for their score that was correct
     if (
         typeof req.body.transport_score != "number" ||
@@ -118,7 +119,7 @@ router.put('/questionnaire/:id', async function (req, res, next) {
 
     await user_table.update(
         { sustainability_score: sustainability_score_input },
-        { where: { id: req.params.id } }
+        { where: { id: req.user.id } }
     );
 
 

@@ -1,5 +1,5 @@
-import React, { useState, useEffect} from 'react';
-import { StatusBar, Image, TouchableOpacity, SafeAreaView, Text} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StatusBar, Image, TouchableOpacity, SafeAreaView, Text, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -12,7 +12,7 @@ import { API_URL } from '../../../config/Api';
 
 import { ScreenNames } from './ScreenNames';
 
-import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen, FoodScreen, TransportationScreen, RecyclingScreen, RecordEmissionScreen, PredictScreen} from '../../screens';
+import { HomeScreen, ProgressScreen, ForumScreen, RankingScreen, SettingsScreen, QuizScreen, BrowserScreen, GoalScreen, LoginScreen, SignUpScreen, FoodScreen, TransportationScreen, RecyclingScreen, RecordEmissionScreen, PredictScreen } from '../../screens';
 import StartScreen from '../Questionnaire/Start';
 import DietScreen from '../Questionnaire/QuestionDiet';
 import HouseholdScreen from '../Questionnaire/QuestionHousehold';
@@ -25,11 +25,12 @@ import FinishedScreen from '../Questionnaire/Finished';
 import RecycleScreen from '../Questionnaire/QuestionRecycling';
 import RecycleAmountScreen from '../Questionnaire/QuestionRecycleAmount';
 import AnimalDietScreen from '../Questionnaire/QuestionAnimalDiet';
-import { getAuthHeader, getToken, setRenderCallback } from '../../../util/LoginManager';
+import { getAuthHeader, getToken, setRenderCallback } from '../../../util/UserManagement';
 import { PopUpMenu } from '../../../components/PopUpMenu';
 import RankCategoryOverlay from '../Ranking/RankCategoryOverlay';
 import CalculationScreen from '../Settings/CalculationScreen';
-
+import LoadingIndicator from '../../../components/LoadingIndicator';
+import RecordElectricity from '../Progress/RecordElectricity';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -49,27 +50,28 @@ const Tab = createBottomTabNavigator();
 */
 
 const QuestionnaireStack = (props) => {
-    return(
-    <Stack.Navigator
-    initialRouteName="GetStarted"
-    >
-        <Stack.Screen name = "GetStarted" component={StartScreen}/>
-        <Stack.Screen name="q1" component={DietScreen} />
-        <Stack.Screen name="q1a" component={AnimalDietScreen}/>
-        <Stack.Screen name="q2" component={HouseholdScreen} />
-        <Stack.Screen name="q2a" component={BillScreen}/>
-        <Stack.Screen name="q4" component={TransportScreen}/>
-        <Stack.Screen name="q4a" component={VehicleTypeScreen}/>
-        <Stack.Screen name="q4b" component={MileageScreen}/>
-        <Stack.Screen name="q4c" component={PublicTransportScreen}/>
-        <Stack.Screen name="q5" component={RecycleScreen}/>
-        <Stack.Screen name="q5a" component={RecycleAmountScreen}/>
-        <Stack.Screen name="finished" component={FinishedScreen}
-            initialParams={{
-                setFinishedQuestionnaire: props.setFinishedQuestionnaire
-            }}
-        />
-    </Stack.Navigator>
+    return (
+        <Stack.Navigator
+            initialRouteName="GetStarted"
+        >
+            <Stack.Screen name="GetStarted" component={StartScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="q1" component={DietScreen} />
+            <Stack.Screen name="q1a" component={AnimalDietScreen} />
+            <Stack.Screen name="q2" component={HouseholdScreen} />
+            <Stack.Screen name="q2a" component={BillScreen} />
+            <Stack.Screen name="q4" component={TransportScreen} />
+            <Stack.Screen name="q4a" component={VehicleTypeScreen} />
+            <Stack.Screen name="q4b" component={MileageScreen} />
+            <Stack.Screen name="q4c" component={PublicTransportScreen} />
+            <Stack.Screen name="q5" component={RecycleScreen} />
+            <Stack.Screen name="q5a" component={RecycleAmountScreen} />
+            <Stack.Screen name="finished" component={FinishedScreen}
+                options={{ headerShown: false }}
+                initialParams={{
+                    setFinishedQuestionnaire: props.setFinishedQuestionnaire
+                }}
+            />
+        </Stack.Navigator>
     )
 }
 
@@ -111,6 +113,10 @@ const HomeStack = ({ navigation }) => {
             />
             <Stack.Screen name={ScreenNames.SETTINGS} component={SettingsScreen} />
             <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={RecordEmissionScreen} />
+            <Stack.Screen name={ScreenNames.FOOD} component={FoodScreen} />
+            <Stack.Screen name={ScreenNames.TRANSPORTATION} component={TransportationScreen} />
+            <Stack.Screen name={ScreenNames.RECYCLING} component={RecyclingScreen} />
+            <Stack.Screen name={ScreenNames.ELECTRICITY} component={RecordElectricity} />
             <Stack.Screen name={ScreenNames.CALCULATION_DETAILS} component={CalculationScreen} />
         </Stack.Navigator>
     );
@@ -130,17 +136,17 @@ const ProgressStack = ({ navigation }) => {
                     // },
                     headerTitleAlign: 'center',
                     headerRight: () => (
-                        <PopUpMenu navigation={navigation}/>
+                        <PopUpMenu navigation={navigation} />
                     ),
                 }}
             />
             <Stack.Screen name={ScreenNames.PREDICT} component={PredictScreen} />
             <Stack.Screen name={ScreenNames.ADD_GOAL} component={GoalScreen} />
             <Stack.Screen name={ScreenNames.RECORD_EMISSION} component={RecordEmissionScreen} />
-
             <Stack.Screen name={ScreenNames.FOOD} component={FoodScreen} />
             <Stack.Screen name={ScreenNames.TRANSPORTATION} component={TransportationScreen} />
             <Stack.Screen name={ScreenNames.RECYCLING} component={RecyclingScreen} />
+            <Stack.Screen name={ScreenNames.ELECTRICITY} component={RecordElectricity} />
         </Stack.Navigator>
     );
 };
@@ -150,7 +156,7 @@ const ForumStack = ({ navigation }) => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name={'Education'}
+                name={'Education Forum'}
                 component={ForumScreen}
                 options={{
                     headerShown: true,
@@ -180,7 +186,7 @@ const RankingStack = ({ navigation }) => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name={'Rankings '}
+                name={'Rankings'}
                 component={RankingScreen}
                 options={{
                     headerShown: false,
@@ -196,7 +202,7 @@ const RankingStack = ({ navigation }) => {
 
 
 // Login screen stack navigation & header
-const LoginStack = (props,{navigation}) => {
+const LoginStack = (props, { navigation }) => {
 
     return (
         <Stack.Navigator>
@@ -207,7 +213,7 @@ const LoginStack = (props,{navigation}) => {
                     headerShown: false, // Set to false for now until we need to implement headers for this screen
                 }}
                 initialParams={{
-                    setIsSignedIn:props.confirmSignup
+                    setIsSignedIn: props.confirmSignup
                 }}
             />
             <Stack.Screen
@@ -221,19 +227,20 @@ const LoginStack = (props,{navigation}) => {
                 name={ScreenNames.QUESTIONNAIRE}
                 component={QuestionnaireStack}
                 options={{
-                    headerShown:false,
+                    headerShown: false,
                 }}
                 initialParams={{
-                    setIsSignedIn:props.confirmSignup
+                    setIsSignedIn: props.confirmSignup
                 }}
             />
         </Stack.Navigator>
     );
 };
 
-export default function MainContainer({navigation}){
+export default function MainContainer({ navigation }) {
     const [isSignedIn, setIsSignedIn] = useState(false);
     const [finishedQuestionnaire, setFinishedQuestionnaire] = useState(false);
+    const [isCheckingQuestionnaire, setIsCheckingQuestionnaire] = useState(true);
 
     // In order to rerender the maincontainer on signin, we gotta callback and update the state
     setRenderCallback(setIsSignedIn);
@@ -253,65 +260,84 @@ export default function MainContainer({navigation}){
                 const response = await fetch(url, await getAuthHeader());
                 // console.log("checkQuestionnaire (response): " + JSON.stringify(response));
                 const data = await response.json();
-                console.log("checkQuestionnaire (data): " + JSON.stringify(data));
                 setFinishedQuestionnaire(data);
+                setIsCheckingQuestionnaire(false);
             } catch (error) {
                 console.error('Error while checking questionnaire:', error);
             }
         }
         if (isSignedIn) {
             checkQuestionnaire();
+            setIsCheckingQuestionnaire(true);
         }
     }, [isSignedIn]);
 
-    return(
+    return (
         <SafeAreaView style={{ flex: 1 }}>
-            <StatusBar barStyle={'dark-content'} backgroundColor="transparent" translucent={true}/>
+            <StatusBar barStyle={'dark-content'} backgroundColor="transparent" translucent={true} />
             <NavigationContainer>
-            {isSignedIn ? (
-                finishedQuestionnaire ? (
-                    <>
-                        <Tab.Navigator //Sets the default screen for the bottom nav bar (in this case, Home Screen)
-                        initialRouteName={ScreenNames.HOME}
-                        screenOptions={{
-                            headerShown: false, // Hides the default header
-                            tabBarLabelStyle: { display: 'none' }, // Hides label text
-                            tabBarActiveTintColor: Colors.primary.MINT,
-                            tabBarHideOnKeyboard: true,
-                        }}
-                        >
-                            <Tab.Screen
-                                name={ScreenNames.HOME}
-                                component={HomeStack}
-                                options={{
-                                    tabBarIcon: ({ color, size }) => (
-                                        <Ionicons name={IconNames.HOME} size={size} color={color} />
-                                    ),
-                                }}
-                            />
-                            <Tab.Screen
-                                name={ScreenNames.PROGRESS}
-                                component={ProgressStack}
-                                options={screenOptions}
-                            />
-                            <Tab.Screen
-                                name={ScreenNames.FORUM}
-                                component={ForumStack}
-                                options={screenOptions}
-                            />
-                            <Tab.Screen
-                                name={ScreenNames.RANKING}
-                                component={RankingStack}
-                                options={screenOptions}
-                            />
-                        </Tab.Navigator>
-                    </>
+                {isSignedIn ? (
+                    !isCheckingQuestionnaire ? (
+                        finishedQuestionnaire ? (
+                            <>
+                                <Tab.Navigator //Sets the default screen for the bottom nav bar (in this case, Home Screen)
+                                    initialRouteName={ScreenNames.HOME}
+                                    screenOptions={{
+                                        headerShown: false, // Hides the default header
+                                        tabBarLabelStyle: { display: 'none' }, // Hides label text
+                                        tabBarActiveTintColor: Colors.primary.MINT,
+                                        tabBarHideOnKeyboard: true,
+                                    }}
+                                >
+                                    <Tab.Screen
+                                        name={ScreenNames.HOME}
+                                        component={HomeStack}
+                                        options={{
+                                            tabBarIcon: ({ color, size }) => (
+                                                <Ionicons name={IconNames.HOME} size={size} color={color} />
+                                            ),
+                                        }}
+                                    />
+                                    <Tab.Screen
+                                        name={ScreenNames.PROGRESS}
+                                        component={ProgressStack}
+                                        options={screenOptions}
+                                    />
+                                    <Tab.Screen
+                                        name={ScreenNames.FORUM}
+                                        component={ForumStack}
+                                        options={screenOptions}
+                                    />
+                                    <Tab.Screen
+                                        name={ScreenNames.RANKING}
+                                        component={RankingStack}
+                                        options={screenOptions}
+                                    />
+                                </Tab.Navigator>
+                            </>
+                        ) : (
+                            <QuestionnaireStack setFinishedQuestionnaire={setFinishedQuestionnaire} />
+                        )
+                    ) : (
+                        <ActivityIndicator
+                            size="large"
+                            color={Colors.primary.RAISIN_BLACK}
+                            style={{
+                                position: 'absolute',
+                                zIndex: 999,
+                                left: 0,
+                                top: 0,
+                                width: '100%',
+                                height: '100%',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                            testID="loading-indicator"
+                        />
+                    )
                 ) : (
-                    <QuestionnaireStack setFinishedQuestionnaire={setFinishedQuestionnaire}/>
-                )
-            ) : (
-                <LoginStack/>
-            )}
+                    <LoginStack />
+                )}
             </NavigationContainer>
         </SafeAreaView>
     );
@@ -322,20 +348,20 @@ const screenOptions = ({ route }) => ({
         let iconName;
 
         switch (route.name) {
-        case ScreenNames.HOME:
-            iconName = IconNames.HOME;
-            break;
-        case ScreenNames.PROGRESS:
-            iconName = IconNames.PROGRESS;
-            break;
-        case ScreenNames.FORUM:
-            iconName = IconNames.FORUM;
-            break;
-        case ScreenNames.RANKING:
-            iconName = IconNames.RANKING;
-            break;
-        default:
-            break;
+            case ScreenNames.HOME:
+                iconName = IconNames.HOME;
+                break;
+            case ScreenNames.PROGRESS:
+                iconName = IconNames.PROGRESS;
+                break;
+            case ScreenNames.FORUM:
+                iconName = IconNames.FORUM;
+                break;
+            case ScreenNames.RANKING:
+                iconName = IconNames.RANKING;
+                break;
+            default:
+                break;
         }
 
         return <Ionicons name={iconName} size={size} color={color} />;

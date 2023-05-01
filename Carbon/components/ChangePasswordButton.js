@@ -2,12 +2,18 @@ import { View, Text, StyleSheet, Pressable } from 'react-native'
 import React from 'react'
 
 
-const ChangePasswordButton = ({ onPress }) => {
+const ChangePasswordButton = ({disabled, onPress }) => {
     return (
         <View >
-            <Pressable style={styles.button} onPress={onPress} testID="changePasswordButton">
-                <Text style={styles.buttonText}>Change Password</Text>
-            </Pressable >
+            {disabled ? (
+                <Pressable style={{...styles.button, backgroundColor: '#C2C2C2'}} onPress={onPress} testID="changePasswordButton" disabled={disabled}>
+                    <Text style={styles.buttonText}>Change Password</Text>
+                </Pressable >
+            ) : (
+                <Pressable style={styles.button} onPress={onPress} testID="changePasswordButton">
+                    <Text style={styles.buttonText}>Change Password</Text>
+                </Pressable >
+            )}
         </View>
 
     )
@@ -26,7 +32,8 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'white',
-        fontFamily: 'sans-serif',
+        fontSize: 16,
+        // fontFamily: 'sans-serif',
     },
 })
 

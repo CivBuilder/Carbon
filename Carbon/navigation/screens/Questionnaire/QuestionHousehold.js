@@ -1,6 +1,9 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,Switch,Button} from 'react-native';
+import {View, Text,Switch,Button, TouchableOpacity, ScrollView, ImageBackground} from 'react-native';
 import { Colors } from '../../../styling/Colors';
+import { q_styles } from './QuestionnaireStyle';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
 
 /*
 Household Screen
@@ -14,6 +17,7 @@ export default function HouseholdScreen({navigation,route}) {
 
     const [nextPage, setNextPage] = useState("q4")
     const [buttonIndex, setButtonIndex] = useState(-1)
+    const [isDisabled, setIsDisabled] = useState(true)
 
     //Calculate points across several buttons (For CHECK ALL THAT APPLY choice only)
     const calculatePoints=() =>{
@@ -45,82 +49,73 @@ export default function HouseholdScreen({navigation,route}) {
     });
 
     return (
-            <>
-            <View
-                style={{
-                    flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: Colors.secondary.LIGHT_GREEN,
+        <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
+            <ImageBackground
+                source={require('../../../assets/questionnaire-background.png')}
+                style={ q_styles.background }
+            />
+
+            <View style={q_styles.back_button}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name='chevron-back-outline' size={36} color='black' />
+                </TouchableOpacity>
+            </View>
+
+            <View style={q_styles.questionnaire_container}>
+                <Text style={{ ...q_styles.question_text, marginHorizontal: 24}}>Where does your household's energy come from?</Text>
+
+                <View style={{
+                    width:"60%",
                 }}
-            >
-            <Text style={{
-                fontSize:20,
-                fontWeight:"400",
-                marginBottom: 40,
-                textAlign:"center",
-            }}>
-            How is your household powered?
-            </Text>
-            <View style={{
-                width:"60%",
-            }}
-            >
-            <View style={{
-                marginBottom:12,
-            }}
-            >
-            <Button
-                title={`Fossil Fuels\n(Coal, Natural Gas, etc...)`}
-                onPress={()=>{
-                    setButtonIndex(0)
-                    setNextPage("q2a")
+                >
+                    <View style={q_styles.button_container}>
+                        <TouchableOpacity
+                            style={{
+                                ...q_styles.answer_button,
+                                backgroundColor: buttonIndex == 0 ? Colors.primary.MINT : 'white',
+                                borderColor: buttonIndex == 0 ? Colors.primary.MINT : Colors.primary.GRAY,
+                            }}
+                            onPress={() => {
+                                setButtonIndex(0)
+                                setNextPage("q2a")
+                                setIsDisabled(false)
+                            }}
+                        >
+                            <Text style={q_styles.answer_text} >Fossil Fuels</Text>
+                            <Text style={{...q_styles.answer_text, fontSize: 16}} >(Coal, Natural Gas, etc...)</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={q_styles.button_container}>
+                        <TouchableOpacity
+                            style={{
+                                ...q_styles.answer_button,
+                                backgroundColor: buttonIndex == 1 ? Colors.primary.MINT : 'white',
+                                borderColor: buttonIndex == 1 ? Colors.primary.MINT : Colors.primary.GRAY,
+                            }}
+                            onPress={() => {
+                                setButtonIndex(1)
+                                setNextPage("q4")
+                                setIsDisabled(false)
+                            }}
+                        >
+                            <Text style={q_styles.answer_text} >Renewable Energy</Text>
+                            <Text style={{...q_styles.answer_text, fontSize: 16}} >(Solar, Wind, etc...)</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+
+            <QuestionnaireCTAButton
+                title={"Next Question"}
+                isVisible={!(buttonIndex != 1 && buttonIndex != 0)}
+                onPress={() =>{
+                    navigation.navigate(nextPage, {
+                        homeScore:homeScore,
+                        foodScore:foodScore,
+                    })
                 }}
-                color={buttonIndex==0 ? Colors.primary.MINT: Colors.primary.GRAY}
             />
-            </View>
-            <View style={{
-                marginBottom:12,
-            }}
-            >
-            <Button
-                title ={`Renewable Energy \n(Solar, Wind, etc...)`}
-                onPress={()=>{
-                    setButtonIndex(1)
-                    setNextPage("q4")
-                }}
-                color={buttonIndex==1 ? Colors.primary.MINT: Colors.primary.GRAY}
-            />
-            </View>
-            </View>
-            </View>
-            <View style={{
-                justifyContent:'center',
-                flexDirection:"row",
-            }}>
-            <View style={{width:'50%'}}>
-            <Button
-            title="Previous Question"
-            color={Colors.primary.MINT}
-            onPress={() =>
-                navigation.goBack()
-            }
-            />
-            </View>
-            <View style={{width:'50%'}}>
-            <Button
-            title="Next Question"
-            color={Colors.primary.MINT}
-            onPress={() =>
-                navigation.navigate(nextPage, {
-                homeScore:homeScore,
-                foodScore:foodScore,
-                })
-            }
-            disabled ={buttonIndex>=0 ? false: true}
-            />
-            </View>
-            </View>
-            </>
-        )
+        </ScrollView>
+    )
 }

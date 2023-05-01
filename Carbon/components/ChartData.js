@@ -21,7 +21,7 @@ const dummyData = [
     The daily log function, this takens in a data array and maps it into a bar chart based on its values
  */
 export function DailyLog ({dataArray}) {
-    dataArray = dataArray.slice(0,1).concat(dataArray.slice(2))
+    dataArray = dataArray.slice(0,2).concat(dataArray.slice(3))
     //Our data for bar styling the bar chart
     const barChartData = {
         labels: ['Transportation', 'Diet', 'Home', 'Overall'],
@@ -29,11 +29,10 @@ export function DailyLog ({dataArray}) {
             {
             data: dataArray,
             colors: [
-                (opacity = 1) =>  Colors.primary.MINT,
-                (opacity = 1) =>  Colors.primary.MINT,
-                (opacity = 1) =>  Colors.primary.MINT, //all colors will be MINt
-                (opacity = 1) =>  Colors.primary.MINT,
-                (opacity = 1) =>  Colors.primary.MINT,
+                (opacity = 1) =>  Colors.categories.TRANSPORTATION,
+                (opacity = 1) =>  Colors.categories.DIET,
+                (opacity = 1) =>  Colors.categories.HOME, //all colors will be MINt
+                (opacity = 1) =>  Colors.secondary.DARK_MINT,
             ]
             }
         ]
@@ -46,7 +45,7 @@ export function DailyLog ({dataArray}) {
         withCustomBarColorFromData={true}
         flatColor={true}
         style={styleBar.chart}
-        width = {chartWidth}
+        width = {chartWidth-10}
         height = {windowHeight/3}
         withVerticalLabels ={true}
         withHorizontalLabels = {true}
@@ -91,7 +90,7 @@ const styleBar = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         backgroundGradientFrom: '#FFFFFF',
         backgroundGradientTo: '#FFFFFF',
-        decimalPlaces: 2, // optional, defaults to 2dp
+        decimalPlaces: 1, // optional, defaults to 2dp
         color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, //transparent
         labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
 

@@ -1,5 +1,5 @@
 import { API_URL } from "../../../config/Api";
-import { getToken } from "../../../util/LoginManager";
+import { getToken } from "../../../util/UserManagement";
 /*
     This is a function that will get the data from the server and return it
     The data is not being returned yet.
@@ -17,7 +17,7 @@ const GetData = async () => {
       },
     })
     const data = await response.json(); //get the data we need
-    console.log(data);
+    // console.log(data);
     return data
   }
   catch (error) {

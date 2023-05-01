@@ -5,9 +5,10 @@
 //Average poultry consumed is 68.1 lbs
 //Average pounds of pork consumed is 67lbs
 //https://farmdocdaily.illinois.edu/2021/05/an-overview-of-meat-consumption-in-the-united-states.html
+//CHANGED TO WEEKLY CONSUMPTION
 export const aveFoodConsumption = {
-    aveAnnualPoultryConsumption: 68.1,
-    aveAnnualBeefConsumption:67,
-    aveAnnualCheeseConsumption:40.2,
-    aveAnnualPorkConsumption:67,
+    aveAnnualPoultryConsumption: 68.1/52,
+    aveAnnualBeefConsumption:67/52,
+    aveAnnualCheeseConsumption:40.2/52,
+    aveAnnualPorkConsumption:67/52,
 }

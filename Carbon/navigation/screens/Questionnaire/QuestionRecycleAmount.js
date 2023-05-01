@@ -1,8 +1,11 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,Button,TextInput } from 'react-native';
+import {View, Text,TextInput, TouchableOpacity, ImageBackground, ScrollView, Keyboard } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import {aveRecyclingPerWeek} from '../../../calculations/recycling_calculations/aveRecycling';
 import mapScore from '../../../calculations/questionnaireMapScore';
+import { q_styles } from './QuestionnaireStyle';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
 /*
 Mileage Screen
 
@@ -37,6 +40,40 @@ export default function RecycleAmountScreen({navigation,route}) {
         })
     });
 
+    const [showButton, setShowButton] = useState(true);
+    const [isFocused, setIsFocused] = useState(false);
+
+    const handleInputFocus = () => {
+        // setShowButton(false);
+        setIsFocused(true);
+    };
+
+    const handleInputBlur = () => {
+        // setShowButton(true);
+        setIsFocused(false);
+    };
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+            Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+            () => {
+                setShowButton(false);
+            },
+        );
+
+        const keyboardDidHideListener = Keyboard.addListener(
+            Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+            () => {
+                setShowButton(true);
+            },
+        );
+
+        return () => {
+            keyboardDidShowListener.remove();
+            keyboardDidHideListener.remove();
+        };
+    }, []);
+
     const calculateRecycleAmount=() =>{
         //More recycling is better
         let userPerformance = recycleAmt/aveRecyclingPerWeek.average;
@@ -44,72 +81,51 @@ export default function RecycleAmountScreen({navigation,route}) {
     }
 
     return (
-    <>
-    <View
-    style={{
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.secondary.LIGHT_GREEN,
-    }}
-    >
-        <Text style={{
-            fontSize:20,
-            fontWeight:"400",
-            marginBottom:40,
-            paddingLeft:"6%",
-            paddingRight:"6%",
-        }}>
-        (Optional) Approximately how many pounds of material do you recycle per week?
-        </Text>
-        <View>
-        <Text style={{
-            fontSize: 20,
-            fontWeight: "400",
-            marginBottom: 5,
-        }}> Recycle Amount </Text>
-        <TextInput
-        placeholder="Pounds (lbs) Ex: 3"
-        style={{
-        backgroundColor:Colors.secondary.NYANZA,
-        height: 32,
-        }}
-        keyboardType="decimal-pad"
-        onChangeText={text=>{
-        setRecycleAmt(text);
-        calculateRecycleAmount();
-        }}
-        />
-        </View>
-        </View>
-            <View style={{
-                justifyContent:'center',
-                flexDirection:"row",
-            }}>
-            <View style={{width:'50%'}}>
-            <Button
-            title="Previous Question"
-            color={Colors.primary.MINT}
-            onPress={() =>
-                navigation.goBack()
-            }
+        <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
+            <ImageBackground
+                source={require('../../../assets/questionnaire-background.png')}
+                style={ q_styles.background }
             />
+
+            <View style={q_styles.back_button}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name='chevron-back-outline' size={36} color='black' />
+                </TouchableOpacity>
             </View>
-            <View style={{width:'50%'}}>
-            <Button
-            title="Next Question"
-            color={Colors.primary.MINT}
-            onPress={() =>
-                navigation.navigate('finished',{
-                    transportScore:transportScore,
-                    homeScore:homeScore,
-                    foodScore:foodScore,
-                    lifestyleScore:lifestyleScore,
-                })
-            }
+
+            <View style={q_styles.questionnaire_container}>
+                <Text style={{...q_styles.question_text, marginHorizontal: 24}}>
+                    (Optional) Approximately how many pounds of material do you recycle per week?
+                </Text>
+
+                <Text style={q_styles.text_input_header}>
+                    Recycle Amount (lbs)
+                </Text>
+                <TextInput
+                    placeholder="Ex: 10"
+                    style={q_styles.text_input}
+                    keyboardType="decimal-pad"
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
+                    onChangeText={text=>{
+                        setRecycleAmt(text);
+                        calculateRecycleAmount();
+                    }}
+                />
+            </View>
+
+            <QuestionnaireCTAButton
+                title={"See My Results"}
+                isVisible={showButton}
+                onPress={() =>{
+                    navigation.navigate('finished',{
+                        transportScore:transportScore,
+                        homeScore:homeScore,
+                        foodScore:foodScore,
+                        lifestyleScore:lifestyleScore,
+                    })
+                }}
             />
-            </View>
-            </View>
-            </>
-        )
+        </ScrollView>
+    )
 }

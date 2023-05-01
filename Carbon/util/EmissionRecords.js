@@ -1,8 +1,8 @@
 import { API_URL } from "../config/Api";
-import { getToken } from "./LoginManager";
+import { getToken } from "./UserManagement";
 
 export const getRecentEmissions = async () => {
-  console.log(`getRecentEmissions: Fetching recent records`);
+  // console.log(`getRecentEmissions: Fetching recent records`);
   try {
     const url = `${API_URL}userEmissions/recentRecords`;
     const response = await fetch(url, {
@@ -17,7 +17,7 @@ export const getRecentEmissions = async () => {
 
     const data = await response.json();
     // console.log(`getRecentEmissions:\n\t${JSON.stringify(data)}`);
-    console.log('getRecentEmissions: Fetching complete!');
+    // console.log('getRecentEmissions: Fetching complete!');
 
     return data;
   } catch (error) {

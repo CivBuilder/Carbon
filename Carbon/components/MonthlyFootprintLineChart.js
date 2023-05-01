@@ -253,20 +253,25 @@ export const RenderPercentDifference = ({ percentDifference, percentColor }) => 
     percentage difference from the previous month displayed above the chart.
     @return the rendered React component
 **/
-export const MonthlyFootprintLineChart = ({navigation}) => {
+export const MonthlyFootprintLineChart = ({navigation, refreshing, setRefreshing}) => {
     // State variables
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [initialStart, setInitialStart] = useState(true);
 
     // Fetches total_emissions data for the past 6 months. Handles errors and null cases.
     const lastSixMonths = getLastSixMonths();
     useEffect(() => {
-        setLoading(true)
-        fetchTotalData(lastSixMonths, setData, setError)
-            .then(() => setLoading(false)) // set loading to false when data has been fetched
-            .catch(() => setLoading(false)); // also set loading to false on error
-    }, []);
+        if(refreshing || initialStart) {
+            setLoading(true)
+            fetchTotalData(lastSixMonths, setData, setError)
+                .then(() => setLoading(false)) // set loading to false when data has been fetched
+                .catch(() => setLoading(false)) // also set loading to false on error
+                .finally(() => setRefreshing(false));
+            setInitialStart(false);
+        }
+    }, [initialStart, refreshing, setRefreshing]);
 
     // (Debugging) This replaces fetched data with dummy data
     // data = dummyData;
@@ -297,7 +302,7 @@ export const MonthlyFootprintLineChart = ({navigation}) => {
     // TODO: Fix the error when trying to render LoadingIndicator component
     if (loading) {
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ height: 125, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 {/* <LoadingIndicator loading={loading}/> */}
                 <ActivityIndicator
                     testID="loading-indicator"

@@ -1,14 +1,14 @@
 import React from "react"
 import { useState, useEffect } from 'react';
 import { Colors } from "../../../styling/Colors";
-import { View, Text, TouchableOpacity, Dimensions } from "react-native";
-import LoadingIndicator from "../../../components/LoadingIndicator";
+import { View, Text, TouchableOpacity, Dimensions, ImageBackground, SafeAreaView, Image, ActivityIndicator } from "react-native";
 import PredictInput from "../../../calculations/PredictInput";
 import { ScreenNames } from "../Main/ScreenNames";
 import { DailyLog } from "../../../components/ChartData";
-import {API_URL} from '../../../config/Api';
-import { getToken } from '../../../util/LoginManager';
-
+import { API_URL } from '../../../config/Api';
+import { getToken } from "../../../util/UserManagement";
+import { q_styles } from "../Questionnaire/QuestionnaireStyle";
+import LottieView from 'lottie-react-native';
 const windowHeight = Dimensions.get("window").height;
 export default function PredictScreen({ navigation, route }) {
     const [loading, setLoading] = useState(true);
@@ -20,12 +20,12 @@ export default function PredictScreen({ navigation, route }) {
         diet_emissions: 0,
         home_emissions: 0
     });
-    
+
 
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 2000 + Math.floor(Math.random() * 1000)); // 3 seconds
+        }, 6000 + Math.floor(Math.random() * 1000)); // 3 seconds
 
         return () => clearTimeout(timer); // Clean up the timer on unmount
     }, []);
@@ -37,43 +37,39 @@ export default function PredictScreen({ navigation, route }) {
             try {
                 const retData = await PredictInput(); //put the data here and set the array
                 setData(retData); //Sets the 2d array to be in twoDdata
-              
+
             }
             catch (error) {
                 console.log(error);
             }
         }
         callPredictInput(); //Call the getdata through callGetData
-        
+
     }, []);
 
     async function postResults() {
         try {
-            console.log("trying to post")
-            setEmissionsEntry({
+            // console.log("trying to post")
+            const predictedEmissions = {
                 transport_emissions: data[0],
                 total_emissions: data[4],
                 lifestyle_emissions: data[2],
                 diet_emissions: data[1],
                 home_emissions: data[3]
-            });
+            };
             //post emission to server
-            const response = await fetch(`${API_URL}userEmissions`, {
+            const response = await fetch(API_URL + 'userEmissions', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'secrettoken': await getToken(),
                 },
-                body: JSON.stringify(emissionsEntry)
+                body: JSON.stringify(predictedEmissions)
             });
+
             //exit screen on successful request
             if (response.status === 200) {
-                console.log("Successful Post!");
-                navigation.goBack();
-            }
-            //if second post for the day - alert and also go back
-            else if (response.status === 204) {
-                alert(`You can only upload results once a day :(`);
+                // console.log("Successful Post!");
                 navigation.goBack();
             }
             //Alert on bad request - should only see on testing 
@@ -86,45 +82,41 @@ export default function PredictScreen({ navigation, route }) {
     }
 
     return (
-        <View style={{ backgroundColor: '#F7FCF8 ' }}>
-            {loading || !data ? (
-                <View>
-                    <View style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        paddingTop: windowHeight / 4
-                    }}>
+        <ImageBackground
+            source={require('../../../assets/get-started-background.png')}
+            style={q_styles.background}
+        >
+            <SafeAreaView style={{flex: 1, justifyContent: 'center', alignItems:'center'}}>
 
-                        <Text style={{
-                            color: Colors.primary.MINT,
-                            fontWeight: 'bold',
-                            fontSize: 18
-                        }}>Predicting Results</Text>
-                    </View>
+                {loading || !data ? (
                     <View style={{
+                        flex: 1,
                         alignItems: 'center',
                         justifyContent: 'center',
-                        marginVertical: 20
                     }}>
-                        <LoadingIndicator loading={loading} ></LoadingIndicator>
+                        <View style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}>
+                            <Text style={{
+                                color: Colors.primary.MINT,
+                                fontWeight: '500',
+                                fontSize: 24,
+                                textAlign: 'center',
+                                marginBottom: -50
+                            }}>Predicting Results...</Text>
+                        </View>
+
+                        <LottieView speed={2} style={{ height: 280, marginHorizontal: 8 }} source={require('../../../assets/lotties/tinytown.json')} autoPlay loop />
+
                     </View>
-                </View>
-            ) : (
-    
-                data.every((num) => num === 0) ? (
-                    <View style={{
-                        backgroundColor: "white",
-                        borderRadius: 16,
-                        height: windowHeight - 100,
-                        padding: 10,
-                        marginHorizontal: 10,
-                        marginVertical: 10
-                    }}>
+                ) : (
+
+                    data.every((num) => num === 0) ? (
 
                         <View style={{
                             alignItems: 'center',
                             justifyContent: 'center',
-                            marginVertical: windowHeight / 10
                         }}>
                             <Text style={{
                                 fontSize: 18,
@@ -146,56 +138,61 @@ export default function PredictScreen({ navigation, route }) {
                                 </View>
                             </TouchableOpacity>
                         </View>
-                    </View>
-                ) : (
-                    <View style={{
-                        backgroundColor: "white",
-                        borderRadius: 16,
-                        height: windowHeight - 100,
-                        padding: 10, marginHorizontal: 10,
-                        marginVertical: 10,
-                    }}>
-                        <Text style={{
-                            textAlign: 'center',
+                    ) : (
+                        <View style={{
+                            borderRadius: 16,
+                            padding: 10,
+                            margin: 10,
+                        }}>
+                            <Text style={{
+                                textAlign: 'center',
 
-                            fontSize: 18,
-                            color: Colors.primary.MINT,
-                            fontWeight: 'bold'
-                        }}>Here is your predicted data.</Text>
-                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
-                            <DailyLog dataArray={data}> </DailyLog>
+                                fontSize: 18,
+                                color: Colors.primary.MINT,
+                                fontWeight: 'bold'
+                            }}>Here is your predicted daily emission for today (in lbs CO{`\u2082`}).</Text>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15, }}>
+                                <DailyLog dataArray={data}> </DailyLog>
+                            </View>
+                            <View style={{ padding: 10, justifyContent: 'center', flexDirection: 'row', alignSelf: "center" }} >
+                                <TouchableOpacity style={{
+                                    borderRadius: 12,
+                                    borderWidth: 2,
+                                    borderColor: '#db2525',
+                                    flex: 1,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    margin: 10,
+                                    padding:6,
+                                }} testID="reject-predict-button" onPress={() => navigation.goBack()}>
+
+                                    <Text style={{ color: '#db2525', fontWeight: '500', fontSize: 18, letterSpacing:.8, }}>Decline</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={{
+                                    backgroundColor: Colors.primary.MINT,
+                                    borderRadius: 12,
+                                    flex: 1,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    margin: 10,
+                                    padding:6,
+                                }} testID="accept-predict-button" onPress={async () => await postResults()}>
+                                    <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: '500', fontSize: 18, letterSpacing:.8, }}>Accept</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                        <View style={{ padding: 10, justifyContent: 'center', flexDirection: 'row', alignSelf: "center" }} >
-                            <TouchableOpacity style={{
-                                backgroundColor: Colors.primary.MINT,
-                                borderRadius: 5,
-                                flex: 1,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                margin: 10,
-                            }} testID="accept-predict-button" onPress={() => navigation.goBack()}>
+                    )
 
-                                <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 24 }}>Decline</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{
-                                backgroundColor: Colors.primary.MINT,
-                                borderRadius: 5,
-                                flex: 1,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                margin: 10,
-                            }} testID="accept-predict-button" onPress={() => postResults()}>
-                                <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 24 }}>Accept</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                )
+                )}
+            </SafeAreaView>
 
-            )}
-        </View>
+        </ImageBackground>
     )
 
 
 
 }
-
+const LoadingIndicatorStyle = {
+    marginTop: 10,
+    alignItems: 'center',
+}

@@ -1,13 +1,18 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,Button,TextInput } from 'react-native';
+import {View, Text,TextInput, TouchableOpacity, ImageBackground, ScrollView, Keyboard, KeyboardAvoidingView, Animated } from 'react-native';
 import { Colors } from '../../../styling/Colors';
+import { q_styles } from './QuestionnaireStyle';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import {aveFoodConsumption} from '../../../calculations/food_calculations/averageFoodConsumption';
-import calcBeef from '../../../calculations/food_calculations/calcBeef';
-import calcCheese from '../../../calculations/food_calculations/calcCheese';
-import calcPork from '../../../calculations/food_calculations/calcPork';
-import calcPoultry from '../../../calculations/food_calculations/calcPoultry';
+import calcBeef from '../../../calculations/food_calculations/questionnaire/calcBeef';
+import calcCheese from '../../../calculations/food_calculations/questionnaire/calcCheese';
+import calcPork from '../../../calculations/food_calculations/questionnaire/calcPork';
+import calcPoultry from '../../../calculations/food_calculations/questionnaire/calcPoultry';
 import mapScore from '../../../calculations/questionnaireMapScore';
+
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
 
 /*
 Animal Diet Screen (types of meat & amounts eaten per year)
@@ -52,131 +57,118 @@ export default function AnimalDietScreen({navigation,route}) {
         setFoodScore(mapScore(userPerformance));
     }
 
+    const [showButton, setShowButton] = useState(true);
+    const [isFocused, setIsFocused] = useState(false);
+
+    const handleInputFocus = () => {
+        // setShowButton(false);
+        setIsFocused(true);
+    };
+
+    const handleInputBlur = () => {
+        // setShowButton(true);
+        setIsFocused(false);
+    };
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+            Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+            () => {
+                setShowButton(false);
+            },
+        );
+
+        const keyboardDidHideListener = Keyboard.addListener(
+            Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+            () => {
+                setShowButton(true);
+            },
+        );
+
+        return () => {
+            keyboardDidShowListener.remove();
+            keyboardDidHideListener.remove();
+        };
+    }, []);
+
     return (
-    <>
-    <View
-    style={{
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: "100%",
-    backgroundColor: Colors.secondary.LIGHT_GREEN,
-    }}
-    >
-        <Text style={{
-            fontSize:18,
-            fontWeight:"400",
-            marginBottom:40,
-            paddingLeft:"12%",
-            paddingRight:"6%",
-        }}>
-        (Optional) Approximately how many pounds per year of the following do you eat?
-        </Text>
-        <View style={{width:"60%"}}>
+        <KeyboardAwareScrollView contentContainerStyle={q_styles.questionnaire_container}>
+            <ImageBackground
+                source={require('../../../assets/food-background-2.png')}
+                style={ q_styles.background }
+            />
 
-        <Text style={{
-            fontSize:20,
-            fontWeight:"400",
-            marginBottom:5,
-        }}> Beef </Text>
+            <View style={q_styles.back_button}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name='chevron-back-outline' size={36} color='black' />
+                </TouchableOpacity>
+            </View>
 
-        <TextInput
-        placeholder="(lbs) Ex: 50"
-        style={{
-        backgroundColor:Colors.secondary.NYANZA,
-        height:32,
-        marginBottom:12,
-        }}
-        keyboardType="decimal-pad"
-        onChangeText={text=>{
-            setlbsBeef(text? +text : 0);
-            calculatePreciseFoodScore()
-        }}
-        />
+            <View style={q_styles.questionnaire_container}>
+                <Text style={{...q_styles.question_text, textAlign: 'center', fontSize: 18, marginHorizontal: 24}}>
+                    {`(Optional) Approximately how many pounds of the following do you eat\non a weekly basis?`}
+                </Text>
 
-        <Text style={{
-              fontSize:20,
-              fontWeight:"400",
-              marginBottom:5,
-        }}> Poultry </Text>
+                <Text style={q_styles.text_input_header}>Beef (lbs)</Text>
+                <TextInput
+                    placeholder="Ex: 1.1"
+                    style={q_styles.text_input}
+                    keyboardType="decimal-pad"
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
+                    onChangeText={text=>{
+                        setlbsBeef(text? +text : 0);
+                        calculatePreciseFoodScore()
+                    }}
+                />
 
-        <TextInput
-        placeholder="(lbs) Ex: 35"
-        keyboardType="decimal-pad"
-        style={{
-        backgroundColor:Colors.secondary.NYANZA,
-        height:32,
-        marginBottom:12,
-        }}
-        onChangeText={text=>{
-            setlbsPoultry(text? +text : 0);
-            calculatePreciseFoodScore()
-        }}/>
+                <Text style={q_styles.text_input_header}>Poultry (lbs)</Text>
+                <TextInput
+                    placeholder="Ex: 1.9"
+                    keyboardType="decimal-pad"
+                    style={q_styles.text_input}
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
+                    onChangeText={text=>{
+                        setlbsPoultry(text? +text : 0);
+                        calculatePreciseFoodScore()
+                    }}
+                />
 
-        <Text style={{
-              fontSize:20,
-              fontWeight:"400",
-              marginBottom:5,
-        }}> Pork </Text>
+                <Text style={q_styles.text_input_header}>Pork (lbs)</Text>
 
-        <TextInput
-        placeholder="(lbs) Ex: 47"
-        keyboardType="decimal-pad"
-        style={{
-        backgroundColor:Colors.secondary.NYANZA,
-        height:32,
-        marginBottom:12,
-        }}
-        onChangeText={text=>{
-        setlbsPork(text? +text : 0);
-        calculatePreciseFoodScore()
-        }}/>
+                <TextInput
+                    placeholder="Ex: 0.96"
+                    keyboardType="decimal-pad"
+                    style={q_styles.text_input}
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
+                    onChangeText={text=>{
+                        setlbsPork(text? +text : 0);
+                        calculatePreciseFoodScore()
+                    }}
+                />
 
-        <Text style={{
-              fontSize:20,
-              fontWeight:"400",
-              marginBottom:5,
-        }}> Cheese </Text>
+                <Text style={q_styles.text_input_header}>Cheese (lbs)</Text>
 
-        <TextInput
-        placeholder="(lbs) Ex: 30"
-        keyboardType="decimal-pad"
-        style={{
-        backgroundColor:Colors.secondary.NYANZA,
-        height:32,
-        marginBottom:12,
-        }}
-        onChangeText={text=>{
-        setlbsCheese(text? +text : 0);
-        calculatePreciseFoodScore()
-        }}/>
-        </View>
-        </View>
-        <View style={{
-        justifyContent:'center',
-        flexDirection:"row",
-        }}>
-        <View style={{width:'50%'}}>
-        <Button
-        title="Previous Question"
-        color={Colors.primary.MINT}
-        onPress={() =>
-        navigation.goBack()
-        }
-        />
-        </View>
-        <View style={{width:'50%'}}>
-        <Button
-        title="Next Question"
-        color={Colors.primary.MINT}
-        onPress={() =>
-        navigation.navigate('q2',{
-        foodScore:foodScore
-        })
-        }
-        />
-        </View>
-        </View>
-        </>
+                <TextInput
+                    placeholder="Ex: 0.75"
+                    keyboardType="decimal-pad"
+                    style={q_styles.text_input}
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
+                    onChangeText={text=>{
+                        setlbsCheese(text? +text : 0);
+                        calculatePreciseFoodScore()
+                    }}
+                />
+            </View>
+
+            <QuestionnaireCTAButton
+                title={"Next Question"}
+                isVisible={!isFocused && showButton}
+                onPress={() => navigation.navigate('q2',{ foodScore:foodScore })}
+            />
+        </KeyboardAwareScrollView>
     )
 }
