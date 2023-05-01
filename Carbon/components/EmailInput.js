@@ -1,7 +1,9 @@
 import { View, Text, StyleSheet, TextInput } from 'react-native'
 import React from 'react'
+import { useState } from 'react';
 
-const EmailInput = ({testID, onChangeText}) => {
+const EmailInput = ({testID}) => {
+  const [text, onChangeText] = useState('email');
   return (
     <View>
       <TextInput
@@ -10,6 +12,7 @@ const EmailInput = ({testID, onChangeText}) => {
         placeholderTextColor="#AFAFAF" 
         testID={testID}
         onChangeText={onChangeText}
+        value={text}
       />
     </View>
   )

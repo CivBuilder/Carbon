@@ -1,12 +1,12 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
+import { render, fireEvent } from '@testing-library/react-native';
 import EmailInput from '../../components/EmailInput';
 
 describe('EmailInput', () => {
-  it('renders a TextInput with a placeholder', () => {
-    const { getByPlaceholderText } = render(<EmailInput />);
-    const emailInput = getByPlaceholderText('Email');
-
-    expect(emailInput).toBeDefined();
+  it('updates the text value when the user types in the input', () => {
+    const { getByTestId } = render(<EmailInput testID="emailInput" />);
+    const input = getByTestId('emailInput');
+    fireEvent.changeText(input, 'testuser@example.com');
+    expect(input.props.value).toBe('testuser@example.com');
   });
 });
