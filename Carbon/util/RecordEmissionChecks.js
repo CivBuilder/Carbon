@@ -6,7 +6,7 @@ export function validateElectricityEntry(entry) {
 }
 
 export function validateFoodEntry(beefConsumption, porkConsumption, cheeseConsumption, poultryConsumption) {
-    const regex = /^(10(\.0+)?|[0-9]*(\.\d+)?|0(\.\d+)?|0|\.\d+)$/;
+    const regex = /^(10(\.0{1,2})?|[0-9](\.[0-9]{1,2})?)$/;
     const beef = regex.test(beefConsumption);
     const pork = regex.test(porkConsumption);
     const cheese = regex.test(cheeseConsumption);
