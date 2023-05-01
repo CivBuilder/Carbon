@@ -5,10 +5,10 @@ import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {aveFoodConsumption} from '../../../calculations/food_calculations/averageFoodConsumption';
-import calcBeef from '../../../calculations/food_calculations/calcBeef';
-import calcCheese from '../../../calculations/food_calculations/calcCheese';
-import calcPork from '../../../calculations/food_calculations/calcPork';
-import calcPoultry from '../../../calculations/food_calculations/calcPoultry';
+import calcBeef from '../../../calculations/food_calculations/questionnaire/calcBeef';
+import calcCheese from '../../../calculations/food_calculations/questionnaire/calcCheese';
+import calcPork from '../../../calculations/food_calculations/questionnaire/calcPork';
+import calcPoultry from '../../../calculations/food_calculations/questionnaire/calcPoultry';
 import mapScore from '../../../calculations/questionnaireMapScore';
 
 /*

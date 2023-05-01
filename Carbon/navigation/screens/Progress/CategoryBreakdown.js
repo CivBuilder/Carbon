@@ -182,9 +182,7 @@ export const CategoryBreakdown = ({navigation}) => {
     // Loading indicator shown if loading is true.
     if(loading){
         return (
-            <View style={{ height: chartHeight }}>
-                <LoadingIndicator loading={loading}/>
-            </View>
+            <LoadingIndicator loading={loading}/>
         );
     }
 
