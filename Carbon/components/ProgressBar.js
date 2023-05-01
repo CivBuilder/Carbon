@@ -3,7 +3,8 @@ import React from 'react';
 import { Colors } from '../styling/Colors.js';
 import { useEffect } from 'react';
 import { useRef, useState } from 'react';
-import BatchedBridge from 'react-native/Libraries/BatchedBridge/BatchedBridge';
+
+const { width } = Dimensions.get('window');
 
 /**
  * Displays Animated progress bar where progress/total % will be filled in

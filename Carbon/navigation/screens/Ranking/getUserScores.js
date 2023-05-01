@@ -36,7 +36,13 @@ export default async function getUserScores(setUserScores, setLoading, setErrorM
       setErrorMessage(`${err.message}`);
       console.log(`${err.message}`);
     }
-    setLoading(false);
   }
-  
-  
+  //Handle any other errors not necessarily from Server
+  catch (err) {
+    setUserScores(null);
+    setErrorMessage(`Fetch from ${API_Entry_RANK_URL} Failed: ${err.message}`);
+    // console.log(`Fetch from ${API_Entry_RANK_URL} Failed: ${err.message}`);
+  }
+  setLoading(false);
+}
+
