@@ -77,7 +77,9 @@ const GoalProgress = ({ refreshing, setRefreshing, navigation }) => {
                 </View>
                 {thisMonthTotalNumber < thisMonthGoalNumber && (
                     <View style={styling.currentProgress}>
-                        <RankProgressBar progress={thisMonthTotalNumber} total={thisMonthGoalNumber} barWidth={0.5} />
+
+                        <RankProgressBar progress={thisMonthTotalNumber} total={thisMonthGoalNumber}/>
+
                     </View>
                 )}
             </View>

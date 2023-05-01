@@ -65,7 +65,9 @@ export async function login(username, password) {
 export async function changeUsername(username) {
     if (!validateUsername(username)) {
         alert("Does not meet requirements:\n\n" +
-            "- Must be between 3-30 characters long\n" +
+
+            "- Must be between 3-20 characters long\n" +
+
             "- Must not contain profanity\n" +
             "- Must not contain special characters\n" +
             "- Must not contain spaces")
@@ -191,8 +193,10 @@ export function validateUsername(username) {
         return false;
     }
 
-    // Check for length (minimum 3 characters, maximum 30)
-    if (username.length < 3 || username.length > 30) {
+
+    // Check for length (minimum 3 characters, maximum 20)
+    if (username.length < 3 || username.length > 20) {
+
         return false;
     }
 
