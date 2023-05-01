@@ -1,12 +1,12 @@
 import { Alert } from "react-native";
 // all the regex for record emissions and alerts if needed
 export function validateElectricityEntry(entry) {
-    const regex = /^(\d*(\.\d+)?|100(\.0+)?)$/;
+    const regex = /^(100(\.00?)?|\d{1,2}(\.\d{1,2})?|0(\.\d{1,2})?)$/;
     return regex.test(entry);
 }
 
 export function validateFoodEntry(beefConsumption, porkConsumption, cheeseConsumption, poultryConsumption) {
-    const regex = /^(10(\.0+)?|[0-9]*(\.\d+)?|0(\.\d+)?|0|\.\d+)$/;
+    const regex = /^(10(\.0{1,2})?|[0-9](\.[0-9]{1,2})?)$/;
     const beef = regex.test(beefConsumption);
     const pork = regex.test(porkConsumption);
     const cheese = regex.test(cheeseConsumption);
@@ -15,12 +15,12 @@ export function validateFoodEntry(beefConsumption, porkConsumption, cheeseConsum
 }
 
 function validateTransportationEntry(entry) {
-    const regex = /^(4000(\.0{1,3})?|[1-3]\d{0,3}(\.\d{1,3})?|\d*(\.\d{1,3})?|0(\.\d{1,3})?)$/; // 0-4000
+    const regex = /^(4000(\.00?)?|[0-3]?\d{1,3}(\.\d{1,2})?|0(\.\d{1,2})?)$/; // 0-4000
     return regex.test(entry);
 }
 
 export function validateRecyclingEntry(paperAmount, plasticAmount, glassAmount, metalAmount) {
-    const regex = /^(50(\.0+)?|[0-4]?\d*(\.\d+)?|0(\.\d+)?)$/;
+    const regex = /^(50(\.00?)?|[0-4]?\d(\.\d{1,2})?|0(\.\d{1,2})?)$/;
     const paper = regex.test(paperAmount);
     const plastic = regex.test(plasticAmount);
     const glass = regex.test(glassAmount);

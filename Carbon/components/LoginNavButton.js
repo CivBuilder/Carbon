@@ -14,7 +14,7 @@ const LoginNavButton = ({onPress}) => {
 const styles = StyleSheet.create({
     loginNavButton: {
       color: '#74C69D',
-      fontFamily: 'sans-serif',
+      // fontFamily: 'sans-serif',
       textDecorationLine: 'underline',
       fontWeight: 'bold',
     },

@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     color: '#74C69D',
-    fontFamily: 'sans-serif',
+    // fontFamily: 'sans-serif',
   },
 })
 

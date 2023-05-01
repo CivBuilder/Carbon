@@ -14,11 +14,8 @@ const moment = require('moment');
 **********************/
 
 router.get('/', passport.authenticate('jwt', { session: false }), async function (req, res) {
-  const date = new Date(); //get date
-  day = date.getDate(); //grab the day and month
-  month = date.getMonth() + 1;
-  year = date.getFullYear();
-  const todaysDate = new Date(year, month, day);
+  // Use Moment.js to get today's date in the UTC timezone
+  const todaysDate = moment.utc().startOf('day');
 
   const userId = req.user.id;
   //const userId = 323; //for testing
@@ -50,13 +47,15 @@ router.get('/', passport.authenticate('jwt', { session: false }), async function
     checkDay = value.substring(8, 11);
     checkYear = value.substring(0, 4);
     //grabbing the emissions for the relevant data set
+    const oldDate = moment([checkYear, checkMonth - 1, checkDay]).toDate();
+    const difference_in_days = moment(todaysDate).diff(moment(oldDate), 'days');
+    if (difference_in_days == 0) {
+    }
     transport = obj.transport_emissions;
     diet = obj.diet_emissions;
     lifestyle = obj.lifestyle_emissions;
     home = obj.home_emissions;
     total = obj.total_emissions;
-    const oldDate = new Date(checkYear, checkMonth, checkDay);
-    difference_in_days = (todaysDate.getTime() - oldDate.getTime()) / (1000 * 60 * 60 * 24); //gets diff in ms then converts to days
 
     if (difference_in_days == 0) {
       //Add to the daily array
@@ -150,11 +149,9 @@ router.get('/', passport.authenticate('jwt', { session: false }), async function
 
 /* Finds all Entries where a user posted a submission*/
 router.get('/getAll', passport.authenticate('jwt', { session: false }), async function (req, res) {
-  console.log("getting by id")
   const user_entry = await UserEmissions.findAll({
     where: {
       user_id: req.user.id
-      // user_id: 323 // for testing
     }
   });
   if (!user_entry || user_entry.length === 0) {
@@ -414,26 +411,27 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
     if (n < 0) return res.status(400).send(`400 : bad request. No Negative Emissions`);
   }
 
-  /// COMMENTING THIS OUT SO WE CAN LOG EMISSIONS MORE THAN ONCE A DAY
   //Validate if user has already posted once today
-  const now = new Date();
-  const todaysDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const nextDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  // Get the start of the current day in the user's timezone
+  const todaysStart = moment().utc().startOf('day');
+  // Get the start of the next day in the user's timezone
+  const todaysEnd = moment(todaysStart).utc().add(1, 'day');
 
+  // Use the variables in the Sequelize query
   const todaysEntries = await UserEmissions.findAll({
     where: {
       user_id: req.user.id,
       date: {
-        [Op.between]: [todaysDate, nextDay],
+        [Op.gte]: todaysStart,
+        [Op.lt]: todaysEnd,
       }
     }
   });
 
-
   const today = new Date().toISOString().slice(0, 10);
 
   // if an entry already exists, update it
-  if (todaysEntries.length) {
+  if (todaysEntries.length > 0) {
     const { total_emissions, transport_emissions, lifestyle_emissions, diet_emissions, home_emissions } = todaysEntries[0];
     const newTotal = req.body.total_emissions + total_emissions;
     const newTrans = req.body.transport_emissions + transport_emissions;
@@ -451,7 +449,8 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
       where: {
         user_id: req.user.id,
         date: {
-          [Op.between]: [todaysDate, nextDay],
+          [Op.gte]: todaysStart,
+          [Op.lt]: todaysEnd,
         }
       }
     });

@@ -257,7 +257,7 @@ export default function FinishedScreen({ navigation, route }) {
                             width: 170,
                         }}
                     >
-                        <Text style={{ fontSize: 18, fontWeight: '500', textAlign: 'center', color: Colors.secondary.DARK_MINT, }}>{bestScore}</Text>
+                        <Text style={{ fontSize: 16, fontWeight: '500', textAlign: 'center', color: Colors.secondary.DARK_MINT, }}>{bestScore}</Text>
                     </View>
                 </Animated.View>
 
@@ -275,7 +275,7 @@ export default function FinishedScreen({ navigation, route }) {
                             width: 170,
                         }}
                     >
-                        <Text style={{ fontSize: 18, fontWeight: '500', textAlign: 'center', color: Colors.secondary.RED, }}>{worstScore}</Text>
+                        <Text style={{ fontSize: 16, fontWeight: '500', textAlign: 'center', color: Colors.secondary.RED, }}>{worstScore}</Text>
                     </View>
                 </Animated.View>
             </View>

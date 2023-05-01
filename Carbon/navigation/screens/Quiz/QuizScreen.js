@@ -229,7 +229,7 @@ const QuizScreen = ({ navigation, route }) => {
               <View style={{ height: '100%', justifyContent: 'center', alignItems: 'center', }}>
                 <View style={styles.result_container}>
                   <Text style={styles.result_heading}>Quiz completed!</Text>
-                  <View style={{ backgroundColor: 'white', borderRadius: 200, width: 180, height: 180, justifyContent: 'center', alignItems: 'center' }}>
+                  <View style={{ backgroundColor: 'white', borderRadius: 200, width: Dimensions.get('window').height * .25, height: Dimensions.get('window').height * .25, justifyContent: 'center', alignItems: 'center' }}>
                     <Text
                       style={{
                         ...styles.result_score,
@@ -259,7 +259,9 @@ const QuizScreen = ({ navigation, route }) => {
                     {score / data.questions.length == 0 &&
                       "Don't give up! You can retake the quiz and try again!"}
                   </Text>
+
                 </View>
+
 
                 <View
                   style={{

@@ -55,7 +55,7 @@ export default function HouseholdScreen({navigation,route}) {
                 style={ q_styles.background }
             />
 
-            <View style={{position: 'absolute', top: 32, left: 10}}>
+            <View style={q_styles.back_button}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Ionicons name='chevron-back-outline' size={36} color='black' />
                 </TouchableOpacity>
