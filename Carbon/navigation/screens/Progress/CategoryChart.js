@@ -21,7 +21,7 @@ const CategoryChart = (props) => {
   };
 
   return (
-    <View style={{justifyContent: "center", alignItems: "center", marginBottom: 5}}>
+    <View style={{justifyContent: "center", alignItems: "center", marginBottom: 5}} testID='category-chart'>
       <VictoryStack
         horizontal
         height={chartHeight}
