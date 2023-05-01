@@ -1,12 +1,12 @@
 import { Alert } from "react-native";
 // all the regex for record emissions and alerts if needed
 export function validateElectricityEntry(entry) {
-    const regex = /^(\d{1,2}(\.\d+)?|100(\.0+)?)$/;
+    const regex = /^(\d*(\.\d+)?|100(\.0+)?)$/;
     return regex.test(entry);
 }
 
 export function validateFoodEntry(beefConsumption, porkConsumption, cheeseConsumption, poultryConsumption) {
-    const regex = /^(10(\.0+)?|[0-9](\.\d+)?|0)$/;
+    const regex = /^(10(\.0+)?|[0-9]*(\.\d+)?|0(\.\d+)?|0|\.\d+)$/;
     const beef = regex.test(beefConsumption);
     const pork = regex.test(porkConsumption);
     const cheese = regex.test(cheeseConsumption);
@@ -20,7 +20,7 @@ function validateTransportationEntry(entry) {
 }
 
 export function validateRecyclingEntry(paperAmount, plasticAmount, glassAmount, metalAmount) {
-    const regex = /^(50(\.0+)?|[0-4]?\d(\.\d+)?|0(\.\d+)?)$/;
+    const regex = /^(50(\.0+)?|[0-4]?\d*(\.\d+)?|0(\.\d+)?)$/;
     const paper = regex.test(paperAmount);
     const plastic = regex.test(plasticAmount);
     const glass = regex.test(glassAmount);
