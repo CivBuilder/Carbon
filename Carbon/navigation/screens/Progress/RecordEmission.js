@@ -71,7 +71,7 @@ export default function RecordEmissionScreen({ navigation, route }) {
           Select a category to log your emissions for today
         </Text>
       </View>
-      <View style={styles.modalView} testID='modal-view'>
+      <View style={styles.modalView} testID='main'>
         <TouchableOpacity style={styles.categoryTile} onPress={() => {
           navigation.navigate(ScreenNames.FOOD, { sentEmissionsEntry: emissionsEntry })
         }}>
@@ -114,6 +114,7 @@ export default function RecordEmissionScreen({ navigation, route }) {
             animationInTiming={1000}
             animationOutTiming={1000}
             transparent={true}
+            testID='modal-view'
         >
             <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.5)", justifyContent: 'center' }}>
                 <TouchableOpacity onPress={() => setShowModal(false)} />
@@ -131,7 +132,7 @@ export default function RecordEmissionScreen({ navigation, route }) {
                     Are you sure you want to save these as your daily emissions?
                   </Text>
 
-                  <View style={{width:'90%', marginVertical:24}}>
+                  <View style={{width:'90%', marginVertical:24}} testID='diet'>
                     <View style={{ flexDirection: 'row', width: '100%', marginTop: 12 }}>
                       <Text style={[styles.modal_category_text, { flex: 1 }]}>Diet:</Text>
                       <Text style={[styles.modal_category_value, { flex: 0, textAlign: 'right' }]}>
@@ -181,10 +182,10 @@ export default function RecordEmissionScreen({ navigation, route }) {
                   </View>
 
                   <View style={{flexDirection: 'row', marginTop: 6}}>
-                      <TouchableOpacity style={{borderRadius:12, borderWidth:2, borderColor:'#db2525', paddingVertical:6, width:120, marginRight: 24}} onPress={() => setShowModal(false)}>
+                      <TouchableOpacity testID='no-button' style={{borderRadius:12, borderWidth:2, borderColor:'#db2525', paddingVertical:6, width:120, marginRight: 24}} onPress={() => setShowModal(false)}>
                           <Text style={{ fontSize: 20, textAlign:'center', color: '#db2525' }}>No</Text>
                       </TouchableOpacity>
-                      <TouchableOpacity style={{ borderRadius:12, backgroundColor: '#74C69D', paddingVertical:6, width:120, marginLeft: 24,}} onPress={() => { postResults(); setShowModal(false) }}>
+                      <TouchableOpacity testID='yes-button' style={{ borderRadius:12, backgroundColor: '#74C69D', paddingVertical:6, width:120, marginLeft: 24,}} onPress={() => { postResults(); setShowModal(false) }}>
                           <Text style={{ fontSize: 20, textAlign:'center', color: Colors.primary.MINT_CREAM }}>Yes</Text>
                       </TouchableOpacity>
                   </View>
