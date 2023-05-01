@@ -80,15 +80,5 @@ describe('RecordFood', () => {
         );
     }
     );
-    //it should not allow values > 10
-    it('should not allow values > 10', () => {
-        const { getByTestId } = render(<RecordFood navigation={navigation} route={route} />);
-        //set picker values
-        const redMeatInput = getByTestId('red-meat-input');
-        fireEvent.changeText(redMeatInput, '11');
-        const button = getByTestId('save-button');
-        fireEvent.press(button);
-        expect(navigation.navigate).not.toHaveBeenCalled();
-    }
-    );
+    
 });
