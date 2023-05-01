@@ -45,7 +45,7 @@ const SignUpScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.primary.MINT_CREAM,
+    backgroundColor: '#F7FCF8',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   content: {
-    width: '80%',
+    width: 300,
   },
   loginTextWrapper: {
     alignItems: 'center',
