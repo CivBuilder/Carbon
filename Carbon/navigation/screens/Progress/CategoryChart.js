@@ -3,7 +3,6 @@ import { VictoryStack, VictoryBar } from "victory-native";
 import getMinBarSize from "../../../util/getMinBarSize";
 import getEdgeIndices from "../../../util/getEdgeIndices";
 import { Colors } from "../../../styling/Colors";
-// import { CategoryChartCSS as styling } from "../styling/CategoryChartCSS";
 
 const chartWidth = Dimensions.get("window").width * 0.8;
 const chartHeight = Dimensions.get("window").height * 0.08;
@@ -22,7 +21,7 @@ const CategoryChart = (props) => {
   };
 
   return (
-    <View style={{justifyContent: "center", alignItems: "center", marginBottom: 5}}>
+    <View style={{justifyContent: "center", alignItems: "center", marginBottom: 5}} testID='category-chart'>
       <VictoryStack
         horizontal
         height={chartHeight}

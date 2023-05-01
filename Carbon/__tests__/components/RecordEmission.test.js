@@ -24,13 +24,13 @@ describe('RecordEmissionScreen', () => {
   
   it('should render correctly', () => {
     const { getByTestId } = component;
-    expect(getByTestId('modal-view')).toBeTruthy();
+    expect(getByTestId('main')).toBeTruthy();
   });
   it('should navigate to the FoodScreen when the cutlery icon is pressed', async () => {
     const { getByTestId } = component;
     const cutleryIcon = getByTestId('cutlery-icon');
     fireEvent.press(cutleryIcon);
-    expect(navigation.navigate).toHaveBeenCalledWith('Food', {sentEmissionsEntry : route.params});
+    expect(navigation.navigate).toHaveBeenCalledWith('Diet', {sentEmissionsEntry : route.params});
   });
   it('should navigate to the TransportationScreen when the car icon is pressed', async () => {
     const { getByTestId } = component;
@@ -38,6 +38,13 @@ describe('RecordEmissionScreen', () => {
     fireEvent.press(carIcon);
     expect(navigation.navigate).toHaveBeenCalledWith('Transportation', {sentEmissionsEntry : route.params});
   });
+  it('should navigate to the HomeScreen when the house icon is pressed', async () => {
+    const { getByTestId } = component;
+    const houseIcon = getByTestId('electricity-icon');
+    fireEvent.press(houseIcon);
+    expect(navigation.navigate).toHaveBeenCalledWith('Electricity Usage', {sentEmissionsEntry : route.params});
+  });
+
   it('should navigate to the RecyclingScreen when the recycle icon is pressed', async () => {
     const { getByTestId } = component;
     const recycleIcon = getByTestId('recycle-icon');
@@ -46,4 +53,33 @@ describe('RecordEmissionScreen', () => {
   }
   );
   
+  it('should open modal when "Save Daily Emissions" button is pressed', () => {
+    const { getByTestId } = component;
+    const saveButton = getByTestId('save-and-exit-icon');
+    fireEvent.press(saveButton);
+    const modalView = getByTestId('modal-view');
+    expect(modalView).toBeVisible();
+    //expect it says 0 lbs
+    expect(getByTestId('diet')).toHaveTextContent('0 lbs');
+  });
+  it('should close modal when you press yes', () => {
+    const { getByTestId } = component;
+    const saveButton = getByTestId('save-and-exit-icon');
+    fireEvent.press(saveButton);
+    const modalView = getByTestId('modal-view');
+    expect(modalView).toBeVisible();
+    const yesButton = getByTestId('yes-button');
+    fireEvent.press(yesButton);
+  });
+  it('should close modal when you press no', () => {
+    const { getByTestId } = component;
+    const saveButton = getByTestId('save-and-exit-icon');
+    fireEvent.press(saveButton);
+    const modalView = getByTestId('modal-view');
+    expect(modalView).toBeVisible();
+    const yesButton = getByTestId('no-button');
+    fireEvent.press(yesButton);
+  });
+  
+ 
 });
