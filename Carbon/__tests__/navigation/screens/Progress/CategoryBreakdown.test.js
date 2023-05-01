@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { CategoryChart } from '../../components/ChartData';
-import { getData, fetchData, getLabel, getSelectedLabel } from '../../components/ChartData';
+import { CategoryChart } from '../../../../navigation/screens/Progress/CategoryChart';
+import { getData, fetchData, getLabel, getSelectedLabel } from '../../../../navigation/screens/Progress/CategoryBreakdown';
 
 describe('getData', () => {
     const fakeFetch = (data) => {
