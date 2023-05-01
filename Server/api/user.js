@@ -190,6 +190,7 @@ router.get('/rank', passport.authenticate('jwt', { session: false }), async func
         ],
         
     });
+    // console.log(JSON.stringify(userScores, null, 4));
 
     if(!userScores) {
         console.log("Sending error code 404. No match found");
@@ -197,10 +198,19 @@ router.get('/rank', passport.authenticate('jwt', { session: false }), async func
     }
     
     const scoreCategories = ['global_score',"transport_score", "lifestyle_score", "diet_score", "home_score",]
-    for(var str of scoreCategories){
-        await getNextRankScores(str, userScores)
+    // for(var str of scoreCategories){
+    //     await getNextRankScores(str, userScores)
+    // }
+    const rank_categories = ['global_ranking',"transport_ranking", "lifestyle_ranking", "diet_ranking", "home_ranking",]
+    // for(var str of rank_categories){
+    //     await updateRank(str, userScores, req.user.id);
+    // }
+
+    for( let i = 0; i < scoreCategories.length; i++){
+        await getNextRankScores(scoreCategories[i], userScores);
+        await updateRank(scoreCategories[i], userScores, req.user.id, rank_categories[i]);
     }
-    // console.log(userScores.dataValues)
+
     res.status(200).json(userScores)
 })
 
@@ -228,6 +238,29 @@ async function getNextRankScores(categoryName, userScores){
         userScores.dataValues["next_rank_"+categoryName] = users[0].dataValues[categoryName];
     }
     return userScores
+}
+
+async function updateRank(categoryName, userScores, id, rankName) {
+    // get all users with matching score
+    const otherUsers = await user_table.findAll({
+        where : {
+            [categoryName] :{ 
+                [Op.eq] : userScores.dataValues[categoryName] 
+            }
+        }, 
+        order : [['id' , 'ASC']]
+    });
+
+    console.log(userScores.dataValues)
+
+    // get users with matching id
+    // count how many users have an id less than the userScores.id
+    // how ever many users are below us, add that to our score
+    if (otherUsers.length) {
+        const filteredUsers = otherUsers.filter(user => user.id < id);
+        userScores.dataValues[rankName] += filteredUsers.length;
+    }
+
 }
 
 
