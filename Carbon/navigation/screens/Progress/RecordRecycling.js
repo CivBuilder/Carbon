@@ -147,6 +147,7 @@ const RecordRecycling = ({ navigation, route }) => {
           style={styles.text_input}
           keyboardType="decimal-pad"
           onChangeText={(paper) => setPaperAmount(paper.length > 0 ? paper : 0)}
+          testID='paper-input'
         />
         <Text style={styles.text_input_label}>Plastic</Text>
         <TextInput
@@ -154,6 +155,7 @@ const RecordRecycling = ({ navigation, route }) => {
           style={styles.text_input}
           keyboardType="decimal-pad"
           onChangeText={(plastic) => setPlasticAmount(plastic.length > 0 ? plastic : 0)}
+          testID='plastic-input'
         />
         <Text style={styles.text_input_label}>Glass</Text>
         <TextInput
@@ -161,6 +163,7 @@ const RecordRecycling = ({ navigation, route }) => {
           style={styles.text_input}
           keyboardType="decimal-pad"
           onChangeText={(glass) => setGlassAmount(glass.length > 0 ? glass : 0)}
+          testID='glass-input'
         />
         <Text style={styles.text_input_label}>Metal</Text>
         <TextInput
@@ -168,6 +171,7 @@ const RecordRecycling = ({ navigation, route }) => {
           style={styles.text_input}
           keyboardType="decimal-pad"
           onChangeText={(metal) => setMetalAmount(metal.length > 0 ? metal : 0)}
+          testID='metal-input'
         />
 
       {(paperAmount.length > 0 || plasticAmount.length > 0 || glassAmount.length > 0 || metalAmount.length > 0) &&
