@@ -133,7 +133,7 @@ export async function signup(username, email, password, confirm) {
     }
     formBody = formBody.join("&");
 
-    await fetch(API_URL + 'user/auth/signup',
+    var result = await fetch(API_URL + 'user/auth/signup',
         {
             method: 'POST',
             headers: {
@@ -143,9 +143,14 @@ export async function signup(username, email, password, confirm) {
         }
     );
 
-    await login(email, password);
+    if (result.status == 200) {
+        await login(email, password);
+        await changeUsername(username);
+    } else {
+        alert('Username already taken');
+        return false;
+    }
 
-    await changeUsername(username);
 }
 
 export async function logout() {

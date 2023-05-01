@@ -66,17 +66,6 @@ export default function Log({ navigation, refreshing, setRefreshing }) {
             </View>
         )
     }
-    async function Refresh() {
-        // console.log("refresh")
-        try {
-            const retData = await GetData(); //put the data here and set the array
-            loadArr(retData); //Sets the 2d array to be in twoDdata
-            setArray(retData[number]); //as well as setting the specific look at to be index 0
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
 
     //function to handle the change to the right (aka today -> yesterday)
     const handleChangeRight = () => {
@@ -109,7 +98,7 @@ export default function Log({ navigation, refreshing, setRefreshing }) {
     };
     //our rendering
     return (
-        <View style={{ backgroundColor: "white", borderRadius: 16, height: (windowHeight / 2) + windowHeight / 14, padding: 10 }}>
+        <View style={{ backgroundColor: "white", borderRadius: 16, padding: 10 }}>
 
             <View style={styles.header}>
                 <View>
@@ -144,7 +133,7 @@ export default function Log({ navigation, refreshing, setRefreshing }) {
                 {/*Additional formatting for the button */}
             </View>
 
-            <View style={{ padding: 10, bottom: 0, position: 'absolute', justifyContent: 'center', flexDirection: 'row', alignSelf: "center" }}>
+            <View style={{ padding: 10, justifyContent: 'flex-end', marginBottom: 10, flexDirection: 'row', alignSelf: "center" }}>
                 <TouchableOpacity
                     style={{
                         backgroundColor: Colors.primary.MINT,
@@ -200,6 +189,7 @@ const styles = StyleSheet.create({
         borderRadius: 16,
     },
     header: {
+        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-end',

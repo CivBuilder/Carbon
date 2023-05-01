@@ -30,7 +30,7 @@ function RenderListEntry({ item, category, username}) {
     if(item.username === username || item.username === username) ClientEntry = true;
     return(
       <View testID="list-entry" style = {[styles.ListEntryContainer, ClientEntry && styles.UserListing]}>
-        
+
         <View style = {styles.RankTextView}>
             <Text style ={styles.ListText}>
                 {item.rank}
