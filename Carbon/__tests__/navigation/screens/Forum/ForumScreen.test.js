@@ -1,5 +1,5 @@
 import { render, waitFor, act} from '@testing-library/react-native';
-import { ForumScreen } from '../../navigation/screens/index.js';
+import { ForumScreen } from '../../../../navigation/screens';
 
 
 describe('ForumScreen', () => {
