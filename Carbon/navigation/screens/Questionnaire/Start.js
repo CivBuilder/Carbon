@@ -9,6 +9,7 @@ const CarbonLogo = ({ onLogoAnimationFinish }) => {
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 1500,
+      delay: 1000,
       useNativeDriver: true,
     }).start(() => {
       // Call the onLogoAnimationFinish callback when the logo animation is finished
@@ -19,8 +20,8 @@ const CarbonLogo = ({ onLogoAnimationFinish }) => {
   return (
     <Animated.View style={[styles.logo, { opacity: fadeAnim }]}>
       <Image
-        source={{ uri: 'https://i.ibb.co/s9Kfh8p/carbon-logo.png' }}
-        style={{ width: 260, height: 130 }}
+        source={require('../../../assets/Carbon_Logo.png')}
+        style={{ width: 260, height: 130, resizeMode: 'contain' }}
       />
     </Animated.View>
   );
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontFamily: 'sans-serif',
-    fontWeight: '500',
+    fontWeight: '600',
     textAlign: 'center',
     color: 'white',
     fontSize: 20,

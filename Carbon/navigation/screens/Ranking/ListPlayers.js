@@ -1,14 +1,18 @@
-import { View, Text, FlatList, Image} from "react-native";
+import { View, Text, VirtualizedList, Image} from "react-native";
 import {Colors} from "../../../styling/Colors";
-import { StyleSheet } from "react-native";
+
+import { StyleSheet} from "react-native";
+
 import { AvatarView } from "../../../util/AvatarProfileMap";
 
 export default function ListPlayers ({table, onRefresh, onEndReached, category, username}) {
-    
     // useEffect()
     return(
-        <FlatList 
+        <VirtualizedList
             data={table}
+            getItem={(table, index) => table[index]}
+            getItemCount={table => table.length}
+            keyExtractor={(item, i) => i}
             renderItem = {({item}) => <RenderListEntry item={item} category={category} username = {username}/>}
             onRefresh = {onRefresh}
             refreshing={false}
@@ -16,9 +20,8 @@ export default function ListPlayers ({table, onRefresh, onEndReached, category, 
             onEndReachedThreshold={0.9}
             style = {{
             }}
-            testID="flatlist"
-        ></FlatList>
-        
+            testID="list"
+        ></VirtualizedList>
     )
 }
 
@@ -29,15 +32,16 @@ function RenderListEntry({ item, category, username}) {
     if(item.username === username || item.username === username) ClientEntry = true;
     return(
       <View testID="list-entry" style = {[styles.ListEntryContainer, ClientEntry && styles.UserListing]}>
-      {/* <Text style = {styles.ListTest}>
-          {item.rank} -  {item.username} - {item[category.title+"score"]}
-      </Text> */}
 
         <View style = {styles.RankTextView}>
             <Text style ={styles.ListText}>
                 {item.rank}
             </Text>
         </View>
+
+        <Text style = {styles.NameText}>
+            {item.username}
+        </Text>
 
         <View style = {styles.avatarView}>
             <Image 
@@ -46,11 +50,6 @@ function RenderListEntry({ item, category, username}) {
             resizeMode = "contain"
             />
         </View>
-
-        
-        <Text style = {styles.NameText}>
-            {item.username}
-        </Text>
 
         <Text style = {styles.ScoreText}>
             {item[category.title+"score"]}
@@ -85,18 +84,16 @@ const styles = StyleSheet.create({
         fontSize : 23, 
         fontWeight : 'bold',
         textAlignVertical : 'center',
-        textAlign : 'center'
+        marginLeft: 4
     },
     RankTextView : {
-        width : "10%", 
+        width : "20%", 
         height : '100%', 
         // backgroundColor : 'cyan'
     },
     avatarView :{
-        marginRight: 10,
-        width : "15%",
+        width : "10%",
         height : "auto",
-        // backgroundColor : "black"
     },
     profileImage : {
         height : "100%",
@@ -106,16 +103,18 @@ const styles = StyleSheet.create({
     NameText : {
         fontSize : 14, 
         height : "100%",
-        // backgroundColor : 'yellow',
         textAlignVertical : 'center',
-        width : "50%",
+        width : "40%",
         marginRight : 10
     },
     ScoreText : {
         fontSize : 15, 
         fontWeight : 'bold',
         height : '100%',
+        width : '10%',
         flex : 1, 
         textAlignVertical : 'center',
+        textAlign : 'right',
+        marginRight : 10,
     }
 });

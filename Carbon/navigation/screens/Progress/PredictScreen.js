@@ -6,8 +6,9 @@ import PredictInput from "../../../calculations/PredictInput";
 import { ScreenNames } from "../Main/ScreenNames";
 import { DailyLog } from "../../../components/ChartData";
 import { API_URL } from '../../../config/Api';
-import { getToken } from '../../../util/LoginManager';
+import { getToken } from "../../../util/UserManagement";
 import { q_styles } from "../Questionnaire/QuestionnaireStyle";
+import LottieView from 'lottie-react-native';
 const windowHeight = Dimensions.get("window").height;
 export default function PredictScreen({ navigation, route }) {
     const [loading, setLoading] = useState(true);
@@ -24,7 +25,7 @@ export default function PredictScreen({ navigation, route }) {
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 2000 + Math.floor(Math.random() * 1000)); // 3 seconds
+        }, 6000 + Math.floor(Math.random() * 1000)); // 3 seconds
 
         return () => clearTimeout(timer); // Clean up the timer on unmount
     }, []);
@@ -48,31 +49,27 @@ export default function PredictScreen({ navigation, route }) {
 
     async function postResults() {
         try {
-            console.log("trying to post")
-            setEmissionsEntry({
+            // console.log("trying to post")
+            const predictedEmissions = {
                 transport_emissions: data[0],
                 total_emissions: data[4],
                 lifestyle_emissions: data[2],
                 diet_emissions: data[1],
                 home_emissions: data[3]
-            });
+            };
             //post emission to server
-            const response = await fetch(`${API_URL}userEmissions`, {
+            const response = await fetch(API_URL + 'userEmissions', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'secrettoken': await getToken(),
                 },
-                body: JSON.stringify(emissionsEntry)
+                body: JSON.stringify(predictedEmissions)
             });
+
             //exit screen on successful request
             if (response.status === 200) {
-                console.log("Successful Post!");
-                navigation.goBack();
-            }
-            //if second post for the day - alert and also go back
-            else if (response.status === 204) {
-                alert(`You can only upload results once a day :(`);
+                // console.log("Successful Post!");
                 navigation.goBack();
             }
             //Alert on bad request - should only see on testing 
@@ -89,40 +86,29 @@ export default function PredictScreen({ navigation, route }) {
             source={require('../../../assets/get-started-background.png')}
             style={q_styles.background}
         >
-            <SafeAreaView>
+            <SafeAreaView style={{flex: 1, justifyContent: 'center', alignItems:'center'}}>
 
                 {loading || !data ? (
-                    <View>
+                    <View style={{
+                        flex: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}>
                         <View style={{
                             alignItems: 'center',
                             justifyContent: 'center',
-                            paddingTop: windowHeight / 4
                         }}>
-
                             <Text style={{
                                 color: Colors.primary.MINT,
-                                fontWeight: 'bold',
-                                fontSize: 18
-                            }}>Predicting Results</Text>
-                                                    <ActivityIndicator size="large" color={Colors.primary.MINT} style={LoadingIndicatorStyle} testID="loading-indication"/>
-
+                                fontWeight: '500',
+                                fontSize: 24,
+                                textAlign: 'center',
+                                marginBottom: -50
+                            }}>Predicting Results...</Text>
                         </View>
-                        <View style={{
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginVertical: 20
-                        }}>
-                          
-                                <Image
-                                    source={require('../../../assets/crystal-ball.png')}
 
-                                    resizeMode='contain'
-                                    style={{
-                                        width: Dimensions.get('window').width * 0.35,
-                                        height: Dimensions.get('window').width * 0.35,
-                                    }}
-                                />
-                        </View>
+                        <LottieView speed={2} style={{ height: 280, marginHorizontal: 8 }} source={require('../../../assets/lotties/tinytown.json')} autoPlay loop />
+
                     </View>
                 ) : (
 
@@ -131,7 +117,6 @@ export default function PredictScreen({ navigation, route }) {
                         <View style={{
                             alignItems: 'center',
                             justifyContent: 'center',
-                            marginVertical: (windowHeight / 4) + 10
                         }}>
                             <Text style={{
                                 fontSize: 18,
@@ -155,11 +140,9 @@ export default function PredictScreen({ navigation, route }) {
                         </View>
                     ) : (
                         <View style={{
-                            backgroundColor: "white",
                             borderRadius: 16,
-                            height: windowHeight / 2,
-                            padding: 10, marginHorizontal: 10,
-                            marginVertical: 10,
+                            padding: 10,
+                            margin: 10,
                         }}>
                             <Text style={{
                                 textAlign: 'center',
@@ -167,31 +150,34 @@ export default function PredictScreen({ navigation, route }) {
                                 fontSize: 18,
                                 color: Colors.primary.MINT,
                                 fontWeight: 'bold'
-                            }}>Here is your predicted data.</Text>
-                            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                            }}>Here is your predicted daily emission for today (in lbs CO{`\u2082`}).</Text>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15, }}>
                                 <DailyLog dataArray={data}> </DailyLog>
                             </View>
                             <View style={{ padding: 10, justifyContent: 'center', flexDirection: 'row', alignSelf: "center" }} >
                                 <TouchableOpacity style={{
-                                    backgroundColor: Colors.primary.MINT,
-                                    borderRadius: 5,
+                                    borderRadius: 12,
+                                    borderWidth: 2,
+                                    borderColor: '#db2525',
                                     flex: 1,
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     margin: 10,
-                                }} testID="accept-predict-button" onPress={() => navigation.goBack()}>
+                                    padding:6,
+                                }} testID="reject-predict-button" onPress={() => navigation.goBack()}>
 
-                                    <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 24 }}>Decline</Text>
+                                    <Text style={{ color: '#db2525', fontWeight: '500', fontSize: 18, letterSpacing:.8, }}>Decline</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={{
                                     backgroundColor: Colors.primary.MINT,
-                                    borderRadius: 5,
+                                    borderRadius: 12,
                                     flex: 1,
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     margin: 10,
-                                }} testID="accept-predict-button" onPress={() => postResults()}>
-                                    <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: 'bold', fontSize: 24 }}>Accept</Text>
+                                    padding:6,
+                                }} testID="accept-predict-button" onPress={async () => await postResults()}>
+                                    <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: '500', fontSize: 18, letterSpacing:.8, }}>Accept</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -199,6 +185,7 @@ export default function PredictScreen({ navigation, route }) {
 
                 )}
             </SafeAreaView>
+
         </ImageBackground>
     )
 

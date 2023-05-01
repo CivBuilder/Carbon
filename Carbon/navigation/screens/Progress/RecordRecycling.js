@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput} from 'react-native';
 import CustomPicker from './CustomPicker';
 import {Colors} from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
@@ -7,6 +7,7 @@ import calcPaper  from '../../../calculations/recycling_calculations/calcPaper'
 import calcPlastic from '../../../calculations/recycling_calculations/calcPlastic'
 import calcMetal from '../../../calculations/recycling_calculations/calcMetal'
 import calcGlass from '../../../calculations/recycling_calculations/calcGlass'
+import { validateRecyclingEntry } from '../../../util/RecordEmissionChecks';
 
 const RecordRecycling = ({ navigation, route }) => {
   const [emissionsEntry, setEmissionsEntry] = useState();
@@ -90,7 +91,7 @@ const RecordRecycling = ({ navigation, route }) => {
   //update the total recycled when the state variables change
   useEffect(() => {
     const newTotalRecycled = calcRecycled();
-    console.log('total recycled: ', newTotalRecycled, 'lbs')
+    // console.log('total recycled: ', newTotalRecycled, 'lbs')
     setRecycledAmount(newTotalRecycled);
   }, [paperAmount, plasticAmount, glassAmount, metalAmount]);
 
@@ -110,9 +111,9 @@ const RecordRecycling = ({ navigation, route }) => {
         <Text style={styles.header}>Did you know?</Text>
         <Text style={styles.label}>{memoizedFunFact}</Text>
       </View>
-      <Text style={styles.header}>Log the amount of each material you recycled today</Text>
+      <Text style={styles.header}>Log each material you recycled today</Text>
       <View style={styles.pickercontainer}>
-        <CustomPicker
+        {/* <CustomPicker
           label="Paper"
           selectedValue={paperAmount}
           onValueChange={setPaperAmount}
@@ -139,11 +140,42 @@ const RecordRecycling = ({ navigation, route }) => {
           onValueChange={setMetalAmount}
           items={weights}
           testID='metal-picker'
+        /> */}
+        <Text style={styles.text_input_label}>Paper</Text>
+        <TextInput
+          placeholder='lbs'
+          style={styles.text_input}
+          keyboardType="decimal-pad"
+          onChangeText={(paper) => setPaperAmount(paper.length > 0 ? paper : 0)}
         />
-       
-      <TouchableOpacity testID='save-button' style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
-        <Text style={styles.buttonText}>Save & Return</Text>
-      </TouchableOpacity>   
+        <Text style={styles.text_input_label}>Plastic</Text>
+        <TextInput
+          placeholder='lbs'
+          style={styles.text_input}
+          keyboardType="decimal-pad"
+          onChangeText={(plastic) => setPlasticAmount(plastic.length > 0 ? plastic : 0)}
+        />
+        <Text style={styles.text_input_label}>Glass</Text>
+        <TextInput
+          placeholder='lbs'
+          style={styles.text_input}
+          keyboardType="decimal-pad"
+          onChangeText={(glass) => setGlassAmount(glass.length > 0 ? glass : 0)}
+        />
+        <Text style={styles.text_input_label}>Metal</Text>
+        <TextInput
+          placeholder='lbs'
+          style={styles.text_input}
+          keyboardType="decimal-pad"
+          onChangeText={(metal) => setMetalAmount(metal.length > 0 ? metal : 0)}
+        />
+
+      {(paperAmount.length > 0 || plasticAmount.length > 0 || glassAmount.length > 0 || metalAmount.length > 0) &&
+       (parseFloat(paperAmount) + parseFloat(plasticAmount) + parseFloat(glassAmount) + parseFloat(metalAmount)) > 0 && (
+        <TouchableOpacity testID='save-button' style={styles.button} onPress={() => validateRecyclingEntry(paperAmount, plasticAmount, glassAmount, metalAmount) ? navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry}) : alert("Each entry must be a number between 0 and 50.")}>
+          <Text style={styles.buttonText}>Save & Return</Text>
+        </TouchableOpacity>
+      )}
     </View>
     </View>
     </ScrollView>
@@ -158,14 +190,16 @@ const styles = StyleSheet.create({
       flexGrow: 1,
     },
     container: {
-        flex: 1,
-        alignItems: 'center',
-        backgroundColor: Colors.primary.MINT,
+      flex: 1,
+      alignItems: 'center',
+      backgroundColor: Colors.secondary.NYANZA,
+      paddingHorizontal: 24,
     },
     label: {
-        fontSize: 16,
-        color: Colors.primary.RAISIN_BLACK,
-        marginBottom: 10,
+      fontSize: 16,
+      color: Colors.primary.RAISIN_BLACK,
+      marginBottom: 10,
+      textAlign: 'center',
     },
     pickercontainer: {
       width: '100%',
@@ -174,30 +208,50 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     button: {
-      backgroundColor: Colors.secondary.ALMOND,
+      flex: 1,
+      justifyContent:'flex-end',
+      backgroundColor: Colors.secondary.DARK_MINT,
       borderRadius: 8,
-      paddingVertical: 12,
-      paddingHorizontal: 12,
-      margin: 4,
+      padding: 12,
       minWidth: 60,
       alignItems: 'center',
     },
     buttonText: {
-      color: Colors.primary.RAISIN_BLACK,
+      color: Colors.primary.MINT_CREAM,
       fontWeight: 'bold',
       fontSize: 16,
     },
     funfact: {
-      backgroundColor: Colors.primary.MINT_CREAM,
-      padding: 10,
+      borderRadius: 12,
+      borderWidth: 2,
+      borderColor: Colors.primary.MINT,
+      backgroundColor: Colors.secondary.CELADON,
+      padding: 12,
+      width: '100%',
       justifyContent: 'flex-start',
       alignItems: 'center',
-      marginBottom: 20,
-      width: '100%',
+      marginVertical: 12,
     },
     header: {
       fontSize: 20,
       fontWeight: 'bold',
+      marginTop: 12,
       marginBottom: 10,
+    },
+    text_input_label: {
+      fontSize:16,
+      fontWeight:"500",
+      marginBottom:12,
+      textAlign: 'center',
+    },
+    text_input: {
+        height: 40,
+        width: 12*16,
+        borderColor: 'gray',
+        borderWidth: 1.5,
+        borderRadius: 6,
+        padding: 10,
+        marginBottom: 24,
+        backgroundColor: 'white',
     },
   });

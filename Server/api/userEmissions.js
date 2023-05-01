@@ -13,20 +13,17 @@ const moment = require('moment');
           GET
 **********************/
 
-router.get('/',  passport.authenticate('jwt', { session: false }), async function (req, res) {
-  const date = new Date(); //get date
-  day = date.getDate(); //grab the day and month
-  month = date.getMonth() + 1;
-  year = date.getFullYear();
-  const todaysDate = new Date(year, month, day);
+router.get('/', passport.authenticate('jwt', { session: false }), async function (req, res) {
+  // Use Moment.js to get today's date in the UTC timezone
+  const todaysDate = moment.utc().startOf('day');
 
- const userId = req.user.id;
+  const userId = req.user.id;
   //const userId = 323; //for testing
   //console.log("finding for this ID" + userId);
   const data = await UserEmissions.findAll({
     where: {
       user_id: userId,
-    
+
     }
   });
   const content = data.filter(item => item.user_id == userId);
@@ -50,13 +47,15 @@ router.get('/',  passport.authenticate('jwt', { session: false }), async functio
     checkDay = value.substring(8, 11);
     checkYear = value.substring(0, 4);
     //grabbing the emissions for the relevant data set
+    const oldDate = moment([checkYear, checkMonth - 1, checkDay]).toDate();
+    const difference_in_days = moment(todaysDate).diff(moment(oldDate), 'days');
+    if (difference_in_days == 0) {
+    }
     transport = obj.transport_emissions;
     diet = obj.diet_emissions;
     lifestyle = obj.lifestyle_emissions;
     home = obj.home_emissions;
     total = obj.total_emissions;
-    const oldDate = new Date(checkYear, checkMonth, checkDay);
-    difference_in_days = (todaysDate.getTime() - oldDate.getTime()) / (1000 * 60 * 60 * 24); //gets diff in ms then converts to days
 
     if (difference_in_days == 0) {
       //Add to the daily array
@@ -149,12 +148,10 @@ router.get('/',  passport.authenticate('jwt', { session: false }), async functio
 });
 
 /* Finds all Entries where a user posted a submission*/
-router.get('/getAll',passport.authenticate('jwt', { session: false }), async function (req, res)  {
-  console.log("getting by id")
+router.get('/getAll', passport.authenticate('jwt', { session: false }), async function (req, res) {
   const user_entry = await UserEmissions.findAll({
     where: {
       user_id: req.user.id
-     // user_id: 323 // for testing
     }
   });
   if (!user_entry || user_entry.length === 0) {
@@ -275,6 +272,71 @@ router.post('/previousMonthEmissions', passport.authenticate('jwt', { session: f
   return res.status(200).json(records);
 });
 
+
+/**
+  Retrieves a user's total emissions for the previous calendar month for goal setting.
+**/
+router.post('/lastCalendarMonthEmissions', passport.authenticate('jwt', { session: false }), async function (req, res) {
+  const userId = req.user.id;
+
+  // set up the date range from a month ago to today
+  const now = new Date();
+  const lastMonthStart = moment(now).subtract(1, 'month').startOf('month').format('YYYY-MM-DD');
+  const lastMonthEnd = moment(now).subtract(1, 'month').endOf('month').format('YYYY-MM-DD');
+
+
+  // Find data based on user_id and given month
+  const records = await UserEmissions.findAll({
+    where: {
+      [Op.and]: [
+        { user_id: userId },
+        { date: { [Op.between]: [lastMonthStart, lastMonthEnd] } }
+      ]
+    },
+    attributes: ['total_emissions'] // Only select the total_emissions column
+  });
+
+  // means this is a new user, show 0 pounds of CO2
+  if (records.length === 0) {
+    const records = [{ total_emissions: 0 }];  // create a new array with the total_emissions column
+    return res.status(200).json(records);
+  }
+
+  return res.status(200).json(records);
+});
+
+
+/**
+  Retrieves a user's total emissions for the previous calendar month for goal setting.
+**/
+router.post('/thisCalendarMonthEmissions', passport.authenticate('jwt', { session: false }), async function (req, res) {
+  const userId = req.user.id;
+
+  // set up the date range from a month ago to today
+  const now = new Date();
+  const thisMonthStart = moment(now).startOf('month').format('YYYY-MM-DD');
+  const today = moment(now).format('YYYY-MM-DD');
+
+  // Find data based on user_id and given month
+  const records = await UserEmissions.findAll({
+    where: {
+      [Op.and]: [
+        { user_id: userId },
+        { date: { [Op.between]: [thisMonthStart, today] } }
+      ]
+    },
+    attributes: ['total_emissions'] // Only select the total_emissions column
+  });
+
+  // means this is a new user, show 0 pounds of CO2
+  if (records.length === 0) {
+    const records = [{ total_emissions: 0 }];  // create a new array with the total_emissions column
+    return res.status(200).json(records);
+  }
+
+  return res.status(200).json(records);
+});
+
 /**
   Retrieves a user's total emissions for the previous month for goal setting.
 **/
@@ -350,35 +412,62 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
   }
 
   //Validate if user has already posted once today
-  const now = new Date();
-  const todaysDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const nextDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  // Get the start of the current day in the user's timezone
+  const todaysStart = moment().utc().startOf('day');
+  // Get the start of the next day in the user's timezone
+  const todaysEnd = moment(todaysStart).utc().add(1, 'day');
 
+  // Use the variables in the Sequelize query
   const todaysEntries = await UserEmissions.findAll({
     where: {
+      user_id: req.user.id,
       date: {
-        [Op.between]: [todaysDate, nextDay],
+        [Op.gte]: todaysStart,
+        [Op.lt]: todaysEnd,
       }
     }
   });
 
-  if (todaysEntries.some((entry) => entry.user_id === req.user.id))
-    return res.status(204).send(`User Entry already submitted today.`);
-
-
-
-
   const today = new Date().toISOString().slice(0, 10);
 
-  await UserEmissions.create({
-    user_id: req.user.id,                                 //Needs to change with sessions states
-    date: sequelize.fn('STR_TO_DATE', today, '%Y-%m-%d'),
-    total_emissions: req.body.total_emissions,
-    transport_emissions: req.body.transport_emissions,
-    lifestyle_emissions: req.body.lifestyle_emissions,
-    diet_emissions: req.body.diet_emissions,
-    home_emissions: req.body.home_emissions
-  });
+  // if an entry already exists, update it
+  if (todaysEntries.length > 0) {
+    const { total_emissions, transport_emissions, lifestyle_emissions, diet_emissions, home_emissions } = todaysEntries[0];
+    const newTotal = req.body.total_emissions + total_emissions;
+    const newTrans = req.body.transport_emissions + transport_emissions;
+    const newLifestyle = req.body.lifestyle_emissions + lifestyle_emissions;
+    const newDiet = req.body.diet_emissions + diet_emissions;
+    const newHome = req.body.home_emissions + home_emissions;
+
+    await UserEmissions.update({
+      total_emissions: newTotal,
+      transport_emissions: newTrans,
+      lifestyle_emissions: newLifestyle,
+      diet_emissions: newDiet,
+      home_emissions: newHome
+    }, {
+      where: {
+        user_id: req.user.id,
+        date: {
+          [Op.gte]: todaysStart,
+          [Op.lt]: todaysEnd,
+        }
+      }
+    });
+  }
+
+  // otherwise, create a new entry
+  else {
+    await UserEmissions.create({
+      user_id: req.user.id,                                 //Needs to change with sessions states
+      date: sequelize.fn('STR_TO_DATE', today, '%Y-%m-%d'),
+      total_emissions: req.body.total_emissions,
+      transport_emissions: req.body.transport_emissions,
+      lifestyle_emissions: req.body.lifestyle_emissions,
+      diet_emissions: req.body.diet_emissions,
+      home_emissions: req.body.home_emissions
+    });
+  }
 
   await UpdateScore(req.user.id);
   return res.status(200).send("Data Successfully posted to Database.");

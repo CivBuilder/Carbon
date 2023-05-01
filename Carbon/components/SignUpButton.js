@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontFamily: 'sans-serif',
+    // fontFamily: 'sans-serif',
   },
 })
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import CustomPicker from './CustomPicker';
 import {Colors} from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
@@ -7,6 +7,7 @@ import calcBeef  from '../../../calculations/food_calculations/calcBeef'
 import calcCheese from '../../../calculations/food_calculations/calcCheese'
 import calcPork from '../../../calculations/food_calculations/calcPork'
 import calcPoultry from '../../../calculations/food_calculations/calcPoultry'
+import { validateFoodEntry } from '../../../util/RecordEmissionChecks';
 
 const RecordFood = ({ navigation, route }) => {
   const [totalConsumption, setTotalConsumption] = useState(0);
@@ -61,7 +62,7 @@ const RecordFood = ({ navigation, route }) => {
   // Call setTotalConsumption when the consumption state variables change
   useEffect(() => {
     const newTotalConsumption = calcConsumption();
-    console.log('total consumption: ', newTotalConsumption, 'lbs')
+    // console.log('total consumption: ', newTotalConsumption, 'lbs')
     setTotalConsumption(newTotalConsumption);
   }, [beefConsumption, cheeseConsumption, porkConsumption, poultryConsumption]);
 
@@ -85,7 +86,7 @@ const RecordFood = ({ navigation, route }) => {
       </View>
       <Text style={styles.header}>Log your food intake for today</Text>
       <View style={styles.pickercontainer}>
-        <CustomPicker
+        {/* <CustomPicker
           label='Red Meat'
           selectedValue={beefConsumption}
           onValueChange={setBeefConsumption}
@@ -112,10 +113,48 @@ const RecordFood = ({ navigation, route }) => {
           onValueChange={setPoultryConsumption}
           items={weights}
           testID='poultry-picker'
-        /> 
-        <TouchableOpacity testID ='save-button' style={styles.button} onPress={() => navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry})}>
+        /> */}
+
+        <Text style={styles.text_input_label}>Red Meat</Text>
+        <TextInput
+          placeholder='lbs'
+          style={styles.text_input}
+          keyboardType="numeric"
+          onChangeText={(beef) => setBeefConsumption(beef.length > 0 ? beef : 0)}
+        />
+
+        <Text style={styles.text_input_label}>Cheese</Text>
+        <TextInput
+          placeholder='lbs'
+          style={styles.text_input}
+          keyboardType="numeric"
+          onChangeText={(cheese)=> setCheeseConsumption(cheese.length > 0 ? cheese : 0)}
+        />
+
+        <Text style={styles.text_input_label}>Pork</Text>
+        <TextInput
+          placeholder='lbs'
+          style={styles.text_input}
+          keyboardType="numeric"
+          onChangeText={(pork) => setPorkConsumption(pork.length > 0 ? pork : 0)}
+        />
+
+        <Text style={styles.text_input_label}>Poultry</Text>
+        <TextInput
+          placeholder='lbs'
+          style={styles.text_input}
+          keyboardType="numeric"
+          onChangeText={(poultry) => setPoultryConsumption(poultry.length > 0 ? poultry : 0)}
+        />
+
+      {(beefConsumption.length > 0 || cheeseConsumption.length > 0 || porkConsumption.length > 0 || poultryConsumption.length > 0) &&
+       (parseFloat(beefConsumption) + parseFloat(cheeseConsumption) + parseFloat(porkConsumption) + parseFloat(poultryConsumption)) > 0 && (
+        <View style={{flex:1, justifyContent:'flex-end'}}>
+        <TouchableOpacity testID ='save-button' style={styles.button} onPress={() => validateFoodEntry(beefConsumption, porkConsumption, cheeseConsumption, poultryConsumption) ? navigation.navigate(ScreenNames.RECORD_EMISSION, {returningEmissionsEntry : emissionsEntry}) : alert("Each entry must be a number between 0 and 10.")}>
           <Text style={styles.buttonText}>Save & Return</Text>
         </TouchableOpacity>
+        </View>
+      )}
       </View>
     </View>
     </ScrollView>
@@ -129,12 +168,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: Colors.secondary.ALMOND,
+    backgroundColor: Colors.secondary.NYANZA,
   },
   label: {
     fontSize: 16,
     color: Colors.primary.RAISIN_BLACK,
     marginBottom: 10,
+    textAlign: 'center',
   },
   pickercontainer: {
     width: '100%',
@@ -148,11 +188,11 @@ const styles = StyleSheet.create({
   },
   
   button: {
+    flex: 1,
+    justifyContent:'flex-end',
     backgroundColor: Colors.secondary.DARK_MINT,
     borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    margin: 4,
+    padding: 12,
     minWidth: 60,
     alignItems: 'center',
   },
@@ -162,19 +202,37 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   funfact: {
-    backgroundColor: Colors.primary.MINT,
-    padding: 10,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: Colors.primary.MINT,
+    backgroundColor: Colors.secondary.CELADON,
+    padding: 12,
+    marginHorizontal: 24,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginBottom: 20,
-    width: '100%',
+    marginVertical: 12,
   },
   header: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
   },
-  
+  text_input_label: {
+    fontSize:16,
+    fontWeight:"500",
+    marginBottom:12,
+    textAlign: 'center',
+  },
+  text_input: {
+      height: 40,
+      width: 12*16,
+      borderColor: 'gray',
+      borderWidth: 1.5,
+      borderRadius: 6,
+      padding: 10,
+      marginBottom: 24,
+      backgroundColor: 'white',
+  },
 });
 
 export default RecordFood;

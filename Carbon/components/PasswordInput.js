@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     color: 'black',
     padding: 0,
     fontSize: 16,
-    fontFamily: 'sans-serif',
+    // fontFamily: 'sans-serif',
     paddingLeft: 15,
   },
   iconContainer: {

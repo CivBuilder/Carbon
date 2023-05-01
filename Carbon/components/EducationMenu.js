@@ -8,7 +8,7 @@ const EducationMenu = ({title, imageSrc, onPress}) => {
         backgroundColor: '#43b262'
     }
     return(
-        <View style={{paddingHorizontal: 10}}>
+        <View style={{paddingHorizontal: 10, alignItems: 'center'}}>
             <TouchableOpacity style = {styles.roundButton}  onPress={onPress}>
                 <Image style = {styles.categoryIcon} source={imageSrc} />
             </TouchableOpacity>

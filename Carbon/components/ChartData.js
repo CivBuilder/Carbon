@@ -29,10 +29,10 @@ export function DailyLog ({dataArray}) {
             {
             data: dataArray,
             colors: [
-                (opacity = 1) =>  Colors.primary.MINT,
-                (opacity = 1) =>  Colors.primary.MINT,
-                (opacity = 1) =>  Colors.primary.MINT, //all colors will be MINt
-                (opacity = 1) =>  Colors.primary.MINT,
+                (opacity = 1) =>  Colors.categories.TRANSPORTATION,
+                (opacity = 1) =>  Colors.categories.DIET,
+                (opacity = 1) =>  Colors.categories.HOME, //all colors will be MINt
+                (opacity = 1) =>  Colors.secondary.DARK_MINT,
             ]
             }
         ]
@@ -90,7 +90,7 @@ const styleBar = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         backgroundGradientFrom: '#FFFFFF',
         backgroundGradientTo: '#FFFFFF',
-        decimalPlaces: 2, // optional, defaults to 2dp
+        decimalPlaces: 1, // optional, defaults to 2dp
         color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, //transparent
         labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
 

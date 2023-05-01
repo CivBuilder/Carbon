@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 
 export const q_styles = StyleSheet.create({
@@ -9,6 +9,12 @@ export const q_styles = StyleSheet.create({
         right: 0,
         bottom: 0,
         zIndex: -1,
+    },
+    back_button: {
+        position: 'absolute',
+        top: 40,
+        left: 12,
+        zIndex: 999,
     },
     questionnaire_container: {
         flex: 1,
@@ -21,7 +27,6 @@ export const q_styles = StyleSheet.create({
         fontWeight: '400',
         marginBottom: 40,
         textAlign: 'center',
-
     },
     answer_container: {
         width: '60%',
@@ -57,36 +62,18 @@ export const q_styles = StyleSheet.create({
         textAlign: 'center',
         color: Colors.primary.RAISIN_BLACK,
     },
-    cta_container: {
-        alignItems: 'center',
-        marginHorizontal: 12,
-    },
-    cta_button: {
-        position: 'absolute',
-        bottom: 20,
-        borderRadius: 6,
-        padding: 10,
-        alignItems: 'center',
-        width: '90%',
-        backgroundColor: Colors.primary.MINT,
-    },
-    cta_text: {
-        fontSize: 18,
-        fontWeight: '400',
-        color: Colors.primary.MINT_CREAM,
-    },
     score_text: {
-        fontSize: 24,
+        fontSize: Dimensions.get('window').width * 0.06,
         fontWeight: '500',
         marginBottom: 3,
     },
     score_category_container: {
         backgroundColor:'white',
-        borderRadius: 50,
+        borderRadius: 200,
         borderWidth: 3,
         justifyContent:'center',
         alignItems: 'center',
-        paddingHorizontal: 21,
-        paddingTop: 3,
+        height: Dimensions.get('window').width * 0.24,
+        width: Dimensions.get('window').width * 0.24,
     }
 });
