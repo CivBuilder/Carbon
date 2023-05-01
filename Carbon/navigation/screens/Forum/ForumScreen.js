@@ -223,7 +223,6 @@ export default function ForumScreen({navigation, params}) {
             <View style={{flex: 4}}>
                 <VirtualizedList
                     data={selectedData}
-                    
                     getItem={(data, index) => {
                         var items = [];
                         for (var i = 0; i < 2; i++) {
