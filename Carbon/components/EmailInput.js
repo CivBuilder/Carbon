@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
         fontSize: 16,
-        fontFamily: 'sans-serif',
+        // fontFamily: 'sans-serif',
         marginTop: 10,
         paddingLeft: 15,
     },
