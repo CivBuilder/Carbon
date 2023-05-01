@@ -1,6 +1,6 @@
 import { View, Text, VirtualizedList, Image} from "react-native";
 import {Colors} from "../../../styling/Colors";
-import { StyleSheet, VirtualizedList } from "react-native";
+import { StyleSheet} from "react-native";
 import { AvatarView } from "../../../util/AvatarProfileMap";
 
 export default function ListPlayers ({table, onRefresh, onEndReached, category, username}) {
