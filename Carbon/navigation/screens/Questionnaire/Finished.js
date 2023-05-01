@@ -58,8 +58,8 @@ export default function FinishedScreen({ navigation, route }) {
 
     const updateSustainability = async () => {
         try {
-            console.log("Updating sustainability score");
-            console.log(questionnaireBody);
+            // console.log("Updating sustainability score");
+            // console.log(questionnaireBody);
             const response = await fetch(API_URL + 'user/questionnaire', {
                 method: 'PUT',
                 headers: {
@@ -70,13 +70,13 @@ export default function FinishedScreen({ navigation, route }) {
             });
 
             if (response.status === 200) {
-                console.log("Updated sustainability score");
+                // console.log("Updated sustainability score");
             } else {
                 // console.log("Failed to update sustainability score");
                 // console.log(await response.text());
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     }
 
