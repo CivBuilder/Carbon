@@ -5,6 +5,7 @@ import { getToken } from '../../../util/UserManagement';
 import { API_URL } from '../../../config/Api';
 import { Colors } from '../../../styling/Colors';
 import { Ionicons } from '@expo/vector-icons';
+import LottieView from 'lottie-react-native';
 
 const QuizScreen = ({ navigation, route }) => {
   //used for fetching data
@@ -224,26 +225,23 @@ const QuizScreen = ({ navigation, route }) => {
             <ActivityIndicator size="large" />
           </View>
         ) : (
-          <View>
-            {quizCompleted ? (
-              <View style={{ height: '100%', justifyContent: 'center', alignItems: 'center', }}>
-                <View style={styles.result_container}>
+            quizCompleted ? (
+              <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
+                <View style={{marginTop:'7%'}}>
                   <Text style={styles.result_heading}>Quiz completed!</Text>
-                  <View style={{ backgroundColor: 'white', borderRadius: 200, width: Dimensions.get('window').height * .25, height: Dimensions.get('window').height * .25, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text
-                      style={{
-                        ...styles.result_score,
-                        color:
-                          score / data.questions.length >= 0.8
-                            ? "#3CB371" // Green if at least 80% of the questions are correct
-                            : score / data.questions.length >= 0.5
-                              ? "#FFA500" // Yellow if between 50% and 80%
-                              : "#FF6347", // Red if below 50%
-                      }}
-                    >
-                      {Math.round(score / data.questions.length * 100)}%
-                    </Text>
-                  </View>
+                  <Text
+                    style={{
+                      ...styles.result_score,
+                      color:
+                        score / data.questions.length >= 0.8
+                          ? "#3CB371" // Green if at least 80% of the questions are correct
+                          : score / data.questions.length >= 0.5
+                            ? "#FFA500" // Yellow if between 50% and 80%
+                            : "#FF6347", // Red if below 50%
+                    }}
+                  >
+                    {Math.round(score / data.questions.length * 100)}%
+                  </Text>
 
                   <Text style={styles.result_info}>{`You got ${score} out of ${data.questions.length} questions right.`}</Text>
 
@@ -259,15 +257,14 @@ const QuizScreen = ({ navigation, route }) => {
                     {score / data.questions.length == 0 &&
                       "Don't give up! You can retake the quiz and try again!"}
                   </Text>
-
                 </View>
 
+                <LottieView speed={2} style={{ width: 240 }} source={require('../../../assets/lotties/thinking-man.json')} autoPlay loop />
 
                 <View
                   style={{
-                    flex: 1,
-                    position: 'absolute',
-                    bottom: 20,
+                    alignItems: 'center',
+                    marginBottom: 20,
                     width: '100%',
                   }}
                 >
@@ -290,10 +287,9 @@ const QuizScreen = ({ navigation, route }) => {
 
               <View style={{ height: '100%' }}>
                 {/* Close button and exit modal */}
-                <View style={{ position: 'relative' }}>
                   <TouchableOpacity
                     onPress={() => { setShowModal(true); }}
-                    style={{ position: 'absolute', top: 0, right: 0, }}
+                    style={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}
                   >
                     <Ionicons name="close-outline" size={30} color="black" />
                   </TouchableOpacity>
@@ -361,8 +357,6 @@ const QuizScreen = ({ navigation, route }) => {
                     </Modal>
                   )}
 
-                </View>
-
                 <View style={{ flex: 1 }}>
                   <View style={{ marginTop: 36 }} >
                     {/* Question */}
@@ -400,8 +394,7 @@ const QuizScreen = ({ navigation, route }) => {
                   </View>
                 </View>
               </View>
-            )}
-          </View>
+            )
         )}
       </SafeAreaView>
     </Modal>
@@ -410,10 +403,10 @@ const QuizScreen = ({ navigation, route }) => {
 
 styles = StyleSheet.create({
   screen: {
+    flex: 1,
     backgroundColor: '#F7FCF8',
     paddingTop: 12,
-    paddingHorizontal: 24,
-    height: '100%',
+    marginHorizontal: 24,
   },
   question_container: {
     borderRadius: 16,
@@ -457,6 +450,7 @@ styles = StyleSheet.create({
     backgroundColor: Colors.primary.MINT,
     justifyContent: 'center',
     padding: 6,
+    width: '100%',
   },
   cta_text: {
     fontSize: 24,
@@ -464,31 +458,19 @@ styles = StyleSheet.create({
     textAlign: 'center',
     color: Colors.primary.MINT_CREAM,
   },
-  result_container: {
-    paddingVertical: 36,
-    paddingHorizontal: 24,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: Dimensions.get('window').height / 4,
-    backgroundColor: '#9BECF2',
-    borderRadius: 36,
-  },
   result_heading: {
     textAlign: 'center',
-    fontSize: 36,
+    fontSize: 30,
     fontWeight: '500',
-    marginBottom: 12,
   },
   result_subheading: {
     textAlign: 'center',
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 4,
   },
   result_score: {
     textAlign: 'center',
-    fontSize: 72,
+    fontSize: 62,
     fontWeight: '800',
     marginVertical: 24,
   },
@@ -496,7 +478,7 @@ styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     fontWeight: '400',
-    marginVertical: 24,
+    marginBottom: 12,
   },
   result_encouragement: {
     textAlign: 'center',
