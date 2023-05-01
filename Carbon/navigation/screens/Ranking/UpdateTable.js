@@ -54,7 +54,7 @@ export default async function updateTable(setLeaderboardTables, leaderboardTable
       let copiedArray = leaderboardTables.map(obj => ({...obj}));
       setLeaderboardTables(copiedArray);
     }
-    else{
+    else if (response.status === 404){
       throw new Error(`Error: ${response.status} : ${response.statusText}`);
     }
   }
