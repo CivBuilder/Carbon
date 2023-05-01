@@ -42,7 +42,7 @@ export default function ProgressScreen({ navigation }) {
           fontWeight: '500',
         }}>Category By Time</Text>
         <View style={styles.container}>
-          <Log navigation={navigation} ></Log>
+          <Log navigation={navigation} refreshing={refreshing} setRefreshing={setRefreshing}></Log>
         </View>
 
         <Section title="Net Emissions">
