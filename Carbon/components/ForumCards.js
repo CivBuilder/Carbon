@@ -1,13 +1,10 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, Card } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image, Card, Platform } from 'react-native'
 import Swiper from 'react-native-swiper';
 import React from 'react'
-import { Platform } from 'react-native';
-
 import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import * as thumbnails from '../assets/Forum';
 import { Colors } from '../styling/Colors';
 import { ScreenNames } from '../navigation/screens/Main/ScreenNames';
-import { Platform } from "react-native";
 
 
 const ForumCards = ({ navigation }) => {
