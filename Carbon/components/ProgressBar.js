@@ -4,7 +4,6 @@ import { Colors } from '../styling/Colors.js';
 import { useEffect } from 'react';
 import { useRef, useState } from 'react';
 
-const { width } = Dimensions.get('window');
 
 /**
  * Displays Animated progress bar where progress/total % will be filled in
@@ -12,7 +11,7 @@ const { width } = Dimensions.get('window');
  * @param {Number} total - total value to be me
  */
 export default function RankProgressBar({ progress, total }) {
-    const [ratio, setRatio] = useState((progress === total || total === 0) ? 1 : progress/total);
+  const [ratio, setRatio] = useState((progress === total || total === 0) ? 1 : progress/total);
   const [barWidth, setWidth] = useState(0);
   const onLayout = (event) => {
     const { width } = event.nativeEvent.layout;

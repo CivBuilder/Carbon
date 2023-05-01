@@ -29,20 +29,13 @@ export default async function getUserScores(setUserScores, setLoading, setErrorM
       else{
         throw new Error(`Fetch from ${API_Entry_RANK_URL} Failed, Error: ${response.status}`)
       }
-    } 
+    }
     //Handle any other errors not necessarily from Server
     catch(err) {
       setUserScores(null);
       setErrorMessage(`${err.message}`);
       console.log(`${err.message}`);
     }
-  }
-  //Handle any other errors not necessarily from Server
-  catch (err) {
-    setUserScores(null);
-    setErrorMessage(`Fetch from ${API_Entry_RANK_URL} Failed: ${err.message}`);
-    // console.log(`Fetch from ${API_Entry_RANK_URL} Failed: ${err.message}`);
-  }
   setLoading(false);
 }
 
