@@ -15,7 +15,7 @@ export function validateFoodEntry(beefConsumption, porkConsumption, cheeseConsum
 }
 
 function validateTransportationEntry(entry) {
-    const regex = /^(4000(\.0{1,3})?|[1-3]\d{0,3}(\.\d{1,3})?|\d{1,2}(\.\d{1,3})?|0(\.\d{1,3})?)$/; // 0-4000
+    const regex = /^(4000(\.0{1,3})?|[1-3]\d{0,3}(\.\d{1,3})?|\d*(\.\d{1,3})?|0(\.\d{1,3})?)$/; // 0-4000
     return regex.test(entry);
 }
 
