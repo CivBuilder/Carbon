@@ -18,11 +18,11 @@ const BrowserScreen = ({navigation, route}) => {
 
     //gets article link
     const fetchData = async() => {
-        console.log("Fetching data for article");
+        // console.log("Fetching data for article");
         try{
             const response = await fetch(API_URL + "article/" + route.params.id)
             const responsedata = await response.json();
-            console.log(responsedata);
+            // console.log(responsedata);
             setArticleLink(responsedata.article.articlelink);
             setLoading(false);
         }

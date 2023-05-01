@@ -1,8 +1,9 @@
-import {useState,useEffect} from 'react';
-import {View, Text,Button, TouchableOpacity, StyleSheet, Dimensions, ImageBackground } from 'react-native';
+import { useState, useEffect } from 'react';
+import { View, Text, Button, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, ScrollView } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
 
 /*
 Question 1 Screen
@@ -13,67 +14,67 @@ export default function DietScreen({ navigation }) {
     useEffect(() => {
         navigation.setOptions({
             header: () => (
-            <View
-                style={{
-                position: 'absolute',
-                top: 0,
-                height: 40,
-                borderRadius: 6,
-                width: 0,
-                backgroundColor: Colors.secondary.CELADON,
-                }}
-            />
+                <View
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        height: 40,
+                        borderRadius: 6,
+                        width: 0,
+                        backgroundColor: Colors.secondary.CELADON,
+                    }}
+                />
             ),
         });
 
-        if(buttonIndex==0){
+        if (buttonIndex == 0) {
             setFoodScoreCalc(0);
-        }else if(nextPage== "q2"){
-            if(buttonIndex==1){
+        } else if (nextPage == "q2") {
+            if (buttonIndex == 1) {
                 setFoodScoreCalc(.5);
-            }else if(buttonIndex==2){
+            } else if (buttonIndex == 2) {
                 setFoodScoreCalc(.75)
-            }else {
+            } else {
                 setFoodScoreCalc(1);
             }
         }
-        });
+    });
 
-        // Disables "next" button
-        const [isDisabled, setIsDisabled] = useState(false);
-        // Changes button colors based on index
-        const [buttonIndex, setButtonIndex] = useState(-1);
-        // Set next page depending on button pressed:
-        const [nextPage, setNextPage] = useState('q2');
-        // Calculate food Score on temp variable
-        const [foodScoreCalc, setFoodScoreCalc] = useState(0);
+    // Disables "next" button
+    const [isDisabled, setIsDisabled] = useState(false);
+    // Changes button colors based on index
+    const [buttonIndex, setButtonIndex] = useState(-1);
+    // Set next page depending on button pressed:
+    const [nextPage, setNextPage] = useState('q2');
+    // Calculate food Score on temp variable
+    const [foodScoreCalc, setFoodScoreCalc] = useState(0);
 
-        // Changes the color based on the buttonIndex (Only useful for single-choice questions)
-        const changeIndex = (index) => {
+    // Changes the color based on the buttonIndex (Only useful for single-choice questions)
+    const changeIndex = (index) => {
         setButtonIndex((previousState) => index);
-        };
+    };
 
-        // Prevent user from moving on until they press a button,
-        // then calculate the score (equal to points/maxPoints)
-        const disableButton = (points) => {
+    // Prevent user from moving on until they press a button,
+    // then calculate the score (equal to points/maxPoints)
+    const disableButton = (points) => {
         setIsDisabled((previousState) => true);
-        };
+    };
 
-        return (
-        <>
+    return (
+        <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}>
             <ImageBackground
                 source={require('../../../assets/food-background.png')}
-                style={ q_styles.background }
+                style={q_styles.background}
             />
-            <View style={{position: 'absolute', top: 32, left: 10}}>
+            <View style={q_styles.back_button}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Ionicons name='chevron-back-outline' size={36} color='black' />
+                    <Ionicons name='chevron-back-outline' size={36} color='black' />
                 </TouchableOpacity>
             </View>
 
             <View style={q_styles.questionnaire_container}>
                 {/* Question */}
-                <Text style={ q_styles.question_text}>Do you consume animal products?</Text>
+                <Text style={q_styles.question_text}>Do you consume animal products?</Text>
 
                 {/* Answers */}
                 <View
@@ -111,8 +112,8 @@ export default function DietScreen({ navigation }) {
                                 setNextPage('q2');
                             }}
                         >
-                            <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
-                                <Text style={ q_styles.answer_text }>No, I'm pescatarian</Text>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <Text style={q_styles.answer_text}>No, I'm pescatarian</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -130,7 +131,7 @@ export default function DietScreen({ navigation }) {
                                 setNextPage("q2");
                             }}
                         >
-                            <Text style={ q_styles.answer_text }>No, I'm vegetarian</Text>
+                            <Text style={q_styles.answer_text}>No, I'm vegetarian</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -147,28 +148,21 @@ export default function DietScreen({ navigation }) {
                                 setNextPage("q2");
                             }}
                         >
-                            <Text style={ q_styles.answer_text }>No, I'm vegan</Text>
+                            <Text style={q_styles.answer_text}>No, I'm vegan</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             </View>
 
-            <View style={q_styles.cta_container}>
-                {isDisabled ? (
-                    <TouchableOpacity
-                        style={q_styles.cta_button}
-                        onPress={() =>{
-                            navigation.navigate(nextPage,{
-                            foodScore:foodScoreCalc,
-                            });
-                        }}
-                    >
-                        <Text style={q_styles.cta_text}>Next Question</Text>
-                    </TouchableOpacity>
-                ) : (
-                    null
-                )}
-            </View>
-        </>
+                <QuestionnaireCTAButton
+                    title={"Next Question"}
+                    isVisible={isDisabled}
+                    onPress={() =>{
+                        navigation.navigate(nextPage,{
+                        foodScore:foodScoreCalc,
+                        });
+                    }}
+                />
+            </ScrollView>
     )
 }

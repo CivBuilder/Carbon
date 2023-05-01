@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text,Button, TouchableOpacity, ImageBackground} from 'react-native';
+import {View, Text,Button, TouchableOpacity, ImageBackground, ScrollView} from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
+
 /*
 Transport Screen
 TODO: Find a better way to transfer values to the last screen(instead of transferring between pages)
@@ -35,13 +37,13 @@ export default function TransportScreen({navigation, route}) {
     });
 
     return (
-        <>
+        <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
             <ImageBackground
                 source={require('../../../assets/car-background-2.png')}
                 style={ q_styles.background }
             />
 
-            <View style={{position: 'absolute', top: 32, left: 10}}>
+            <View style={q_styles.back_button}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Ionicons name='chevron-back-outline' size={36} color='black' />
                 </TouchableOpacity>
@@ -91,23 +93,16 @@ export default function TransportScreen({navigation, route}) {
                 </View>
             </View>
 
-            <View style={q_styles.cta_container}>
-                {buttonIndex !== -1 ? (
-                    <TouchableOpacity
-                        style={q_styles.cta_button}
-                        onPress={() =>{
-                            navigation.navigate(nextPage,{
-                                homeScore:homeScore,
-                                foodScore:foodScore,
-                            });
-                        }}
-                    >
-                        <Text style={q_styles.cta_text}>Next Question</Text>
-                    </TouchableOpacity>
-                ) : (
-                    null
-                )}
-            </View>
-        </>
+            <QuestionnaireCTAButton
+                title={"Next Question"}
+                isVisible={buttonIndex !== -1}
+                onPress={() =>{
+                    navigation.navigate(nextPage,{
+                        homeScore:homeScore,
+                        foodScore:foodScore,
+                    });
+                }}
+            />
+        </ScrollView>
     )
 }

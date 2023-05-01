@@ -1,7 +1,7 @@
 //This file will predict input from 
 
 import { API_URL } from "../config/Api";
-import { getToken } from "../util/LoginManager";
+import { getToken } from "../util/UserManagement";
 import MLR from "ml-regression-multivariate-linear";
 
 const PredictInput = async () => {

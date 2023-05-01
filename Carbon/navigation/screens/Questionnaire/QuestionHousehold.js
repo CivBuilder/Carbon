@@ -1,8 +1,9 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,Switch,Button, TouchableOpacity, ImageBackground} from 'react-native';
+import {View, Text,Switch,Button, TouchableOpacity, ScrollView, ImageBackground} from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
 
 /*
 Household Screen
@@ -48,13 +49,13 @@ export default function HouseholdScreen({navigation,route}) {
     });
 
     return (
-        <>
+        <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
             <ImageBackground
                 source={require('../../../assets/questionnaire-background.png')}
                 style={ q_styles.background }
             />
 
-            <View style={{position: 'absolute', top: 32, left: 10}}>
+            <View style={q_styles.back_button}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Ionicons name='chevron-back-outline' size={36} color='black' />
                 </TouchableOpacity>
@@ -77,9 +78,11 @@ export default function HouseholdScreen({navigation,route}) {
                             onPress={() => {
                                 setButtonIndex(0)
                                 setNextPage("q2a")
+                                setIsDisabled(false)
                             }}
                         >
-                            <Text style={q_styles.answer_text} >{`Fossil Fuels\n(Coal, Natural Gas, etc...)`}</Text>
+                            <Text style={q_styles.answer_text} >Fossil Fuels</Text>
+                            <Text style={{...q_styles.answer_text, fontSize: 16}} >(Coal, Natural Gas, etc...)</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -93,31 +96,26 @@ export default function HouseholdScreen({navigation,route}) {
                             onPress={() => {
                                 setButtonIndex(1)
                                 setNextPage("q4")
+                                setIsDisabled(false)
                             }}
                         >
-                            <Text style={q_styles.answer_text} >{`Renewable Energy \n(Solar, Wind, etc...)`}</Text>
+                            <Text style={q_styles.answer_text} >Renewable Energy</Text>
+                            <Text style={{...q_styles.answer_text, fontSize: 16}} >(Solar, Wind, etc...)</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             </View>
 
-            <View style={q_styles.cta_container}>
-                {buttonIndex >= 0 ? (
-                    <TouchableOpacity
-                        style={q_styles.cta_button}
-                        onPress={() =>{
-                            navigation.navigate(nextPage, {
-                                homeScore:homeScore,
-                                foodScore:foodScore,
-                            })
-                        }}
-                    >
-                        <Text style={q_styles.cta_text}>Next Question</Text>
-                    </TouchableOpacity>
-                ) : (
-                    null
-                )}
-            </View>
-        </>
+            <QuestionnaireCTAButton
+                title={"Next Question"}
+                isVisible={!(buttonIndex != 1 && buttonIndex != 0)}
+                onPress={() =>{
+                    navigation.navigate(nextPage, {
+                        homeScore:homeScore,
+                        foodScore:foodScore,
+                    })
+                }}
+            />
+        </ScrollView>
     )
 }

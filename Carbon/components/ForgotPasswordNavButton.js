@@ -14,7 +14,7 @@ const ForgotPasswordNavButton = ({onPress}) => {
 const styles = StyleSheet.create({
     forgotPasswordNavButton: {
       color: '#74C69D',
-      fontFamily: 'sans-serif',
+      // fontFamily: 'sans-serif',
     },
   })
 

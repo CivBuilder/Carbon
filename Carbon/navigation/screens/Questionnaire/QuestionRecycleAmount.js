@@ -1,10 +1,11 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,Button,TextInput, TouchableOpacity, ImageBackground } from 'react-native';
+import {View, Text,TextInput, TouchableOpacity, ImageBackground, ScrollView, Keyboard } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import {aveRecyclingPerWeek} from '../../../calculations/recycling_calculations/aveRecycling';
 import mapScore from '../../../calculations/questionnaireMapScore';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
 /*
 Mileage Screen
 
@@ -39,6 +40,40 @@ export default function RecycleAmountScreen({navigation,route}) {
         })
     });
 
+    const [showButton, setShowButton] = useState(true);
+    const [isFocused, setIsFocused] = useState(false);
+
+    const handleInputFocus = () => {
+        // setShowButton(false);
+        setIsFocused(true);
+    };
+
+    const handleInputBlur = () => {
+        // setShowButton(true);
+        setIsFocused(false);
+    };
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+            Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+            () => {
+                setShowButton(false);
+            },
+        );
+
+        const keyboardDidHideListener = Keyboard.addListener(
+            Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+            () => {
+                setShowButton(true);
+            },
+        );
+
+        return () => {
+            keyboardDidShowListener.remove();
+            keyboardDidHideListener.remove();
+        };
+    }, []);
+
     const calculateRecycleAmount=() =>{
         //More recycling is better
         let userPerformance = recycleAmt/aveRecyclingPerWeek.average;
@@ -46,13 +81,13 @@ export default function RecycleAmountScreen({navigation,route}) {
     }
 
     return (
-        <>
+        <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
             <ImageBackground
                 source={require('../../../assets/questionnaire-background.png')}
                 style={ q_styles.background }
             />
 
-            <View style={{position: 'absolute', top: 32, left: 10}}>
+            <View style={q_styles.back_button}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Ionicons name='chevron-back-outline' size={36} color='black' />
                 </TouchableOpacity>
@@ -70,6 +105,8 @@ export default function RecycleAmountScreen({navigation,route}) {
                     placeholder="Ex: 10"
                     style={q_styles.text_input}
                     keyboardType="decimal-pad"
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
                     onChangeText={text=>{
                         setRecycleAmt(text);
                         calculateRecycleAmount();
@@ -77,23 +114,18 @@ export default function RecycleAmountScreen({navigation,route}) {
                 />
             </View>
 
-            <View style={q_styles.cta_container}>
-                { recycleAmt !== 0 && (
-                    <TouchableOpacity
-                        style={q_styles.cta_button}
-                        onPress={() =>{
-                            navigation.navigate('finished',{
-                                transportScore:transportScore,
-                                homeScore:homeScore,
-                                foodScore:foodScore,
-                                lifestyleScore:lifestyleScore,
-                            })
-                        }}
-                    >
-                        <Text style={q_styles.cta_text}>See My Results</Text>
-                    </TouchableOpacity>
-                )}
-            </View>
-        </>
+            <QuestionnaireCTAButton
+                title={"See My Results"}
+                isVisible={showButton}
+                onPress={() =>{
+                    navigation.navigate('finished',{
+                        transportScore:transportScore,
+                        homeScore:homeScore,
+                        foodScore:foodScore,
+                        lifestyleScore:lifestyleScore,
+                    })
+                }}
+            />
+        </ScrollView>
     )
 }

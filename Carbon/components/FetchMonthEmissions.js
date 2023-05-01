@@ -1,5 +1,5 @@
 import { API_URL } from "../config/Api";
-import { getAuthHeader } from '../util/LoginManager';
+import { getAuthHeader } from '../util/UserManagement';
 
 const TIMEOUT_DURATION = 25000;
 
@@ -13,8 +13,8 @@ const TIMEOUT_DURATION = 25000;
   @example
   const data = await FetchMonthEmissions('2023-01');
 */
-export const FetchMonthEmissions = async(yearMonth) => {
-  console.log('FetchMonthEmissions: Fetching data...');
+export const FetchMonthEmissions = async (yearMonth) => {
+  // console.log('FetchMonthEmissions: Fetching data...');
   try {
 
     // Check if yearMonth is in correct format
@@ -44,7 +44,7 @@ export const FetchMonthEmissions = async(yearMonth) => {
 
     // Print out the data in a readable JSON format (for debugging)
     // console.log(`FetchMonthEmissions (data):\n\t${JSON.stringify(data)}`);
-    console.log('FetchMonthEmissions: Fetching complete!');
+    // console.log('FetchMonthEmissions: Fetching complete!');
 
     // Return the data
     return data;
@@ -52,7 +52,7 @@ export const FetchMonthEmissions = async(yearMonth) => {
   }
   catch (error) {
     // Log any errors and rethrow them
-    console.error(`FetchMonthEmissions (error):\n\t${error}`);
+    // console.error(`FetchMonthEmissions (error):\n\t${error}`);
     throw error;
   }
 };

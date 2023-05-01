@@ -1,8 +1,9 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,Button,TextInput, TouchableOpacity, ImageBackground } from 'react-native';
+import {View, Text,TextInput, TouchableOpacity, ImageBackground, ScrollView, Keyboard, KeyboardAvoidingView, Animated } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import {aveFoodConsumption} from '../../../calculations/food_calculations/averageFoodConsumption';
 import calcBeef from '../../../calculations/food_calculations/questionnaire/calcBeef';
@@ -10,6 +11,8 @@ import calcCheese from '../../../calculations/food_calculations/questionnaire/ca
 import calcPork from '../../../calculations/food_calculations/questionnaire/calcPork';
 import calcPoultry from '../../../calculations/food_calculations/questionnaire/calcPoultry';
 import mapScore from '../../../calculations/questionnaireMapScore';
+
+import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
 
 /*
 Animal Diet Screen (types of meat & amounts eaten per year)
@@ -54,14 +57,48 @@ export default function AnimalDietScreen({navigation,route}) {
         setFoodScore(mapScore(userPerformance));
     }
 
+    const [showButton, setShowButton] = useState(true);
+    const [isFocused, setIsFocused] = useState(false);
+
+    const handleInputFocus = () => {
+        // setShowButton(false);
+        setIsFocused(true);
+    };
+
+    const handleInputBlur = () => {
+        // setShowButton(true);
+        setIsFocused(false);
+    };
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+            Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+            () => {
+                setShowButton(false);
+            },
+        );
+
+        const keyboardDidHideListener = Keyboard.addListener(
+            Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+            () => {
+                setShowButton(true);
+            },
+        );
+
+        return () => {
+            keyboardDidShowListener.remove();
+            keyboardDidHideListener.remove();
+        };
+    }, []);
+
     return (
-        <>
+        <KeyboardAwareScrollView contentContainerStyle={q_styles.questionnaire_container}>
             <ImageBackground
                 source={require('../../../assets/food-background-2.png')}
                 style={ q_styles.background }
             />
 
-            <View style={{position: 'absolute', top: 32, left: 10}}>
+            <View style={q_styles.back_button}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Ionicons name='chevron-back-outline' size={36} color='black' />
                 </TouchableOpacity>
@@ -77,6 +114,8 @@ export default function AnimalDietScreen({navigation,route}) {
                     placeholder="Ex: 1.1"
                     style={q_styles.text_input}
                     keyboardType="decimal-pad"
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
                     onChangeText={text=>{
                         setlbsBeef(text? +text : 0);
                         calculatePreciseFoodScore()
@@ -88,6 +127,8 @@ export default function AnimalDietScreen({navigation,route}) {
                     placeholder="Ex: 1.9"
                     keyboardType="decimal-pad"
                     style={q_styles.text_input}
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
                     onChangeText={text=>{
                         setlbsPoultry(text? +text : 0);
                         calculatePreciseFoodScore()
@@ -100,6 +141,8 @@ export default function AnimalDietScreen({navigation,route}) {
                     placeholder="Ex: 0.96"
                     keyboardType="decimal-pad"
                     style={q_styles.text_input}
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
                     onChangeText={text=>{
                         setlbsPork(text? +text : 0);
                         calculatePreciseFoodScore()
@@ -112,6 +155,8 @@ export default function AnimalDietScreen({navigation,route}) {
                     placeholder="Ex: 0.75"
                     keyboardType="decimal-pad"
                     style={q_styles.text_input}
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
                     onChangeText={text=>{
                         setlbsCheese(text? +text : 0);
                         calculatePreciseFoodScore()
@@ -119,18 +164,11 @@ export default function AnimalDietScreen({navigation,route}) {
                 />
             </View>
 
-            <View style={q_styles.cta_container}>
-                <TouchableOpacity
-                    style={q_styles.cta_button}
-                    onPress={() =>
-                        navigation.navigate('q2',{
-                            foodScore:foodScore
-                        })
-                    }
-                >
-                    <Text style={q_styles.cta_text}>Next Question</Text>
-                </TouchableOpacity>
-            </View>
-        </>
+            <QuestionnaireCTAButton
+                title={"Next Question"}
+                isVisible={!isFocused && showButton}
+                onPress={() => navigation.navigate('q2',{ foodScore:foodScore })}
+            />
+        </KeyboardAwareScrollView>
     )
 }
