@@ -1,0 +1,121 @@
+import { StyleSheet } from 'react-native';
+import { Colors } from './Colors';
+
+export const styles = StyleSheet.create({
+    scrollview: {
+        flexGrow: 1,
+    },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: Colors.secondary.NYANZA,
+    },
+    label: {
+        fontSize: 16,
+        color: Colors.primary.RAISIN_BLACK,
+        marginBottom: 10,
+        textAlign: 'center',
+    },
+    pickercontainer: {
+        width: '100%',
+        padding: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    picker: {
+        marginBottom: 5,
+    },
+    button: {
+        flex: 1,
+        justifyContent:'flex-end',
+        backgroundColor: Colors.secondary.DARK_MINT,
+        borderRadius: 8,
+        padding: 12,
+        minWidth: 60,
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: Colors.primary.MINT_CREAM,
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    funfact: {
+        borderRadius: 12,
+        borderWidth: 2,
+        borderColor: Colors.primary.MINT,
+        backgroundColor: Colors.secondary.CELADON,
+        padding: 12,
+        marginHorizontal: 24,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        marginVertical: 12,
+    },
+    header: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        textAlign: 'center',
+    },
+    label_container: {
+        flexDirection:'row',
+        alignItems:'center',
+        marginBottom: 6,
+        width: 120,
+    },
+    icon: {
+        marginRight: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    text_input_label: {
+        fontSize:16,
+        fontWeight:"500",
+        textAlign: 'center',
+        justifyContent: 'center',
+        marginBottom: 12,
+    },
+    text_input: {
+        height: 40,
+        width: 12*16,
+        borderColor: 'gray',
+        borderWidth: 1.5,
+        borderRadius: 6,
+        padding: 10,
+        marginBottom: 24,
+        backgroundColor: 'white',
+    },
+    switchContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 5,
+        padding: 6,
+    },
+    selectorContainer_iOS: {
+        backgroundColor: Colors.primary.MINT_CREAM,
+        width: 180,
+        borderWidth: 2,
+        borderRadius: 8,
+        borderColor: 'gray',
+        padding: 12,
+        marginVertical: 6,
+        justifyContent: 'center',
+    },
+    selectorContainer_iOS_selected: {
+        backgroundColor: Colors.primary.MINT,
+        width: 180,
+        borderWidth: 2,
+        borderRadius: 8,
+        borderColor: 'gray',
+        padding: 12,
+        marginVertical: 6,
+        justifyContent: 'center',
+    },
+    radioButtonText: {
+        fontSize: 16,
+    },
+    radioButtonText_iOS: {
+        fontSize: 16,
+        textAlign: 'center',
+    },
+});
