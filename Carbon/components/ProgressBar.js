@@ -5,11 +5,13 @@ import { useEffect } from 'react';
 import { useRef, useState } from 'react';
 
 
+
 /**
  * Displays Animated progress bar where progress/total % will be filled in
  * @param {Number} progress - progress towards total value, % will fill the bar
  * @param {Number} total - total value to be me
  */
+
 export default function RankProgressBar({ progress, total }) {
   const [ratio, setRatio] = useState((progress === total || total === 0) ? 1 : progress/total);
   const [barWidth, setWidth] = useState(0);
@@ -84,4 +86,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
   },
+
 });

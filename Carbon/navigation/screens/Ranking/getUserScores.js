@@ -9,6 +9,7 @@ const API_Entry_RANK_URL = API_URL + "user/rank/";
  * @param {Function} setLoading - to be set to true when function starts and false before it returns
  * @param {Function} setErrorMessage - Only set to true if fetch was not handled
  */
+
 export default async function getUserScores(setUserScores, setLoading, setErrorMessage){
     setLoading(true);
     console.log(`Fetching from ${API_Entry_RANK_URL}`);
@@ -36,6 +37,7 @@ export default async function getUserScores(setUserScores, setLoading, setErrorM
       setErrorMessage(`${err.message}`);
       console.log(`${err.message}`);
     }
+
   setLoading(false);
 }
 

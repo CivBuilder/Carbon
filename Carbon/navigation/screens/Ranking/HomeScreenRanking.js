@@ -7,6 +7,8 @@ import MiniRanking from './RankingMiniView';
 import { EmissionCategory } from './Categories';
 
 
+
+
 export default function HomeScreenRanking() {
 
   

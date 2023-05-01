@@ -59,7 +59,7 @@ export default function FinishedScreen({ navigation, route }) {
     const updateSustainability = async () => {
         try {
             // console.log("Updating sustainability score");
-            // console.log(questionnaireBody);
+            
             const response = await fetch(API_URL + 'user/questionnaire', {
                 method: 'PUT',
                 headers: {
@@ -80,11 +80,13 @@ export default function FinishedScreen({ navigation, route }) {
         }
     }
 
+
     const scoreCategory = SustainabilityScoreProfileView[sustainability_score].title;
     const scorePicture = SustainabilityScoreProfileView[sustainability_score].picture;
 
     const [bestScore, setBestScore] = useState("");
     const [worstScore, setWorstScore] = useState("");
+
 
     const calculateRanks = () => {
         const scoreMap = {
