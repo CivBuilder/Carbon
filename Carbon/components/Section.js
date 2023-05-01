@@ -8,13 +8,15 @@ export const Section = (props) => {
 
   return (
     <>
-      <View style={styling.header}>
+      <View style={styling.header} testID='header'>
         <Text style={styling.title}>{title}</Text>
         {(shortcutURL && shortcutTitle) && <Shortcut screenName={shortcutURL} text={shortcutTitle}/>}
       </View>
-      <View style={toggleCardView ? styling.container : null}>
-        <View style={[toggleCardView ? styling.body : null]}>
-          <View style={toggleCardView ? styling.content : null}>{children}</View>
+      <View style={toggleCardView ? styling.container : null} testID='container'>
+        <View style={[toggleCardView ? styling.body : null]} testID='body'>
+          <View style={toggleCardView ? styling.content : null} testID='content'>
+            {children}
+          </View>
         </View>
       </View>
     </>
@@ -26,7 +28,7 @@ const Shortcut = (props) => {
   const navigation = useNavigation();
 
   return (
-    <Pressable onPress={() => navigation.navigate(screenName)}>
+    <Pressable onPress={() => navigation.navigate(screenName)} testID='shortcut'>
       <Text style={styling.shortcut}>{text}</Text>
     </Pressable>
   );
