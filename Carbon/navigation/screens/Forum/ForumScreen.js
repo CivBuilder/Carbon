@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, ScrollView, StyleSheet, FlatList, Image, Button, Platform} from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Image, Button, Platform, VirtualizedList} from 'react-native';
 import {useState, useEffect} from 'react';
 import EducationMenu from '../../../components/EducationMenu';
 import * as images from '../../../assets/Forum';
@@ -9,6 +9,7 @@ import { API_URL } from '../../../config/Api';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import { Colors } from '../../../styling/Colors';
+import { render } from '@testing-library/react-native';
 
 // Using my test AWS node server for now
 export default function ForumScreen({navigation, params}) {
@@ -23,6 +24,7 @@ export default function ForumScreen({navigation, params}) {
             console.log("Fetching data for forumcontent");
             const response = await fetch(API_URL + "forumcontent");
             const data = await response.json();
+            //data.content = [data.content[0]]
             setForumData(data.content);
             updateSelected();
             setLoading(false);
@@ -99,9 +101,12 @@ export default function ForumScreen({navigation, params}) {
 
     const renderContent = ({item}) => {
         return(
+            <View style={{flexDirection: 'row', flexGrow: 0}}>
+            {item.map((item, i) => (
             <View
+                key={i}
                 style = {{
-                    flex: 0.5,
+                    flex: 1,
                     borderRadius: 10,
                     margin: 6,
                     height: 200
@@ -159,6 +164,8 @@ export default function ForumScreen({navigation, params}) {
                     </Text>
                 </TouchableOpacity>
             </View>
+            ))}
+            </View>
         )
     }
 
@@ -214,12 +221,24 @@ export default function ForumScreen({navigation, params}) {
                 </ScrollView>
             </View>
             <View style={{flex: 4}}>
-                <FlatList
+                <VirtualizedList
+                    data={selectedData}
+                    
+                    getItem={(data, index) => {
+                        var items = [];
+                        for (var i = 0; i < 2; i++) {
+                            const item = data[index * 2 + i]
+                            item && items.push(item)
+                        }
+                        return items
+                    }}
+                    getItemCount={(selectedData) => selectedData.length}
+                    keyExtractor = {(item, index) => index.toString()}
+
                     horizontal={false}
                     numColumns = {2}
-                    data={selectedData}
                     renderItem = {renderContent}
-                    keyExtractor = {(item) => item.id_forumcontent.toString()}
+
                     refreshControl={<RefreshControl refreshing={loading} onRefresh={onRefresh}/>}
                     showsVerticalScrollIndicator={false}
                 />
