@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet, ScrollView, Linking } from 'react-native'
+import { Text, StyleSheet, ScrollView, Linking } from 'react-native'
 import React from 'react'
 import { Colors } from '../../../styling/Colors'
-import {WebView} from 'react-native-webview'
+
 
 const CalculationScreen = () => {
-    const handleClick = (link) => {
+    const handleClick = (link) => 
+    {
         Linking.openURL(link)
     }
   return (
@@ -25,78 +26,123 @@ const CalculationScreen = () => {
 
       <Text style={styles.generalText}>How we calculate them</Text>
       <Text style={styles.subheading}>Bike</Text>
-      <Text style={styles.linkText} 
-        onPress={() => handleClick('https://www.sciencedirect.com/science/article/pii/S0959378021000030')}>
+      <Text 
+        style={styles.linkText} 
+        onPress={() => handleClick('https://www.sciencedirect.com/science/article/pii/S0959378021000030')}
+        testID='bike-link'
+      >
         https://www.sciencedirect.com/science/article/pii/S0959378021000030
       </Text>
       <Text style={styles.subheading}>Car Calculations</Text>
-      <Text style={styles.linkText} 
-        onPress={() => handleClick('https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references')}>
+      <Text 
+        style={styles.linkText} 
+        onPress={() => handleClick('https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references')}
+        testID='car-link'
+      >
         https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references
       </Text>
       <Text style={styles.subheading}>Electric Car Calculations</Text>
-      <Text style={styles.linkText} 
-        onPress={() => handleClick('https://climate.mit.edu/ask-mit/are-electric-vehicles-definitely-better-climate-gas-powered-cars#:~:text=The%20researchers%20found%20that%2C%20on,vehicle%20created%20just%20200%20grams')}>
+      <Text 
+        style={styles.linkText} 
+        onPress={() => handleClick('https://climate.mit.edu/ask-mit/are-electric-vehicles-definitely-better-climate-gas-powered-cars#:~:text=The%20researchers%20found%20that%2C%20on,vehicle%20created%20just%20200%20grams')}
+        testID='electric-car-link'
+      >
         https://climate.mit.edu/ask-mit/are-electric-vehicles-definitely-better-climate-gas-powered-cars#:~:text=The%20researchers%20found%20that%2C%20on,vehicle%20created%20just%20200%20grams
       </Text>
       <Text style={styles.subheading}>Plane Calculations</Text>
-      <Text style={styles.linkText} 
-        onPress={() => handleClick('https://www.sciencedirect.com/science/article/pii/S0959378021000030')}>
+      <Text 
+        style={styles.linkText} 
+        onPress={() => handleClick('https://www.sciencedirect.com/science/article/pii/S0959378021000030')}
+        testID='plane-link'
+      >
         https://www.sciencedirect.com/science/article/pii/S0959378021000030
       </Text>
       <Text style={styles.subheading}>Bus Calculations</Text>
-      <Text style={styles.linkText} 
-        onPress={() => handleClick('https://blueskymodel.org/air-mile')}>
+      <Text 
+        style={styles.linkText} 
+        onPress={() => handleClick('https://blueskymodel.org/air-mile')}
+        testID='bus-link'
+        >
         https://blueskymodel.org/air-mile
       </Text>
       <Text style={styles.subheading}>Train Calculations</Text>
-      <Text style={styles.linkText} 
-        onPress={() => handleClick('https://blueskymodel.org/air-mile')}>
+      <Text 
+        style={styles.linkText} 
+        onPress={() => handleClick('https://blueskymodel.org/air-mile')}
+        testID='train-link'
+      >
         https://blueskymodel.org/air-mile
       </Text>
       <Text style={styles.subheading}>Home Electricity Calculations</Text>
-      <Text style={styles.linkText} 
-        onPress={() => handleClick('https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references')}>
+      <Text 
+        style={styles.linkText} 
+        onPress={() => handleClick('https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references')}
+        testID='home-electricity-link'
+      >
         https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references
       </Text>
       <Text style={styles.subheading}>Beef Calculations</Text>
-      <Text style={styles.linkText} 
-        onPress={() => handleClick('https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/')}>
+      <Text 
+        style={styles.linkText} 
+        onPress={() => handleClick('https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/')}
+        testID='beef-link'
+        >
         https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/
       </Text>
       <Text style={styles.subheading}>Cheese Calculations</Text>
-      <Text style={styles.linkText} 
-        onPress={() => handleClick('https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/')}>
+      <Text 
+        style={styles.linkText} 
+        onPress={() => handleClick('https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/')}
+        testID='cheese-link'
+      >
         https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/
       </Text>
       <Text style={styles.subheading}>Poultry Calculations</Text>
-      <Text style={styles.linkText} 
-        onPress={() => handleClick('https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/')}>
+      <Text 
+        style={styles.linkText} 
+        onPress={() => handleClick('https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/')}
+        testID='poultry-link'
+      >
         https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/
       </Text>
       <Text style={styles.subheading}>Pork Calculations</Text>
-      <Text style={styles.linkText} 
-        onPress={() => handleClick('https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/')}>
+      <Text 
+        style={styles.linkText} 
+        onPress={() => handleClick('https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/')}
+        testID='pork-link'
+      >
         https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/
       </Text>
       <Text style={styles.subheading}>Glass Calculations</Text>
-      <Text style={styles.linkText} 
-        onPress={() => handleClick('https://www.epa.gov/facts-and-figures-about-materials-waste-and-recycling/paper-and-paperboard-material-specific-data')}>
+      <Text 
+        style={styles.linkText} 
+        onPress={() => handleClick('https://www.epa.gov/facts-and-figures-about-materials-waste-and-recycling/paper-and-paperboard-material-specific-data')}
+        testID='glass-link'
+      >
         https://www.epa.gov/facts-and-figures-about-materials-waste-and-recycling/paper-and-paperboard-material-specific-data
       </Text>
       <Text style={styles.subheading}>Metal Calculations</Text>
-      <Text style={styles.linkText} 
-        onPress={() => handleClick('https://www.epa.gov/facts-and-figures-about-materials-waste-and-recycling/paper-and-paperboard-material-specific-data')}>
+      <Text 
+        style={styles.linkText} 
+        onPress={() => handleClick('https://www.epa.gov/facts-and-figures-about-materials-waste-and-recycling/paper-and-paperboard-material-specific-data')}
+        testID='metal-link'
+      >
         https://www.epa.gov/facts-and-figures-about-materials-waste-and-recycling/paper-and-paperboard-material-specific-data
       </Text>
       <Text style={styles.subheading}>Paper Calculations</Text>
-      <Text style={styles.linkText} 
-        onPress={() => handleClick('https://www.epa.gov/facts-and-figures-about-materials-waste-and-recycling/paper-and-paperboard-material-specific-data')}>
+      <Text 
+        style={styles.linkText} 
+        onPress={() => handleClick('https://www.epa.gov/facts-and-figures-about-materials-waste-and-recycling/paper-and-paperboard-material-specific-data')}
+        testID='paper-link'
+      >
         https://www.epa.gov/facts-and-figures-about-materials-waste-and-recycling/paper-and-paperboard-material-specific-data
       </Text>
       <Text style={styles.subheading}>Plastic Calculations</Text>
-      <Text style={styles.linkText} 
-        onPress={() => handleClick('https://www.epa.gov/facts-and-figures-about-materials-waste-and-recycling/paper-and-paperboard-material-specific-data')}>
+      <Text 
+        style={styles.linkText} 
+        onPress={() => handleClick('https://www.epa.gov/facts-and-figures-about-materials-waste-and-recycling/paper-and-paperboard-material-specific-data')}
+        testID='plastic-link'
+      >
         https://www.epa.gov/facts-and-figures-about-materials-waste-and-recycling/paper-and-paperboard-material-specific-data
       </Text>
     </ScrollView>

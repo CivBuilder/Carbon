@@ -76,6 +76,7 @@ const RecordElectricity = ({ navigation, route }) => {
             style={styles.text_input}
             keyboardType="numeric"
             onChangeText={(electricity) => setElectricityUsage(electricity.length > 0 ? electricity : 0)}
+            testID='electricity-input'
           />
 
         {(electricityUsage.length > 0) && (parseFloat(electricityUsage)) > 0 && (

@@ -121,6 +121,7 @@ const RecordFood = ({ navigation, route }) => {
           style={styles.text_input}
           keyboardType="numeric"
           onChangeText={(beef) => setBeefConsumption(beef.length > 0 ? beef : 0)}
+          testID='red-meat-input'
         />
 
         <Text style={styles.text_input_label}>Cheese</Text>
@@ -129,6 +130,7 @@ const RecordFood = ({ navigation, route }) => {
           style={styles.text_input}
           keyboardType="numeric"
           onChangeText={(cheese)=> setCheeseConsumption(cheese.length > 0 ? cheese : 0)}
+          testID='cheese-input'
         />
 
         <Text style={styles.text_input_label}>Pork</Text>
@@ -137,6 +139,7 @@ const RecordFood = ({ navigation, route }) => {
           style={styles.text_input}
           keyboardType="numeric"
           onChangeText={(pork) => setPorkConsumption(pork.length > 0 ? pork : 0)}
+          testID='pork-input'
         />
 
         <Text style={styles.text_input_label}>Poultry</Text>
@@ -145,6 +148,7 @@ const RecordFood = ({ navigation, route }) => {
           style={styles.text_input}
           keyboardType="numeric"
           onChangeText={(poultry) => setPoultryConsumption(poultry.length > 0 ? poultry : 0)}
+          testID='poultry-input'
         />
 
       {(beefConsumption.length > 0 || cheeseConsumption.length > 0 || porkConsumption.length > 0 || poultryConsumption.length > 0) &&

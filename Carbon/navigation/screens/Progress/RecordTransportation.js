@@ -133,6 +133,7 @@ const RecordTransportation = ({ navigation, route }) => {
         style={styles.text_input}
         keyboardType="numeric"
         onChangeText={(miles) => setMilesTraveled(miles.length > 0 ? miles : 0)}
+        testID='miles-traveled'
       />
 
       <View style={{marginBottom: 24, alignItems: 'center'}}>
@@ -140,27 +141,27 @@ const RecordTransportation = ({ navigation, route }) => {
         <RadioButton.Group onValueChange={value => setSelectedValue(value)} value={selectedValue}>
           <View style={styles.switchContainer}>
             <Text style={styles.radioButtonText}>Car</Text>
-            <RadioButton value="Car" />
+            <RadioButton value="Car" testID='Car' />
           </View>
           <View style={styles.switchContainer}>
             <Text style={styles.radioButtonText}>Electric Car</Text>
-            <RadioButton value="ElecCar" />
+            <RadioButton value="ElecCar" testID='ElecCar' />
           </View>
           <View style={styles.switchContainer}>
             <Text style={styles.radioButtonText}>Bike</Text>
-            <RadioButton value="Bike" />
+            <RadioButton value="Bike" testID='Bike' />
           </View>
           <View style={styles.switchContainer}>
             <Text style={styles.radioButtonText}>Bus</Text>
-            <RadioButton value="Bus" />
+            <RadioButton value="Bus" testID='Bus' />
           </View>
           <View style={styles.switchContainer}>
             <Text style={styles.radioButtonText}>Train</Text>
-            <RadioButton value="Train" />
+            <RadioButton value="Train" testID='Train'/>
           </View>
           <View style={styles.switchContainer}>
             <Text style={styles.radioButtonText}>Plane</Text>
-            <RadioButton value="Plane" />
+            <RadioButton value="Plane" testID='Plane'/>
           </View>
         </RadioButton.Group>
       </View>
