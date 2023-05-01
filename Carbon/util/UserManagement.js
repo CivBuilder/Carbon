@@ -98,6 +98,11 @@ export async function signup(username, email, password, confirm) {
         return false;
     }
 
+    if (!validateUsername(username)) {
+        alert("Please enter a valid username");
+        return false;
+    }
+
     if (!validateEmail(email)) {
         alert("Please enter a valid email.");
         return false;
@@ -145,11 +150,12 @@ export async function signup(username, email, password, confirm) {
         }
     );
 
+    console.log(await result.text());
     if (result.status == 200) {
         await login(email, password);
         await changeUsername(username);
     } else {
-        alert('Username already taken');
+        alert('Username/Email already taken');
         return false;
     }
 
