@@ -14,7 +14,7 @@ const SignUpNavButton = ({onPress}) => {
 const styles = StyleSheet.create({
     signUpNavButton: {
       color: '#74C69D',
-      fontFamily: 'sans-serif',
+      // fontFamily: 'sans-serif',
       textDecorationLine: 'underline',
       fontWeight: 'bold',
     },
