@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,Switch,Button, TouchableOpacity, ScrollView, ImageBackground} from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView, ImageBackground} from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -108,8 +108,8 @@ export default function HouseholdScreen({navigation,route}) {
 
             <QuestionnaireCTAButton
                 title={"Next Question"}
-                isVisible={!(buttonIndex != 1 && buttonIndex != 0)}
-                onPress={() =>{
+                isVisible={!isDisabled}
+                onPress={() =>{ isDisabled ? null :
                     navigation.navigate(nextPage, {
                         homeScore:homeScore,
                         foodScore:foodScore,

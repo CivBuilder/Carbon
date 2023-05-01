@@ -14,7 +14,7 @@ export const ScreenNames = {
     FOOD: 'Diet',
     RECYCLING: 'Recycling',
     TRANSPORTATION: 'Transportation',
-    ELECTRICITY: 'Electricity Usage',
+    ELECTRICITY: 'Electricity',
     QUESTIONNAIRE: "Questionnaire",
     PREDICT: "Predict Emissions",
     CALCULATION_DETAILS: "Calculation Details",

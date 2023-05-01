@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text,Button, TouchableOpacity, ImageBackground, ScrollView} from 'react-native';
+import {View, Text, TouchableOpacity, ImageBackground, ScrollView} from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -18,6 +18,7 @@ export default function TransportScreen({navigation, route}) {
     const homeScore = route.params?.homeScore;
     const [nextPage, setNextPage] = useState("q4a");
     const [buttonIndex, setButtonIndex] = useState(-1);
+    const [isDisabled, setIsDisabled] = useState(true);
 
     //Updating progress bar (a.k.a the header)
     useEffect(()=>{
@@ -69,6 +70,7 @@ export default function TransportScreen({navigation, route}) {
                             onPress={()=>{
                                 setButtonIndex(0);
                                 setNextPage("q4a");
+                                setIsDisabled(false);
                             }}
                         >
                             <Text style={q_styles.answer_text} >Yes</Text>
@@ -85,6 +87,7 @@ export default function TransportScreen({navigation, route}) {
                             onPress={()=>{
                                 setButtonIndex(1);
                                 setNextPage("q4c");
+                                setIsDisabled(false);
                             }}
                         >
                             <Text style={q_styles.answer_text} >No</Text>
@@ -95,8 +98,8 @@ export default function TransportScreen({navigation, route}) {
 
             <QuestionnaireCTAButton
                 title={"Next Question"}
-                isVisible={buttonIndex !== -1}
-                onPress={() =>{
+                isVisible={!isDisabled}
+                onPress={() =>{ isDisabled ? null :
                     navigation.navigate(nextPage,{
                         homeScore:homeScore,
                         foodScore:foodScore,

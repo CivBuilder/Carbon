@@ -2,6 +2,10 @@ import { StyleSheet, Dimensions } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 
 export const q_styles = StyleSheet.create({
+    center: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     background: {
         position: 'absolute',
         top: 0,
@@ -62,6 +66,24 @@ export const q_styles = StyleSheet.create({
         textAlign: 'center',
         color: Colors.primary.RAISIN_BLACK,
     },
+    result_container: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 24,
+        borderRadius: 16,
+        backgroundColor: Colors.secondary.ALMOND,
+    },
+    rank_picture_container:{
+        marginVertical: 24,
+        width: Dimensions.get('window').width * 0.35,
+        height: Dimensions.get('window').width * 0.35,
+    },
+    rank_title_text: {
+        fontSize: 36,
+        fontWeight: "500",
+        textAlign: 'center',
+        marginBottom: 24,
+    },
     score_text: {
         fontSize: Dimensions.get('window').width * 0.06,
         fontWeight: '500',
@@ -75,5 +97,24 @@ export const q_styles = StyleSheet.create({
         alignItems: 'center',
         height: Dimensions.get('window').width * 0.24,
         width: Dimensions.get('window').width * 0.24,
-    }
+    },
+    best_worst_category_container: {
+        marginTop: 12,
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+    },
+    best_worst_category_text: {
+        fontSize: 16,
+        fontWeight: '500',
+        textAlign: 'center',
+    },
+    best_worst_category_score_container: {
+        backgroundColor: 'white',
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 10,
+        borderWidth: 2,
+        width: 170,
+    },
 });

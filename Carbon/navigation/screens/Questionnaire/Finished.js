@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, Image, Dimensions, Animated } from 'react-native';
+import { View, Text, Animated } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { API_URL } from '../../../config/Api';
 import { SustainabilityScoreProfileView } from '../../../util/SustainabilityScoreProfileView';
-import mapScoreCategory from '../../../calculations/mapScoreCategory';
 import { getToken } from '../../../util/UserManagement';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -13,14 +12,13 @@ import { QuestionnaireCTAButton } from './QuestionnaireCTAButton';
 Finished Screen
 */
 
-const finishedQuestionnaire = async () => {
+export const postFinishedQuestionnaire = async () => {
     const requestOptions = {
         method: 'POST',
         headers: {
             'secrettoken': await getToken(),
         }
     };
-
 
     try {
         const response = await fetch(API_URL + 'user/finish-questionnaire/', requestOptions);
@@ -35,7 +33,7 @@ const finishedQuestionnaire = async () => {
     }
 };
 
-export default function FinishedScreen({ navigation, route }) {
+export default function FinishedScreen({route}) {
     //Final Calculations
     //Food Score is calculated in animaldiet and diet
     //Home score is calculated in household and bills
@@ -50,7 +48,7 @@ export default function FinishedScreen({ navigation, route }) {
         'transport_score': transportScore*100,
         'lifestyle_score': 50,
         'food_score': foodScore*100,
-        'home_score': foodScore*100,
+        'home_score': homeScore*100,
         'awareness_score': awarenessScore*100,
     }
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -59,7 +57,7 @@ export default function FinishedScreen({ navigation, route }) {
     const updateSustainability = async () => {
         try {
             // console.log("Updating sustainability score");
-            
+
             const response = await fetch(API_URL + 'user/questionnaire', {
                 method: 'PUT',
                 headers: {
@@ -110,7 +108,7 @@ export default function FinishedScreen({ navigation, route }) {
     useEffect(() => {
         calculateRanks();
         updateSustainability();
-    });
+    }, [route.params?.transportScore, route.params?.foodScore, route.params?.homeScore]);
 
     // ANIMATIONS
     // define animated values
@@ -167,57 +165,28 @@ export default function FinishedScreen({ navigation, route }) {
     ]).start();
 
     return (
-        <View style={{flex: 1, backgroundColor: 'rgba(216, 243, 220, 0.4)'}}>
-            <View style={{ marginTop: 48, marginBottom: 6, alignItems: 'center', }}>
-                <Text style={{ fontSize: 20, }}>...and you're done!</Text>
+        <View style={{flex: 1, backgroundColor: Colors.miscellaneous.SCREEN_BACKGROUND}}>
+            <View style={{alignItems:'center'}}>
+                <Text style={{ marginTop: 48, marginBottom: 6, fontSize: 20, }}>...and you're done!</Text>
+                <Text style={{ marginBottom: 12, fontSize: 24, }}>Here are your results:</Text>
             </View>
 
-            <View style={{ marginBottom: 12, alignItems: 'center', }}>
-                <Text style={{ fontSize: 24, }}>Here are your results:</Text>
-            </View >
+            <View style={q_styles.result_container}>
+                <View style={q_styles.center}>
+                    <Animated.Image
+                        source={scorePicture}
+                        resizeMode='contain'
+                        style={{...q_styles.rank_picture_container, opacity: rankPictureOpacity, transform: [{ scale: rankPictureScale }] }}
+                    />
 
-            <View
-                style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginHorizontal: 24,
-                    borderRadius: 16,
-                    backgroundColor: Colors.secondary.ALMOND,
-                }}
-            >
-                <View style={{ alignItems: 'center', justifyContent: 'center'}}>
-                    <View style={{ marginVertical: 24 }}>
-                        <Animated.Image
-                            source={scorePicture}
-                            resizeMode='contain'
-                            style={{
-                                width: Dimensions.get('window').width * 0.35,
-                                height: Dimensions.get('window').width * 0.35,
-                                opacity: rankPictureOpacity,
-                                transform: [{ scale: rankPictureScale }],
-                            }}
-                        />
-                    </View>
-
-                    <View style={{ marginBottom: 24 }}>
-                        <Animated.Text
-                            style={{
-                                fontSize: 36,
-                                fontWeight: "500",
-                                textAlign: 'center',
-                                opacity: rankTitleOpacity,
-                            }}
-                        >
-                            {scoreCategory}
-                        </Animated.Text>
-                    </View>
+                    <Animated.Text style={{ ...q_styles.rank_title_text, opacity: rankTitleOpacity, }}>{scoreCategory}</Animated.Text>
                 </View>
 
                 <View style={{ marginBottom: 24, flexDirection: 'row' }}>
                     <Animated.View style={{ ...q_styles.score_category_container, borderColor: Colors.categories.HOME, opacity: homeScoreOpacity }}>
                         <Ionicons name='home-outline' size={36} color={Colors.categories.HOME} />
                         <Text style={{ ...q_styles.score_text, color: Colors.categories.HOME }}>
-                            {homeScore * 10}
+                            {homeScore * 10}/10
                         </Text>
                     </Animated.View>
 
@@ -226,7 +195,7 @@ export default function FinishedScreen({ navigation, route }) {
                     <Animated.View style={{ ...q_styles.score_category_container, borderColor: Colors.categories.TRANSPORTATION, opacity: transportScoreOpacity }}>
                         <Ionicons name='bicycle-outline' size={36} color={Colors.categories.TRANSPORTATION} />
                         <Text style={{ ...q_styles.score_text, color: Colors.categories.TRANSPORTATION }}>
-                            {transportScore * 10}
+                            {transportScore * 10}/10
                         </Text>
                     </Animated.View>
 
@@ -235,52 +204,26 @@ export default function FinishedScreen({ navigation, route }) {
                     <Animated.View style={{ ...q_styles.score_category_container, borderColor: Colors.categories.DIET, opacity: foodScoreOpacity }}>
                         <Ionicons name='fast-food-outline' size={36} color={Colors.categories.DIET} />
                         <Text style={{ ...q_styles.score_text, color: Colors.categories.DIET }}>
-                            {foodScore * 10}
+                            {foodScore * 10}/10
                         </Text>
                     </Animated.View>
                 </View>
             </View>
 
-            <View
-                style={{
-                    marginTop: 12,
-                    flexDirection: 'row',
-                    justifyContent: 'space-evenly',
-                }}
-            >
-                <Animated.View style={{ justifyContent: 'center', alignItems: 'center', opacity: bestCategoryOpacity }}>
+            <View style={q_styles.best_worst_category_container} >
+                <Animated.View style={{ ...q_styles.center, opacity: bestCategoryOpacity }}>
                     <Text style={{ fontSize: 20, marginBottom: 10, }}>Best Category:</Text>
 
-                    <View
-                        style={{
-                            backgroundColor: 'white',
-                            paddingHorizontal: 20,
-                            paddingVertical: 10,
-                            borderRadius: 10,
-                            borderWidth: 2,
-                            borderColor: Colors.secondary.DARK_MINT,
-                            width: 170,
-                        }}
-                    >
-                        <Text style={{ fontSize: 16, fontWeight: '500', textAlign: 'center', color: Colors.secondary.DARK_MINT, }}>{bestScore}</Text>
+                    <View style={{ ...q_styles.best_worst_category_score_container, borderColor: Colors.secondary.DARK_MINT }}>
+                        <Text style={{ ...q_styles.best_worst_category_text, color: Colors.secondary.DARK_MINT, }}>{bestScore}</Text>
                     </View>
                 </Animated.View>
 
-                <Animated.View style={{ justifyContent: 'center', alignItems: 'center', opacity: worstCategoryOpacity }}>
+                <Animated.View style={{ ...q_styles.center, opacity: worstCategoryOpacity }}>
                     <Text style={{ fontSize: 20, marginBottom: 10, }}>Worst Category:</Text>
 
-                    <View
-                        style={{
-                            backgroundColor: 'white',
-                            paddingHorizontal: 20,
-                            paddingVertical: 10,
-                            borderRadius: 10,
-                            borderWidth: 2,
-                            borderColor: Colors.secondary.RED,
-                            width: 170,
-                        }}
-                    >
-                        <Text style={{ fontSize: 16, fontWeight: '500', textAlign: 'center', color: Colors.secondary.RED, }}>{worstScore}</Text>
+                    <View style={{ ...q_styles.best_worst_category_score_container, borderColor: Colors.secondary.RED }}>
+                        <Text style={{ ...q_styles.best_worst_category_text, color: Colors.secondary.RED, }}>{worstScore}</Text>
                     </View>
                 </Animated.View>
             </View>
@@ -290,7 +233,7 @@ export default function FinishedScreen({ navigation, route }) {
                     title={"Take me to the app!"}
                     isVisible={true}
                     onPress={() => {
-                        finishedQuestionnaire()
+                        postFinishedQuestionnaire()
                         route.params?.setFinishedQuestionnaire(true)
                     }}
                 />
