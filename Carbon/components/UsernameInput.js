@@ -1,8 +1,10 @@
 import { View, Text, StyleSheet, TextInput } from 'react-native'
 import React from 'react'
+import { useState } from 'react'
 import { Colors } from '../styling/Colors'
 
-const UsernameInput = ({testID, onChangeText}) => {
+const UsernameInput = ({testID}) => {
+  const [text, onChangeText] = useState('username');
   return (
     <View>
       <TextInput
@@ -11,6 +13,7 @@ const UsernameInput = ({testID, onChangeText}) => {
         placeholderTextColor="#AFAFAF" 
         testID={testID}
         onChangeText={onChangeText}
+        value={text}
       />
     </View>
   )

@@ -1,19 +1,46 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
+import { render, fireEvent } from '@testing-library/react-native';
 import PasswordInput from '../../components/PasswordInput';
 
-describe('PasswordInput', () => {
-  it('renders the input field with a placeholder text', () => {
-    const { getByPlaceholderText } = render(<PasswordInput text="Password" />);
-    const passwordInput = getByPlaceholderText('Password');
+// describe('PasswordInput', () => {
+//   test('should update the text value when user types in the input', () => {
+//     const { getByTestId } = render(<PasswordInput testID="passwordInput" />);
+//     const passwordInput = getByTestId('passwordInput');
 
-    expect(passwordInput).toBeDefined();
+//     fireEvent.changeText(passwordInput, 'testpassword');
+
+//     expect(passwordInput.props.value).toBe('testpassword');
+//   });
+// });
+
+describe('PasswordInput', () => {
+  const mockOnChangeText = jest.fn();
+
+  it('should toggle the password visibility when the icon is pressed', () => {
+    const { getByTestId } = render(<PasswordInput text="Password" testID="passwordInput" onChangeText={mockOnChangeText} />);
+    const input = getByTestId('passwordInput');
+    const icon = getByTestId('passwordVisibilityIcon');
+
+    // Password should be hidden by default
+    expect(input.props.secureTextEntry).toBe(true);
+
+    // Click the icon to toggle password visibility
+    fireEvent.press(icon);
+    expect(input.props.secureTextEntry).toBe(false);
+
+    // Click the icon again to toggle password visibility
+    fireEvent.press(icon);
+    expect(input.props.secureTextEntry).toBe(true);
   });
 
-  it('renders the input field with secureTextEntry', () => {
-    const { getByPlaceholderText } = render(<PasswordInput text="Password" />);
-    const passwordInput = getByPlaceholderText('Password');
+  it('should call the onChangeText function with the updated password value', () => {
+    const { getByTestId } = render(<PasswordInput text="Password" testID="passwordInput" onChangeText={mockOnChangeText} />);
+    const input = getByTestId('passwordInput');
+    
+    // Change the input value
+    fireEvent.changeText(input, 'myPassword');
 
-    expect(passwordInput.props.secureTextEntry).toBe(true);
+    // onChangeText should be called with the updated value
+    expect(mockOnChangeText).toHaveBeenCalledWith('myPassword');
   });
 });
