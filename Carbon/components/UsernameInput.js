@@ -2,15 +2,16 @@ import { View, Text, StyleSheet, TextInput } from 'react-native'
 import React from 'react'
 import { Colors } from '../styling/Colors'
 
-const UsernameInput = ({testID, onChangeText}) => {
+const UsernameInput = ({testID, onChangeText, value}) => {
   return (
     <View>
       <TextInput
         style={styles.input}
         placeholder={'Username'}
-        placeholderTextColor="#AFAFAF" 
+        placeholderTextColor="#AFAFAF"
         testID={testID}
         onChangeText={onChangeText}
+        value={value}
       />
     </View>
   )

@@ -74,17 +74,30 @@ export async function changeUsername(username) {
         return false;
     }
 
-    await fetch(API_CHANGE_USERNAME_URL, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'secrettoken': await getToken(),
-        },
-        body: JSON.stringify({ username: username })
-    })
-        .then(response => response.text())
-        // .then(data => console.log(data))
-        .catch(error => alert(error));
+    try {
+        const response = await fetch(API_CHANGE_USERNAME_URL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'secrettoken': await getToken(),
+            },
+            body: JSON.stringify({ username: username })
+        })
+        const text = await response.text();
+        // console.log(response.status)
+        // console.log(text)
+        if (response.status == 500 && text.includes("already use")) {
+            alert('Username already in use. Try another.');
+            return false;
+        } else if (response.status == 500 && text.includes("Server error")){
+            alert("There was a problem with the server. Please try again later.")
+            return false;
+        } else if(response.status == 200) {
+            return true;
+        }
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 export async function signup(username, email, password, confirm) {
@@ -227,22 +240,39 @@ export async function changePassword(oldPassword, newPassword) {
 
         // Show the error message in a popup
         alert(errorMessage);
-
         return false;
     }
 
-    // change the password in the database if the old password matches the one in the database
-    await fetch(API_CHANGE_PASSWORD_URL, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'secrettoken': await getToken(),
-        },
-        body: JSON.stringify({ oldPassword: oldPassword, newPassword: newPassword })
-    })
-        .then(response => response.text())
-        // .then(data => console.log(data))
-        .catch(error => alert(error));
+    // make sure new password is not the same as the old password
+    if (newPassword === oldPassword) {
+        alert("New password cannot be the same as the old password!");
+        return false;
+    }
+
+    try {
+        const response = await fetch(API_CHANGE_PASSWORD_URL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'secrettoken': await getToken(),
+            },
+            body: JSON.stringify({ oldPassword: oldPassword, newPassword: newPassword })
+        });
+        const text = await response.text();
+        // console.log(response.status)
+        // console.log(text)
+        // Check if the response indicates that the old password was not found
+        if (response.status === 500 || text.includes("doesn't match")) {
+            alert("The old password you entered does not match the password in our records. Please try again.");
+            return false;
+        }
+        if(response.status === 200){
+            // console.log("Password changed successfully")
+            return true;
+        }
+    } catch (error) {
+        console.log(error.message);
+    }
 }
 
 export async function changePFP(selection) {
