@@ -7,7 +7,7 @@ export const Section = (props) => {
   let toggleCardView = (cardView === undefined) ? true : cardView;
 
   return (
-    <>
+    <View style={styling.sectionContainer}>
       <View style={styling.header} testID='header'>
         <Text style={styling.title}>{title}</Text>
         {(shortcutURL && shortcutTitle) && <Shortcut screenName={shortcutURL} text={shortcutTitle}/>}
@@ -19,7 +19,7 @@ export const Section = (props) => {
           </View>
         </View>
       </View>
-    </>
+    </View>
   );
 };
 
