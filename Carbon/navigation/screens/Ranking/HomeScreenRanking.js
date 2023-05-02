@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import {View} from 'react-native'
+import {View} from 'react-native';
 import LoadingIndicator from "../../../components/LoadingIndicator";
 import getUserScores from './getUserScores';
 import MiniRanking from './RankingMiniView';
@@ -22,7 +22,7 @@ export default function HomeScreenRanking() {
     }, []);
 
     return (
-      <View style= {{height : 160}} testID='home-screen-ranking'>
+      <View testID='home-screen-ranking'>
         <MiniRanking userScores={userScores} rankCategory ={rankCategory}/>
         <LoadingIndicator loading={loading}/>
       </View>

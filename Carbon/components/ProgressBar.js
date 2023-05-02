@@ -13,7 +13,7 @@ import { useRef, useState } from 'react';
  */
 
 export default function RankProgressBar({ progress, total }) {
-  const [ratio, setRatio] = useState((progress === total || total === 0) ? 1 : progress/total);
+  const [ratio, setRatio] = useState((progress === total || total === 0) ? 1 : progress / total);
   const [barWidth, setWidth] = useState(0);
   const onLayout = (event) => {
     const { width } = event.nativeEvent.layout;
@@ -35,12 +35,12 @@ export default function RankProgressBar({ progress, total }) {
 
   return (
     <View style={styles.RankProgBarContainer} testID='ProgressBar Container'>
-        <View onLayout={onLayout}>
-            <View style={[styles.loadingBar, { width: barWidth }]}>
-            <Animated.View style={[styles.progressBar, { width: initWidth }]} testID={"AnimatedProgressBar"}/>
-            </View>
+      <View onLayout={onLayout}>
+        <View style={[styles.loadingBar, { width: barWidth }]}>
+          <Animated.View style={[styles.progressBar, { width: initWidth }]} testID={"AnimatedProgressBar"} />
         </View>
-      
+      </View>
+
       <View style={styles.progressValues} >
         <Text style={styles.numerator} testID='progressText'>{progress} </Text>
         <Text style={styles.denominator} testID='totalText'>{total}</Text>
@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     marginHorizontal: 2,
-    marginVertical : 8
   },
   numerator: {
     fontSize: 14,
