@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, Modal, Text, StyleSheet, Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { IconNames } from '../navigation/screens/Main/IconNames';
 import { ScreenNames } from '../navigation/screens/Main/ScreenNames';
 import { Colors } from '../styling/Colors';
@@ -16,7 +16,7 @@ export const PopUpMenu = ({navigation}) => {
     const options = [
         {
             title: 'Record Emissions',
-            icon: 'checkmark-circle-outline',
+            icon: 'create-outline',
             action: () => {
                 navigation.navigate(ScreenNames.RECORD_EMISSION)
             },
@@ -30,7 +30,7 @@ export const PopUpMenu = ({navigation}) => {
         },
         {
             title: 'Add Goal',
-            icon: 'timer-outline',
+            icon: 'time-outline',
             action: () => {
                 navigation.navigate(ScreenNames.ADD_GOAL);
             },
