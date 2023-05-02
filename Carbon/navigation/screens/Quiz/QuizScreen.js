@@ -112,33 +112,31 @@ const QuizScreen = ({ navigation, route }) => {
   //RENDER FUNCTIONS
   const renderQuestion = () => {
     return (
-      <>
-        <View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, marginHorizontal: 5, marginTop: 12 }}>
-            {/* Question Counter */}
-            <View>
-              <Text style={styles.question_counter}>{`Question ${currentQuestion + 1} of ${data.questions.length}`}</Text>
-            </View>
-
-            {/* Score Counter */}
-            <View>
-              <Text style={styles.score_counter}>Score: {score}</Text>
-            </View>
+      <View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, marginHorizontal: 5, marginTop: 12 }}>
+          {/* Question Counter */}
+          <View>
+            <Text style={styles.question_counter}>{`Question ${currentQuestion + 1} of ${data.questions.length}`}</Text>
           </View>
 
-          {/* Question */}
-          <View style={styles.question_container}>
-            <Text
-              style={{
-                ...styles.question_text,
-                fontSize: data.questions[currentQuestion].question.length > 90 ? 18 : 22,
-              }}
-            >
-              {data.questions[currentQuestion].question}
-            </Text>
+          {/* Score Counter */}
+          <View>
+            <Text style={styles.score_counter}>Score: {score}</Text>
           </View>
         </View>
-      </>
+
+        {/* Question */}
+        <View style={styles.question_container}>
+          <Text
+            style={{
+              ...styles.question_text,
+              fontSize: data.questions[currentQuestion].question.length > 90 ? 18 : 22,
+            }}
+          >
+            {data.questions[currentQuestion].question}
+          </Text>
+        </View>
+      </View>
     )
   }
 
@@ -220,11 +218,12 @@ const QuizScreen = ({ navigation, route }) => {
     >
       <SafeAreaView style={styles.screen}>
         <StatusBar backgroundColor={Colors.primary.MINT_CREAM} />
-        {isLoading ? (
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <ActivityIndicator size="large" />
-          </View>
-        ) : (
+        <View style={{flex:1, marginHorizontal: 24}}>
+          {isLoading ? (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator size="large" />
+            </View>
+          ) : (
             quizCompleted ? (
               <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
                 <View style={{marginTop:'7%'}}>
@@ -395,7 +394,8 @@ const QuizScreen = ({ navigation, route }) => {
                 </View>
               </View>
             )
-        )}
+          )}
+        </View>
       </SafeAreaView>
     </Modal>
   )
@@ -403,10 +403,9 @@ const QuizScreen = ({ navigation, route }) => {
 
 styles = StyleSheet.create({
   screen: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: '#F7FCF8',
     paddingTop: 12,
-    marginHorizontal: 24,
   },
   question_container: {
     borderRadius: 16,
