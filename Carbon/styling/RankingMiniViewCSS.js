@@ -6,7 +6,7 @@ export const RankingMiniViewCSS = StyleSheet.create({
     display: 'flex',
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     flexWrap: 'nowrap',
   },
   rankImageContainer: {

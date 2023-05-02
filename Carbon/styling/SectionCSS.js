@@ -2,6 +2,9 @@ import { StyleSheet, Platform } from "react-native";
 import { Colors } from "./Colors";
 
 export const SectionCSS = StyleSheet.create({
+  sectionContainer: {
+    flex: 1,
+  },
   container: {
     marginTop: 10,
     marginHorizontal: 14,
