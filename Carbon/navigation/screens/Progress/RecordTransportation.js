@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Dimensions } from 'react-native';
-import CustomPicker from './CustomPicker';
+import { Text, View, TouchableOpacity, ScrollView, TextInput, Platform, SafeAreaView } from 'react-native';
 import {Colors} from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import { RadioButton } from 'react-native-paper';
@@ -10,9 +9,10 @@ import calcPlane from '../../../calculations/travel_calculations/calcPlane';
 import calcPublic from '../../../calculations/travel_calculations/calcPublic';
 import calcBike from '../../../calculations/travel_calculations/calcBike';
 import { validateTransportationScreen, getTransportationError } from '../../../util/RecordEmissionChecks';
+import { MaterialIcons } from '@expo/vector-icons';
+import { styles } from '../../../styling/RecordEmissionsCSS';
 
 const RecordTransportation = ({ navigation, route }) => {
-  
   const [emissionsEntry, setEmissionsEntry] = useState({});
   const [milesTraveled, setMilesTraveled] = useState(0);
   const [selectedValue, setSelectedValue] = useState(null);
@@ -24,43 +24,6 @@ const RecordTransportation = ({ navigation, route }) => {
     "Walking, biking, or taking public transit can significantly reduce individual carbon footprints compared to driving a car.",
     "Shipping and trucking are responsible for transporting the vast majority of goods worldwide, and their emissions are a significant contributor to overall transportation-related emissions."
   ];
-  const miles = [
-    { "label": "1 mile", "value": 1 },
-    { "label": "2 miles", "value": 2 },
-    { "label": "3 miles", "value": 3 },
-    { "label": "4 miles", "value": 4 },
-    { "label": "5 miles", "value": 5 },
-    { "label": "10 miles", "value": 10 },
-    { "label": "15 miles", "value": 15 },
-    { "label": "20 miles", "value": 20 },
-    { "label": "25 miles", "value": 25 },  
-    { "label": "30 miles", "value": 30 },  
-    { "label": "35 miles", "value": 35 },  
-    { "label": "40 miles", "value": 40 },  
-    { "label": "45 miles", "value": 45 },  
-    { "label": "50 miles", "value": 50 },  
-    { "label": "60 miles", "value": 60 },  
-    { "label": "70 miles", "value": 70 },  
-    { "label": "80 miles", "value": 80 },  
-    { "label": "90 miles", "value": 90 },  
-    { "label": "100 miles", "value": 100 },  
-    { "label": "125 miles", "value": 125 },  
-    { "label": "150 miles", "value": 150 },  
-    { "label": "175 miles", "value": 175 },  
-    { "label": "200 miles", "value": 200 },  
-    { "label": "250 miles", "value": 250 },  
-    { "label": "300 miles", "value": 300 },  
-    { "label": "400 miles", "value": 400 },  
-    { "label": "500 miles", "value": 500 },  
-    { "label": "600 miles", "value": 600 },  
-    { "label": "700 miles", "value": 700 },  
-    { "label": "800 miles", "value": 800 },  
-    { "label": "900 miles", "value": 900 },  
-    { "label": "1000 miles", "value": 1000 },
-    { "label": "2000 miles", "value": 2000 },
-    { "label": "3000 miles", "value": 3000 },
-    { "label": "4000 miles", "value": 4000 }
-  ]
 
   function getRandomFunFact() {
     const randomIndex = Math.floor(Math.random() * funFacts.length);
@@ -69,7 +32,7 @@ const RecordTransportation = ({ navigation, route }) => {
 
   //memoize the fun fact so it doesn't change when the state variable changes
   const memoizedFunFact = useMemo(() => funFact, [funFact]);
-  
+
   //get the correct value for the transportation emissions
   function calcMilesTraveled () {
     let transport_emissions = 0;
@@ -112,150 +75,149 @@ const RecordTransportation = ({ navigation, route }) => {
   }
   }, [milesTraveled, selectedValue])
 
+  const [buttonIndex, setButtonIndex] = useState(-1);
+
   return (
-    <ScrollView contentContainerStyle={styles.scrollview}>
-    <View style={styles.container}>
-      <View style={styles.funfact}>
-        <Text style={styles.header}>Did you know?</Text>
-        <Text style={styles.label} testID='fun-fact'>{memoizedFunFact}</Text>
-      </View>
-      <Text style={styles.header}>Log your travel for today</Text>
-      {/* <CustomPicker
-        label="How many miles did you travel today?"
-        selectedValue={milesTraveled}
-        onValueChange={setMilesTraveled}
-        items={miles}
-        testID='miles-traveled'
-      /> */}
-      <Text style={styles.text_input_label}>How many miles did you travel today?</Text>
-      <TextInput
-        placeholder='miles'
-        style={styles.text_input}
-        keyboardType="numeric"
-        onChangeText={(miles) => setMilesTraveled(miles.length > 0 ? miles : 0)}
-        testID='miles-traveled'
-      />
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollview} showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <View style={styles.funfact}>
+            <Text style={styles.header}>Did you know?</Text>
+            <Text style={styles.label} testID='fun-fact'>{memoizedFunFact}</Text>
+          </View>
+          <Text style={styles.header}>Log your travel for today</Text>
+          <View style={styles.pickercontainer}>
+            <Text style={styles.text_input_label}>How many miles did you travel today?</Text>
+            <TextInput
+              placeholder='miles'
+              style={styles.text_input}
+              keyboardType="decimal-pad"
+              clearButtonMode='always' //iOS only
+              onChangeText={(miles) => setMilesTraveled(miles.length > 0 ? miles : 0)}
+              testID='miles-traveled'
+            />
 
-      <View style={{marginBottom: 24, alignItems: 'center'}}>
-        <Text style={styles.header}>What was your mode of transportation?</Text>
-        <RadioButton.Group onValueChange={value => setSelectedValue(value)} value={selectedValue}>
-          <View style={styles.switchContainer}>
-            <Text style={styles.radioButtonText}>Car</Text>
-            <RadioButton value="Car" testID='Car' />
-          </View>
-          <View style={styles.switchContainer}>
-            <Text style={styles.radioButtonText}>Electric Car</Text>
-            <RadioButton value="ElecCar" testID='ElecCar' />
-          </View>
-          <View style={styles.switchContainer}>
-            <Text style={styles.radioButtonText}>Bike</Text>
-            <RadioButton value="Bike" testID='Bike' />
-          </View>
-          <View style={styles.switchContainer}>
-            <Text style={styles.radioButtonText}>Bus</Text>
-            <RadioButton value="Bus" testID='Bus' />
-          </View>
-          <View style={styles.switchContainer}>
-            <Text style={styles.radioButtonText}>Train</Text>
-            <RadioButton value="Train" testID='Train'/>
-          </View>
-          <View style={styles.switchContainer}>
-            <Text style={styles.radioButtonText}>Plane</Text>
-            <RadioButton value="Plane" testID='Plane'/>
-          </View>
-        </RadioButton.Group>
-      </View>
+            <View style={{width:'100%',marginBottom: 24, alignItems: 'center'}}>
+              <Text style={styles.header}>What was your mode of transportation?</Text>
+              {/*Run this if platform is Android*/}
+              {Platform.OS === 'android' ? (
+                <RadioButton.Group onValueChange={value =>setSelectedValue(value)} value={selectedValue}>
+                  <View>
+                    <View style={styles.switchContainer}>
+                      <RadioButton value="Car" testID='Car' color={Colors.secondary.DARK_MINT}/>
+                      <MaterialIcons name="directions-car" size={36} color={Colors.primary.RAISIN_BLACK} style={{marginHorizontal: 12}}/>
+                      <Text style={styles.radioButtonText}>Car</Text>
+                    </View>
 
-      {(milesTraveled.length > 0) && (parseFloat(milesTraveled)) > 0  && selectedValue !== null && (
-      <View style={{flex: 1, justifyContent:'flex-end', marginBottom: 20,}}>
-        <TouchableOpacity testID='save-button' style={styles.button} onPress={() => validateTransportationScreen(milesTraveled, selectedValue) ? navigation.navigate(ScreenNames.RECORD_EMISSION, { returningEmissionsEntry: emissionsEntry }) : getTransportationError(milesTraveled, selectedValue)}>
-          <Text style={styles.buttonText}>Save & Return</Text>
-        </TouchableOpacity>
-      </View>
-      )}
-    </View>
-    </ScrollView>
+                    <View style={styles.switchContainer}>
+                      <RadioButton value="ElecCar" testID='ElecCar' color={Colors.secondary.DARK_MINT} />
+                      <MaterialIcons name="electric-car" size={36} color={Colors.primary.RAISIN_BLACK} style={{marginHorizontal: 12}}/>
+                      <Text style={styles.radioButtonText}>Electric Car</Text>
+                    </View>
+
+                    <View style={styles.switchContainer}>
+                      <RadioButton value="Bike" testID='Bike' color={Colors.secondary.DARK_MINT} />
+                      <MaterialIcons name="pedal-bike" size={36} color={Colors.primary.RAISIN_BLACK} style={{marginHorizontal: 12}}/>
+                      <Text style={styles.radioButtonText}>Bike</Text>
+                    </View>
+
+                    <View style={styles.switchContainer}>
+                      <RadioButton value="Bus" testID='Bus' color={Colors.secondary.DARK_MINT} />
+                      <MaterialIcons name="directions-bus" size={36} color={Colors.primary.RAISIN_BLACK} style={{marginHorizontal: 12}}/>
+                      <Text style={styles.radioButtonText}>Bus</Text>
+                    </View>
+
+                    <View style={styles.switchContainer}>
+                      <RadioButton value="Train" testID='Train' color={Colors.secondary.DARK_MINT} />
+                      <MaterialIcons name="train" size={36} color={Colors.primary.RAISIN_BLACK} style={{marginHorizontal: 12}}/>
+                      <Text style={styles.radioButtonText}>Train</Text>
+                    </View>
+
+                    <View style={styles.switchContainer}>
+                      <RadioButton value="Plane" testID='Plane' color={Colors.secondary.DARK_MINT} />
+                      <MaterialIcons name="airplanemode-active" size={36} color={Colors.primary.RAISIN_BLACK} style={{marginHorizontal: 12}}/>
+                      <Text style={styles.radioButtonText}>Plane</Text>
+                    </View>
+                  </View>
+                </RadioButton.Group>
+              ) :
+
+              /*Run this if platform is iOS*/
+              (
+                <View>
+                  <TouchableOpacity
+                    style={buttonIndex === 0 ? styles.selectorContainer_iOS_selected : styles.selectorContainer_iOS}
+                    onPress={() => { setButtonIndex(0); setSelectedValue("Car"); }}
+                  >
+                    <View style={{flexDirection:'row', alignItems:'center'}}>
+                      <MaterialIcons name="directions-car" size={36} color={Colors.primary.RAISIN_BLACK} style={{marginRight: 12}}/>
+                      <Text style={styles.radioButtonText_iOS}>Car</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={buttonIndex === 1 ? styles.selectorContainer_iOS_selected : styles.selectorContainer_iOS}
+                    onPress={() => { setButtonIndex(1); setSelectedValue("ElecCar"); }}
+                  >
+                    <View style={{flexDirection:'row', alignItems:'center', justifyContent:'flex-start'}}>
+                      <MaterialIcons name="electric-car" size={36} color={Colors.primary.RAISIN_BLACK} style={{marginRight: 12}}/>
+                      <Text style={styles.radioButtonText_iOS}>Electric Car</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={buttonIndex === 2 ? styles.selectorContainer_iOS_selected : styles.selectorContainer_iOS}
+                    onPress={() => { setButtonIndex(2); setSelectedValue("Bike"); }}
+                  >
+                    <View style={{flexDirection:'row', alignItems:'center'}}>
+                      <MaterialIcons name="pedal-bike" size={36} color={Colors.primary.RAISIN_BLACK} style={{marginRight: 12}}/>
+                      <Text style={styles.radioButtonText_iOS}>Bike</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={buttonIndex === 3 ? styles.selectorContainer_iOS_selected : styles.selectorContainer_iOS}
+                    onPress={() => { setButtonIndex(3); setSelectedValue("Bus"); }}
+                  >
+                    <View style={{flexDirection:'row', alignItems:'center'}}>
+                      <MaterialIcons name="directions-bus" size={36} color={Colors.primary.RAISIN_BLACK} style={{marginRight: 12}}/>
+                      <Text style={styles.radioButtonText_iOS}>Bus</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={buttonIndex === 4 ? styles.selectorContainer_iOS_selected : styles.selectorContainer_iOS}
+                    onPress={() => { setButtonIndex(4); setSelectedValue("Train"); }}
+                  >
+                    <View style={{flexDirection:'row', alignItems:'center'}}>
+                      <MaterialIcons name="train" size={36} color={Colors.primary.RAISIN_BLACK} style={{marginRight: 12}}/>
+                      <Text style={styles.radioButtonText_iOS}>Train</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                      style={buttonIndex === 5 ? styles.selectorContainer_iOS_selected : styles.selectorContainer_iOS}
+                      onPress={() => { setButtonIndex(5); setSelectedValue("Plane"); }}
+                  >
+                      <View style={{flexDirection:'row', alignItems:'center', justifyContent:'flex-start'}}>
+                        <MaterialIcons name="airplanemode-active" size={36} color={Colors.primary.RAISIN_BLACK} style={{marginRight: 12}}/>
+                        <Text style={styles.radioButtonText_iOS}>Plane</Text>
+                      </View>
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
+
+            {(milesTraveled.length > 0) && (parseFloat(milesTraveled)) > 0  && selectedValue !== null && (
+            <View style={{flex: 1, justifyContent:'flex-end', marginBottom: 20,}}>
+              <TouchableOpacity testID='save-button' style={styles.button} onPress={() => validateTransportationScreen(milesTraveled, selectedValue) ? navigation.navigate(ScreenNames.RECORD_EMISSION, { returningEmissionsEntry: emissionsEntry }) : getTransportationError(milesTraveled, selectedValue)}>
+                <Text style={styles.buttonText}>Save & Return</Text>
+              </TouchableOpacity>
+            </View>
+            )}
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 export default RecordTransportation;
-
-const styles = StyleSheet.create({
-  scrollview: {
-    flexGrow: 1,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: Colors.secondary.NYANZA,
-    paddingHorizontal: 24,
-  },
-  label: {
-    fontSize: 16,
-    color: Colors.primary.RAISIN_BLACK,
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  switchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 5,
-    padding: 5,
-  },
-  button: {
-    backgroundColor: Colors.secondary.DARK_MINT,
-    borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    margin: 4,
-    minWidth: 60,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: Colors.primary.MINT_CREAM,
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  funfact: {
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: Colors.primary.MINT,
-    backgroundColor: Colors.secondary.CELADON,
-    paddingVertical: 12,
-    paddingHorizontal: 8,
-    width: '100%',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginVertical: 12,
-  },
-  header: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  radioButtonText: {
-    marginRight: 25,
-    width: 60,
-  },
-  text_input_label: {
-    fontSize:16,
-    fontWeight:"500",
-    marginBottom:12,
-    textAlign: 'center',
-  },
-  text_input: {
-      height: 40,
-      width: 12*16,
-      borderColor: 'gray',
-      borderWidth: 1.5,
-      borderRadius: 6,
-      padding: 10,
-      marginBottom: 24,
-      backgroundColor: 'white',
-  },
-});
-
-
 
 
 

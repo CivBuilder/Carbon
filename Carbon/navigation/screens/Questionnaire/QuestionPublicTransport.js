@@ -123,7 +123,7 @@ export default function PublicTransportScreen({navigation,route}) {
             <QuestionnaireCTAButton
                 title={"Next Question"}
                 isVisible={buttonOn0 || buttonOn1}
-                onPress={() =>{
+                onPress={() =>{ !(buttonOn0 || buttonOn1) ? null :
                     navigation.navigate('q5',{
                         homeScore:homeScore,
                         foodScore:foodScore,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView, Image, Pressable, Animated, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, Pressable, Animated, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import UsernameInput from '../../../components/UsernameInput';
 import PasswordInput from '../../../components/PasswordInput';
@@ -8,17 +8,12 @@ import { logout } from '../../../util/UserManagement';
 import ChangeUsernameButton from '../../../components/ChangeUsernameButton';
 import ChangePasswordButton from '../../../components/ChangePasswordButton';
 import { changeUsername, changePassword, changePFP } from '../../../util/UserManagement';
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import pfps from '../../../assets/profile-icons/index'
 import { API_URL } from '../../../config/Api';
 import { getToken } from '../../../util/UserManagement';
-import Svg, { Defs, Rect } from 'react-native-svg';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import LoadingIndicator from '../../../components/LoadingIndicator';
 import CalculationsButton from '../../../components/CalculationsButton';
 import { ScreenNames } from '../Main/ScreenNames';
-
-const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
 
 const USER_API = API_URL + 'user/';
 
@@ -30,28 +25,51 @@ const SettingsScreen = ({ navigation }) => {
 
     // Changing user data
     const [username, setUsername] = useState('');
+    const [usernameChanged, setUsernameChanged] = useState(false);
+
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [passwordMatch, setPasswordMatch] = useState(false);
+    const [passwordChanged, setPasswordChanged] = useState(false);
 
     // Change pfp modal
     const [modalVisible, setModalVisible] = useState(false);
     const fadeAnimation = useRef(new Animated.Value(0)).current;
 
     async function handleUsernameChange() {
-        await changeUsername(username);
-        await fetchUser();
+        if(username === user.username) {
+            alert("Username is the same as current username!");
+        } else {
+            setUsernameChanged(await changeUsername(username));
+            await fetchUser();
+        }
     }
     async function handlePasswordChange() {
-        await changePassword(oldPassword, newPassword);
-        await fetchUser();
+        if(newPassword != confirmPassword) {
+            alert("Passwords do not match!");
+        } else {
+            setPasswordChanged(await changePassword(oldPassword, newPassword));
+            await fetchUser();
+        }
     }
 
-    function handlePasswordMatch(pw) {
-        setConfirmPassword(pw);
-        setPasswordMatch(pw === newPassword);
-    }
+    useEffect(() => {
+        if (usernameChanged) {
+            alert("Username changed successfully!");
+            setUsernameChanged(false);
+            setUsername('');
+        }
+    }, [usernameChanged]);
+
+    useEffect(() => {
+        if (passwordChanged) {
+            alert("Password changed successfully!");
+            setPasswordChanged(false);
+            setOldPassword('');
+            setNewPassword('');
+            setConfirmPassword('');
+        }
+    }, [passwordChanged]);
 
     useEffect(() => {
         fetchUser()
@@ -98,56 +116,31 @@ const SettingsScreen = ({ navigation }) => {
     return (
         <View style={{ height: "100%", width: '100%' }}>
             <KeyboardAwareScrollView scrollEnabled={!modalVisible} style={styles.container} contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
+                {/* Profile */}
                 <View style={styles.profileContainer}>
                     {!loadingUser ? (
                         <View style={{ borderRadius: 16, padding: 20 }}>
-                            <View>
-                                <Image
-                                    source={pfps[user.profile_selection]}
-                                    style={{
-                                        height: 100,
-                                        width: 100,
-                                        alignSelf: 'center',
-                                        justifyContent: 'center',
-                                    }}
-                                />
-                                <View style={{ justifyContent: 'center', alignSelf: 'center' }}>
-                                    <Pressable onPress={onChangePFP}>
-                                        <Text style={{ fontSize: 16, color: Colors.primary.MINT }}>Edit</Text>
-                                    </Pressable>
-                                </View>
+                            <Image
+                                source={pfps[user.profile_selection]}
+                                style={{ height: 100, width: 100, alignSelf: 'center', justifyContent: 'center' }}
+                            />
+                            <View style={{ justifyContent: 'center', alignSelf: 'center' }}>
+                                <Pressable onPress={onChangePFP}>
+                                    <Text style={{ fontSize: 16, color: Colors.primary.MINT }}>Edit</Text>
+                                </Pressable>
                             </View>
 
                             {/* Container for username and email */}
-                            <View style={{ marginTop: 20 }}>
-
+                            <View style={{ marginTop: 12 }}>
                                 {/* Username */}
-                                <View style={{ marginBottom: 6 }}>
-                                    <Text
-                                        style={{
-                                            color: 'black',
-                                            textAlign: 'center',
-                                            //Default font size 22. If username length > 20, make font size 18
-                                            fontSize: user.username.length > 22 ? 16 : 22,
-                                            fontWeight: '600'
-                                        }}
-                                    >
-                                        @{user.username}
-                                    </Text>
-                                </View>
+                                <Text style={{ textAlign: 'center', fontSize: user.username.length > 22 ? 16 : 22, fontWeight: '600', marginBottom: 6 }}>
+                                    {user.username}
+                                </Text>
 
                                 {/* Email */}
-                                <View>
-                                    <Text
-                                        style={{
-                                            textAlign: 'center',
-                                            fontSize: user.username.length > 22 ? 14 : 18,
-                                            fontWeight: '400'
-                                        }}
-                                    >
-                                        {user.email}
-                                    </Text>
-                                </View>
+                                <Text style={{ textAlign: 'center', fontSize: user.username.length > 22 ? 14 : 18, fontWeight: '400' }}>
+                                    {user.email}
+                                </Text>
                             </View>
                         </View>
                     ) : (
@@ -160,40 +153,37 @@ const SettingsScreen = ({ navigation }) => {
                 {/* Change username */}
                 <View style={styles.content}>
                     <Text style={{ ...styles.generalText, textAlign: 'left' }}>Change Username</Text>
-                    <UsernameInput testID="usernameInput" onChangeText={un => setUsername(un)} />
+                    <UsernameInput testID="usernameInput" onChangeText={un => setUsername(un)} value={username}/>
                 </View>
-                <ChangeUsernameButton onPress={async () => await handleUsernameChange()} disabled={!username || username === user.username} />
+                <ChangeUsernameButton onPress={async () => await handleUsernameChange()} disabled={!username} />
 
                 {/* Change password */}
                 <View style={styles.content}>
                     <Text style={{ ...styles.generalText, textAlign: 'left' }}>Change Password</Text>
                     {/* Change below line to use new api call to check if old password matches */}
-                    <PasswordInput text="Old Password" testID="OldPassword" onChangeText={pw => setOldPassword(pw)} />
-                    <PasswordInput text="New Password" testID="NewPassword" onChangeText={pw => setNewPassword(pw)} />
-                    <PasswordInput text="Confirm Password" testID="ConfirmPassword" onChangeText={pw => handlePasswordMatch(pw)} />
+                    <PasswordInput text="Old Password" testID="OldPassword" onChangeText={pw => setOldPassword(pw)} value={oldPassword}/>
+                    <PasswordInput text="New Password" testID="NewPassword" onChangeText={pw => setNewPassword(pw)} value={newPassword}/>
+                    <PasswordInput text="Confirm Password" testID="ConfirmPassword" onChangeText={pw => setConfirmPassword(pw)} value={confirmPassword}/>
                 </View>
-                <ChangePasswordButton onPress={async () => await handlePasswordChange()} disabled={(!oldPassword || !newPassword || !confirmPassword || !passwordMatch)} />
+                <ChangePasswordButton onPress={async () => await handlePasswordChange()} disabled={(!oldPassword || !newPassword || !confirmPassword)} />
+
                 {/* Calculation details */}
                 <View style={styles.content}>
                     <Text style={styles.generalText}>See how we do our calculations</Text>
                 </View>
                 <CalculationsButton onPress={() => navigation.navigate(ScreenNames.CALCULATION_DETAILS)} />
+
                 {/* Logout */}
                 <View style={styles.content}>
                     <TouchableOpacity
-                        style={{
-                            borderWidth: 2,
-                            borderRadius: 12,
-                            borderColor: Colors.secondary.RED,
-                            backgroundColor: 'white',
-                        }}
+                        style={{ borderRadius: 12, backgroundColor: Colors.secondary.RED }}
                         onPress={() => { logout() }}
                     >
-                        <Text style={{ color: Colors.secondary.RED, padding: 6, fontSize: 18, textAlign: 'center' }}>Logout</Text>
+                        <Text style={{ color: 'white', padding: 6, fontSize: 18, textAlign: 'center' }}>Logout</Text>
                     </TouchableOpacity>
                 </View>
-
             </KeyboardAwareScrollView>
+
             {modalVisible && (
                 <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, top: 0 }}>
                     <Animated.View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', opacity: fadeAnimation }} />

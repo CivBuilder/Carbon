@@ -65,23 +65,23 @@ const GoalProgress = ({ refreshing, setRefreshing, navigation }) => {
     } else {
         // Display the goal progress information
         return (
-            <View style={styling.netEmissionsGoalContainer}>
-                <View style={styling.onTrackContainer}>
-                    <View style={styling.onTrackIcon}>
+            <View style={{...styling.netEmissionsGoalContainer}}>
+                <View style={{...styling.onTrackContainer}}>
+                    <View style={{...styling.onTrackIcon, flex:0.25,}}>
                         {onTrackThisMonth ? <Ionicons name="checkmark-circle" size={48} color={Colors.secondary.LIGHT_MINT} />
                             : <Ionicons name="close-circle" size={48} color={Colors.secondary.RED} />}
                     </View>
-                    <View style={styling.onTrack}>
-                        <Text style={thisMonthTotalNumber < thisMonthGoalNumber ? styling.onTrackText :  styling.onTrackTextNoProgressBar}>You {onTrackThisMonth ? "are on track to meeting your goal this month. Great job!" : "are not on track to meet your goal this month."}</Text>
+                    <View style={{flex:0.75,flexDirection:'column', alignItems:'center'}}>
+                        <View style={styling.onTrack}>
+                            <Text style={thisMonthTotalNumber < thisMonthGoalNumber ? styling.onTrackText :  styling.onTrackTextNoProgressBar}>You {onTrackThisMonth ? "are on track to meeting your goal this month. Great job!" : "are not on track to meet your goal this month."}</Text>
+                        </View>
+                        {onTrackThisMonth && (
+                            <View style={styling.currentProgress}>
+                                <RankProgressBar progress={thisMonthTotalNumber} total={thisMonthGoalNumber} barWidth={0.5} />
+                            </View>
+                        )}
                     </View>
                 </View>
-                {thisMonthTotalNumber < thisMonthGoalNumber && (
-                    <View style={styling.currentProgress}>
-
-                        <RankProgressBar progress={thisMonthTotalNumber} total={thisMonthGoalNumber}/>
-
-                    </View>
-                )}
             </View>
         );
 

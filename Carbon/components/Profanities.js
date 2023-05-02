@@ -1626,7 +1626,7 @@ export const profanities = [
     'teat',
     'terror',
     'terrorist',
-    'teste',
+    // 'teste',
     'testicle',
     'testicles',
     'thicklip',

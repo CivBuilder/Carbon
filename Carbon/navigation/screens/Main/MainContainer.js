@@ -4,7 +4,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { StackActions } from '@react-navigation/native';
 
 import { Colors } from '../../../styling/Colors';
 import { IconNames } from './IconNames';
@@ -27,9 +26,7 @@ import RecycleAmountScreen from '../Questionnaire/QuestionRecycleAmount';
 import AnimalDietScreen from '../Questionnaire/QuestionAnimalDiet';
 import { getAuthHeader, getToken, setRenderCallback } from '../../../util/UserManagement';
 import { PopUpMenu } from '../../../components/PopUpMenu';
-import RankCategoryOverlay from '../Ranking/RankCategoryOverlay';
 import CalculationScreen from '../Settings/CalculationScreen';
-import LoadingIndicator from '../../../components/LoadingIndicator';
 import RecordElectricity from '../Progress/RecordElectricity';
 import { EmissionCategory as EC } from '../Ranking/Categories';
 import RankingCategoryOverlay from '../Ranking/RankCategoryOverlay';
@@ -51,7 +48,7 @@ const Tab = createBottomTabNavigator();
     Just add the function name on the import on top.
 */
 
-const QuestionnaireStack = (props) => {
+const QuestionnaireStack = ({setFinishedQuestionnaire}) => {
   return (
     <Stack.Navigator
       initialRouteName="GetStarted"
@@ -70,7 +67,7 @@ const QuestionnaireStack = (props) => {
       <Stack.Screen name="finished" component={FinishedScreen}
         options={{ headerShown: false }}
         initialParams={{
-          setFinishedQuestionnaire: props.setFinishedQuestionnaire
+          setFinishedQuestionnaire: setFinishedQuestionnaire,
         }}
       />
     </Stack.Navigator>
@@ -243,7 +240,7 @@ const LoginStack = (props, { navigation }) => {
   );
 };
 
-export default function MainContainer({ navigation }) {
+export default function MainContainer() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [finishedQuestionnaire, setFinishedQuestionnaire] = useState(false);
   const [isCheckingQuestionnaire, setIsCheckingQuestionnaire] = useState(true);

@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,Button, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
+import {View, Text, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -25,6 +25,7 @@ export default function VehicleTypeScreen({navigation,route}) {
     const [buttonIndex, setButtonIndex] = useState(-1);
     //Change page depending on the answer:
     const [nextPage,setNextPage] = useState("q4b");
+    const [isDisabled, setIsDisabled] = useState(true);
 
     const calculateTransportScore=() =>{
         //Electric Vehicle => Automatic 1 (0 carbon emissions)
@@ -82,6 +83,7 @@ export default function VehicleTypeScreen({navigation,route}) {
                             onPress={()=>{
                                 setButtonIndex(0);
                                 setNextPage("q4b");
+                                setIsDisabled(false);
                             }}
                         >
                             <Text style={{...q_styles.answer_text, fontSize: 18}}>Non-electric</Text>
@@ -99,6 +101,7 @@ export default function VehicleTypeScreen({navigation,route}) {
                             onPress={()=>{
                                 setButtonIndex(2);
                                 setNextPage("q5");
+                                setIsDisabled(false);
                             }}
                         >
                             <Text style={q_styles.answer_text}>Electric</Text>
@@ -109,8 +112,8 @@ export default function VehicleTypeScreen({navigation,route}) {
 
             <QuestionnaireCTAButton
                 title={"Next Question"}
-                isVisible={buttonIndex >= 0}
-                onPress={() =>{
+                isVisible={!isDisabled}
+                onPress={() =>{ isDisabled ? null :
                     navigation.navigate(nextPage,{
                         homeScore:homeScore,
                         foodScore:foodScore,

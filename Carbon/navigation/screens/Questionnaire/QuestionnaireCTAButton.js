@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.primary.MINT,
     },
     cta_text: {
-        fontSize: 18,
-        fontWeight: '400',
+        fontSize: 20,
+        fontWeight: '500',
         textAlign: 'center',
         color: Colors.primary.MINT_CREAM,
     },

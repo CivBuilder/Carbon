@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Text, Button, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -41,24 +41,13 @@ export default function DietScreen({ navigation }) {
     });
 
     // Disables "next" button
-    const [isDisabled, setIsDisabled] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(true);
     // Changes button colors based on index
     const [buttonIndex, setButtonIndex] = useState(-1);
     // Set next page depending on button pressed:
     const [nextPage, setNextPage] = useState('q2');
     // Calculate food Score on temp variable
     const [foodScoreCalc, setFoodScoreCalc] = useState(0);
-
-    // Changes the color based on the buttonIndex (Only useful for single-choice questions)
-    const changeIndex = (index) => {
-        setButtonIndex((previousState) => index);
-    };
-
-    // Prevent user from moving on until they press a button,
-    // then calculate the score (equal to points/maxPoints)
-    const disableButton = (points) => {
-        setIsDisabled((previousState) => true);
-    };
 
     return (
         <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}>
@@ -90,7 +79,7 @@ export default function DietScreen({ navigation }) {
                                 borderColor: buttonIndex == 0 ? Colors.primary.MINT : Colors.primary.GRAY,
                             }}
                             onPress={() => {
-                                disableButton(3);
+                                setIsDisabled(false);
                                 setButtonIndex(0);
                                 setNextPage('q1a');
                             }}
@@ -107,7 +96,7 @@ export default function DietScreen({ navigation }) {
                                 borderColor: buttonIndex == 1 ? Colors.primary.MINT : Colors.primary.GRAY,
                             }}
                             onPress={() => {
-                                disableButton(4);
+                                setIsDisabled(false);
                                 setButtonIndex(1);
                                 setNextPage('q2');
                             }}
@@ -126,7 +115,7 @@ export default function DietScreen({ navigation }) {
                                 borderColor: buttonIndex == 2 ? Colors.primary.MINT : Colors.primary.GRAY,
                             }}
                             onPress={() => {
-                                disableButton(6);
+                                setIsDisabled(false);
                                 setButtonIndex(2);
                                 setNextPage("q2");
                             }}
@@ -143,7 +132,7 @@ export default function DietScreen({ navigation }) {
                                 borderColor: buttonIndex == 3 ? Colors.primary.MINT : Colors.primary.GRAY,
                             }}
                             onPress={() => {
-                                disableButton(10);
+                                setIsDisabled(false);
                                 setButtonIndex(3);
                                 setNextPage("q2");
                             }}
@@ -156,8 +145,9 @@ export default function DietScreen({ navigation }) {
 
                 <QuestionnaireCTAButton
                     title={"Next Question"}
-                    isVisible={isDisabled}
+                    isVisible={!isDisabled}
                     onPress={() =>{
+                        isDisabled ? null :
                         navigation.navigate(nextPage,{
                         foodScore:foodScoreCalc,
                         });

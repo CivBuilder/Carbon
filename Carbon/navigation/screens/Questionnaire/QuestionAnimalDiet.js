@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {View, Text,TextInput, TouchableOpacity, ImageBackground, ScrollView, Keyboard, KeyboardAvoidingView, Animated } from 'react-native';
+import {View, Text,TextInput, TouchableOpacity, ImageBackground, Keyboard } from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';

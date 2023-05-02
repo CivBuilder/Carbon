@@ -21,6 +21,7 @@ export const Colors = {
   },
   miscellaneous: {
     BACKGROUND: "#F2F2F2",
+    SCREEN_BACKGROUND: "#F7FCF8",
     DISABLED: "#8E8E8E",
   }
 };

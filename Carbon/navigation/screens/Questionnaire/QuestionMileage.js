@@ -113,6 +113,8 @@ export default function MileageScreen({ navigation, route }) {
                         placeholder="Ex: 25"
                         style={q_styles.text_input}
                         keyboardType="decimal-pad"
+                        onFocus={handleInputFocus}
+                        onBlur={handleInputBlur}
                         onChangeText={text => {
                             text ? setMpg(text) : setMpg(0);
                             calculateTransportScore();

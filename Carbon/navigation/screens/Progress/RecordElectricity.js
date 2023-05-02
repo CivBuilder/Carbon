@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput } from 'react-native';
-import CustomPicker from './CustomPicker';
-import { Colors } from '../../../styling/Colors';
+import { Text, View, TouchableOpacity, ScrollView, TextInput, SafeAreaView } from 'react-native';
 import { ScreenNames } from '../Main/ScreenNames';
 import { validateElectricityEntry } from '../../../util/RecordEmissionChecks';
-
+import { styles } from '../../../styling/RecordEmissionsCSS';
 import homeElec from '../../../calculations/home_calculations/homeElec';
+
 const RecordElectricity = ({ navigation, route }) => {
   const [electricityUsage, setElectricityUsage] = useState(0);
   const [kwhUsage, setKwhUsage] = useState(0);
@@ -18,8 +17,6 @@ const RecordElectricity = ({ navigation, route }) => {
     "LED light bulbs use about 75% less energy than traditional incandescent bulbs, which can translate to significant CO2 emission reductions from home electricity use over time.",
     "Using a clothesline to dry clothes instead of a clothes dryer can save a significant amount of energy and reduce CO2 emissions from home electricity use. In fact, according to the Department of Energy, using a clothesline for just six months out of the year can save up to 700 pounds of CO2 emissions annually."
   ];
-  //weights used in the picker
-  const kwh = Array.from({ length: 100 }, (_, i) => ({ label: `${i + 1} kWh`, value: i + 1 }));
 
   function getRandomFunFact() {
     const randomIndex = Math.floor(Math.random() * funFacts.length);
@@ -42,7 +39,7 @@ const RecordElectricity = ({ navigation, route }) => {
 
   }, [electricityUsage]);
 
-  //Update our parameter to send back when the kwhUsage state variable changes 
+  //Update our parameter to send back when the kwhUsage state variable changes
   useEffect(() => {
     //need to check if route is undefined for testing purposes
     if (electricityUsage !== 0 && route !== undefined) {
@@ -54,110 +51,35 @@ const RecordElectricity = ({ navigation, route }) => {
   }, [kwhUsage])
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollview}>
-      <View style={styles.container}>
-        <View style={styles.funfact}>
-          <Text style={styles.header}>Did you know?</Text>
-          <Text style={styles.label}>{memoizedFunFact}</Text>
-        </View>
-        <Text style={styles.header}>Log your home electricity usage for today</Text>
-        <View style={styles.pickercontainer}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <View style={styles.funfact}>
+            <Text style={styles.header}>Did you know?</Text>
+            <Text style={styles.label}>{memoizedFunFact}</Text>
+          </View>
+          <Text style={styles.header}>Log your home electricity usage for today</Text>
+          <View style={styles.pickercontainer}>
+            <Text style={styles.text_input_label}>Electric Usage (kW⋅h)</Text>
+            <TextInput
+              placeholder='kW⋅h'
+              style={styles.text_input}
+              keyboardType="decimal-pad"
+              clearButtonMode='always' //iOS only
+              onChangeText={(electricity) => setElectricityUsage(electricity.length > 0 ? electricity : 0)}
+              testID='electricity-input'
+            />
 
-          {/* <CustomPicker
-          label='Electricity Usage (kWh)'
-          selectedValue={electricityUsage}
-          onValueChange={setElectricityUsage}
-          items={kwh}
-          testID='electricity-picker'
-        /> */}
-          <Text style={styles.text_input_label}>Electric Usage (kW⋅h)</Text>
-          <TextInput
-            placeholder='kW⋅h'
-            style={styles.text_input}
-            keyboardType="numeric"
-            onChangeText={(electricity) => setElectricityUsage(electricity.length > 0 ? electricity : 0)}
-            testID='electricity-input'
-          />
-
-        {(electricityUsage.length > 0) && (parseFloat(electricityUsage)) > 0 && (
-          <TouchableOpacity testID='save-button' style={styles.button} onPress={() => validateElectricityEntry(electricityUsage) ? navigation.navigate(ScreenNames.RECORD_EMISSION, { returningEmissionsEntry: emissionsEntry }) : alert('Please enter a number between 0 and 100.')}>
-            <Text style={styles.buttonText}>Save & Return</Text>
-          </TouchableOpacity>
-        )}
+            {(electricityUsage.length > 0) && (parseFloat(electricityUsage)) > 0 && (
+              <TouchableOpacity testID='save-button' style={styles.button} onPress={() => validateElectricityEntry(electricityUsage) ? navigation.navigate(ScreenNames.RECORD_EMISSION, { returningEmissionsEntry: emissionsEntry }) : alert('Please enter a number between 0 and 100.')}>
+                <Text style={styles.buttonText}>Save & Return</Text>
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollview: {
-    flexGrow: 1,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: Colors.secondary.NYANZA,
-    paddingHorizontal: 24,
-  },
-  label: {
-    fontSize: 16,
-    color: Colors.primary.RAISIN_BLACK,
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  pickercontainer: {
-    width: '100%',
-    padding: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  button: {
-    backgroundColor: Colors.secondary.DARK_MINT,
-    borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    margin: 4,
-    minWidth: 60,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: Colors.primary.MINT_CREAM,
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  funfact: {
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: Colors.primary.MINT,
-    backgroundColor: Colors.secondary.CELADON,
-    padding: 12,
-    width: '100%',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginVertical: 12,
-  },
-  header: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  text_input_label: {
-    fontSize: 16,
-    fontWeight: "500",
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  text_input: {
-    height: 40,
-    width: 12 * 16,
-    borderColor: 'gray',
-    borderWidth: 1.5,
-    borderRadius: 6,
-    padding: 10,
-    marginBottom: 24,
-    backgroundColor: 'white',
-  },
-});
 
 export default RecordElectricity;

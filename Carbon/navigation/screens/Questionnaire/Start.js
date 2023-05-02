@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Image, ImageBackground, Animated, TouchableOpacity } from 'react-native'
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import { Colors } from '../../../styling/Colors'
 
 const CarbonLogo = ({ onLogoAnimationFinish }) => {
@@ -30,6 +30,8 @@ const CarbonLogo = ({ onLogoAnimationFinish }) => {
 // Get Started Screen
 // Taken from Janeen (author of code)
 const StartScreen = ({ navigation }) => {
+  const [isAnimationRunning, setIsAnimationRunning] = useState(true);
+
   const helloFadeAnim = useRef(new Animated.Value(0)).current;
   const bodyFadeAnim = useRef(new Animated.Value(0)).current;
   const buttonFadeAnim = useRef(new Animated.Value(0)).current;
@@ -53,7 +55,9 @@ const StartScreen = ({ navigation }) => {
           duration: 690,
           delay: 690,
           useNativeDriver: true,
-        }).start();
+        }).start(() => {
+          setIsAnimationRunning(false);
+        });
       });
     });
   };
@@ -76,9 +80,8 @@ const StartScreen = ({ navigation }) => {
             <TouchableOpacity
               style={styles.button}
               activeOpacity={0.8}
-              onPress={() => {
-                navigation.navigate('q1');
-              }}
+              onPress={isAnimationRunning ? null : () => navigation.navigate('q1')}
+              disabled={isAnimationRunning}
             >
               <Text style={styles.buttonText}>Get Started</Text>
             </TouchableOpacity>

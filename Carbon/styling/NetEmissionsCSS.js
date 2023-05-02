@@ -19,9 +19,6 @@ export const NetEmissionsCSS = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    flexWrap: 'nowrap',
-    marginBottom: 15,
-    padding: 10,
   },
   noGoalContainer: {
     flex: 1,
@@ -45,6 +42,7 @@ export const NetEmissionsCSS = StyleSheet.create({
   onTrackText: {
     fontSize: 15,
     marginBottom: 15,
+    textAlign: 'center',
   },
   noGoalText: {
     textAlign: 'center',
@@ -53,7 +51,7 @@ export const NetEmissionsCSS = StyleSheet.create({
   },
   currentProgress: {
     flex: 2,
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'center',
   },
   netEmissions: {

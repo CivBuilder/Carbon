@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text,Button, TouchableOpacity, ImageBackground, ScrollView} from 'react-native';
+import {View, Text, TouchableOpacity, ImageBackground, ScrollView} from 'react-native';
 import { Colors } from '../../../styling/Colors';
 import { q_styles } from './QuestionnaireStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -14,9 +14,10 @@ export default function RecycleScreen({navigation, route}) {
     const foodScore = route.params?.foodScore;
     const homeScore = route.params?.homeScore;
     const transportScore = route.params?.transportScore;
-    const [lifestyleScore, setLifestyleScore] = useState(0);
+    const lifestyleScore = route.params?.lifestyleScore;
     const [nextPage, setNextPage] = useState("q5a");
     const [buttonIndex, setButtonIndex] = useState(-1);
+    const [isDisabled, setIsDisabled] = useState(true);
     //Updating progress bar (a.k.a the header)
     useEffect(()=>{
         navigation.setOptions({
@@ -66,6 +67,7 @@ export default function RecycleScreen({navigation, route}) {
                             onPress={()=>{
                                 setButtonIndex(0);
                                 setNextPage("q5a");
+                                setIsDisabled(false);
                             }}
                         >
                             <Text style={q_styles.answer_text}>Yes</Text>
@@ -82,6 +84,7 @@ export default function RecycleScreen({navigation, route}) {
                             onPress={()=>{
                                 setButtonIndex(1);
                                 setNextPage("finished");
+                                setIsDisabled(false);
                             }}
                         >
                             <Text style={q_styles.answer_text}>No</Text>
@@ -92,8 +95,8 @@ export default function RecycleScreen({navigation, route}) {
 
             <QuestionnaireCTAButton
                 title={buttonIndex === 0 ? "Next Question" : buttonIndex === 1 ? "See My Results" : ""}
-                isVisible={buttonIndex >= 0}
-                onPress={() =>{
+                isVisible={!isDisabled}
+                onPress={() =>{ isDisabled ? null :
                     navigation.navigate(nextPage,{
                         foodScore:foodScore,
                         transportScore:transportScore,
