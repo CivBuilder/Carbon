@@ -22,7 +22,7 @@ export default function MiniRanking({ userScores, rankCategory }) {
     const nextRankScore = userScores["next_rank_" + rankCategory.title + "score"];
     const route = useRoute();
     let categoryName = (route.params == undefined) ? "Global" : (route.params.title).slice(0, -1);
-    const leaderboardText = `${categoryName.charAt(0).toUpperCase() + categoryName.slice(1)} rank:`;
+    const leaderboardText = `${categoryName.charAt(0).toUpperCase() + categoryName.slice(1)} Rank:`;
 
     return (
       <View style={styling.rankLeaderboardContainer} testID='Ranking-Mini-Container'>
