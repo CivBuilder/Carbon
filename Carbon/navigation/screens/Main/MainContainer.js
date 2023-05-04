@@ -48,7 +48,7 @@ const Tab = createBottomTabNavigator();
     Just add the function name on the import on top.
 */
 
-const QuestionnaireStack = ({setFinishedQuestionnaire}) => {
+const QuestionnaireStack = ({ setFinishedQuestionnaire }) => {
   return (
     <Stack.Navigator
       initialRouteName="GetStarted"
@@ -84,9 +84,11 @@ const HomeStack = ({ navigation }) => {
         component={HomeScreen}
         options={{
           headerShown: true,
-          // headerStyle: {
-          //     height: Platform.OS === 'ios' ? 48 : 72,
-          // },
+          headerStyle: {
+            // height: Platform.OS === 'ios' ? 48 : 72,
+            borderBottomWidth: 1,
+            borderBottomColor: '#BFBFBF40',
+          },
           headerTitleAlign: 'center',
           headerTitle: () => (
             <Image
@@ -130,9 +132,11 @@ const ProgressStack = ({ navigation }) => {
         component={ProgressScreen}
         options={{
           headerShown: true,
-          // headerStyle: {
-          //     height: Platform.OS === 'ios' ? 48 : 72,
-          // },
+          headerStyle: {
+            // height: Platform.OS === 'ios' ? 48 : 72,
+            borderBottomWidth: 1,
+            borderBottomColor: '#BFBFBF40',
+          },
           headerTitleAlign: 'center',
           headerRight: () => (
             <PopUpMenu navigation={navigation} />
@@ -160,6 +164,11 @@ const ForumStack = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitleAlign: 'center',
+          headerStyle: {
+            // height: Platform.OS === 'ios' ? 48 : 72,
+            borderBottomWidth: 1,
+            borderBottomColor: '#BFBFBF40',
+          },
         }}
       />
       <Stack.Screen
@@ -189,12 +198,14 @@ const RankingStack = ({ navigation }) => {
         component={RankingScreen}
         options={{
           headerShown: true,
-          // headerStyle: {
-          //     height: Platform.OS === 'ios' ? 48 : 72,
-          // },
+          headerStyle: {
+            // height: Platform.OS === 'ios' ? 48 : 72,
+            borderBottomWidth: 1,
+            borderBottomColor: '#BFBFBF40',
+          },
           headerTitleAlign: 'center',
           headerRight: () => (
-            <RankingCategoryOverlay/>
+            <RankingCategoryOverlay />
           ),
         }}
         initialParams={EC.GLOBAL}
