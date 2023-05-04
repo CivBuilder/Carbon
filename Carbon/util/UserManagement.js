@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { API_URL } from '../config/Api';
 import { profanities } from '../components/Profanities';
+import { useToast } from 'react-native-toast-notifications';
 
 const API_CHANGE_USERNAME_URL = API_URL + 'user/changeUsername/';
 const API_CHANGE_PASSWORD_URL = API_URL + 'user/changePassword/';
@@ -87,7 +88,7 @@ export async function changeUsername(username) {
         // console.log(response.status)
         // console.log(text)
         if (response.status == 500 && text.includes("already use")) {
-            alert('Username already in use. Try another.');
+            alert('Username already in use.');
             return false;
         } else if (response.status == 500 && text.includes("Server error")){
             alert("There was a problem with the server. Please try again later.")
@@ -112,12 +113,12 @@ export async function signup(username, email, password, confirm) {
     }
 
     if (!validateUsername(username)) {
-        alert("Please enter a valid username");
+        alert("Invalid username.");
         return false;
     }
 
     if (!validateEmail(email)) {
-        alert("Please enter a valid email.");
+        alert("Invalid email.");
         return false;
     }
 
@@ -168,7 +169,8 @@ export async function signup(username, email, password, confirm) {
         await login(email, password);
         await changeUsername(username);
     } else {
-        alert('Username/Email already taken');
+        // alert('Username or email already taken!');
+        useToast().show('Username or email already taken.', { type: 'danger' })
         return false;
     }
 
