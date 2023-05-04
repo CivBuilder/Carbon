@@ -53,7 +53,7 @@ const GoalProgress = ({ refreshing, setRefreshing, navigation }) => {
         return (
             <View style={styling.noGoalContainer}>
                 <View style={styling.onTrack}>
-                    <Text style={styling.noGoalText}>You do not have a goal set for this month, please set one to track your progress.</Text>
+                    <Text style={styling.noGoalText}>You do not have a goal set for this month.</Text>
                 </View>
                 <TouchableOpacity testID="add-goal-button" onPress={() => navigation.navigate(ScreenNames.ADD_GOAL)}>
                     <View style={{ backgroundColor: Colors.primary.MINT, padding: 10, marginTop: 12, borderRadius: 12 }}>

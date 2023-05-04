@@ -45,7 +45,7 @@ export default function ProgressScreen({ navigation }) {
           <NetEmissions refreshing={refreshing} setRefreshing={setRefreshing} />
         </Section>
         <Section title="Goal Progress">
-          <GoalProgress refreshing={refreshing} setRefreshing={setRefreshing} navigation={navigation}></GoalProgress>
+          <GoalProgress refreshing={refreshing} setRefreshing={setRefreshing} navigation={navigation}/>
         </Section>
       </ScrollView>
     </SafeAreaView>
