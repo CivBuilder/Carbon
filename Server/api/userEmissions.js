@@ -60,11 +60,11 @@ router.get('/', passport.authenticate('jwt', { session: false }), async function
 
     if (difference_in_days == 0) {
       //Add to the daily array
-      retArr[0][0] = transport;
-      retArr[0][1] = diet;
-      retArr[0][2] = lifestyle;
-      retArr[0][3] = home;
-      retArr[0][4] = total;
+      retArr[0][0] += transport;
+      retArr[0][1] += diet;
+      retArr[0][2] += lifestyle;
+      retArr[0][3] += home;
+      retArr[0][4] += total;
       //add to the weekly array and increment the count for that
       weekCount += 1;
       retArr[2][0] += transport;
@@ -83,11 +83,11 @@ router.get('/', passport.authenticate('jwt', { session: false }), async function
     }
     else if (difference_in_days == 1) {
       //Add to the yesterdays array
-      retArr[1][0] = transport;
-      retArr[1][1] = diet;
-      retArr[1][2] = lifestyle;
-      retArr[1][3] = home;
-      retArr[1][4] = total;
+      retArr[1][0] += transport;
+      retArr[1][1] += diet;
+      retArr[1][2] += lifestyle;
+      retArr[1][3] += home;
+      retArr[1][4] += total;
 
       weekCount += 1;
       retArr[2][0] += transport;
