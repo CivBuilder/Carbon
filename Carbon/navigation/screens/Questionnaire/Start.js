@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, ImageBackground, Animated, TouchableOpac
 import React, {useEffect, useRef, useState} from 'react'
 import { Colors } from '../../../styling/Colors'
 
-const CarbonLogo = ({ onLogoAnimationFinish }) => {
+export const CarbonLogo = ({ onLogoAnimationFinish }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const CarbonLogo = ({ onLogoAnimationFinish }) => {
 
 // Get Started Screen
 // Taken from Janeen (author of code)
-const StartScreen = ({ navigation }) => {
+export const StartScreen = ({ navigation }) => {
   const [isAnimationRunning, setIsAnimationRunning] = useState(true);
 
   const helloFadeAnim = useRef(new Animated.Value(0)).current;
@@ -68,7 +68,7 @@ const StartScreen = ({ navigation }) => {
         source={require('../../../assets/get-started-background.png')}
         style={styles.background}
       >
-        <CarbonLogo onLogoAnimationFinish={handleLogoAnimationFinish} />
+        <CarbonLogo testId='carbon-logo' onLogoAnimationFinish={handleLogoAnimationFinish} />
         <View style={styles.content}>
           <Animated.Text style={[styles.helloText, { opacity: helloFadeAnim }]}>
             Hello!
@@ -83,7 +83,7 @@ const StartScreen = ({ navigation }) => {
               onPress={isAnimationRunning ? null : () => navigation.navigate('q1')}
               disabled={isAnimationRunning}
             >
-              <Text style={styles.buttonText}>Get Started</Text>
+              <Text testId='get-started-button' style={styles.buttonText}>Get Started</Text>
             </TouchableOpacity>
           </Animated.View>
         </View>
@@ -92,7 +92,7 @@ const StartScreen = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
