@@ -39,10 +39,6 @@ function RenderListEntry({ item, category, username }) {
         </Text>
       </View>
 
-      <Text style={styles.NameText}>
-        {item.username}
-      </Text>
-
       <View style={styles.avatarView}>
         <Image
           style={styles.profileImage}
@@ -50,6 +46,10 @@ function RenderListEntry({ item, category, username }) {
           resizeMode="contain"
         />
       </View>
+
+      <Text style={styles.NameText}>
+        {item.username}
+      </Text>
 
       <Text style={styles.ScoreText}>
         {item[category.title + "score"]}
@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     width: "10%",
     height: "auto",
     justifyContent: 'center',
+    alignItems: 'center',
   },
   profileImage: {
     height: "100%",
@@ -114,8 +115,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     height: "100%",
     textAlignVertical: 'center',
-    width: "40%",
-    marginRight: 10,
+    width: "50%",
+    marginLeft: 15,
     justifyContent: 'center',
   },
   ScoreText: {

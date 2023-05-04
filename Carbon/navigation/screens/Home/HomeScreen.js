@@ -5,6 +5,7 @@ import { MonthlyFootprintLineChart } from '../../../components/MonthlyFootprintL
 import HomeScreenRanking from '../Ranking/HomeScreenRanking'
 import ForumCards from '../../../components/ForumCards';
 import { Section } from '../../../components/Section';
+import { Colors } from '../../../styling/Colors';
 
 // =====================
 //     Home Screen
@@ -17,7 +18,7 @@ export default function HomeScreen({ navigation }) {
     };
 
     return (
-        <SafeAreaView style={{ backgroundColor: '#F7FCF8', height: '100%' }}>
+        <SafeAreaView style={{ backgroundColor: Colors.primary.MINT_CREAM, height: '100%' }}>
             <ScrollView
                 showsHorizontalScrollIndicator={false}
                 style={{ flexGrow: 1 }}

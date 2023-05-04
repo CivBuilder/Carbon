@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal, SafeAreaView } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Colors } from '../../../styling/Colors';
@@ -7,8 +7,11 @@ import { ScreenNames } from '../Main/ScreenNames';
 import { useState } from 'react';
 import { API_URL } from '../../../config/Api';
 import { getToken } from '../../../util/UserManagement';
+import { useToast } from 'react-native-toast-notifications';
+
 export default function RecordEmissionScreen({ navigation, route }) {
   const [showModal, setShowModal] = useState(false);
+  const [emissionsLogged, setEmissionsLogged] = useState(false);
 
   //Default value for the final submission that we post to the server
   const [emissionsEntry, setEmissionsEntry] = useState({
@@ -28,6 +31,17 @@ export default function RecordEmissionScreen({ navigation, route }) {
       setEmissionsEntry(route.params.returningEmissionsEntry);
     }
   }, [route.params]);
+
+  //Toast hook
+  const toast = useToast();
+  useEffect(() => {
+    if (emissionsLogged) {
+      toast.show("Emissions logged successfully!", {
+        type: 'success',
+      });
+      setEmissionsLogged(false)
+    }
+  }, [emissionsLogged]);
 
 
   //Posts the results, on a successfull post it will leave the screen
@@ -53,22 +67,24 @@ export default function RecordEmissionScreen({ navigation, route }) {
       if (response.status === 200) {
         // console.log("Successful Post!");
         navigation.goBack();
+        setEmissionsLogged(true);
       }
       //Alert on bad request - should only see on testing 
       else if (response.status === 404) {
         throw new Error(`Client ID Not Found`);
       }
     } catch (err) {
-      alert(err.message)
+      console.log(err.message)
     }
   }
 
   return (
+    <SafeAreaView style={{flex:1, backgroundColor: Colors.primary.MINT_CREAM}}>
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
     <View style={styles.centeredView}>
       <View style={styles.titleView}>
         <Text style={styles.title}>
-          Select a category to log your emissions for today
+          Select a category to log your emissions for today.
         </Text>
       </View>
       <View style={styles.modalView} testID='main'>
@@ -195,6 +211,7 @@ export default function RecordEmissionScreen({ navigation, route }) {
       )}
     </View>
     </ScrollView>
+    </SafeAreaView>
   )
 }
 const styles = StyleSheet.create({
@@ -203,18 +220,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-evenly',
     backgroundColor: Colors.primary.MINT_CREAM,
+    padding:12,
   },
   titleView: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
-    backgroundColor: Colors.primary.MINT,
+    width:'100%',
+    backgroundColor: Colors.secondary.NON_PHOTO_BLUE,
+    borderRadius: 12,
+    marginBottom:12,
   },
   title: {
     paddingVertical: 10,
     fontSize: 24,
     textAlign: 'center',
-    color: Colors.primary.MINT_CREAM,
+    color: Colors.primary.RAISIN_BLACK,
   },
   modalView: {
     // backgroundColor: Colors.primary.MINT_CREAM,
@@ -233,6 +253,8 @@ const styles = StyleSheet.create({
     borderColor: Colors.primary.MINT,
     borderWidth: 2,
     borderRadius: 50,
+    // elevation: 5,
+    // shadowColor: '#000', // Set the shadow color
   },
   icon: {
     marginHorizontal: 20,

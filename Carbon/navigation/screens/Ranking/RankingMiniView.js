@@ -4,6 +4,8 @@ import { SustainabilityScoreProfileView } from '../../../util/SustainabilityScor
 import RankProgressBar from '../../../components/ProgressBar.js';
 import { EmissionCategory as EC } from './Categories';
 import { RankingMiniViewCSS as styling } from '../../../styling/RankingMiniViewCSS';
+import { useRoute } from '@react-navigation/native';
+import { useState } from 'react';
 
 /**
  * 
@@ -18,6 +20,9 @@ export default function MiniRanking({ userScores, rankCategory }) {
     const sustainability_score = userScores.sustainability_score;
     const currentScore = userScores[rankCategory.title + "score"];
     const nextRankScore = userScores["next_rank_" + rankCategory.title + "score"];
+    const route = useRoute();
+    let categoryName = (route.params == undefined) ? "Global" : (route.params.title).slice(0, -1);
+    const leaderboardText = `${categoryName.charAt(0).toUpperCase() + categoryName.slice(1)} Rank:`;
 
     return (
       <View style={styling.rankLeaderboardContainer} testID='Ranking-Mini-Container'>
@@ -31,7 +36,7 @@ export default function MiniRanking({ userScores, rankCategory }) {
         <View style={styling.gap}></View>
         <View style={styling.rankingContainer}>
           <View style={styling.leaderboardRank}>
-            <Text style={styling.leaderboardText}>Your rank:</Text>
+            <Text style={styling.leaderboardText}>{leaderboardText}</Text>
             <Text style={styling.leaderboardValue}>{formatRankText(rank)}</Text>
           </View>
           <View style={styling.rankTitle}>

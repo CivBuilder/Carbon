@@ -6,6 +6,8 @@ import Log from '../Progress/Log';
 import NetEmissions from './NetEmissions';
 import GoalProgress from './GoalProgress';
 import { Section } from '../../../components/Section';
+import { SectionCSS } from '../../../styling/SectionCSS';
+
 const margin = 12;
 
 export default function ProgressScreen({ navigation }) {
@@ -32,15 +34,9 @@ export default function ProgressScreen({ navigation }) {
         </Section>
 
         {/* Log -- Will update styling and other things for this component soon :) */}
-        <Text style={{
-          marginHorizontal: 12,
-          marginTop: 12,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          fontSize: 16,
-          fontWeight: '500',
-        }}>Category By Time</Text>
+        <View style={SectionCSS.header}>
+          <Text style={SectionCSS.title}>Category By Time</Text>
+        </View>
         <View style={styles.container}>
           <Log navigation={navigation} refreshing={refreshing} setRefreshing={setRefreshing}></Log>
         </View>
@@ -49,7 +45,7 @@ export default function ProgressScreen({ navigation }) {
           <NetEmissions refreshing={refreshing} setRefreshing={setRefreshing} />
         </Section>
         <Section title="Goal Progress">
-          <GoalProgress refreshing={refreshing} setRefreshing={setRefreshing} navigation={navigation}></GoalProgress>
+          <GoalProgress refreshing={refreshing} setRefreshing={setRefreshing} navigation={navigation}/>
         </Section>
       </ScrollView>
     </SafeAreaView>

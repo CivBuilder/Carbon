@@ -46,7 +46,7 @@ export const NetEmissionsCSS = StyleSheet.create({
   },
   noGoalText: {
     textAlign: 'center',
-    fontSize: 15,
+    fontSize: 17,
     marginBottom: 10,
   },
   currentProgress: {

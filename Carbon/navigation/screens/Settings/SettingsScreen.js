@@ -14,6 +14,7 @@ import { getToken } from '../../../util/UserManagement';
 import LoadingIndicator from '../../../components/LoadingIndicator';
 import CalculationsButton from '../../../components/CalculationsButton';
 import { ScreenNames } from '../Main/ScreenNames';
+import { useToast } from 'react-native-toast-notifications';
 
 const USER_API = API_URL + 'user/';
 
@@ -36,6 +37,8 @@ const SettingsScreen = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const fadeAnimation = useRef(new Animated.Value(0)).current;
 
+    const toast = useToast();
+
     async function handleUsernameChange() {
         if(username === user.username) {
             alert("Username is the same as current username!");
@@ -55,7 +58,8 @@ const SettingsScreen = ({ navigation }) => {
 
     useEffect(() => {
         if (usernameChanged) {
-            alert("Username changed successfully!");
+            // alert("Username changed successfully!");
+            toast.show("Username changed successfully!", {  type: 'success' });
             setUsernameChanged(false);
             setUsername('');
         }
@@ -63,7 +67,8 @@ const SettingsScreen = ({ navigation }) => {
 
     useEffect(() => {
         if (passwordChanged) {
-            alert("Password changed successfully!");
+            // alert("Password changed successfully!");
+            toast.show("Password changed successfully!", { type: 'success' });
             setPasswordChanged(false);
             setOldPassword('');
             setNewPassword('');
@@ -241,7 +246,7 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: '#F7FCF8',
+        backgroundColor: Colors.primary.MINT_CREAM,
     },
 
     content: {

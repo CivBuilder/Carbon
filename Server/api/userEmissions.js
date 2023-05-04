@@ -15,7 +15,14 @@ const moment = require('moment');
 
 router.get('/', passport.authenticate('jwt', { session: false }), async function (req, res) {
   // Use Moment.js to get today's date in the UTC timezone
-  const todaysDate = moment.utc().startOf('day');
+  const moment = require('moment-timezone');
+  const tz = 'America/Los_Angeles'; // Pacific Standard Time
+
+  // Get the current date in the user's timezone
+  const now = moment.tz(tz);
+
+  // Get the start of the current day in the user's timezone
+  const todaysDate = now.clone().startOf('day');
 
   const userId = req.user.id;
   //const userId = 323; //for testing
@@ -35,12 +42,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), async function
   [0, 0, 0, 0, 0], // 7 DAYS (1 WEEK)
   [0, 0, 0, 0, 0]  // 31 DAYS (1 MONTH)
   ]; //Ret array
-  count = 0
   for (const obj of content) {
-    if (count >= 100) {
-      break;
-    }
-    count += 1;
     const value = obj.date;
     //grabbing all the necessary values for comapring dates
     checkMonth = value.substring(5, 7);
@@ -49,8 +51,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), async function
     //grabbing the emissions for the relevant data set
     const oldDate = moment([checkYear, checkMonth - 1, checkDay]).toDate();
     const difference_in_days = moment(todaysDate).diff(moment(oldDate), 'days');
-    if (difference_in_days == 0) {
-    }
+
     transport = obj.transport_emissions;
     diet = obj.diet_emissions;
     lifestyle = obj.lifestyle_emissions;
@@ -413,9 +414,17 @@ router.post('/', passport.authenticate('jwt', { session: false }), async functio
 
   //Validate if user has already posted once today
   // Get the start of the current day in the user's timezone
-  const todaysStart = moment().utc().startOf('day');
-  // Get the start of the next day in the user's timezone
-  const todaysEnd = moment(todaysStart).utc().add(1, 'day');
+  const moment = require('moment-timezone');
+  const tz = 'America/Los_Angeles'; // Pacific Standard Time
+
+  // Get the current date in the user's timezone
+  const now = moment.tz(tz);
+
+  // Get the start of the current day in the user's timezone
+  const todaysStart = now.clone().startOf('day');
+
+  // Get the end of the current day in the user's timezone
+  const todaysEnd = now.clone().endOf('day');
 
   // Use the variables in the Sequelize query
   const todaysEntries = await UserEmissions.findAll({

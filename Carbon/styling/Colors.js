@@ -23,5 +23,10 @@ export const Colors = {
     BACKGROUND: "#F2F2F2",
     SCREEN_BACKGROUND: "#F7FCF8",
     DISABLED: "#8E8E8E",
-  }
+  },
+  alertTypes: {
+    SUCCESS: "#B1E7B9",
+    WARNING: "#FFC700",
+    ERROR: "#FF5C59",
+  },
 };

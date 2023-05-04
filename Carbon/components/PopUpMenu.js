@@ -66,6 +66,7 @@ export const PopUpMenu = ({navigation}) => {
                                 op.action();
                                 setVisibility(false);
                             }}
+                            testID={op.title}
                         >
                             {/* Display the menu text */}
                             <Text style={styles.popup_title}>{op.title}</Text>
@@ -84,7 +85,7 @@ export const PopUpMenu = ({navigation}) => {
     );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     popup_modal: {
         borderRadius: 8,
         borderWidth: 1,

@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: Colors.secondary.NYANZA,
+        backgroundColor: Colors.primary.MINT_CREAM,
     },
     label: {
         fontSize: 16,

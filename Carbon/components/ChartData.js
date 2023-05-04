@@ -6,7 +6,7 @@ import { Colors } from '../styling/Colors';
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const margin = 10;
-const chartWidth = windowWidth - (margin * 2);
+const chartWidth = windowWidth - (margin * 4);
 const chartHeight = 210;
 
 const dummyData = [
@@ -29,14 +29,14 @@ export function DailyLog ({dataArray}) {
             {
             data: dataArray,
             colors: [
-                (opacity = 1) =>  Colors.categories.TRANSPORTATION,
-                (opacity = 1) =>  Colors.categories.DIET,
-                (opacity = 1) =>  Colors.categories.HOME, //all colors will be MINt
-                (opacity = 1) =>  Colors.secondary.DARK_MINT,
+                () =>  Colors.categories.TRANSPORTATION,
+                () =>  Colors.categories.DIET,
+                () =>  Colors.categories.HOME, //all colors will be MINt
+                () =>  Colors.secondary.DARK_MINT,
             ]
             }
         ]
-        };
+    };
         //Return the bar chart with appropriate styling.
     return (
         <BarChart
@@ -45,33 +45,15 @@ export function DailyLog ({dataArray}) {
         withCustomBarColorFromData={true}
         flatColor={true}
         style={styleBar.chart}
-        width = {chartWidth-10}
+        width = {chartWidth}
         height = {windowHeight/3}
         withVerticalLabels ={true}
         withHorizontalLabels = {true}
         fromZero = {true}
+        showBarTops = {false}
     />
     )
 }
-
-const styles = StyleSheet.create({
-    chart: {
-        borderRadius: 16,
-    },
-    chartConfig: {
-        backgroundColor: Colors.primary.MINT,
-        backgroundGradientFrom: Colors.primary.MINT,
-        backgroundGradientTo: Colors.primary.MINT,
-        decimalPlaces: 2, // optional, defaults to 2dp
-        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-        propsForDots: {
-            r: "5",                         // circle size
-            strokeWidth: "2",               // circle border size
-            stroke: Colors.primary.MINT     // circle border color
-        }
-    },
-});
 
 //Style bar which was created by Miguel
 const styleBar = StyleSheet.create({
@@ -86,19 +68,16 @@ const styleBar = StyleSheet.create({
         marginHorizontal: margin/2,
     },
     chartConfig: {
-
-        backgroundColor: '#FFFFFF',
         backgroundGradientFrom: '#FFFFFF',
         backgroundGradientTo: '#FFFFFF',
         decimalPlaces: 1, // optional, defaults to 2dp
-        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, //transparent
-        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-
-        propsForDots: {
-            r: "5",                         // circle size
-            strokeWidth: "2",               // circle border size
-            stroke: Colors.primary.MINT     // circle border color
-        }
+        color: () => `rgba(255, 255, 255, 1)`,
+        labelColor: () => `rgba(0, 0, 0, 1)`,
+        barRadius: 5,
+        propsForLabels: {
+            fontSize: 14,
+            fontWeight: '400',
+        },
     },
     keyFactors: {
         flex: 1,

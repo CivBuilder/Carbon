@@ -113,7 +113,7 @@ const QuizScreen = ({ navigation, route }) => {
   const renderQuestion = () => {
     return (
       <View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, marginHorizontal: 5, marginTop: 12 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           {/* Question Counter */}
           <View>
             <Text style={styles.question_counter}>{`Question ${currentQuestion + 1} of ${data.questions.length}`}</Text>
@@ -175,35 +175,31 @@ const QuizScreen = ({ navigation, route }) => {
 
   const renderSubmitButton = () => {
     return (
-      <View>
-        {showSubmit ? (
-          <TouchableOpacity
-            style={styles.cta_button}
-            onPress={() => submitClicked()}
-          >
-            <Text style={styles.cta_text}> Submit </Text>
-          </TouchableOpacity>
-        ) : (
-          <View />
-        )}
-      </View>
+      showSubmit ? (
+        <TouchableOpacity
+          style={styles.cta_button}
+          onPress={() => submitClicked()}
+        >
+          <Text style={styles.cta_text}> Submit </Text>
+        </TouchableOpacity>
+      ) : (
+        <View />
+      )
     )
   }
 
   const renderNextButton = () => {
     return (
-      <View>
-        {showNext ? (
-          <TouchableOpacity
-            style={styles.cta_button}
-            onPress={() => nextClicked()}
-          >
-            <Text style={styles.cta_text}> Next </Text>
-          </TouchableOpacity>
-        ) : (
-          <View />
-        )}
-      </View>
+      showNext ? (
+        <TouchableOpacity
+          style={styles.cta_button}
+          onPress={() => nextClicked()}
+        >
+          <Text style={styles.cta_text}> Next </Text>
+        </TouchableOpacity>
+      ) : (
+        <View />
+      )
     )
   }
 
@@ -218,7 +214,7 @@ const QuizScreen = ({ navigation, route }) => {
     >
       <SafeAreaView style={styles.screen}>
         <StatusBar backgroundColor={Colors.primary.MINT_CREAM} />
-        <View style={{flex:1, marginHorizontal: 24}}>
+        <View style={{flex:1, marginHorizontal: 12, marginBottom:12}}>
           {isLoading ? (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
               <ActivityIndicator size="large" />
@@ -226,44 +222,44 @@ const QuizScreen = ({ navigation, route }) => {
           ) : (
             quizCompleted ? (
               <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
-                <View style={{marginTop:'7%'}}>
-                  <Text style={styles.result_heading}>Quiz completed!</Text>
-                  <Text
-                    style={{
-                      ...styles.result_score,
-                      color:
-                        score / data.questions.length >= 0.8
-                          ? "#3CB371" // Green if at least 80% of the questions are correct
-                          : score / data.questions.length >= 0.5
-                            ? "#FFA500" // Yellow if between 50% and 80%
-                            : "#FF6347", // Red if below 50%
-                    }}
-                  >
-                    {Math.round(score / data.questions.length * 100)}%
-                  </Text>
+                <View style={{ marginTop: 12, alignItems:'center', justifyContent:'center'}}>
+                    <Text style={styles.result_heading}>Quiz completed!</Text>
+                    <Text
+                      style={{
+                        ...styles.result_score,
+                        color:
+                          score / data.questions.length >= 0.8
+                            ? "#3CB371" // Green if at least 80% of the questions are correct
+                            : score / data.questions.length >= 0.5
+                              ? "#FFA500" // Yellow if between 50% and 80%
+                              : "#FF6347", // Red if below 50%
+                      }}
+                    >
+                      {Math.round(score / data.questions.length * 100)}%
+                    </Text>
 
-                  <Text style={styles.result_info}>{`You got ${score} out of ${data.questions.length} questions right.`}</Text>
+                    <Text style={styles.result_info}>{`You got ${score} out of ${data.questions.length} questions right.`}</Text>
 
-                  <Text style={styles.result_encouragement}>
-                    {perfectScore &&
-                      "Impressive! You got a perfect score!"}
-                    {score / data.questions.length >= 0.8 && score / data.questions.length < 1 &&
-                      "Great job! You really know your stuff!"}
-                    {score / data.questions.length < 0.8 && score / data.questions.length >= 0.5 &&
-                      "Good effort! You're on the right track!"}
-                    {score / data.questions.length < 0.5 && score / data.questions.length > 0 &&
-                      "You can retake the quiz and improve your score!"}
-                    {score / data.questions.length == 0 &&
-                      "Don't give up! You can retake the quiz and try again!"}
-                  </Text>
+                    <Text style={styles.result_encouragement}>
+                      {perfectScore &&
+                        "Impressive! You got a perfect score!"}
+                      {score / data.questions.length >= 0.8 && score / data.questions.length < 1 &&
+                        "Great job! You really know your stuff!"}
+                      {score / data.questions.length < 0.8 && score / data.questions.length >= 0.5 &&
+                        "Good effort! You're on the right track!"}
+                      {score / data.questions.length < 0.5 && score / data.questions.length > 0 &&
+                        "You can retake the quiz and improve your score!"}
+                      {score / data.questions.length == 0 &&
+                        "Don't give up! You can retake the quiz and try again!"}
+                    </Text>
                 </View>
 
-                <LottieView speed={2} style={{ width: 240 }} source={require('../../../assets/lotties/thinking-man.json')} autoPlay loop />
+                <LottieView speed={2} style={{ width:'60%' }} source={require('../../../assets/lotties/thinking-man.json')} autoPlay loop />
 
                 <View
                   style={{
                     alignItems: 'center',
-                    marginBottom: 20,
+                    marginBottom: 6,
                     width: '100%',
                   }}
                 >
@@ -286,14 +282,33 @@ const QuizScreen = ({ navigation, route }) => {
 
               <View style={{ height: '100%' }}>
                 {/* Close button and exit modal */}
-                  <TouchableOpacity
-                    onPress={() => { setShowModal(true); }}
-                    style={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}
-                  >
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center'}}>
+                  <TouchableOpacity onPress={() => { setShowModal(true) }}>
                     <Ionicons name="close-outline" size={30} color="black" />
                   </TouchableOpacity>
+                </View>
 
-                  {showModal && (
+                <View style={{ flex: 1 }}>
+                  <View>
+                    {/* Question */}
+                    {renderQuestion()}
+                  </View>
+
+                  <ScrollView showsVerticalScrollIndicator={false}>
+                    {/* Answers */}
+                    {renderAnswers()}
+                  </ScrollView>
+
+                  <View style={{ alignContent: 'center', justifyContent: 'center' }}>
+                    {/* Submit Button */}
+                    {renderSubmitButton()}
+
+                    {/* Next Button */}
+                    {renderNextButton()}
+                  </View>
+                </View>
+
+                {showModal && (
                     <Modal
                       isVisible={showModal}
                       animationType="fade"
@@ -356,42 +371,6 @@ const QuizScreen = ({ navigation, route }) => {
                     </Modal>
                   )}
 
-                <View style={{ flex: 1 }}>
-                  <View style={{ marginTop: 36 }} >
-                    {/* Question */}
-                    {renderQuestion()}
-                  </View>
-
-                  <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    style={{
-                      marginTop: 12,
-                      // backgroundColor: 'orange',
-                      height: 240,
-                    }}
-                  >
-                    {/* Answers */}
-                    {renderAnswers()}
-                  </ScrollView>
-
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: 'flex-end',
-                      marginBottom: 12,
-                    }}
-                  >
-                    <View
-                      style={{ alignContent: 'center', justifyContent: 'center', }}
-                    >
-                      {/* Submit Button */}
-                      {renderSubmitButton()}
-
-                      {/* Next Button */}
-                      {renderNextButton()}
-                    </View>
-                  </View>
-                </View>
               </View>
             )
           )}
@@ -405,7 +384,6 @@ styles = StyleSheet.create({
   screen: {
     flexGrow: 1,
     backgroundColor: '#F7FCF8',
-    paddingTop: 12,
   },
   question_container: {
     borderRadius: 16,
@@ -417,8 +395,9 @@ styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     backgroundColor: 'white',
-    minHeight: 200,
-    maxHeight: 400,
+    minHeight: 180,
+    marginTop: 6,
+    marginBottom: 12,
   },
   question_counter: {
     fontSize: 16,
@@ -436,8 +415,8 @@ styles = StyleSheet.create({
   answer_button: {
     borderRadius: 12,
     borderWidth: 2,
-    padding: 8,
-    marginVertical: 6,
+    padding: 12,
+    marginBottom: 12,
   },
   answer_text: {
     fontWeight: '400',
@@ -448,7 +427,7 @@ styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: Colors.primary.MINT,
     justifyContent: 'center',
-    padding: 6,
+    paddingVertical: 6,
     width: '100%',
   },
   cta_text: {

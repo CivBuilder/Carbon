@@ -9,6 +9,8 @@ import { API_URL } from '../../../config/Api';
 import { getToken } from "../../../util/UserManagement";
 import { q_styles } from "../Questionnaire/QuestionnaireStyle";
 import LottieView from 'lottie-react-native';
+import { useToast } from 'react-native-toast-notifications';
+
 const windowHeight = Dimensions.get("window").height;
 export default function PredictScreen({ navigation, route }) {
     const [loading, setLoading] = useState(true);
@@ -21,6 +23,15 @@ export default function PredictScreen({ navigation, route }) {
         home_emissions: 0
     });
 
+    const toast = useToast();
+    const [predictSet, setPredictSet] = useState(false);
+    useEffect(() => {
+        if (predictSet) {
+            toast.show('Your emissions have been logged!', {
+                type: 'success',
+            });
+        }
+    }, [predictSet]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -155,28 +166,39 @@ export default function PredictScreen({ navigation, route }) {
                                 <DailyLog dataArray={data}> </DailyLog>
                             </View>
                             <View style={{ padding: 10, justifyContent: 'center', flexDirection: 'row', alignSelf: "center" }} >
-                                <TouchableOpacity style={{
-                                    borderRadius: 12,
-                                    borderWidth: 2,
-                                    borderColor: '#db2525',
-                                    flex: 1,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    margin: 10,
-                                    padding:6,
-                                }} testID="reject-predict-button" onPress={() => navigation.goBack()}>
+                                <TouchableOpacity
+                                    style={{
+                                        borderRadius: 12,
+                                        borderWidth: 2,
+                                        borderColor: '#db2525',
+                                        flex: 1,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        margin: 10,
+                                        padding:6,
+                                    }}
+                                    testID="reject-predict-button"
+                                    onPress={() =>{ navigation.goBack() }}>
 
                                     <Text style={{ color: '#db2525', fontWeight: '500', fontSize: 18, letterSpacing:.8, }}>Decline</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={{
-                                    backgroundColor: Colors.primary.MINT,
-                                    borderRadius: 12,
-                                    flex: 1,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    margin: 10,
-                                    padding:6,
-                                }} testID="accept-predict-button" onPress={async () => await postResults()}>
+                                <TouchableOpacity
+                                    style={{
+                                        backgroundColor: Colors.primary.MINT,
+                                        borderRadius: 12,
+                                        flex: 1,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        margin: 10,
+                                        padding:6,
+                                    }}
+                                    testID="accept-predict-button"
+                                    onPress={async () => {
+                                        await postResults();
+                                        setPredictSet(true);
+                                        navigation.goBack();
+                                    }}
+                                >
                                     <Text style={{ color: Colors.primary.MINT_CREAM, fontWeight: '500', fontSize: 18, letterSpacing:.8, }}>Accept</Text>
                                 </TouchableOpacity>
                             </View>
