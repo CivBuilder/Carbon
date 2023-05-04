@@ -5,8 +5,8 @@ import { ToastProvider } from 'react-native-toast-notifications';
 import { Colors } from './styling/Colors';
 
 // THIS TURNS OFF ALL WARNINGS!! USE WITH CAUTION
-// import { LogBox } from 'react-native';
-// LogBox.ignoreAllLogs();
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 
 function App() {
   return (
