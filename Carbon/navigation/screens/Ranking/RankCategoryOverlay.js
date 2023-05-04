@@ -7,11 +7,10 @@ import { Colors } from '../../../styling/Colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { RadioButton } from 'react-native-paper';
 import { EmissionCategory as ec } from './Categories';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function RankCategoryOverlay() {
-  const route = useRoute();
   const navigation = useNavigation();
   const [modalVisible, setVisibility] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(ec.GLOBAL);
