@@ -4,6 +4,7 @@ import Slider from '@react-native-community/slider';
 import { Colors } from '../../../styling/Colors';
 import { ScreenNames } from '../Main/ScreenNames';
 import { saveGoalToDatabase, getPreviousMonthEmissions } from '../../../util/Goals';
+import { useToast } from 'react-native-toast-notifications';
 
 const margin = 10;
 const NonBreakingSpace = () => <Text>{'\u00A0'}</Text>;
@@ -17,6 +18,9 @@ export default function GoalSetter({ navigation }) {
   const [goal, setGoal] = useState(0);
   const [previousMonthEmissions, setPreviousMonthEmissions] = useState(0);
   const [originalEmissions, setOriginalEmissions] = useState(0);
+  const [goalSet, setGoalSet] = useState(false);
+
+  const toast = useToast();
 
   useEffect(() => {
     async function fetchLastMonthEmissions() {
@@ -32,6 +36,14 @@ export default function GoalSetter({ navigation }) {
     const newEmissions = originalEmissions * factor;
     setPreviousMonthEmissions(newEmissions.toFixed(1));
   }, [goal, originalEmissions]);
+
+  useEffect(() => {
+    if (goalSet) {
+      toast.show('Your goal has been set!', {
+        type: 'success',
+      });
+    }
+  }, [goalSet]);
 
   const handleValueChange = (value) => {
     const roundedValue = Math.round(value);
@@ -61,6 +73,7 @@ export default function GoalSetter({ navigation }) {
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={() => {
           saveGoalToDatabase(goal);
+          setGoalSet(true);
           navigation.goBack();
         }}>
           <View style={styles.button} testID="set-goal-button">

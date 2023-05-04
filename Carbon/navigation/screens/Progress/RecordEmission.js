@@ -66,7 +66,7 @@ export default function RecordEmissionScreen({ navigation, route }) {
       //exit screen on successful request
       if (response.status === 200) {
         // console.log("Successful Post!");
-        // navigation.goBack();
+        navigation.goBack();
         setEmissionsLogged(true);
       }
       //Alert on bad request - should only see on testing 
@@ -84,7 +84,7 @@ export default function RecordEmissionScreen({ navigation, route }) {
     <View style={styles.centeredView}>
       <View style={styles.titleView}>
         <Text style={styles.title}>
-          Select a category to log your emissions for today
+          Select a category to log your emissions for today.
         </Text>
       </View>
       <View style={styles.modalView} testID='main'>
@@ -220,13 +220,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-evenly',
     backgroundColor: Colors.primary.MINT_CREAM,
+    padding:12,
   },
   titleView: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: '95%',
+    width:'100%',
     backgroundColor: Colors.secondary.NON_PHOTO_BLUE,
     borderRadius: 12,
+    marginBottom:12,
   },
   title: {
     paddingVertical: 10,
