@@ -13,8 +13,18 @@ passport.use(
         },
         async (token, done) => {
             try {
+                const user = await User.findOne({
+                    where: {
+                        id: token.user.id
+                    }
+                })
+
+                if (!user)
+                    return done("Error finding user");
+
                 return done(null, token.user);
             } catch (error) {
+                console.log(error);
                 return done(error);
             }
         }
