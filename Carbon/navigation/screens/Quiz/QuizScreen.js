@@ -222,39 +222,39 @@ const QuizScreen = ({ navigation, route }) => {
           ) : (
             quizCompleted ? (
               <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
-                <View style={{marginTop:'7%'}}>
-                  <Text style={styles.result_heading}>Quiz completed!</Text>
-                  <Text
-                    style={{
-                      ...styles.result_score,
-                      color:
-                        score / data.questions.length >= 0.8
-                          ? "#3CB371" // Green if at least 80% of the questions are correct
-                          : score / data.questions.length >= 0.5
-                            ? "#FFA500" // Yellow if between 50% and 80%
-                            : "#FF6347", // Red if below 50%
-                    }}
-                  >
-                    {Math.round(score / data.questions.length * 100)}%
-                  </Text>
+                <View style={{ marginTop: 12, alignItems:'center', justifyContent:'center'}}>
+                    <Text style={styles.result_heading}>Quiz completed!</Text>
+                    <Text
+                      style={{
+                        ...styles.result_score,
+                        color:
+                          score / data.questions.length >= 0.8
+                            ? "#3CB371" // Green if at least 80% of the questions are correct
+                            : score / data.questions.length >= 0.5
+                              ? "#FFA500" // Yellow if between 50% and 80%
+                              : "#FF6347", // Red if below 50%
+                      }}
+                    >
+                      {Math.round(score / data.questions.length * 100)}%
+                    </Text>
 
-                  <Text style={styles.result_info}>{`You got ${score} out of ${data.questions.length} questions right.`}</Text>
+                    <Text style={styles.result_info}>{`You got ${score} out of ${data.questions.length} questions right.`}</Text>
 
-                  <Text style={styles.result_encouragement}>
-                    {perfectScore &&
-                      "Impressive! You got a perfect score!"}
-                    {score / data.questions.length >= 0.8 && score / data.questions.length < 1 &&
-                      "Great job! You really know your stuff!"}
-                    {score / data.questions.length < 0.8 && score / data.questions.length >= 0.5 &&
-                      "Good effort! You're on the right track!"}
-                    {score / data.questions.length < 0.5 && score / data.questions.length > 0 &&
-                      "You can retake the quiz and improve your score!"}
-                    {score / data.questions.length == 0 &&
-                      "Don't give up! You can retake the quiz and try again!"}
-                  </Text>
+                    <Text style={styles.result_encouragement}>
+                      {perfectScore &&
+                        "Impressive! You got a perfect score!"}
+                      {score / data.questions.length >= 0.8 && score / data.questions.length < 1 &&
+                        "Great job! You really know your stuff!"}
+                      {score / data.questions.length < 0.8 && score / data.questions.length >= 0.5 &&
+                        "Good effort! You're on the right track!"}
+                      {score / data.questions.length < 0.5 && score / data.questions.length > 0 &&
+                        "You can retake the quiz and improve your score!"}
+                      {score / data.questions.length == 0 &&
+                        "Don't give up! You can retake the quiz and try again!"}
+                    </Text>
                 </View>
 
-                <LottieView speed={2} style={{ width: 240 }} source={require('../../../assets/lotties/thinking-man.json')} autoPlay loop />
+                <LottieView speed={2} style={{ width:'60%' }} source={require('../../../assets/lotties/thinking-man.json')} autoPlay loop />
 
                 <View
                   style={{
