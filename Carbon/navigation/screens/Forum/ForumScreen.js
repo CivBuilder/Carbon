@@ -136,8 +136,10 @@ export default function ForumScreen({navigation, params}) {
                     <Svg height="100%" width="100%" style={StyleSheet.absoluteFillObject}>
                         <Defs>
                             <LinearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <Stop offset='0.7' stopOpacity={0}/>
-                                <Stop offset='1' stopOpacity={1.0} stopColor={'black'}/>
+                                <Stop offset='0' stopOpacity={0.8} stopColor={'black'}/>
+                                <Stop offset='0.25' stopOpacity={0}/>
+                                <Stop offset='0.4' stopOpacity={0}/>
+                                <Stop offset='1' stopOpacity={0.8} stopColor={'black'}/>
                             </LinearGradient>
                         </Defs>
                         <Rect width="100%" height="100%" fill="url(#grad)" rx={10}/>
@@ -145,7 +147,7 @@ export default function ForumScreen({navigation, params}) {
                     <Text style={{
                         position: 'absolute',
                         fontSize: 18,
-                        fontWeight: 'bold',
+                        fontWeight: '700',
                         color: 'white',
                         top: 5,
                         right: 10,
@@ -155,7 +157,7 @@ export default function ForumScreen({navigation, params}) {
                     <Text style={{
                         position: 'absolute',
                         fontSize: 22,
-                        fontWeight: 'bold',
+                        fontWeight: '500',
                         textAlign: 'center',
                         color: Colors.primary.MINT_CREAM,
                         bottom: 10
@@ -171,7 +173,7 @@ export default function ForumScreen({navigation, params}) {
 
 
     return(
-        <SafeAreaView edges={['bottom', 'left', 'right']} style={{flexDirection:'column', flexGrow: 1}}>
+        <SafeAreaView edges={['bottom', 'left', 'right']} style={{flexDirection:'column', flexGrow: 1, backgroundColor: Colors.primary.MINT_CREAM}}>
             <View style={{width: '100%'}}>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <View style={styles.categoryView}>
