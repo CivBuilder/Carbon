@@ -1,18 +1,24 @@
 import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native'
 import { Colors } from '../styling/Colors'
 import React from 'react'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 
-const EducationMenu = ({title, imageSrc, onPress}) => {
+const EducationMenu = ({title, imageSrc, onPress, currentTab}) => {
     const test = {
         backgroundColor: '#43b262'
     }
+    // const imageStyle = currentTab ? styles.categoryIcon : { ...styles.categoryIcon, tintColor: 'gray' };
+    const iconColor = currentTab ? Colors.primary.MINT : 'gray';
+    const roundButtonStyle = currentTab ? styles.roundButton : {...styles.roundButton, backgroundColor: 'white', borderColor: 'gray'};
+    const textStyle = currentTab ? styles.imageText : {...styles.imageText, color: 'gray'};
     return(
         <View style={{paddingHorizontal: 10, alignItems: 'center'}}>
-            <TouchableOpacity style = {styles.roundButton}  onPress={onPress}>
-                <Image style = {styles.categoryIcon} source={imageSrc} />
+            <TouchableOpacity style = {roundButtonStyle}  onPress={onPress}>
+                {/* <Image style = {imageStyle} source={imageSrc} /> */}
+                <MaterialCommunityIcons name={imageSrc} size={40} color={iconColor} />
             </TouchableOpacity>
-            <Text style = {styles.imageText}>{title}</Text>
+            <Text style = {textStyle}>{title}</Text>
         </View>
    )
 }
@@ -39,7 +45,7 @@ const styles = StyleSheet.create({
     imageText: {
         fontSize: 17,
         fontWeight: 'bold',
-        color: 'gray',
+        color: Colors.primary.MINT,
         textAlign: 'center'
     }
 });
