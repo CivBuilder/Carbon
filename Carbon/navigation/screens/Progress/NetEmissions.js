@@ -29,7 +29,7 @@ const NetEmissions = ({ refreshing, setRefreshing }) => {
         <Text style={{ fontSize: 16, fontWeight: '400', textAlign: 'center' }}>
           By recycling, you saved <Text style={{ fontSize: 20, fontWeight: '500' }}>{`${lifestyleEmissions}`}</Text> lbs of {`CO\u2082`}
         </Text>
-        <Text style={{ fontSize: 16, fontWeight: '400', textAlign: 'center' }}> from the atmosphere last month.</Text>
+        <Text style={{ fontSize: 16, fontWeight: '400', textAlign: 'center' }}> from the atmosphere this month.</Text>
       </View>
       <LottieView style={{ flex: 1, height: 200, margin: 5 }} source={require('../../../assets/lotties/recyclepeople.json')} autoPlay loop />
       <View style={{ marginTop: 6 }}>
