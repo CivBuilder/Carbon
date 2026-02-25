@@ -81,37 +81,15 @@ const CalculationScreen = () => {
       >
         https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references
       </Text>
-      <Text style={styles.subheading}>Beef Calculations</Text>
-      <Text 
-        style={styles.linkText} 
-        onPress={() => handleClick('https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/')}
-        testID='beef-link'
-        >
-        https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/
-      </Text>
-      <Text style={styles.subheading}>Cheese Calculations</Text>
-      <Text 
-        style={styles.linkText} 
-        onPress={() => handleClick('https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/')}
-        testID='cheese-link'
+      <Text style={styles.subheading}>Food Emission Calculations</Text>
+      <Text style={styles.bodyText}>All food emission factors (beef, cheese, poultry, pork, rice, tofu, beans, lentils, vegetables, fruit, nuts, bread, potatoes, pasta) are sourced from the following peer-reviewed meta-analysis:</Text>
+      <Text style={styles.bodyText}>Poore, J., & Nemecek, T. (2018). Reducing food's environmental impacts through producers and consumers. Science, 360(6392), 987-992.</Text>
+      <Text
+        style={styles.linkText}
+        onPress={() => handleClick('https://doi.org/10.1126/science.aaq0216')}
+        testID='food-source-link'
       >
-        https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/
-      </Text>
-      <Text style={styles.subheading}>Poultry Calculations</Text>
-      <Text 
-        style={styles.linkText} 
-        onPress={() => handleClick('https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/')}
-        testID='poultry-link'
-      >
-        https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/
-      </Text>
-      <Text style={styles.subheading}>Pork Calculations</Text>
-      <Text 
-        style={styles.linkText} 
-        onPress={() => handleClick('https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/')}
-        testID='pork-link'
-      >
-        https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/
+        https://doi.org/10.1126/science.aaq0216
       </Text>
       <Text style={styles.subheading}>Glass Calculations</Text>
       <Text 

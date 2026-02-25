@@ -6,18 +6,16 @@ export function validateElectricityEntry(entry) {
     return regex.test(electricityNumber);
 }
 
-export function validateFoodEntry(beefConsumption, porkConsumption, cheeseConsumption, poultryConsumption) {
-    const beefNumber = Number(beefConsumption);
-    const porkNumber = Number(porkConsumption);
-    const cheeseNumber = Number(cheeseConsumption);
-    const poultryNumber = Number(poultryConsumption);
+export function validateFoodEntry(beefConsumption, porkConsumption, cheeseConsumption, poultryConsumption, riceConsumption = 0, tofuConsumption = 0, beansConsumption = 0, lentilsConsumption = 0, vegetablesConsumption = 0, fruitConsumption = 0, nutsConsumption = 0, breadConsumption = 0, potatoesConsumption = 0, pastaConsumption = 0) {
     const regex = /^(10(\.0{1,2})?|[0-9](\.[0-9]{1,2})?)$/;
-    const beef = regex.test(beefNumber);
-    const pork = regex.test(porkNumber);
-    const cheese = regex.test(cheeseNumber);
-    const poultry = regex.test(poultryNumber);
+    const allValues = [
+        beefConsumption, porkConsumption, cheeseConsumption, poultryConsumption,
+        riceConsumption, tofuConsumption, beansConsumption, lentilsConsumption,
+        vegetablesConsumption, fruitConsumption, nutsConsumption, breadConsumption,
+        potatoesConsumption, pastaConsumption
+    ];
 
-    return beef && pork && cheese && poultry;
+    return allValues.every(val => regex.test(Number(val)));
 }
 
 function validateTransportationEntry(entry) {

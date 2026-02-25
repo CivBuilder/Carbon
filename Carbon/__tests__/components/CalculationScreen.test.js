@@ -59,32 +59,11 @@ describe('CalculationScreen', () => {
         expect(Linking.openURL).toHaveBeenCalledWith('https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references');
     }
     );
-    test('opens beef calculations link', () => {
+    test('opens food source calculations link', () => {
         const { getByTestId } = render(<CalculationScreen />);
-        const beefCalculationsLink = getByTestId('beef-link');
-        fireEvent.press(beefCalculationsLink);
-        expect(Linking.openURL).toHaveBeenCalledWith('https://www.sciencedirect.com/science/article/pii/S0959378021000030');
-    }
-    );
-    test('opens pork calculations link', () => {
-        const { getByTestId } = render(<CalculationScreen />);
-        const porkCalculationsLink = getByTestId('pork-link');
-        fireEvent.press(porkCalculationsLink);
-        expect(Linking.openURL).toHaveBeenCalledWith('https://www.sciencedirect.com/science/article/pii/S0959378021000030');
-    }
-    );
-    test('opens cheese calculations link', () => {
-        const { getByTestId } = render(<CalculationScreen />);
-        const cheeseCalculationsLink = getByTestId('cheese-link');
-        fireEvent.press(cheeseCalculationsLink);
-        expect(Linking.openURL).toHaveBeenCalledWith('https://www.sciencedirect.com/science/article/pii/S0959378021000030');
-    }
-    );
-    test('opens poultry calculations link', () => {
-        const { getByTestId } = render(<CalculationScreen />);
-        const poultryCalculationsLink = getByTestId('poultry-link');
-        fireEvent.press(poultryCalculationsLink);
-        expect(Linking.openURL).toHaveBeenCalledWith('https://www.sciencedirect.com/science/article/pii/S0959378021000030');
+        const foodSourceLink = getByTestId('food-source-link');
+        fireEvent.press(foodSourceLink);
+        expect(Linking.openURL).toHaveBeenCalledWith('https://doi.org/10.1126/science.aaq0216');
     }
     );
     test('opens glass calculations link', () => {

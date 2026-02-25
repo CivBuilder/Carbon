@@ -8,8 +8,9 @@
 */
 
 const calcBeef = (pounds_consumed) => {
-    return Number((pounds_consumed * 45/52).toFixed(3));
-    //source https://8billiontrees.com/carbon-offsets-credits/carbon-ecological-footprint-calculators/food/
+    return Number((pounds_consumed * 60.0/52).toFixed(3));
+    // Source: Poore, J., & Nemecek, T. (2018). Science, 360(6392), 987-992.
+    // DOI: 10.1126/science.aaq0216
 }
 
 export default calcBeef
